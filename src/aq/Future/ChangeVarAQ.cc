@@ -5,15 +5,15 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#include "model/Future/ChangeVarAQ.h"
+#include "aq/Future/ChangeVarAQ.h"
 
 #include <ostream>
 #include <string>
 
 #include "oops/util/Logger.h"
 
-#include "model/AqFortran.h"
-#include "model/StateAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/StateAQ.h"
 
 namespace aq {
 // -----------------------------------------------------------------------------

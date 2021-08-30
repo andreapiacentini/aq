@@ -8,14 +8,14 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/GomAQ.h"
+#include "aq/GomAQ.h"
 
 #include <iomanip>
 
+#include "aq/AqFortran.h"
+#include "aq/LocationsAQ.h"
+#include "aq/ObsSpaceAQ.h"
 #include "eckit/config/Configuration.h"
-#include "model/AqFortran.h"
-#include "model/LocationsAQ.h"
-#include "model/ObsSpaceAQ.h"
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 

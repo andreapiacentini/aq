@@ -8,15 +8,15 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/ObsOperatorTLAD.h"
+#include "aq/ObsOperatorTLAD.h"
 
+#include "aq/GomAQ.h"
+#include "aq/ObsBias.h"
+#include "aq/ObsBiasIncrement.h"
+#include "aq/ObsOpBaseTLAD.h"
+#include "aq/ObsSpaceAQ.h"
+#include "aq/ObsVecAQ.h"
 #include "eckit/config/Configuration.h"
-#include "model/GomAQ.h"
-#include "model/ObsBias.h"
-#include "model/ObsBiasIncrement.h"
-#include "model/ObsOpBaseTLAD.h"
-#include "model/ObsSpaceAQ.h"
-#include "model/ObsVecAQ.h"
 #include "oops/base/Variables.h"
 
 namespace aq {

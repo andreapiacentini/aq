@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/ObsBiasCovariance.h"
+#include "aq/ObsBiasCovariance.h"
 
 #include <array>
 #include <cmath>
@@ -17,7 +17,7 @@
 #include <sstream>
 #include <string>
 
-#include "model/ObsBiasIncrement.h"
+#include "aq/ObsBiasIncrement.h"
 #include "oops/util/Logger.h"
 #include "oops/util/Random.h"
 

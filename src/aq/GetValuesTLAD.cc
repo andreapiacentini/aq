@@ -7,15 +7,15 @@
 
 #include<memory>
 
-#include "model/GetValuesTLAD.h"
+#include "aq/GetValuesTLAD.h"
 
 #include "oops/util/Logger.h"
 
-#include "model/GeometryAQ.h"
-#include "model/GomAQ.h"
-#include "model/IncrementAQ.h"
-#include "model/LocationsAQ.h"
-#include "model/StateAQ.h"
+#include "aq/GeometryAQ.h"
+#include "aq/GomAQ.h"
+#include "aq/IncrementAQ.h"
+#include "aq/LocationsAQ.h"
+#include "aq/StateAQ.h"
 
 namespace aq {
 

@@ -10,14 +10,14 @@
 #include "eckit/config/LocalConfiguration.h"
 #include "eckit/exception/Exceptions.h"
 
-#include "model/GetValuesAQ.h"
+#include "aq/GetValuesAQ.h"
 
 #include "oops/util/Logger.h"
 
-#include "model/GeometryAQ.h"
-#include "model/GomAQ.h"
-#include "model/LocationsAQ.h"
-#include "model/StateAQ.h"
+#include "aq/GeometryAQ.h"
+#include "aq/GomAQ.h"
+#include "aq/LocationsAQ.h"
+#include "aq/StateAQ.h"
 
 namespace aq {
 

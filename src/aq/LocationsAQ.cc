@@ -19,8 +19,8 @@
 #include "eckit/config/Configuration.h"
 #include "eckit/exception/Exceptions.h"
 
-#include "model/AqFortran.h"
-#include "model/LocationsAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/LocationsAQ.h"
 #include "oops/util/DateTime.h"
 #include "oops/util/Duration.h"
 #include "oops/util/Random.h"

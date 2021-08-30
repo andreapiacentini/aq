@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
  */
 
-#include "model/aq_obsvec_random_f.h"
-#include "model/ObsSpaceAQ.h"
+#include "aq/aq_obsvec_random_f.h"
+#include "aq/ObsSpaceAQ.h"
 #include "oops/util/Random.h"
 
 // -----------------------------------------------------------------------------

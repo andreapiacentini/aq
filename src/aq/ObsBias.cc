@@ -8,15 +8,15 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/ObsBias.h"
+#include "aq/ObsBias.h"
 
 #include <cmath>
 #include <iostream>
 #include <sstream>
 #include <string>
 
+#include "aq/ObsBiasIncrement.h"
 #include "eckit/config/Configuration.h"
-#include "model/ObsBiasIncrement.h"
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 

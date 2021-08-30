@@ -8,9 +8,9 @@
  * does it submit to any jurisdiction.
  */
 
+#include "aq/AqFortran.h"
+#include "aq/GeometryAQIterator.h"
 #include "eckit/config/Configuration.h"
-#include "model/AqFortran.h"
-#include "model/GeometryAQIterator.h"
 #include "oops/util/Logger.h"
 
 // -----------------------------------------------------------------------------

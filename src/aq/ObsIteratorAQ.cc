@@ -11,7 +11,7 @@
 #include "atlas/array.h"
 #include "atlas/field.h"
 
-#include "model/ObsIteratorAQ.h"
+#include "aq/ObsIteratorAQ.h"
 
 // -----------------------------------------------------------------------------
 namespace aq {

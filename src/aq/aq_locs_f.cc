@@ -8,8 +8,8 @@
 #include "atlas/field.h"
 #include "atlas/functionspace/PointCloud.h"
 
-#include "model/aq_locs_f.h"
-#include "model/LocationsAQ.h"
+#include "aq/aq_locs_f.h"
+#include "aq/LocationsAQ.h"
 #include "oops/util/DateTime.h"
 
 namespace aq {

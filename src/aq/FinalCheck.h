@@ -13,7 +13,7 @@
 
 #include "eckit/config/LocalConfiguration.h"
 
-#include "model/AqTraits.h"
+#include "aq/AqTraits.h"
 
 #include "oops/base/Variables.h"
 #include "oops/interface/ObsFilterBase.h"

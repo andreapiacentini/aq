@@ -14,7 +14,7 @@
 
 #include "eckit/geometry/Point2.h"
 
-#include "model/LocationsAQ.h"
+#include "aq/LocationsAQ.h"
 
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"

@@ -19,8 +19,8 @@
 #include "oops/util/abor1_cpp.h"
 #include "oops/util/Logger.h"
 
-#include "model/AqFortran.h"
-#include "model/GeometryAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/GeometryAQ.h"
 
 // -----------------------------------------------------------------------------
 namespace aq {

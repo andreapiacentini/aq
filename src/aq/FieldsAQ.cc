@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/FieldsAQ.h"
+#include "aq/FieldsAQ.h"
 
 #include <algorithm>
 #include <cmath>
@@ -24,10 +24,10 @@
 #include "eckit/config/LocalConfiguration.h"
 #include "eckit/utils/StringTools.h"
 
-#include "model/AqFortran.h"
-#include "model/GeometryAQ.h"
-#include "model/GomAQ.h"
-#include "model/LocationsAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/GeometryAQ.h"
+#include "aq/GomAQ.h"
+#include "aq/LocationsAQ.h"
 
 #include "oops/base/Variables.h"
 #include "oops/mpi/mpi.h"

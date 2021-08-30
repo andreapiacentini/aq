@@ -5,7 +5,7 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#include "model/AqTraits.h"
+#include "aq/AqTraits.h"
 #include "oops/runs/DiffStates.h"
 #include "oops/runs/Run.h"
 

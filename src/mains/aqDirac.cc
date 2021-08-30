@@ -8,9 +8,9 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/AqTraits.h"
-// AQ #include "model/instantiateAqChangeVarFactory.h"
-#include "model/instantiateAqLocalizationFactory.h"
+#include "aq/AqTraits.h"
+// AQ #include "aq/instantiateAqChangeVarFactory.h"
+#include "aq/instantiateAqLocalizationFactory.h"
 #include "oops/runs/Dirac.h"
 #include "oops/runs/Run.h"
 

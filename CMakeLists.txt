@@ -26,7 +26,7 @@ option( ENABLE_MKL "Use MKL for LAPACK implementation (if available)" ON )
 option( ENABLE_GPTL "Use GPTL profiling library (if available)" OFF )
 option( ENABLE_AUTOPROFILING "Enable function-based autoprofiling with GPTL (if available)" OFF )
 
-include( ${PROJECT_NAME}_compiler_flags )
+#include( ${PROJECT_NAME}_compiler_flags )
 include( GNUInstallDirs )
 
 ## Dependencies

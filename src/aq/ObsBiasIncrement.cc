@@ -8,16 +8,16 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/ObsBiasIncrement.h"
+#include "aq/ObsBiasIncrement.h"
 
 #include <cmath>
 #include <iostream>
 #include <sstream>
 #include <string>
 
+#include "aq/ObsBias.h"
+#include "aq/ObsBiasCovariance.h"
 #include "eckit/config/Configuration.h"
-#include "model/ObsBias.h"
-#include "model/ObsBiasCovariance.h"
 #include "oops/util/Logger.h"
 
 // -----------------------------------------------------------------------------

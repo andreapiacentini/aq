@@ -5,10 +5,10 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#include "model/AnalyticInit.h"
+#include "aq/AnalyticInit.h"
 
-#include "model/GomAQ.h"
-#include "model/LocationsAQ.h"
+#include "aq/GomAQ.h"
+#include "aq/LocationsAQ.h"
 
 namespace aq {
 

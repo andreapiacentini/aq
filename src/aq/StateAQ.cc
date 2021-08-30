@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/StateAQ.h"
+#include "aq/StateAQ.h"
 
 #include <algorithm>
 #include <string>
@@ -23,11 +23,11 @@
 #include "oops/util/Duration.h"
 #include "oops/util/Logger.h"
 
-#include "model/FieldsAQ.h"
-#include "model/GeometryAQ.h"
-#include "model/GomAQ.h"
-#include "model/IncrementAQ.h"
-#include "model/LocationsAQ.h"
+#include "aq/FieldsAQ.h"
+#include "aq/GeometryAQ.h"
+#include "aq/GomAQ.h"
+#include "aq/IncrementAQ.h"
+#include "aq/LocationsAQ.h"
 
 
 namespace aq {

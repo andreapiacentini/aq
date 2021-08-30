@@ -16,7 +16,7 @@
 #include <string>
 #include <boost/noncopyable.hpp>
 
-#include "model/ObsBiasParameters.h"
+#include "aq/ObsBiasParameters.h"
 #include "oops/base/Variables.h"
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"

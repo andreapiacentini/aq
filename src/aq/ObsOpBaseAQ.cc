@@ -5,7 +5,7 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#include "model/ObsOpBaseAQ.h"
+#include "aq/ObsOpBaseAQ.h"
 
 #include "eckit/config/Configuration.h"
 #include "oops/util/abor1_cpp.h"

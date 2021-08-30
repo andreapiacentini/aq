@@ -8,15 +8,15 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/ErrorCovarianceAQ.h"
+#include "aq/ErrorCovarianceAQ.h"
 
 #include <cmath>
 
+#include "aq/FieldsAQ.h"
+#include "aq/GeometryAQ.h"
+#include "aq/IncrementAQ.h"
+#include "aq/StateAQ.h"
 #include "eckit/config/Configuration.h"
-#include "model/FieldsAQ.h"
-#include "model/GeometryAQ.h"
-#include "model/IncrementAQ.h"
-#include "model/StateAQ.h"
 #include "oops/assimilation/GMRESR.h"
 #include "oops/base/IdentityMatrix.h"
 #include "oops/base/Variables.h"

@@ -5,15 +5,15 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#include "model/Future/ChangeVarTLADAQ.h"
+#include "aq/Future/ChangeVarTLADAQ.h"
 
 #include <ostream>
 #include <string>
 
+#include "aq/GeometryAQ.h"
+#include "aq/IncrementAQ.h"
+#include "aq/StateAQ.h"
 #include "eckit/config/Configuration.h"
-#include "model/GeometryAQ.h"
-#include "model/IncrementAQ.h"
-#include "model/StateAQ.h"
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 

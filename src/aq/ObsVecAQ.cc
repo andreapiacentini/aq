@@ -13,10 +13,10 @@
 
 #include "oops/util/Logger.h"
 
-#include "model/AqFortran.h"
-#include "model/ObsDataAQ.h"
-#include "model/ObsSpaceAQ.h"
-#include "model/ObsVecAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/ObsDataAQ.h"
+#include "aq/ObsSpaceAQ.h"
+#include "aq/ObsVecAQ.h"
 
 #include "eckit/exception/Exceptions.h"
 

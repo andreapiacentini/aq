@@ -14,7 +14,7 @@
 #include <iostream>
 #include <vector>
 
-#include "model/ObsBiasParameters.h"
+#include "aq/ObsBiasParameters.h"
 #include "oops/util/Printable.h"
 #include "oops/util/Serializable.h"
 

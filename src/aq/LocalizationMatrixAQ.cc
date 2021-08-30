@@ -8,12 +8,11 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/LocalizationMatrixAQ.h"
+#include "aq/LocalizationMatrixAQ.h"
 
+#include "aq/GeometryAQ.h"
+#include "aq/IncrementAQ.h"
 #include "eckit/config/Configuration.h"
-#include "model/GeometryAQ.h"
-#include "model/IncrementAQ.h"
-// AQ #include "model/AqFortran.h"
 
 // -----------------------------------------------------------------------------
 namespace aq {

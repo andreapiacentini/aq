@@ -8,17 +8,17 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/ObsStreamTLAD.h"
+#include "aq/ObsStreamTLAD.h"
 
 #include <vector>
 
+#include "aq/AqFortran.h"
+#include "aq/GomAQ.h"
+#include "aq/ObsBias.h"
+#include "aq/ObsBiasIncrement.h"
+#include "aq/ObsSpaceAQ.h"
+#include "aq/ObsVecAQ.h"
 #include "eckit/config/Configuration.h"
-#include "model/AqFortran.h"
-#include "model/GomAQ.h"
-#include "model/ObsBias.h"
-#include "model/ObsBiasIncrement.h"
-#include "model/ObsSpaceAQ.h"
-#include "model/ObsVecAQ.h"
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 

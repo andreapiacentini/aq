@@ -9,7 +9,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/ObsSpaceAQ.h"
+#include "aq/ObsSpaceAQ.h"
 
 #include <map>
 #include <string>
