@@ -24,28 +24,66 @@
 #include "oops/base/ObsSpaceBase.h"
 #include "oops/base/Variables.h"
 #include "oops/util/DateTime.h"
+#include "oops/util/parameters/OptionalParameter.h"
+#include "oops/util/parameters/Parameters.h"
+#include "oops/util/parameters/RequiredParameter.h"
 
 #include "oops/aq/AqFortran.h"
 #include "oops/aq/LocationsAQ.h"
 #include "oops/aq/ObsIteratorAQ.h"
 
-namespace eckit {
-  class Configuration;
-}
-
 namespace aq {
   class ObsIteratorAQ;
 
+/// Contents of the `obsdatain` or `obsdataout` YAML section.
+class ObsDataParameters : public oops::Parameters {
+  OOPS_CONCRETE_PARAMETERS(ObsDataParameters, Parameters)
+
+ public:
+  /// File path.
+  oops::RequiredParameter<std::string> obsfile{"obsfile", this};
+};
+
+/// Options controlling generation of artificial observations.
+class ObsGenerateParameters : public oops::Parameters {
+  OOPS_CONCRETE_PARAMETERS(ObsGenerateParameters, Parameters)
+
+ public:
+  oops::RequiredParameter<util::Duration> begin{"begin", this};
+  oops::RequiredParameter<util::Duration> obsPeriod{"obs_period", this};
+  /// Number of observations to generate in each time slot.
+  oops::RequiredParameter<int> obsDensity{"obs_density", this};
+  oops::RequiredParameter<int> nval{"nval", this};
+  oops::RequiredParameter<double> obsError{"obs_error", this};
+};
+
+/// \brief Configuration parameters for the AQ application's ObsSpace.
+class ObsSpaceAQParameters : public oops::ObsSpaceParametersBase {
+  OOPS_CONCRETE_PARAMETERS(ObsSpaceAQParameters, ObsSpaceParametersBase)
+
+ public:
+  /// Type of observations.
+  oops::RequiredParameter<std::string> obsType{"obs type", this};
+  /// File from which to load observations.
+  oops::OptionalParameter<ObsDataParameters> obsdatain{"obsdatain", this};
+  /// File to which to save observations and analysis.
+  oops::OptionalParameter<ObsDataParameters> obsdataout{"obsdataout", this};
+  /// Options controlling generation of artificial observations.
+  oops::OptionalParameter<ObsGenerateParameters> generate{"generate", this};
+};
+
 /// \brief ObsSpace for AQ model
-//  \details ObsSpaceAQ is created for each obs type. The underlying Fortran
-//  structure (key_) is created for each matching input-output filename pair
-//  (i.e. different obstypes can be stored in the same Fortran structure).
-//  For mapping between ObsSpaceAQ and Fortran structures,
-//  ObsSpaceAQ::theObsFileRegister_ map is used
+/// \details ObsSpaceAQ is created for each obs type. The underlying Fortran
+/// structure (key_) is created for each matching input-output filename pair
+/// (i.e. different obstypes can be stored in the same Fortran structure).
+/// For mapping between ObsSpaceAQ and Fortran structures,
+/// ObsSpaceAQ::theObsFileRegister_ map is used
 class ObsSpaceAQ : public oops::ObsSpaceBase {
  public:
+  typedef ObsSpaceAQParameters Parameters_;
+
   /// create full ObsSpace (read or generate data)
-  ObsSpaceAQ(const eckit::Configuration &, const eckit::mpi::Comm &,
+  ObsSpaceAQ(const Parameters_ &, const eckit::mpi::Comm &,
              const util::DateTime &, const util::DateTime &, const eckit::mpi::Comm &);
   ~ObsSpaceAQ();
 

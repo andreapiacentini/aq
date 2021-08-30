@@ -36,22 +36,22 @@ int ObsSpaceAQ::theObsFileCount_ = 0;
 
 // -----------------------------------------------------------------------------
 
-ObsSpaceAQ::ObsSpaceAQ(const eckit::Configuration & config, const eckit::mpi::Comm & comm,
+ObsSpaceAQ::ObsSpaceAQ(const Parameters_ & params, const eckit::mpi::Comm & comm,
                        const util::DateTime & bgn, const util::DateTime & end,
                        const eckit::mpi::Comm & timeComm)
-  : oops::ObsSpaceBase(config, comm, bgn, end), obsname_(config.getString("obs type")),
+  : oops::ObsSpaceBase(params, comm, bgn, end), obsname_(params.obsType),
   winbgn_(bgn), winend_(end), obsvars_(), comm_(comm)
 {
   typedef std::map< std::string, F90odb >::iterator otiter;
 
-  eckit::LocalConfiguration fileconf(config);
+  eckit::LocalConfiguration fileconf = params.toConfiguration();
   std::string ofin("-");
-  if (config.has("obsdatain")) {
-    ofin = config.getString("obsdatain.obsfile");
+  if (params.obsdatain.value() != boost::none) {
+    ofin = params.obsdatain.value()->obsfile;
   }
   std::string ofout("-");
-  if (config.has("obsdataout")) {
-    ofout = config.getString("obsdataout.obsfile");
+  if (params.obsdataout.value() != boost::none) {
+    ofout = params.obsdataout.value()->obsfile;
     if (timeComm.size() > 1) {
       std::ostringstream ss;
       ss << "_" << timeComm.rank();
@@ -92,11 +92,11 @@ ObsSpaceAQ::ObsSpaceAQ(const eckit::Configuration & config, const eckit::mpi::Co
   }
 
   //  Generate locations etc... if required
-  if (config.has("generate")) {
-    const eckit::LocalConfiguration gconf(config, "generate");
-    const util::Duration first(gconf.getString("begin"));
+  if (params.generate.value() != boost::none) {
+    const ObsGenerateParameters &gParams = *params.generate.value();
+    const util::Duration first(gParams.begin);
     const util::DateTime start(winbgn_ + first);
-    const util::Duration freq(gconf.getString("obs_period"));
+    const util::Duration freq(gParams.obsPeriod);
     int nobstimes = 0;
     util::DateTime now(start);
     while (now <= winend_) {
@@ -104,7 +104,7 @@ ObsSpaceAQ::ObsSpaceAQ(const eckit::Configuration & config, const eckit::mpi::Co
       now += freq;
     }
     int iobs;
-    aq_obsdb_generate_f90(key_, obsname_.size(), obsname_.c_str(), gconf,
+    aq_obsdb_generate_f90(key_, obsname_.size(), obsname_.c_str(), gParams.toConfiguration(),
                           start, freq, nobstimes, iobs);
   }
 }
