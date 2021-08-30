@@ -1,0 +1,50 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.pyc
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic and Static libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+*.x
+
+# Backups and editor
+*.swp
+*.sublime-workspace
+.vscode
+*~
+*.DS_Store
+CMakeLists.txt.user
+dependencies.mk
+loadmap
+git-hammer-config.json
+
+#Other
+*.odb
+*.v3breakpoints
+
