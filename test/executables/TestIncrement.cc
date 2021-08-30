@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/AqTraits.h"
+#include "aq/AqTraits.h"
 #include "oops/runs/Run.h"
 #include "test/interface/Increment.h"
 

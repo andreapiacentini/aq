@@ -35,7 +35,7 @@ ObsOperatorAQ::~ObsOperatorAQ() {}
 // -----------------------------------------------------------------------------
 
 void ObsOperatorAQ::simulateObs(const GomAQ & gvals, ObsVecAQ & yy, const ObsBias & bias,
-                                ObsDiagsAQ &) const {
+                                ObsVecAQ &, ObsDiagsAQ &) const {
   oper_->simulateObs(gvals, yy, bias);
 }
 

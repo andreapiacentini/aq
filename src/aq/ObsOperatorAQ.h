@@ -42,7 +42,7 @@ class ObsOperatorAQ : public util::Printable,
   ~ObsOperatorAQ();
 
 /// Obs Operator
-  void simulateObs(const GomAQ &, ObsVecAQ &, const ObsBias &, ObsDiagsAQ &) const;
+  void simulateObs(const GomAQ &, ObsVecAQ &, const ObsBias &, ObsVecAQ &, ObsDiagsAQ &) const;
 
 /// Other
   const oops::Variables & requiredVars() const;  // Required input requiredVars from Model
