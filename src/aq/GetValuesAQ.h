@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_MODEL_GETVALUESAQ_H_
-#define AQ_MODEL_GETVALUESAQ_H_
+#ifndef AQ_GETVALUESAQ_H_
+#define AQ_GETVALUESAQ_H_
 
 #include <memory>
 #include <ostream>
@@ -18,8 +18,8 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
-#include "oops/aq/LocationsAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/LocationsAQ.h"
 
 namespace eckit {
   class Configuration;
@@ -55,4 +55,4 @@ class GetValuesAQ : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_GETVALUESAQ_H_
+#endif  // AQ_GETVALUESAQ_H_

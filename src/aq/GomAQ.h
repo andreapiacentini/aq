@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_GOMAQ_H_
-#define AQ_MODEL_GOMAQ_H_
+#ifndef AQ_GOMAQ_H_
+#define AQ_GOMAQ_H_
 
 #include <ostream>
 #include <string>
@@ -20,7 +20,7 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
+#include "aq/AqFortran.h"
 
 namespace oops {
   class Variables;
@@ -69,4 +69,4 @@ class GomAQ : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_GOMAQ_H_
+#endif  // AQ_GOMAQ_H_

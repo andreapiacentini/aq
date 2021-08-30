@@ -23,8 +23,8 @@ namespace aq {
 
 // -----------------------------------------------------------------------------
 
-ObsOperatorTLAD::ObsOperatorTLAD(const ObsSpaceAQ & os, const eckit::Configuration & conf)
-  : oper_(ObsOpTLADFactory::create(os, conf))
+ObsOperatorTLAD::ObsOperatorTLAD(const ObsSpaceAQ & os, const Parameters_ & params)
+  : oper_(ObsOpTLADFactory::create(os, params.config))
 {}
 
 // -----------------------------------------------------------------------------

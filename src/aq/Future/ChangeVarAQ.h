@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_MODEL_FUTURE_CHANGEVARAQ_H_
-#define AQ_MODEL_FUTURE_CHANGEVARAQ_H_
+#ifndef AQ_FUTURE_CHANGEVARAQ_H_
+#define AQ_FUTURE_CHANGEVARAQ_H_
 
 #include <ostream>
 #include <string>
@@ -44,4 +44,4 @@ class ChangeVarAQ: public oops::VariableChangeBase<AqTraits> {
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_MODEL_FUTURE_CHANGEVARAQ_H_
+#endif  // AQ_FUTURE_CHANGEVARAQ_H_

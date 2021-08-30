@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_GEOMETRYAQITERATOR_H_
-#define AQ_MODEL_GEOMETRYAQITERATOR_H_
+#ifndef AQ_GEOMETRYAQITERATOR_H_
+#define AQ_GEOMETRYAQITERATOR_H_
 
 #include <iterator>
 #include <string>
@@ -19,8 +19,8 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
-#include "oops/aq/GeometryAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/GeometryAQ.h"
 
 namespace aq {
 
@@ -52,4 +52,4 @@ class GeometryAQIterator: public std::iterator<std::forward_iterator_tag,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_GEOMETRYAQITERATOR_H_
+#endif  // AQ_GEOMETRYAQITERATOR_H_

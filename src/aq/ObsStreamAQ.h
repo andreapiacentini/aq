@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSSTREAMAQ_H_
-#define AQ_MODEL_OBSSTREAMAQ_H_
+#ifndef AQ_OBSSTREAMAQ_H_
+#define AQ_OBSSTREAMAQ_H_
 
 #include <memory>
 #include <ostream>
@@ -18,9 +18,9 @@
 #include "oops/base/Variables.h"
 #include "oops/util/ObjectCounter.h"
 
-#include "oops/aq/AqTraits.h"
-#include "oops/aq/ObsOpBaseAQ.h"
-#include "oops/aq/ObsSpaceAQ.h"
+#include "aq/AqTraits.h"
+#include "aq/ObsOpBaseAQ.h"
+#include "aq/ObsSpaceAQ.h"
 
 // Forward declarations
 namespace eckit {
@@ -57,4 +57,4 @@ class ObsStreamAQ : public ObsOpBaseAQ,
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_MODEL_OBSSTREAMAQ_H_
+#endif  // AQ_OBSSTREAMAQ_H_

@@ -5,13 +5,13 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_MODEL_AQ_LOCS_F_H_
-#define AQ_MODEL_AQ_LOCS_F_H_
+#ifndef AQ_AQ_LOCS_F_H_
+#define AQ_AQ_LOCS_F_H_
 
 #include "atlas/field.h"
 #include "atlas/functionspace/PointCloud.h"
 
-#include "oops/aq/LocationsAQ.h"
+#include "aq/LocationsAQ.h"
 #include "oops/util/DateTime.h"
 
 // ------------------------------------------------------------------------------
@@ -29,4 +29,4 @@ extern "C" {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_AQ_LOCS_F_H_
+#endif  // AQ_AQ_LOCS_F_H_

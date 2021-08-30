@@ -8,31 +8,31 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_AQTRAITS_H_
-#define AQ_MODEL_AQTRAITS_H_
+#ifndef AQ_AQTRAITS_H_
+#define AQ_AQTRAITS_H_
 
 #include <string>
 
-#include "oops/aq/AnalyticInit.h"
-#include "oops/aq/ErrorCovarianceAQ.h"
-#include "oops/aq/GeometryAQ.h"
-#include "oops/aq/GeometryAQIterator.h"
-#include "oops/aq/GetValuesAQ.h"
-#include "oops/aq/GetValuesTLAD.h"
-#include "oops/aq/GomAQ.h"
-#include "oops/aq/IncrementAQ.h"
-#include "oops/aq/LocationsAQ.h"
-#include "oops/aq/ObsBias.h"
-#include "oops/aq/ObsBiasCovariance.h"
-#include "oops/aq/ObsBiasIncrement.h"
-#include "oops/aq/ObsDataAQ.h"
-#include "oops/aq/ObsDiagsAQ.h"
-#include "oops/aq/ObsIteratorAQ.h"
-#include "oops/aq/ObsOperatorAQ.h"
-#include "oops/aq/ObsOperatorTLAD.h"
-#include "oops/aq/ObsSpaceAQ.h"
-#include "oops/aq/ObsVecAQ.h"
-#include "oops/aq/StateAQ.h"
+#include "aq/AnalyticInit.h"
+#include "aq/ErrorCovarianceAQ.h"
+#include "aq/GeometryAQ.h"
+#include "aq/GeometryAQIterator.h"
+#include "aq/GetValuesAQ.h"
+#include "aq/GetValuesTLAD.h"
+#include "aq/GomAQ.h"
+#include "aq/IncrementAQ.h"
+#include "aq/LocationsAQ.h"
+#include "aq/ObsBias.h"
+#include "aq/ObsBiasCovariance.h"
+#include "aq/ObsBiasIncrement.h"
+#include "aq/ObsDataAQ.h"
+#include "aq/ObsDiagsAQ.h"
+#include "aq/ObsIteratorAQ.h"
+#include "aq/ObsOperatorAQ.h"
+#include "aq/ObsOperatorTLAD.h"
+#include "aq/ObsSpaceAQ.h"
+#include "aq/ObsVecAQ.h"
+#include "aq/StateAQ.h"
 
 namespace aq {
 
@@ -76,4 +76,4 @@ struct AqObsTraits {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_AQTRAITS_H_
+#endif  // AQ_AQTRAITS_H_

@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_LOCATIONSAQ_H_
-#define AQ_MODEL_LOCATIONSAQ_H_
+#ifndef AQ_LOCATIONSAQ_H_
+#define AQ_LOCATIONSAQ_H_
 
 #include <iomanip>
 #include <memory>
@@ -26,7 +26,7 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
+#include "aq/AqFortran.h"
 
 namespace aq {
 
@@ -59,4 +59,4 @@ class LocationsAQ : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_LOCATIONSAQ_H_
+#endif  // AQ_LOCATIONSAQ_H_

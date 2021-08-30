@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
  */
 
-#ifndef AQ_MODEL_OBSDIAGSAQ_H_
-#define AQ_MODEL_OBSDIAGSAQ_H_
+#ifndef AQ_OBSDIAGSAQ_H_
+#define AQ_OBSDIAGSAQ_H_
 
 #include <ostream>
 #include <string>
@@ -14,7 +14,7 @@
 #include "oops/base/Variables.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/ObsSpaceAQ.h"
+#include "aq/ObsSpaceAQ.h"
 
 namespace aq {
   class LocationsAQ;
@@ -35,4 +35,4 @@ class ObsDiagsAQ : public util::Printable {
 // -----------------------------------------------------------------------------
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSDIAGSAQ_H_
+#endif  // AQ_OBSDIAGSAQ_H_

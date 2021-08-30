@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_MODEL_OBSITERATORAQ_H_
-#define AQ_MODEL_OBSITERATORAQ_H_
+#ifndef AQ_OBSITERATORAQ_H_
+#define AQ_OBSITERATORAQ_H_
 
 #include <iterator>
 #include <memory>
@@ -51,4 +51,4 @@ class ObsIteratorAQ: public std::iterator<std::forward_iterator_tag,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSITERATORAQ_H_
+#endif  // AQ_OBSITERATORAQ_H_

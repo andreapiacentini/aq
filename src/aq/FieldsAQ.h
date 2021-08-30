@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_FIELDSAQ_H_
-#define AQ_MODEL_FIELDSAQ_H_
+#ifndef AQ_FIELDSAQ_H_
+#define AQ_FIELDSAQ_H_
 
 #include <memory>
 #include <ostream>
@@ -28,8 +28,8 @@
 #include "oops/util/Printable.h"
 #include "oops/util/Serializable.h"
 
-#include "oops/aq/GeometryAQ.h"
-#include "oops/aq/GeometryAQIterator.h"
+#include "aq/GeometryAQ.h"
+#include "aq/GeometryAQIterator.h"
 
 // Forward declarations
 namespace eckit {
@@ -118,4 +118,4 @@ class FieldsAQ : public util::Printable,
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_MODEL_FIELDSAQ_H_
+#endif  // AQ_FIELDSAQ_H_

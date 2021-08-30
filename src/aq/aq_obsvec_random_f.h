@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
  */
 
-#ifndef AQ_MODEL_AQ_OBSVEC_RANDOM_F_H_
-#define AQ_MODEL_AQ_OBSVEC_RANDOM_F_H_
+#ifndef AQ_AQ_OBSVEC_RANDOM_F_H_
+#define AQ_AQ_OBSVEC_RANDOM_F_H_
 
 namespace aq {
   class ObsSpaceAQ;
@@ -17,4 +17,4 @@ extern "C" {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_AQ_OBSVEC_RANDOM_F_H_
+#endif  // AQ_AQ_OBSVEC_RANDOM_F_H_

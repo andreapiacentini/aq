@@ -24,8 +24,8 @@ namespace aq {
 
 // -----------------------------------------------------------------------------
 
-ObsOperatorAQ::ObsOperatorAQ(const ObsSpaceAQ & os, const eckit::Configuration & conf)
-  : oper_(ObsOpFactory::create(os, conf))
+ObsOperatorAQ::ObsOperatorAQ(const ObsSpaceAQ & os, const Parameters_ & params)
+  : oper_(ObsOpFactory::create(os, params.config))
 {}
 
 // -----------------------------------------------------------------------------

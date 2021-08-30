@@ -11,6 +11,7 @@
 #include "aq/AqTraits.h"
 #include "oops/runs/Dirac.h"
 #include "oops/runs/Run.h"
+#include "saber/oops/EstimateParams.h"
 #include "saber/oops/instantiateCovarFactory.h"
 #include "saber/oops/instantiateLocalizationFactory.h"
 #include "saber/oops/instantiateVariableChangeFactory.h"
@@ -20,6 +21,6 @@ int main(int argc,  char ** argv) {
   saber::instantiateCovarFactory<aq::AqTraits>();
   saber::instantiateLocalizationFactory<aq::AqTraits>();
   saber::instantiateVariableChangeFactory<aq::AqTraits>();
-  oops::Dirac<aq::AqTraits> dir;
+  saber::EstimateParams<aq::AqTraits> dir;
   return run.execute(dir);
 }

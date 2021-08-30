@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
  */
 
-#ifndef AQ_MODEL_FINALCHECK_H_
-#define AQ_MODEL_FINALCHECK_H_
+#ifndef AQ_FINALCHECK_H_
+#define AQ_FINALCHECK_H_
 
 #include <memory>
 #include <ostream>
@@ -45,4 +45,4 @@ class FinalCheck : public oops::interface::ObsFilterBase<AqObsTraits> {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_FINALCHECK_H_
+#endif  // AQ_FINALCHECK_H_

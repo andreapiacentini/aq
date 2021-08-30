@@ -8,15 +8,15 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSSTREAMTLAD_H_
-#define AQ_MODEL_OBSSTREAMTLAD_H_
+#ifndef AQ_OBSSTREAMTLAD_H_
+#define AQ_OBSSTREAMTLAD_H_
 
 #include <string>
 
 #include "oops/base/Variables.h"
 #include "oops/util/ObjectCounter.h"
 
-#include "oops/aq/ObsOpBaseTLAD.h"
+#include "aq/ObsOpBaseTLAD.h"
 
 // Forward declarations
 namespace eckit {
@@ -55,4 +55,4 @@ class ObsStreamTLAD : public ObsOpBaseTLAD,
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_MODEL_OBSSTREAMTLAD_H_
+#endif  // AQ_OBSSTREAMTLAD_H_

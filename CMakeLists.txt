@@ -1,4 +1,4 @@
-# (C) Copyright 2021 Cerfacs and UCAR
+# (C) Copyright 2017-2019 UCAR.
 #
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
@@ -7,90 +7,106 @@
 # aq data assimilation
 # ####################
 
-cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
-project( aq VERSION 1.0.0 LANGUAGES CXX Fortran )
+cmake_minimum_required( VERSION 3.3.2 FATAL_ERROR )
 
-## Ecbuild integration
-find_package( ecbuild 3.5 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild)
-include( ecbuild_system NO_POLICY_SCOPE )
-ecbuild_declare_project()
-list( APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
-set( CMAKE_DIRECTORY_LABELS ${PROJECT_NAME} )
+project( aq VERSION 0.0.1 LANGUAGES C CXX Fortran )
 
-# Default release mode
+set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH})
+
+set( CMAKE_DIRECTORY_LABELS "aq" )
+
 set( ECBUILD_DEFAULT_BUILD_TYPE Release )
+set( ENABLE_OS_TESTS           OFF CACHE BOOL "Disable OS tests" FORCE )
+set( ENABLE_LARGE_FILE_SUPPORT OFF CACHE BOOL "Disable testing of large file support" FORCE )
+set( ENABLE_MPI ON CACHE BOOL "Compile with MPI" )
 
-## Configuration options
+include( ecbuild_system NO_POLICY_SCOPE )
+
+ecbuild_requires_macro_version( 2.5 )
+
+################################################################################
+# Project
+################################################################################
+
+ecbuild_declare_project()
+
+ecbuild_enable_fortran( REQUIRED )
+
+set( AQ_LINKER_LANGUAGE CXX )
+
+################################################################################
+# Standard compiler flags
+################################################################################
+
+include( aq_extra_macros )
 option( ENABLE_AQ_DOC "Build AQ documentation" OFF )
-option( ENABLE_MKL "Use MKL for LAPACK implementation (if available)" ON )
-option( ENABLE_GPTL "Use GPTL profiling library (if available)" OFF )
-option( ENABLE_AUTOPROFILING "Enable function-based autoprofiling with GPTL (if available)" OFF )
 
-#include( ${PROJECT_NAME}_compiler_flags )
-include( GNUInstallDirs )
+################################################################################
+# Dependencies
+################################################################################
 
-## Dependencies
-find_package( jedicmake QUIET )  # Prefer find modules from jedi-cmake
+# jedi-cmake
+find_package( jedicmake QUIET )
 
-if( ENABLE_MKL )
-    find_package( MKL )
-endif()
-if( MKL_FOUND )
-    set( LAPACK_LIBRARIES ${MKL_LIBRARIES} )
-else()
-    find_package( LAPACK REQUIRED )
-endif()
+# HDF5
+find_package( HDF5 REQUIRED COMPONENTS Fortran_HL HL Fortran )
 
-find_package( Eigen3 REQUIRED NO_MODULE HINTS
-    $ENV{Eigen3_ROOT} $ENV{EIGEN3_ROOT} $ENV{Eigen_ROOT} $ENV{EIGEN_ROOT}
-    $ENV{Eigen3_PATH} $ENV{EIGEN3_PATH} $ENV{Eigen_PATH} $ENV{EIGEN_PATH})
-
-find_package( OpenMP COMPONENTS CXX Fortran )
-find_package( MPI REQUIRED COMPONENTS C CXX Fortran )
+# NetCDF
 find_package( NetCDF REQUIRED COMPONENTS Fortran )
-find_package( HDF5 REQUIRED COMPONENTS HL Fortran )
-find_package( Boost 1.64.0 REQUIRED)
-find_package( eckit 1.11.6 REQUIRED COMPONENTS MPI )
-find_package( fckit 0.7.0 REQUIRED )
-if(OpenMP_FOUND)
-    find_package( atlas 0.20.2 REQUIRED COMPONENTS OMP OMP_Fortran )
-else()
-    find_package( atlas 0.20.2 REQUIRED )
-endif()
 
-#Optional Dependencies
-if( jedicmake_FOUND AND ENABLE_GPTL )
-    find_package( GPTL )
-    add_compile_definitions(ENABLE_GPTL)
-endif()
+# atlas
+find_package( atlas 0.20.2 REQUIRED )
 
-if ( GPTL_FOUND AND ENABLE_AUTOPROFILING )
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_AUTOPROFILING_FLAGS}")
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} ${Fortran_AUTOPROFILING_FLAGS}")
-endif()
+# oops
+find_package( oops 1.0.0 REQUIRED )
 
-# JSON validation
-find_package(nlohmann_json QUIET)
-find_package(nlohmann_json_schema_validator QUIET)
+# saber
+find_package( saber 1.0.0 REQUIRED )
 
-## Sources
+# OpenMP
+find_package( OpenMP COMPONENTS Fortran )
+
+# MPI
+ecbuild_find_mpi( COMPONENTS CXX Fortran REQUIRED )
+
+################################################################################
+# Export package info
+################################################################################
+
+list( APPEND AQ_TPLS atlas atlas_f oops ufo saber )
+
+set( AQ_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src
+                          ${CMAKE_CURRENT_BINARY_DIR}/src
+                          ${CMAKE_Fortran_MODULE_DIRECTORY})
+
+set( AQ_LIBRARIES aq )
+
+get_directory_property( AQ_DEFINITIONS COMPILE_DEFINITIONS )
+
+foreach( _tpl ${AQ_TPLS} )
+  string( TOUPPER ${_tpl} TPL )
+  list( APPEND AQ_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  ${${TPL}_TPL_DEFINITIONS}  )
+  list( APPEND AQ_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} ${${TPL}_TPL_INCLUDE_DIRS} )
+  list( APPEND AQ_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES}    ${${TPL}_TPL_LIBRARIES}    )
+endforeach()
+
+################################################################################
+# Sources
+################################################################################
+
 add_subdirectory( src )
 add_subdirectory( test )
 
+if( ENABLE_AQ_DOC )
+    add_subdirectory( Documents )
+endif()
 
-## Package Config
+################################################################################
+# Finalise configuration
+################################################################################
 
-ecbuild_install_project( NAME ${PROJECT_NAME} )
+# prepares a tar.gz of the sources and/or binaries
+ecbuild_install_project( NAME aq )
 
-#Export Targets
-set(EXPORTED_TARGET_NAMESPACE "") #TODO: set to "aq::" once all packages are ready for namespaced targets
-set(INSTALL_TARGETS_PATH lib/cmake/${PROJECT_NAME})
-get_filename_component(TARGETS_FILE "${PROJECT_TARGETS_FILE}" NAME)
-
-#Export package config for build and install trees
-set( BINDIR_BUILD_EXPORT ${CMAKE_BINARY_DIR}/bin ) #Exported binary (tools) directory locations for build-tree
-file( MAKE_DIRECTORY ${BINDIR_BUILD_EXPORT} )
-set( BINDIR_INSTALL_EXPORT ${CMAKE_INSTALL_FULL_BINDIR} ) #Exported binary (tools) directory locations for install-tree
-ecbuild_generate_project_config(${PROJECT_NAME}-config.cmake.in PATH_VARS BINDIR_BUILD_EXPORT BINDIR_INSTALL_EXPORT )
-
+# print the summary of the configuration
 ecbuild_print_summary()

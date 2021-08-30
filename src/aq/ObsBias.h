@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSBIAS_H_
-#define AQ_MODEL_OBSBIAS_H_
+#ifndef AQ_OBSBIAS_H_
+#define AQ_OBSBIAS_H_
 
 #include <array>
 #include <iostream>
@@ -72,4 +72,4 @@ class ObsBias : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSBIAS_H_
+#endif  // AQ_OBSBIAS_H_

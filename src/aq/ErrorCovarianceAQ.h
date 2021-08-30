@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_ERRORCOVARIANCEAQ_H_
-#define AQ_MODEL_ERRORCOVARIANCEAQ_H_
+#ifndef AQ_ERRORCOVARIANCEAQ_H_
+#define AQ_ERRORCOVARIANCEAQ_H_
 
 #include <ostream>
 #include <string>
@@ -20,8 +20,8 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
-#include "oops/aq/GeometryAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/GeometryAQ.h"
 
 // Forward declarations
 namespace oops {
@@ -51,9 +51,8 @@ class ErrorCovarianceAQ : public util::Printable,
 
  private:
   void print(std::ostream &) const;
-  F90error_covariance keyConfig_;
 };
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_MODEL_ERRORCOVARIANCEAQ_H_
+#endif  // AQ_ERRORCOVARIANCEAQ_H_

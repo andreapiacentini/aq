@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSBIASCOVARIANCE_H_
-#define AQ_MODEL_OBSBIASCOVARIANCE_H_
+#ifndef AQ_OBSBIASCOVARIANCE_H_
+#define AQ_OBSBIASCOVARIANCE_H_
 
 #include <array>
 #include <ostream>
@@ -58,4 +58,4 @@ class ObsBiasCovariance : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSBIASCOVARIANCE_H_
+#endif  // AQ_OBSBIASCOVARIANCE_H_

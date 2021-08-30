@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_GEOMETRYAQ_H_
-#define AQ_MODEL_GEOMETRYAQ_H_
+#ifndef AQ_GEOMETRYAQ_H_
+#define AQ_GEOMETRYAQ_H_
 
 #include <memory>
 #include <ostream>
@@ -27,8 +27,8 @@
 #include "oops/util/parameters/RequiredParameter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
-#include "oops/aq/GeometryAQIterator.h"
+#include "aq/AqFortran.h"
+#include "aq/GeometryAQIterator.h"
 
 namespace oops {
   class Variables;
@@ -96,4 +96,4 @@ class GeometryAQ : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_GEOMETRYAQ_H_
+#endif  // AQ_GEOMETRYAQ_H_

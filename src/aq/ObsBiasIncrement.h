@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSBIASINCREMENT_H_
-#define AQ_MODEL_OBSBIASINCREMENT_H_
+#ifndef AQ_OBSBIASINCREMENT_H_
+#define AQ_OBSBIASINCREMENT_H_
 
 #include <iostream>
 #include <vector>
@@ -80,4 +80,4 @@ class ObsBiasIncrement : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSBIASINCREMENT_H_
+#endif  // AQ_OBSBIASINCREMENT_H_

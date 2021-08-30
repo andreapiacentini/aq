@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_STATEAQ_H_
-#define AQ_MODEL_STATEAQ_H_
+#ifndef AQ_STATEAQ_H_
+#define AQ_STATEAQ_H_
 
 #include <memory>
 #include <ostream>
@@ -20,7 +20,7 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/FieldsAQ.h"
+#include "aq/FieldsAQ.h"
 
 namespace eckit {
   class Configuration;
@@ -90,4 +90,4 @@ class StateAQ : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_STATEAQ_H_
+#endif  // AQ_STATEAQ_H_

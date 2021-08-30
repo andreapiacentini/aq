@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_MODEL_ANALYTICINIT_H_
-#define AQ_MODEL_ANALYTICINIT_H_
+#ifndef AQ_ANALYTICINIT_H_
+#define AQ_ANALYTICINIT_H_
 
 #include "eckit/config/LocalConfiguration.h"
 
@@ -27,4 +27,4 @@ class AnalyticInit {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_ANALYTICINIT_H_
+#endif  // AQ_ANALYTICINIT_H_

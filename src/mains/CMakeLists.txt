@@ -16,6 +16,7 @@ ecbuild_add_executable( TARGET  aq_addincrement.x
 ecbuild_add_executable( TARGET  aq_dirac.x
                         SOURCES aqDirac.cc
                         LIBS    aq
+                                saber
                       )
 
 ecbuild_add_executable( TARGET  aq_ens_variance.x
@@ -26,4 +27,10 @@ ecbuild_add_executable( TARGET  aq_ens_variance.x
 ecbuild_add_executable( TARGET  aq_ens_recenter.x
                         SOURCES aqEnsRecenter.cc
                         LIBS    aq
+                      )
+
+ecbuild_add_executable( TARGET  aq_parameters.x
+                        SOURCES aqEstimateParams.cc
+                        LIBS    aq
+                                saber
                       )

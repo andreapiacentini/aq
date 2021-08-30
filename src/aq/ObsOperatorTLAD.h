@@ -8,13 +8,15 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSOPERATORTLAD_H_
-#define AQ_MODEL_OBSOPERATORTLAD_H_
+#ifndef AQ_OBSOPERATORTLAD_H_
+#define AQ_OBSOPERATORTLAD_H_
 
 #include <memory>
 #include <string>
 
 #include <boost/noncopyable.hpp>
+
+#include "aq/ObsOperatorParameters.h"
 
 #include "oops/util/Printable.h"
 
@@ -40,7 +42,9 @@ namespace aq {
 class ObsOperatorTLAD : public util::Printable,
                        private boost::noncopyable {
  public:
-  ObsOperatorTLAD(const ObsSpaceAQ &, const eckit::Configuration &);
+  typedef ObservationParameters Parameters_;
+
+  ObsOperatorTLAD(const ObsSpaceAQ &, const Parameters_ &);
   ~ObsOperatorTLAD();
 
 /// Obs Operator
@@ -60,4 +64,4 @@ class ObsOperatorTLAD : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSOPERATORTLAD_H_
+#endif  // AQ_OBSOPERATORTLAD_H_

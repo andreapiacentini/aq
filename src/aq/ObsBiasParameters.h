@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_MODEL_OBSBIASPARAMETERS_H_
-#define AQ_MODEL_OBSBIASPARAMETERS_H_
+#ifndef AQ_OBSBIASPARAMETERS_H_
+#define AQ_OBSBIASPARAMETERS_H_
 
 #include "oops/util/parameters/OptionalParameter.h"
 #include "oops/util/parameters/Parameters.h"
@@ -44,4 +44,4 @@ class ObsBiasParameters : public oops::Parameters {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSBIASPARAMETERS_H_
+#endif  // AQ_OBSBIASPARAMETERS_H_

@@ -9,8 +9,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_INCREMENTAQ_H_
-#define AQ_MODEL_INCREMENTAQ_H_
+#ifndef AQ_INCREMENTAQ_H_
+#define AQ_INCREMENTAQ_H_
 
 #include <memory>
 #include <ostream>
@@ -29,9 +29,9 @@
 #include "oops/util/Printable.h"
 #include "oops/util/Serializable.h"
 
-#include "oops/aq/FieldsAQ.h"
-#include "oops/aq/GeometryAQ.h"
-#include "oops/aq/GeometryAQIterator.h"
+#include "aq/FieldsAQ.h"
+#include "aq/GeometryAQ.h"
+#include "aq/GeometryAQIterator.h"
 
 namespace eckit {
   class Configuration;
@@ -127,4 +127,4 @@ class IncrementAQ : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_INCREMENTAQ_H_
+#endif  // AQ_INCREMENTAQ_H_

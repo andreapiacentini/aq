@@ -10,15 +10,10 @@
 
 #include "aq/ErrorCovarianceAQ.h"
 
-#include <cmath>
-
-#include "aq/FieldsAQ.h"
 #include "aq/GeometryAQ.h"
 #include "aq/IncrementAQ.h"
 #include "aq/StateAQ.h"
 #include "eckit/config/Configuration.h"
-#include "oops/assimilation/GMRESR.h"
-#include "oops/base/IdentityMatrix.h"
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 
@@ -28,23 +23,23 @@ namespace aq {
 ErrorCovarianceAQ::ErrorCovarianceAQ(const GeometryAQ & resol, const oops::Variables & vars,
                                      const eckit::Configuration & conf,
                                      const StateAQ &, const StateAQ &) {
-  oops::Log::trace() << "ErrorCovarianceAQ created" << std::endl;
+  oops::Log::error() << "ErrorCovarianceAQ: constructor not implemented" << std::endl;
 }
 // -----------------------------------------------------------------------------
 ErrorCovarianceAQ::~ErrorCovarianceAQ() {
-  oops::Log::trace() << "ErrorCovarianceAQ destructed" << std::endl;
+  oops::Log::error() << "ErrorCovarianceAQ: destructor not implemented" << std::endl;
 }
 // -----------------------------------------------------------------------------
 void ErrorCovarianceAQ::multiply(const IncrementAQ & dxin, IncrementAQ & dxout) const {
+  oops::Log::error() << "ErrorCovarianceAQ: multiply not implemented" << std::endl;
 }
 // -----------------------------------------------------------------------------
 void ErrorCovarianceAQ::inverseMultiply(const IncrementAQ & dxin, IncrementAQ & dxout) const {
-  oops::IdentityMatrix<IncrementAQ> Id;
-  dxout.zero();
-  GMRESR(dxout, dxin, *this, Id, 20, 1.0e-5);
+  oops::Log::error() << "ErrorCovarianceAQ: inverseMultiply not implemented" << std::endl;
 }
 // -----------------------------------------------------------------------------
 void ErrorCovarianceAQ::randomize(IncrementAQ & dx) const {
+  oops::Log::error() << "ErrorCovarianceAQ: randomize not implemented" << std::endl;
 }
 // -----------------------------------------------------------------------------
 void ErrorCovarianceAQ::print(std::ostream & os) const {

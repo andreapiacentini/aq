@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
  */
 
-#ifndef AQ_MODEL_OBSDATAAQ_H_
-#define AQ_MODEL_OBSDATAAQ_H_
+#ifndef AQ_OBSDATAAQ_H_
+#define AQ_OBSDATAAQ_H_
 
 #include <math.h>
 #include <ostream>
@@ -18,9 +18,9 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
-#include "oops/aq/ObsSpaceAQ.h"
-#include "oops/aq/ObsVecAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/ObsSpaceAQ.h"
+#include "aq/ObsVecAQ.h"
 
 namespace aq {
 
@@ -110,4 +110,4 @@ void ObsDataAQ<DATATYPE>::print(std::ostream & os) const {
 // -----------------------------------------------------------------------------
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSDATAAQ_H_
+#endif  // AQ_OBSDATAAQ_H_

@@ -8,21 +8,19 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSOPERATORAQ_H_
-#define AQ_MODEL_OBSOPERATORAQ_H_
+#ifndef AQ_OBSOPERATORAQ_H_
+#define AQ_OBSOPERATORAQ_H_
 
 #include <memory>
 #include <string>
 
 #include <boost/noncopyable.hpp>
 
+#include "aq/ObsOperatorParameters.h"
+
 #include "oops/base/Variables.h"
 #include "oops/util/Printable.h"
 
-// Forward declarations
-namespace eckit {
-  class Configuration;
-}
 
 namespace aq {
   class GomAQ;
@@ -38,7 +36,9 @@ namespace aq {
 class ObsOperatorAQ : public util::Printable,
                       private boost::noncopyable {
  public:
-  ObsOperatorAQ(const ObsSpaceAQ &, const eckit::Configuration &);
+  typedef ObservationParameters Parameters_;
+
+  ObsOperatorAQ(const ObsSpaceAQ &, const Parameters_ &);
   ~ObsOperatorAQ();
 
 /// Obs Operator
@@ -57,4 +57,4 @@ class ObsOperatorAQ : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSOPERATORAQ_H_
+#endif  // AQ_OBSOPERATORAQ_H_

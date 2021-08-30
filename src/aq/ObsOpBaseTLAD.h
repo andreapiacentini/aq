@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_MODEL_OBSOPBASETLAD_H_
-#define AQ_MODEL_OBSOPBASETLAD_H_
+#ifndef AQ_OBSOPBASETLAD_H_
+#define AQ_OBSOPBASETLAD_H_
 
 #include <map>
 #include <string>
@@ -20,7 +20,7 @@
 #include "oops/util/Logger.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/ObsSpaceAQ.h"
+#include "aq/ObsSpaceAQ.h"
 
 namespace aq {
 class GomAQ;
@@ -79,4 +79,4 @@ class ObsOpTLADMaker : public ObsOpTLADFactory {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSOPBASETLAD_H_
+#endif  // AQ_OBSOPBASETLAD_H_

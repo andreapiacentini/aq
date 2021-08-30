@@ -9,8 +9,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSVECAQ_H_
-#define AQ_MODEL_OBSVECAQ_H_
+#ifndef AQ_OBSVECAQ_H_
+#define AQ_OBSVECAQ_H_
 
 #include <Eigen/Dense>
 #include <ostream>
@@ -19,7 +19,7 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
+#include "aq/AqFortran.h"
 
 namespace aq {
   class ObsSpaceAQ;
@@ -82,4 +82,4 @@ class ObsVecAQ : public util::Printable,
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSVECAQ_H_
+#endif  // AQ_OBSVECAQ_H_

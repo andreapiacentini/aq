@@ -9,8 +9,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_AQFORTRAN_H_
-#define AQ_MODEL_AQFORTRAN_H_
+#ifndef AQ_AQFORTRAN_H_
+#define AQ_AQFORTRAN_H_
 
 #define AQ_STRLEN 256
 
@@ -50,14 +50,10 @@ typedef int F90model;
 typedef int F90gom;
 // Fields key type
 typedef int F90flds;
-// Error covariance key type
-typedef int F90error_covariance;
 // Observation vector key type
 typedef int F90ovec;
 // Observation data base type
 typedef int F90odb;
-// Localization matrix
-typedef int F90lclz;
 // Obs op matrix
 typedef int F90hmat;
 
@@ -269,4 +265,4 @@ extern "C" {
 }
 
 }  // namespace aq
-#endif  // AQ_MODEL_AQFORTRAN_H_
+#endif  // AQ_AQFORTRAN_H_

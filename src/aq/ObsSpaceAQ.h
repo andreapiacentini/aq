@@ -9,8 +9,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_OBSSPACEAQ_H_
-#define AQ_MODEL_OBSSPACEAQ_H_
+#ifndef AQ_OBSSPACEAQ_H_
+#define AQ_OBSSPACEAQ_H_
 
 #include <map>
 #include <memory>
@@ -28,9 +28,9 @@
 #include "oops/util/parameters/Parameters.h"
 #include "oops/util/parameters/RequiredParameter.h"
 
-#include "oops/aq/AqFortran.h"
-#include "oops/aq/LocationsAQ.h"
-#include "oops/aq/ObsIteratorAQ.h"
+#include "aq/AqFortran.h"
+#include "aq/LocationsAQ.h"
+#include "aq/ObsIteratorAQ.h"
 
 namespace aq {
   class ObsIteratorAQ;
@@ -132,4 +132,4 @@ class ObsSpaceAQ : public oops::ObsSpaceBase {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_OBSSPACEAQ_H_
+#endif  // AQ_OBSSPACEAQ_H_
