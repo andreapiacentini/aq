@@ -64,6 +64,8 @@ class ObsSpaceAQParameters : public oops::ObsSpaceParametersBase {
  public:
   /// Type of observations.
   oops::RequiredParameter<std::string> obsType{"obs type", this};
+  /// Instrument Name.
+  oops::RequiredParameter<std::string> instName{"instr name", this};
   /// File from which to load observations.
   oops::OptionalParameter<ObsDataParameters> obsdatain{"obsdatain", this};
   /// File to which to save observations and analysis.
