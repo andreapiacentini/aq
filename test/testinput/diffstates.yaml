@@ -1,0 +1,33 @@
+variables: &vars
+  - CO
+  - O_3
+  - NO_2
+gems02 geometry: &gems02_geom
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+state geometry: *gems02_geom
+increment geometry: *gems02_geom
+state1:
+  date: 2010-07-04T01:00:00Z
+  filename: Data/E0001/HMGEMS02+2010070401.nc
+  state variables: *vars
+state2:
+  date: 2010-07-04T01:00:00Z
+  filename: Data/E0002/HMGEMS02+2010070401.nc
+  state variables: *vars
+output:
+  datadir: Data
+  date: 2010-07-04T01:00:00Z
+  filename: Data/DIGEMS02+2010070401.nc
+
+test:
+  reference filename: testoutput/diffstates.test
+  test output filename: testoutput/diffstates.log

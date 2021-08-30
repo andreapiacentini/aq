@@ -1,0 +1,109 @@
+variables: &vars
+  - CO
+  - O_3
+  - NO_2
+gems02 geometry: &gems02_geom
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+geometry: *gems02_geom
+
+state test:
+  statefile:
+    date: 2010-07-04T01:00:00Z
+    filename: Data/E0001/HMGEMS02+2010070401.nc
+    state variables: *vars
+  statefileout:
+    datadir: Data
+    date: '2010-07-04T01:00:00Z'
+    filename: Data/HMGEMS02+2010070401_out.nc
+    state variables: *vars
+  state generate:
+    analytic_init: large-vortices
+    date: 2010-07-04T01:00:00Z
+    state variables: *vars
+  date: 2010-07-04T01:00:00Z
+  norm file: 0.571914995356E-04
+  norm generated state: 1160.9686330528625
+  tolerance: 1.0e-08
+
+increment test:
+  date: 2010-07-04T01:00:00Z
+inc variables: *vars
+
+window begin: 2010-07-04T00:00:00Z
+window end: 2010-07-04T01:00:00Z
+
+locations:
+  random lon min: -15.9
+  random lon max: 35.9
+  random lat min: 32.1
+  random lat max: 69.9      
+observations:
+- obs error:
+    covariance model: diagonal
+  geovals:
+    filename: Data/HGOM+20100704_CO.gom
+    state variables: [x]
+    norm: 2.993895370518691e-06
+  obs space:
+    obsdatain:
+      obsfile: Data/HDAT+20100704.h5
+    obsdataout:
+      obsfile: Data/HSTAT+20100704_CO.h5
+    obs type: CO
+    instr name: AIRBASE_CO
+  obs operator:
+    obs type: Stream
+    mod var: CO
+  linear obs operator test:
+    coef TL: 1.e-4
+    tolerance AD: 1.0e-10
+    tolerance TL: 1.0e-6
+  obs bias:
+    stream: -1.0e-6
+    covariance:
+      stream: 2.0e-4
+  obs bias test:
+    norm: 1.0e-6
+    relative tolerance: 1.0e-18
+  rms ref: 8.4359999269081893e-07
+  reference global nobs: 267
+  tolerance: 1.0e-8
+- obs error:
+    covariance model: diagonal
+  geovals:
+    filename: Data/HGOM+20100704_O3.gom
+    state variables: [x]
+    norm: 1.214946378460444e-06
+  obs space:
+    obsdatain:
+      obsfile: Data/HDAT+20100704.h5
+    obsdataout:
+      obsfile: Data/HSTAT+20100704_O3.h5
+    obs type: O3
+    instr name: AIRBASE_O3
+  obs operator:
+    obs type: Stream
+    mod var: O_3
+  linear obs operator test:
+    coef TL: 1.e-4
+    tolerance AD: 1.0e-10
+    tolerance TL: 1.0e-6
+  obs bias:
+    stream: -1.0e-8
+    covariance:
+      stream: 2.0e-6
+  obs bias test:
+    norm: 1.0e-8
+    relative tolerance: 1.0e-18
+  rms ref: 3.1146838334980476e-08
+  reference global nobs: 915
+  tolerance: 1.0e-8

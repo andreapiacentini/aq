@@ -48,3 +48,12 @@ git-hammer-config.json
 *.odb
 *.v3breakpoints
 
+# Bundle content
+bundle/aq
+bundle/atlas
+bundle/eckit
+bundle/fckit
+bundle/jedicmake
+bundle/oops
+bundle/saber
+bundle/saber-data

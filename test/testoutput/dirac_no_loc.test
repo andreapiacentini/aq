@@ -1,0 +1,30 @@
+Input Dirac increment: 
+  Valid time: 2010-07-04T01:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 0; max = 1; mean = 3.84615e-06; stddev = 3.84614e-06
+  Var. O_3: min = 0; max = 0; mean = 0; stddev = 0
+  Var. NO_2: min = 0; max = 0; mean = 0; stddev = 0
+
+B * Increment: 
+  Valid time: 2010-07-04T01:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = -6.23227e-23; max = 2.76051e-19; mean = 1.45305e-22; stddev = 2.16606e-42
+  Var. O_3: min = -1.20701e-22; max = 4.48368e-22; mean = -3.91244e-25; stddev = 8.59347e-47
+  Var. NO_2: min = -1.56542e-20; max = 4.72633e-23; mean = -2.81201e-23; stddev = 1.35103e-44
+
+Randomized variance: 
+  Valid time: 2010-07-04T01:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 0; max = 5.15602e-15; mean = 1.48005e-19; stddev = 2.01882e-34
+  Var. O_3: min = 0; max = 5.52643e-20; mean = 2.39736e-23; stddev = 1.13044e-43
+  Var. NO_2: min = 0; max = 6.30582e-17; mean = 3.57365e-21; stddev = 2.32207e-38
+

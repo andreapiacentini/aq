@@ -1,0 +1,58 @@
+variables: &vars
+  - CO
+  - O_3
+  - NO_2
+gems02 geometry: &gems02_geom
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+geometry: *gems02_geom
+
+# Mnemonics:
+memo:
+  - &state_ref
+    date: 2010-07-04T01:00:00Z
+    filename: Data/E0001/HMGEMS02+2010070401.nc
+    state variables: *vars
+
+background:
+  *state_ref
+ensemble:
+  output variables: [CO,O_3]
+  members:
+    - <<: *state_ref
+      filename: Data/E0001/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0002/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0003/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0004/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0005/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0006/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0007/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0008/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0009/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      filename: Data/E0010/HMGEMS02+2010070401.nc
+  inflation value: 10.0
+variance output:
+  datadir: Data
+  date: 2010-07-04T01:00:00Z
+  filename: Data/EIGEMS02+2010070401.nc
+
+test:
+  reference filename: testoutput/ens_variance_inflation_value.test
+  test output filename: testoutput/ens_variance_inflation_value.log
