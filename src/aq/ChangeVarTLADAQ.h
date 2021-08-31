@@ -5,15 +5,15 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_FUTURE_CHANGEVARTLADAQ_H_
-#define AQ_FUTURE_CHANGEVARTLADAQ_H_
+#ifndef AQ_CHANGEVARTLADAQ_H_
+#define AQ_CHANGEVARTLADAQ_H_
 
 #include <ostream>
 #include <string>
 
 #include "oops/util/Printable.h"
 
-#include "oops/aq/AqFortran.h"
+#include "aq/AqFortran.h"
 
 // Forward declarations
 namespace eckit {
@@ -48,4 +48,4 @@ class ChangeVarTLADAQ: public util::Printable {
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_FUTURE_CHANGEVARTLADAQ_H_
+#endif  // AQ_CHANGEVARTLADAQ_H_

@@ -22,10 +22,10 @@ integer,parameter :: rseed = 1 !< Random seed (for reproducibility)
 type :: aq_locs
   type(c_ptr), private :: ptr
 contains
-procedure, public :: nlocs => locs_nlocs
-procedure, public :: lonlat => locs_lonlat
-procedure, public :: altitude => locs_altitude
-procedure, public :: times => locs_times
+  procedure, public :: nlocs => locs_nlocs
+  procedure, public :: lonlat => locs_lonlat
+  procedure, public :: altitude => locs_altitude
+  procedure, public :: times => locs_times
 end type aq_locs
 
 interface aq_locs

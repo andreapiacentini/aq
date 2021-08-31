@@ -25,10 +25,6 @@ state test:
     date: '2010-07-04T01:00:00Z'
     filename: Data/HMGEMS02+2010070401_out.nc
     state variables: *vars
-  state generate:
-    analytic_init: large-vortices
-    date: 2010-07-04T01:00:00Z
-    state variables: *vars
   date: 2010-07-04T01:00:00Z
   norm file: 0.571914995356E-04
   norm generated state: 1160.9686330528625

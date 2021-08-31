@@ -5,15 +5,15 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_FUTURE_CHANGEVARAQ_H_
-#define AQ_FUTURE_CHANGEVARAQ_H_
+#ifndef AQ_CHANGEVARAQ_H_
+#define AQ_CHANGEVARAQ_H_
 
 #include <ostream>
 #include <string>
 
 #include "oops/base/VariableChangeBase.h"
 
-#include "oops/aq/AqTraits.h"
+#include "aq/AqTraits.h"
 
 // Forward declarations
 namespace eckit {
@@ -44,4 +44,4 @@ class ChangeVarAQ: public oops::VariableChangeBase<AqTraits> {
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_FUTURE_CHANGEVARAQ_H_
+#endif  // AQ_CHANGEVARAQ_H_

@@ -15,7 +15,7 @@ list( APPEND aq_data_files
 )
 
 list( APPEND aq_testinput
-  #AQ testinput/3densvar.yaml
+  testinput/3densvar.yaml
   #AQ testinput/4densvar.yaml
   testinput/addincrement.yaml
   testinput/addincrement_scaled.yaml
@@ -34,7 +34,7 @@ list( APPEND aq_testinput
 )
 
 list( APPEND aq_testoutput
-  #AQ testoutput/3densvar.test
+  testoutput/3densvar.test
   #AQ testoutput/4densvar.test
   testoutput/addincrement.test
   testoutput/addincrement_scaled.test
@@ -272,10 +272,11 @@ ecbuild_add_test( TARGET test_aq_dirac_no_loc
 # 3d variational tests
 #####################################################################
 
-#ecbuild_add_test( TARGET test_aq_3densvar
-#                  OMP 2
-#                  ARGS testinput/3densvar.yaml
-#                  COMMAND  aq_4dvar.x )
+ecbuild_add_test( TARGET test_aq_3densvar
+                  MPI 6
+                  OMP 4
+                  ARGS testinput/3densvar.yaml
+                  COMMAND  aq_var.x )
 
 ######################################################################
 ## 4d variational tests
@@ -284,7 +285,7 @@ ecbuild_add_test( TARGET test_aq_dirac_no_loc
 #ecbuild_add_test( TARGET test_aq_4densvar
 #                  MPI 7
 #                  ARGS testinput/4densvar.yaml
-#                  COMMAND  aq_4dvar.x )
+#                  COMMAND  aq_var.x )
 
 ######################################################################
 ## state-related tests

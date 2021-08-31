@@ -34,3 +34,9 @@ ecbuild_add_executable( TARGET  aq_parameters.x
                         LIBS    aq
                                 saber
                       )
+
+ecbuild_add_executable( TARGET  aq_var.x
+                        SOURCES aqVar.cc
+                        LIBS    aq
+                                saber
+                      )

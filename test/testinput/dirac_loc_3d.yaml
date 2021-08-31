@@ -69,6 +69,7 @@ initial condition:
 output localization:
   date: 2010-07-04T01:00:00Z
   filename: Data/CLGEMS02+2010070401.nc
+
 output B:
   date: 2010-07-04T01:00:00Z
   filename: Data/CBGEMS02+2010070401.nc

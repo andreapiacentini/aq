@@ -1,12 +1,10 @@
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 list( APPEND aq_src_files
   AqTraits.h
-  # The ChangeVar (direct and TLAD are not needed for AQ
-  # but they could be required by generic oops tests)
-  #AQ ChangeVarAQ.cc
-  #AQ ChangeVarAQ.h
-  #AQ ChangeVarTLADAQ.cc
-  #AQ ChangeVarTLADAQ.h
+  ChangeVarAQ.cc
+  ChangeVarAQ.h
+  ChangeVarTLADAQ.cc
+  ChangeVarTLADAQ.h
   ErrorCovarianceAQ.cc
   ErrorCovarianceAQ.h
   FieldsAQ.cc
@@ -25,6 +23,9 @@ list( APPEND aq_src_files
   IncrementAQ.h
   LocationsAQ.cc
   LocationsAQ.h
+  ModelBias.h
+  ModelBiasCovariance.h
+  ModelBiasIncrement.h
   #AQ Do we really need them ?
   ObsBias.cc
   ObsBias.h
@@ -56,11 +57,9 @@ list( APPEND aq_src_files
   ObsVecAQ.h
   StateAQ.cc
   StateAQ.h
-  #AQ instantiateAqChangeVarFactory.h
+  instantiateAqChangeVarFactory.h
   AqFortran.h
   aq_blas_mod.F90
-  #AQ aq_change_var_interface.F90
-  #AQ aq_change_var_mod.F90
   aq_constants_mod.F90
   aq_fields_interface.F90
   aq_fields_mod.F90

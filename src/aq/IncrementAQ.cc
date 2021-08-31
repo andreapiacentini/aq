@@ -42,7 +42,6 @@ IncrementAQ::IncrementAQ(const GeometryAQ & resol, const oops::Variables & vars,
                          const util::DateTime & vt)
   : fields_(new FieldsAQ(resol, vars, vt))
 {
-  fields_->zero();
   oops::Log::trace() << "IncrementAQ constructed." << std::endl;
 }
 // -----------------------------------------------------------------------------

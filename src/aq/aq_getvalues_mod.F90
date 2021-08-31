@@ -63,8 +63,8 @@ type(atlas_field) :: lonlat_field
 !AQ interpolator
 integer :: nlev = 1
 character(len=aq_strlen) :: msg
-integer :: ib
-real(kind_real), allocatable :: lonmod(:), latmod(:)
+integer :: nlocs,ib
+real(kind_real), allocatable :: lonmod(:), latmod(:), lonobs(:),latobs(:)
 real(kind_real), dimension(1,1) :: dummylev
 real(kind_real), dimension(1) :: dummycoord
 real(kind_real), dimension(:), allocatable :: dummytime
@@ -85,6 +85,13 @@ if (fld%geom%fmpi%rank() == 0) then
   do ib = 1, fld%geom%grid%ny()
      latmod(ib) = fld%geom%grid%y(ib)
   end do
+  nlocs = locs%nlocs()
+  allocate(lonobs(nlocs))
+  allocate(latobs(nlocs))
+  do ib = 1, nlocs
+     lonobs(ib) = lonlat(1,ib)
+     latobs(ib) = lonlat(2,ib)
+  end do
   allocate(dummytime(locs%nlocs()))
   dummytime(:) = 0_kind_real
 
@@ -95,7 +102,7 @@ if (fld%geom%fmpi%rank() == 0) then
         call fckit_log%warning(msg)
      end if
   end do
-  
+
   call observ_operator ( &
      &   fld%geom%grid%ny(), &
      &   fld%geom%grid%nx(1), &
@@ -105,11 +112,11 @@ if (fld%geom%fmpi%rank() == 0) then
      &   lonmod, &
      &   dummycoord, & ! Vert coord not relevat
      &   dummycoord, & ! Obs time not relevant
-     &   locs%nlocs(), &
+     &   nlocs, &
      &   1, & ! Levels in and out are 1
      &   1, &
-     &   lonlat(2,:), &
-     &   lonlat(1,:), &
+     &   latobs, &
+     &   lonobs, &
      &   .false., & ! aq grid not considered as lon periodic
      &   dummytime, &
      &   dummylev, &
@@ -121,11 +128,12 @@ if (fld%geom%fmpi%rank() == 0) then
 
   write(msg,'(A)') 'Built interpolator'
   call fckit_log%debug(msg)
-  
+
   deallocate(lonmod)
   deallocate(latmod)
   deallocate(dummytime)
 endif
+
 !Release memory
 call lonlat_field%final()
 

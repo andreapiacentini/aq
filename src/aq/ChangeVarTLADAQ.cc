@@ -5,7 +5,7 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#include "aq/Future/ChangeVarTLADAQ.h"
+#include "aq/ChangeVarTLADAQ.h"
 
 #include <ostream>
 #include <string>
@@ -25,21 +25,25 @@ ChangeVarTLADAQ::ChangeVarTLADAQ(const StateAQ &, const StateAQ &,
 ChangeVarTLADAQ::~ChangeVarTLADAQ() {}
 // -----------------------------------------------------------------------------
 void ChangeVarTLADAQ::multiply(const IncrementAQ & dxa, IncrementAQ & dxm) const {
+  dxm = dxa;
   // AQ aq_change_var_tl_f90(dxa.fields().toFortran(), dxm.fields().toFortran());
   oops::Log::debug() << "ChangeVarTLADAQ::multiply" << dxm << std::endl;
 }
 // -----------------------------------------------------------------------------
 void ChangeVarTLADAQ::multiplyInverse(const IncrementAQ & dxm, IncrementAQ & dxa) const {
+  dxa = dxm;
   // AQ aq_change_var_tl_f90(dxm.fields().toFortran(), dxa.fields().toFortran());
   oops::Log::debug() << "ChangeVarTLADAQ::multiplyInverse" << dxm << std::endl;
 }
 // -----------------------------------------------------------------------------
 void ChangeVarTLADAQ::multiplyAD(const IncrementAQ & dxm, IncrementAQ & dxa) const {
+  dxa = dxm;
   // AQ aq_change_var_ad_f90(dxm.fields().toFortran(), dxa.fields().toFortran());
   oops::Log::debug() << "ChangeVarTLADAQ::multiplyAD" << dxm << std::endl;
 }
 // -----------------------------------------------------------------------------
 void ChangeVarTLADAQ::multiplyInverseAD(const IncrementAQ & dxa, IncrementAQ & dxm) const {
+  dxm = dxa;
   // AQ aq_change_var_ad_f90(dxa.fields().toFortran(), dxm.fields().toFortran());
   oops::Log::debug() << "ChangeVarTLADAQ::multiplyInverseAD" << dxm << std::endl;
 }

@@ -22,6 +22,9 @@
 #include "aq/GomAQ.h"
 #include "aq/IncrementAQ.h"
 #include "aq/LocationsAQ.h"
+#include "aq/ModelBias.h"
+#include "aq/ModelBiasCovariance.h"
+#include "aq/ModelBiasIncrement.h"
 #include "aq/ObsBias.h"
 #include "aq/ObsBiasCovariance.h"
 #include "aq/ObsBiasIncrement.h"
@@ -51,6 +54,10 @@ struct AqTraits {
   typedef aq::StateAQ               State;
   typedef aq::IncrementAQ           Increment;
   typedef aq::ErrorCovarianceAQ     Covariance;
+
+  typedef aq::ModelBias             ModelAuxControl;
+  typedef aq::ModelBiasIncrement    ModelAuxIncrement;
+  typedef aq::ModelBiasCovariance   ModelAuxCovariance;
 };
 
 struct AqObsTraits {

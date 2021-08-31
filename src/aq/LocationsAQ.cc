@@ -71,7 +71,6 @@ LocationsAQ::LocationsAQ(const eckit::Configuration & config, const eckit::mpi::
     double latmin = config.getDouble("random lat min");
     double latmax = config.getDouble("random lat max");
 
-
     /*! Now create random locations
     * use a specified random seed for reproducibility
     */

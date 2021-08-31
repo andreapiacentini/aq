@@ -8,15 +8,15 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_FUTURE_INSTANTIATEAQCHANGEVARFACTORY_H_
-#define AQ_FUTURE_INSTANTIATEAQCHANGEVARFACTORY_H_
+#ifndef AQ_INSTANTIATEAQCHANGEVARFACTORY_H_
+#define AQ_INSTANTIATEAQCHANGEVARFACTORY_H_
 
 #include "oops/interface/LinearVariableChange.h"
 #include "oops/interface/VariableChange.h"
 
-#include "oops/aq/AqTraits.h"
-#include "oops/aq/ChangeVarAQ.h"
-#include "oops/aq/ChangeVarTLADAQ.h"
+#include "aq/AqTraits.h"
+#include "aq/ChangeVarAQ.h"
+#include "aq/ChangeVarTLADAQ.h"
 
 namespace aq {
 
@@ -31,4 +31,4 @@ void instantiateAqChangeVarFactory() {
 
 }  // namespace aq
 
-#endif  // AQ_FUTURE_INSTANTIATEAQCHANGEVARFACTORY_H_
+#endif  // AQ_INSTANTIATEAQCHANGEVARFACTORY_H_

@@ -65,13 +65,6 @@ typedef int F90hmat;
 
 extern "C" {
 // -----------------------------------------------------------------------------
-//  Change of variable
-// -----------------------------------------------------------------------------
-// AQ  void aq_change_var_f90(const F90flds &, const F90flds &);
-// AQ  void aq_change_var_tl_f90(const F90flds &, const F90flds &);
-// AQ  void aq_change_var_ad_f90(const F90flds &, const F90flds &);
-
-// -----------------------------------------------------------------------------
 //  Fields
 // -----------------------------------------------------------------------------
   void aq_fields_create_f90(F90flds &, const F90geom &, const oops::Variables &);
