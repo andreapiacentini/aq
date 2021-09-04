@@ -95,23 +95,25 @@ list( APPEND aq_src_files
   h5_write_mod.F90
 )
 
+# Requirement sources
+set( AQ_SRC_DEP ${aq_src_files} )
 
 # Requirement libraries
-set(AQ_LIB_DEP oops saber atlas atlas_f ${LAPACK_LIBRARIES} ${NETCDF_LIBRARIES} ${HDF5_LIBRARIES} ${HDF5_HL_LIBRARIES} )
+set( AQ_LIB_DEP oops saber atlas atlas_f ${LAPACK_LIBRARIES} ${NETCDF_LIBRARIES} ${HDF5_LIBRARIES} ${HDF5_HL_LIBRARIES} )
 
 # Optional OpenMP
-if(OpenMP_Fortran_FOUND)
-  list( APPEND AQ_LIB_DEP OpenMP::OpenMP_Fortran)
+if( OpenMP_Fortran_FOUND )
+  list( APPEND AQ_LIB_DEP OpenMP::OpenMP_Fortran )
 endif()
 
-# Requirement sources
-set(AQ_SRC_DEP ${aq_src_files} )
-
+# Requirement includes
+set( AQ_INC_DEP ${HDF5_INCLUDE_DIRS} )
 
 # Add the library
 ecbuild_add_library( TARGET          aq
                      SOURCES         ${AQ_SRC_DEP}
                      PUBLIC_LIBS     ${AQ_LIB_DEP}
+                     PUBLIC_INCLUDES ${AQ_INC_DEP}
                      INSTALL_HEADERS LISTED
                      LINKER_LANGUAGE ${AQ_LINKER_LANGUAGE}
                    )

@@ -29,7 +29,7 @@ static ObsOpTLADMaker<ObsStreamTLAD> makerStreamTL_("Stream");
 // -----------------------------------------------------------------------------
 
 ObsStreamTLAD::ObsStreamTLAD(const ObsSpaceAQ &, const eckit::Configuration & config)
-  : varin_(std::vector<std::string>{"x"})
+  : varin_(std::vector<std::string>{config.getString("mod var")})
 {
   oops::Log::trace() << "ObsStreamTLAD created" << std::endl;
 }

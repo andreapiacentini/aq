@@ -47,7 +47,7 @@ FieldsAQ::FieldsAQ(const GeometryAQ & geom, const oops::Variables & vars,
 }
 // -----------------------------------------------------------------------------
 FieldsAQ::FieldsAQ(const FieldsAQ & other, const bool copy)
-  : vars_(other.vars_), time_(other.time_)
+  : geom_(other.geom_), vars_(other.vars_), time_(other.time_)
 {
   aq_fields_create_from_other_f90(keyFlds_, other.keyFlds_);
   if (copy) {
@@ -56,7 +56,7 @@ FieldsAQ::FieldsAQ(const FieldsAQ & other, const bool copy)
 }
 // -----------------------------------------------------------------------------
 FieldsAQ::FieldsAQ(const FieldsAQ & other)
-  : vars_(other.vars_), time_(other.time_)
+  : geom_(other.geom_), vars_(other.vars_), time_(other.time_)
 {
   aq_fields_create_from_other_f90(keyFlds_, other.keyFlds_);
   aq_fields_copy_f90(keyFlds_, other.keyFlds_);

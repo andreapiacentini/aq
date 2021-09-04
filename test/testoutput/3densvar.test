@@ -1,29 +1,23 @@
 CostJb   : Nonlinear Jb = 0
-CostJo   : Nonlinear Jo(Stream) = 7820.89, nobs = 600, Jo/n = 13.0348, err = 4e+06
-CostJo   : Nonlinear Jo(Wind) = 1065.61, nobs = 600, Jo/n = 1.77601, err = 6
-CostJo   : Nonlinear Jo(WSpeed) = 144.328, nobs = 300, Jo/n = 0.481094, err = 12
-CostFunction: Nonlinear J = 9030.82
-DRIPCGMinimizer: reduction in residual norm = 0.0780493
+CostJo   : Nonlinear Jo(CO) = 526.072, nobs = 524, Jo/n = 1.00395, err = 2.69417e-07
+CostJo   : Nonlinear Jo(O3) = 36796.5, nobs = 1815, Jo/n = 20.2736, err = 3.47115e-08
+CostFunction: Nonlinear J = 37322.6
+DRIPCGMinimizer: reduction in residual norm = 4.21453e-13
 CostFunction::addIncrement: Analysis: 
-  Valid time: 2010-01-01T12:00:00Z
-  Resolution = 40, 20, 2
-  Streamfunction         :  Min= -4.4489e+08, Max=  9.7006e+07, RMS=  1.7680e+08
-  Streamfunction LBC     :  Min= -4.0032e+08, Max= -0.0000e+00, RMS=  2.0632e+08
-  Potential vorticity LBC:  Min= -6.7294e-04, Max=  5.7903e-04, RMS=  4.4640e-04
-CostJb   : Nonlinear Jb = 50.19
-CostJo   : Nonlinear Jo(Stream) = 439.3, nobs = 600, Jo/n = 0.7321, err = 4e+06
-CostJo   : Nonlinear Jo(Wind) = 117.3, nobs = 600, Jo/n = 0.1955, err = 6
-CostJo   : Nonlinear Jo(WSpeed) = 19.82, nobs = 300, Jo/n = 0.06605, err = 12
-CostFunction: Nonlinear J = 626.6
-DRIPCGMinimizer: reduction in residual norm = 0.3926
-CostFunction::addIncrement: Analysis: 
-  Valid time: 2010-01-01T12:00:00Z
-  Resolution = 40, 20, 2
-  Streamfunction         :  Min= -4.4245e+08, Max=  9.8041e+07, RMS=  1.7680e+08
-  Streamfunction LBC     :  Min= -4.0032e+08, Max= -0.0000e+00, RMS=  2.0632e+08
-  Potential vorticity LBC:  Min= -6.7294e-04, Max=  5.7903e-04, RMS=  4.4640e-04
-CostJb   : Nonlinear Jb = 59.3
-CostJo   : Nonlinear Jo(Stream) = 407.4, nobs = 600, Jo/n = 0.679, err = 4e+06
-CostJo   : Nonlinear Jo(Wind) = 75.74, nobs = 600, Jo/n = 0.1262, err = 6
-CostJo   : Nonlinear Jo(WSpeed) = 14.42, nobs = 300, Jo/n = 0.04806, err = 12
-CostFunction: Nonlinear J = 556.8
+  Valid time: 2010-07-04T01:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 6.45209e-08; max = 1.18308e-06; mean = 9.64305e-08; stddev = 6.26958e-16
+  Var. O_3: min = 3.42335e-09; max = 1.7996e-07; mean = 4.76597e-08; stddev = 3.77871e-16
+  Var. NO_2: min = -2.5666e-11; max = 9.90799e-08; mean = 8.19654e-10; stddev = 4.14635e-18
+
+
+
+
+
+CostJb   : Nonlinear Jb = 0
+CostJo   : Nonlinear Jo(CO) = 521.97, nobs = 524, Jo/n = 0.996125, err = 2.69417e-07
+CostJo   : Nonlinear Jo(O3) = 36706.2, nobs = 1815, Jo/n = 20.2238, err = 3.47115e-08
+CostFunction: Nonlinear J = 37228.1
