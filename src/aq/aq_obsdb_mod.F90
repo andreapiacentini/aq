@@ -490,7 +490,7 @@ enddo
 ! Store observations data in the obsdb structure
 call aq_obsdb_create(self,trim(self%spcname),times,obsloc)
 call aq_obsdb_put(self,trim(self%spcname),'ObsValue',obsval)
-call aq_obsdb_put(self,trim(self%spcname),'ObsError',obserr) ! This should not be mandatory but it is asked by HofX!!!!
+call aq_obsdb_put(self,trim(self%spcname),'ObsError',obserr) ! This should not be mandatory but it is asked by InSitu!!!!
 
 deallocate(ila_times,rla_lats,rla_lons,rla_obs,times)
 
@@ -574,12 +574,12 @@ if (jgrp%nobs > 0) then
     case ('Location')
       call writeslice_h5dset_scalar(h5state, trim(cl_geogrp)//'/Longitude', jcol%values(1,:))
       call writeslice_h5dset_scalar(h5state, trim(cl_geogrp)//'/Latitude', jcol%values(2,:))
-    case ('hofx')
+    case ('insitu')
       call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx', jcol%values(1,:))
     case ('ObsValue')
       call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Y', jcol%values(1,:))
     case ('ObsError')
-       call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/ErrorCovariance', jcol%values(1,:))
+       call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Covariance', jcol%values(1,:))
     case ('EffectiveQC')
        call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC', jcol%values(1,:))
     case ('EffectiveError')

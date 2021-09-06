@@ -9,22 +9,22 @@
 #include "atlas/functionspace/PointCloud.h"
 
 #include "aq/aq_locs_f.h"
-#include "aq/LocationsAQ.h"
+#include "aq/Locations.h"
 #include "oops/util/DateTime.h"
 
 namespace aq {
 
 // -----------------------------------------------------------------------------
-int aq_locs_nlocs_f90(aq::LocationsAQ* locs) {
+int aq_locs_nlocs_f90(aq::Locations* locs) {
     return locs->size();
 }
-atlas::field::FieldImpl* aq_locs_lonlat_f90(aq::LocationsAQ* locs) {
+atlas::field::FieldImpl* aq_locs_lonlat_f90(aq::Locations* locs) {
     return locs->lonlat().get();
 }
-atlas::field::FieldImpl* aq_locs_altitude_f90(aq::LocationsAQ* locs) {
+atlas::field::FieldImpl* aq_locs_altitude_f90(aq::Locations* locs) {
     return locs->altitude().get();
 }
-util::DateTime& aq_locs_times_f90(aq::LocationsAQ* locs, size_t & idx) {
+util::DateTime& aq_locs_times_f90(aq::Locations* locs, size_t & idx) {
     return locs->times(idx);
 }
 // -----------------------------------------------------------------------------

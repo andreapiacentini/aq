@@ -11,7 +11,7 @@
 #include "atlas/field.h"
 #include "atlas/functionspace/PointCloud.h"
 
-#include "aq/LocationsAQ.h"
+#include "aq/Locations.h"
 #include "oops/util/DateTime.h"
 
 // ------------------------------------------------------------------------------
@@ -21,10 +21,10 @@
 namespace aq {
 
 extern "C" {
-  int aq_locs_nlocs_f90(aq::LocationsAQ*);
-  atlas::field::FieldImpl* aq_locs_lonlat_f90(aq::LocationsAQ*);
-  atlas::field::FieldImpl* aq_locs_altitude_f90(aq::LocationsAQ*);
-  util::DateTime& aq_locs_times_f90(aq::LocationsAQ*, size_t &);
+  int aq_locs_nlocs_f90(aq::Locations*);
+  atlas::field::FieldImpl* aq_locs_lonlat_f90(aq::Locations*);
+  atlas::field::FieldImpl* aq_locs_altitude_f90(aq::Locations*);
+  util::DateTime& aq_locs_times_f90(aq::Locations*, size_t &);
 }
 
 }  // namespace aq

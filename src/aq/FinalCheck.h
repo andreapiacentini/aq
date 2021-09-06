@@ -13,27 +13,27 @@
 
 #include "eckit/config/LocalConfiguration.h"
 
-#include "aq/AqTraits.h"
+#include "aq/Traits.h"
 
 #include "oops/base/Variables.h"
 #include "oops/interface/ObsFilterBase.h"
 #include "oops/util/Printable.h"
 
 namespace aq {
-  class GomAQ;
-  template <typename DATATYPE> class ObsDataAQ;
-  class ObsDiagsAQ;
-  class ObsSpaceAQ;
-  class ObsVecAQ;
+  class GeoVals;
+  template <typename DATATYPE> class ObsData;
+  class ObsDiagnostics;
+  class ObsSpace;
+  class ObsVec;
 
-class FinalCheck : public oops::interface::ObsFilterBase<AqObsTraits> {
+class FinalCheck : public oops::interface::ObsFilterBase<ObsTraits> {
  public:
-  FinalCheck(const ObsSpaceAQ &, const eckit::Configuration &,
-             std::shared_ptr<ObsDataAQ<int> >, std::shared_ptr<ObsDataAQ<float> >): novars_() {}
+  FinalCheck(const ObsSpace &, const eckit::Configuration &,
+             std::shared_ptr<ObsData<int> >, std::shared_ptr<ObsData<float> >): novars_() {}
 
   void preProcess() override {}
-  void priorFilter(const GomAQ &) override {}
-  void postFilter(const ObsVecAQ &, const ObsVecAQ &, const ObsDiagsAQ &) override {}
+  void priorFilter(const GeoVals &) override {}
+  void postFilter(const ObsVec &, const ObsVec &, const ObsDiagnostics &) override {}
 
   oops::Variables requiredVars() const override {return novars_;}
   oops::Variables requiredHdiagnostics() const override {return novars_;}

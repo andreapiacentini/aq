@@ -9,10 +9,10 @@
 #define AQ_AQ_OBSVEC_RANDOM_F_H_
 
 namespace aq {
-  class ObsSpaceAQ;
+  class ObsSpace;
 
 extern "C" {
-  void aq_obsvec_random_f(const ObsSpaceAQ &, const int &, double *);
+  void aq_obsvec_random_f(const ObsSpace &, const int &, double *);
 }
 
 }  // namespace aq

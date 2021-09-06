@@ -11,15 +11,15 @@
 #include "eckit/config/LocalConfiguration.h"
 
 namespace aq {
-  class LocationsAQ;
-  class GomAQ;
+  class Locations;
+  class GeoVals;
 
 /// AnalyticInit class fills GeoVaLs with analytic formulae
 /// Options: baroclinic instability and large vortices
 class AnalyticInit {
  public:
   explicit AnalyticInit(const eckit::Configuration &);
-  void fillGeoVaLs(const LocationsAQ &, GomAQ &) const;
+  void fillGeoVaLs(const Locations &, GeoVals &) const;
 
  private:
   const eckit::LocalConfiguration config_;
