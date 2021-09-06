@@ -8,13 +8,13 @@
  * does it submit to any jurisdiction.
  */
 
-#include "aq/AqTraits.h"
+#include "aq/Traits.h"
 #include "oops/runs/Run.h"
 #include "test/interface/ObsAuxIncrement.h"
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
-  test::ObsAuxIncrement<aq::AqObsTraits> tests;
+  test::ObsAuxIncrement<aq::ObsTraits> tests;
   return run.execute(tests);
 }
 

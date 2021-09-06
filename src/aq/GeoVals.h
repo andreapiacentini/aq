@@ -16,9 +16,10 @@
 #include <vector>
 
 #include "oops/base/Variables.h"
-
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
+
+#include "aq/interface.h"
 
 namespace oops {
   class Variables;

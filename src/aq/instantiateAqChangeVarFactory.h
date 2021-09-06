@@ -14,9 +14,9 @@
 #include "oops/interface/LinearVariableChange.h"
 #include "oops/interface/VariableChange.h"
 
-#include "aq/Traits.h"
 #include "aq/ChangeVar.h"
 #include "aq/LinearChangeVar.h"
+#include "aq/Traits.h"
 
 namespace aq {
 

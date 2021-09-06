@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include "model/AqTraits.h"
+#include "model/Traits.h"
 #include "model/instantiateAqLocalizationFactory.h"
 #include "oops/runs/Run.h"
 #include "test/interface/Localization.h"
@@ -16,7 +16,7 @@
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
   aq::instantiateAqLocalizationFactory();
-  test::Localization<aq::AqTraits> tests;
+  test::Localization<aq::Traits> tests;
   return run.execute(tests);
 }
 

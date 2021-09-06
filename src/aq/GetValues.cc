@@ -14,6 +14,7 @@
 
 #include "oops/util/Logger.h"
 
+#include "aq/aq_getvalues_interface.h"
 #include "aq/Geometry.h"
 #include "aq/GeoVals.h"
 #include "aq/Locations.h"

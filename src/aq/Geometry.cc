@@ -19,7 +19,7 @@
 #include "oops/util/abor1_cpp.h"
 #include "oops/util/Logger.h"
 
-#include "aq/aq_geometry_interface.h"
+#include "aq/aq_geom_interface.h"
 #include "aq/Geometry.h"
 
 // -----------------------------------------------------------------------------

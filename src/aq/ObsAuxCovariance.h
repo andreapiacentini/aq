@@ -16,11 +16,12 @@
 #include <string>
 #include <boost/noncopyable.hpp>
 
-#include "aq/ObsAuxControl.h"
-#include "aq/ObsAuxControlParameters.h"
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/parameters/GenericParameters.h"
 #include "oops/util/Printable.h"
+
+#include "aq/ObsAuxControl.h"
+#include "aq/ObsAuxParameters.h"
 
 namespace aq {
   class ObsAuxControl;

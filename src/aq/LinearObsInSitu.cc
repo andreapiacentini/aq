@@ -25,11 +25,11 @@
 // -----------------------------------------------------------------------------
 namespace aq {
 // -----------------------------------------------------------------------------
-static ObsOpTLADMaker<LinearObsInSitu> makerStreamTL_("Stream");
+static LinearObsOpMaker<LinearObsInSitu> makerInSituTL_("InSitu");
 // -----------------------------------------------------------------------------
 
 LinearObsInSitu::LinearObsInSitu(const ObsSpace &, const eckit::Configuration & config)
-  : varin_(std::vector<std::string>{config.getString("insitu")})
+  : varin_(std::vector<std::string>{config.getString("mod var")})
 {
   oops::Log::trace() << "LinearObsInSitu created" << std::endl;
 }
@@ -42,14 +42,14 @@ void LinearObsInSitu::setTrajectory(const GeoVals &, const ObsAuxControl &) {}
 
 void LinearObsInSitu::simulateObsTL(const GeoVals & geovals, ObsVec & ovec,
                                   const ObsAuxIncrement & bias) const {
-  aq_stream_equiv_tl_f90(geovals.toFortran(), ovec.toFortran(), bias.stream());
+  aq_insitu_equiv_tl_f90(geovals.toFortran(), ovec.toFortran(), bias.insitu());
 }
 
 // -----------------------------------------------------------------------------
 
 void LinearObsInSitu::simulateObsAD(GeoVals & geovals, const ObsVec & ovec,
                                   ObsAuxIncrement & bias) const {
-  aq_stream_equiv_ad_f90(geovals.toFortran(), ovec.toFortran(), bias.stream());
+  aq_insitu_equiv_ad_f90(geovals.toFortran(), ovec.toFortran(), bias.insitu());
 }
 
 // -----------------------------------------------------------------------------

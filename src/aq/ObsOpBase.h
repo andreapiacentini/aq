@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_OBSOPBASEAQ_H_
-#define AQ_OBSOPBASEAQ_H_
+#ifndef AQ_OBSOPBASE_H_
+#define AQ_OBSOPBASE_H_
 
 #include <map>
 #include <memory>
@@ -78,4 +78,4 @@ class ObsOpMaker : public ObsOpFactory {
 
 }  // namespace aq
 
-#endif  // AQ_OBSOPBASEAQ_H_
+#endif  // AQ_OBSOPBASE_H_

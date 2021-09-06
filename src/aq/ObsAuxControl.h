@@ -16,10 +16,11 @@
 #include <string>
 #include <boost/noncopyable.hpp>
 
-#include "aq/ObsAuxControlParameters.h"
 #include "oops/base/Variables.h"
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
+
+#include "aq/ObsAuxParameters.h"
 
 namespace aq {
   class ObsAuxIncrement;
@@ -56,9 +57,7 @@ class ObsAuxControl : public util::Printable,
   const oops::Variables & requiredVars() const {return geovars_;}
   const oops::Variables & requiredHdiagnostics() const {return hdiags_;}
 
-  const double & stream() const {return bias_[0];}
-  const double & wind() const {return bias_[1];}
-  const double & wspd() const {return bias_[3];}
+  const double & insitu() const {return bias_[0];}
 
  private:
   void print(std::ostream &) const;

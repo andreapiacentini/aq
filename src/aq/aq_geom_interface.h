@@ -41,4 +41,4 @@ extern "C" {
   void aq_geom_delete_f90(F90geom &);
 }
 }  // namespace aq
-#endif  // AQ_GEOM_INTERFACE_H_
+#endif  // AQ_AQ_GEOM_INTERFACE_H_

@@ -31,9 +31,9 @@ namespace oops {
 
 namespace aq {
   class GeoVals;
+  class LinearObsOpBase;
   class ObsAuxControl;
   class ObsAuxIncrement;
-  class ObsOpBaseTLAD;
   class ObsSpace;
   class ObsVec;
 
@@ -57,7 +57,7 @@ class LinearObsOperator : public util::Printable,
 
  private:
   void print(std::ostream &) const;
-  std::unique_ptr<ObsOpBaseTLAD> oper_;
+  std::unique_ptr<LinearObsOpBase> oper_;
 };
 
 // -----------------------------------------------------------------------------

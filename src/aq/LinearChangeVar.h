@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_LINEARCHANGEVARAQ_H_
-#define AQ_LINEARCHANGEVARAQ_H_
+#ifndef AQ_LINEARCHANGEVAR_H_
+#define AQ_LINEARCHANGEVAR_H_
 
 #include <ostream>
 #include <string>
@@ -46,4 +46,4 @@ class LinearChangeVar: public util::Printable {
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_LINEARCHANGEVARAQ_H_
+#endif  // AQ_LINEARCHANGEVAR_H_

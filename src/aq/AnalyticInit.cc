@@ -7,6 +7,7 @@
 
 #include "aq/AnalyticInit.h"
 
+#include "aq/aq_geovals_interface.h"
 #include "aq/GeoVals.h"
 #include "aq/Locations.h"
 

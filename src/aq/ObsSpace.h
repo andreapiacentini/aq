@@ -28,6 +28,7 @@
 #include "oops/util/parameters/Parameters.h"
 #include "oops/util/parameters/RequiredParameter.h"
 
+#include "aq/interface.h"
 #include "aq/Locations.h"
 #include "aq/ObsIterator.h"
 

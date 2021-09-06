@@ -27,9 +27,9 @@ ObsAuxControl::ObsAuxControl(const ObsSpace &, const Parameters_ & params)
   : active_(false), geovars_(), hdiags_() {
   oops::Log::info() << "ObsAuxControl: conf = " << params << std::endl;
   bias_.fill(0.0);
-  active_ = params.obs.value() != boost::none ||
+  active_ = params.insitu.value() != boost::none;
   if (active_) {
-    if (params.obs.value() != boost::none) bias_[0] = *params.obs.value();
+    if (params.insitu.value() != boost::none) bias_[0] = *params.insitu.value();
     std::string strn = "";
     for (unsigned int jj = 0; jj < ObsAuxControl::ntypes; ++jj) {
       if (jj > 0) strn += ", ";

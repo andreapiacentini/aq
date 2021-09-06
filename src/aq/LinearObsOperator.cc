@@ -11,9 +11,9 @@
 #include "aq/LinearObsOperator.h"
 
 #include "aq/GeoVals.h"
+#include "aq/LinearObsOpBase.h"
 #include "aq/ObsAuxControl.h"
 #include "aq/ObsAuxIncrement.h"
-#include "aq/ObsOpBaseTLAD.h"
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
 #include "eckit/config/Configuration.h"
@@ -24,7 +24,7 @@ namespace aq {
 // -----------------------------------------------------------------------------
 
 LinearObsOperator::LinearObsOperator(const ObsSpace & os, const Parameters_ & params)
-  : oper_(ObsOpTLADFactory::create(os, params.config))
+  : oper_(LinearObsOpFactory::create(os, params.config))
 {}
 
 // -----------------------------------------------------------------------------

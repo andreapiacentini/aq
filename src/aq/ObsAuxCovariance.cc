@@ -30,7 +30,7 @@ ObsAuxCovariance::ObsAuxCovariance(const ObsSpace &, const Parameters_ & params)
   zz.fill(0.0);
   if (params.covariance.value() != boost::none) {
     const ObsAuxCovarianceParameters& covparams = *params.covariance.value();
-    if (covparams.obs.value() != boost::none) zz[0] = *covparams.obs.value();
+    if (covparams.insitu.value() != boost::none) zz[0] = *covparams.insitu.value();
   }
   std::string strn = "";
   for (unsigned int jj = 0; jj < ObsAuxControl::ntypes; ++jj) {

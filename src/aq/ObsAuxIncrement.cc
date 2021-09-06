@@ -28,10 +28,7 @@ ObsAuxIncrement::ObsAuxIncrement(const ObsSpace &, const Parameters_ & params)
 {
   if (params.covariance.value() != boost::none) {
     const ObsAuxCovarianceParameters& covparams = *params.covariance.value();
-    active_[0] = (covparams.stream.value() != boost::none);
-    active_[1] = (covparams.uwind.value() != boost::none);
-    active_[2] = (covparams.vwind.value() != boost::none);
-    active_[3] = (covparams.wspeed.value() != boost::none);
+    active_[0] = (covparams.insitu.value() != boost::none);
   }
   bool on = false;
   std::string strn = "";

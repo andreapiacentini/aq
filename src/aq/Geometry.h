@@ -28,6 +28,7 @@
 #include "oops/util/Printable.h"
 
 #include "aq/GeometryIterator.h"
+#include "aq/interface.h"
 
 namespace oops {
   class Variables;

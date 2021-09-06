@@ -18,6 +18,7 @@
 
 #include "aq/interface.h"
 
+namespace aq {
 extern "C" {
   void aq_geom_iter_setup_f90(F90iter &, const F90geom &, const int &);
   void aq_geom_iter_clone_f90(F90iter &, const F90iter &);

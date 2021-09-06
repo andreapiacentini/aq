@@ -8,10 +8,12 @@
  * does it submit to any jurisdiction.
  */
 
-#include "aq/aq_geom_iter_interface.h"
-#include "aq/GeometryIterator.h"
 #include "eckit/config/Configuration.h"
 #include "oops/util/Logger.h"
+
+#include "aq/aq_geom_iter_interface.h"
+#include "aq/GeometryIterator.h"
+#include "aq/interface.h"
 
 // -----------------------------------------------------------------------------
 

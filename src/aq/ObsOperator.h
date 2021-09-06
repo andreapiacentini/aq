@@ -42,7 +42,8 @@ class ObsOperator : public util::Printable,
   ~ObsOperator();
 
 /// Obs Operator
-  void simulateObs(const GeoVals &, ObsVec &, const ObsAuxControl &, ObsVec &, ObsDiagnostics &) const;
+  void simulateObs(const GeoVals &, ObsVec &, const ObsAuxControl &, ObsVec &,
+                   ObsDiagnostics &) const;
 
 /// Other
   const oops::Variables & requiredVars() const;  // Required input requiredVars from Model

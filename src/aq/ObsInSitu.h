@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_INSITU_H_
-#define AQ_INSITU_H_
+#ifndef AQ_OBSINSITU_H_
+#define AQ_OBSINSITU_H_
 
 #include <memory>
 #include <ostream>
@@ -18,9 +18,9 @@
 #include "oops/base/Variables.h"
 #include "oops/util/ObjectCounter.h"
 
-#include "aq/Traits.h"
 #include "aq/ObsOpBase.h"
 #include "aq/ObsSpace.h"
+#include "aq/Traits.h"
 
 // Forward declarations
 namespace eckit {
@@ -57,4 +57,4 @@ class InSitu : public ObsOpBase,
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_INSITU_H_
+#endif  // AQ_OBSINSITU_H_

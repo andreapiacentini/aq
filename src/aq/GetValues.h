@@ -31,14 +31,14 @@ namespace aq {
 
 /// \brief used for getting state values at observation locations
 // -----------------------------------------------------------------------------
-class GetValue : public util::Printable,
-                    private util::ObjectCounter<GetValue> {
+class GetValues : public util::Printable,
+                    private util::ObjectCounter<GetValues> {
  public:
-  static const std::string classname() {return "aq::GetValue";}
+  static const std::string classname() {return "aq::GetValues";}
 
 /// \brief saves all locations \p locs to use during filling GeoVaLs
-  GetValue(const Geometry &, const Locations & locs, const eckit::Configuration &);
-  ~GetValue() {}
+  GetValues(const Geometry &, const Locations & locs, const eckit::Configuration &);
+  ~GetValues() {}
 
 /// \brief fills in \p geovals for all observations in the timeframe (\p t1, \p t2],
 /// \p geovals are interpolated trilinearly from \p state at the nearest gridpoints

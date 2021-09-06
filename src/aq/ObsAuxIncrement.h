@@ -14,9 +14,10 @@
 #include <iostream>
 #include <vector>
 
-#include "aq/ObsAuxControlParameters.h"
 #include "oops/util/Printable.h"
 #include "oops/util/Serializable.h"
+
+#include "aq/ObsAuxParameters.h"
 
 namespace eckit {
   class Configuration;
@@ -56,12 +57,8 @@ class ObsAuxIncrement : public util::Printable,
   double & operator[](const unsigned int ii) {return bias_[ii];}
   const double & operator[](const unsigned int ii) const {return bias_[ii];}
 
-  double & stream() {return bias_[0];}
-  double & wind() {return bias_[1];}
-  double & wspd() {return bias_[3];}
-  const double & stream() const {return bias_[0];}
-  const double & wind() const {return bias_[1];}
-  const double & wspd() const {return bias_[3];}
+  double & insitu() {return bias_[0];}
+  const double & insitu() const {return bias_[0];}
 
 /// Serialization
   size_t serialSize() const override;

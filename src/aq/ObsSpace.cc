@@ -26,6 +26,8 @@
 #include "oops/util/Duration.h"
 #include "oops/util/Logger.h"
 
+#include "aq/aq_obsdb_interface.h"
+
 using atlas::array::make_view;
 
 namespace aq {
@@ -82,14 +84,8 @@ ObsSpace::ObsSpace(const Parameters_ & params, const eckit::mpi::Comm & comm,
   // theObsFileCount_++;
 
   // Set variables simulated for different obstypes
-  if (obsname_ == "Stream") obsvars_.push_back("Stream");
   if (obsname_ == "O3") obsvars_.push_back("O3");
   if (obsname_ == "CO") obsvars_.push_back("CO");
-  if (obsname_ == "WSpeed") obsvars_.push_back("WSpeed");
-  if (obsname_ == "Wind") {
-    obsvars_.push_back("Uwind");
-    obsvars_.push_back("Vwind");
-  }
 
   //  Generate locations etc... if required
   if (params.generate.value() != boost::none) {

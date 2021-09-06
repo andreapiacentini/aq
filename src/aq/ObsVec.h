@@ -19,6 +19,8 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
+#include "aq/interface.h"
+
 namespace aq {
   class ObsSpace;
   template <typename DATATYPE> class ObsData;

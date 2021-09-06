@@ -30,6 +30,7 @@
 
 #include "aq/Geometry.h"
 #include "aq/GeometryIterator.h"
+#include "aq/interface.h"
 
 // Forward declarations
 namespace eckit {

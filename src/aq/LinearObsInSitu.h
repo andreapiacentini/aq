@@ -8,15 +8,15 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_LINEARINSITU_H_
-#define AQ_LINEARINSITU_H_
+#ifndef AQ_LINEAROBSINSITU_H_
+#define AQ_LINEAROBSINSITU_H_
 
 #include <string>
 
 #include "oops/base/Variables.h"
 #include "oops/util/ObjectCounter.h"
 
-#include "aq/ObsOpBaseTLAD.h"
+#include "aq/LinearObsOpBase.h"
 
 // Forward declarations
 namespace eckit {
@@ -33,12 +33,12 @@ namespace aq {
 // -----------------------------------------------------------------------------
 /// Streamfunction TL/AD observation operator for AQ model.
 
-class LinearObsInSituAQ : public ObsOpBaseTLAD,
-                      private util::ObjectCounter<LinearObsInSitu> {
+class LinearObsInSitu : public LinearObsOpBase,
+                        private util::ObjectCounter<LinearObsInSitu> {
  public:
   static const std::string classname() {return "aq::LinearObsInSitu";}
 
-  LinearObsInSituAQ(const ObsSpace &, const eckit::Configuration &);
+  LinearObsInSitu(const ObsSpace &, const eckit::Configuration &);
 
 // Obs Operators
   void setTrajectory(const GeoVals &, const ObsAuxControl &) override;
@@ -55,4 +55,4 @@ class LinearObsInSituAQ : public ObsOpBaseTLAD,
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_LINEARINSITU_H_
+#endif  // AQ_LINEAROBSINSITU_H_

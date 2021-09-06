@@ -19,7 +19,6 @@
 #include "eckit/config/Configuration.h"
 #include "eckit/exception/Exceptions.h"
 
-#include "aq/aq_locations_interface.h"
 #include "aq/Locations.h"
 #include "oops/util/DateTime.h"
 #include "oops/util/Duration.h"

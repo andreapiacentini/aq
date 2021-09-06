@@ -20,6 +20,7 @@
 #include "oops/util/Printable.h"
 
 #include "aq/Geometry.h"
+#include "aq/interface.h"
 
 namespace aq {
 

@@ -8,15 +8,18 @@
  * does it submit to any jurisdiction.
  */
 
-#include "aq/InSitu.h"
+#include "aq/ObsInSitu.h"
 
 #include <vector>
 
+#include "aq/aq_insitu_interface.h"
 #include "aq/GeoVals.h"
 #include "aq/ObsAuxControl.h"
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
+
 #include "eckit/config/Configuration.h"
+
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 
@@ -27,7 +30,7 @@ static ObsOpMaker<InSitu> makerInSitu_("InSitu");
 // -----------------------------------------------------------------------------
 
 InSitu::InSitu(const ObsSpace & odb, const eckit::Configuration & config)
-  : obsdb_(odb), varin_(std::vector<std::string>{config.getString("insitu")})
+  : obsdb_(odb), varin_(std::vector<std::string>{config.getString("mod var")})
 {
   oops::Log::trace() << "InSitu created." << std::endl;
 }

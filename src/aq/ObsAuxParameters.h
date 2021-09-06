@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_OBSAUXCONTROLPARAMETERS_H_
-#define AQ_OBSAUXCONTROLPARAMETERS_H_
+#ifndef AQ_OBSAUXPARAMETERS_H_
+#define AQ_OBSAUXPARAMETERS_H_
 
 #include "oops/util/parameters/OptionalParameter.h"
 #include "oops/util/parameters/Parameters.h"
@@ -21,10 +21,7 @@ class ObsAuxCovarianceParameters : public oops::Parameters {
   OOPS_CONCRETE_PARAMETERS(ObsAuxCovarianceParameters, Parameters)
 
  public:
-  oops::OptionalParameter<double> stream{"stream", this};
-  oops::OptionalParameter<double> uwind{"uwind", this};
-  oops::OptionalParameter<double> vwind{"vwind", this};
-  oops::OptionalParameter<double> wspeed{"wspeed", this};
+  oops::OptionalParameter<double> insitu{"insitu", this};
 };
 
 // -----------------------------------------------------------------------------
@@ -33,10 +30,7 @@ class ObsAuxControlParameters : public oops::Parameters {
   OOPS_CONCRETE_PARAMETERS(ObsAuxControlParameters, Parameters)
 
  public:
-  oops::OptionalParameter<double> stream{"stream", this};
-  oops::OptionalParameter<double> uwind{"uwind", this};
-  oops::OptionalParameter<double> vwind{"vwind", this};
-  oops::OptionalParameter<double> wspeed{"wspeed", this};
+  oops::OptionalParameter<double> insitu{"insitu", this};
   oops::OptionalParameter<ObsAuxCovarianceParameters> covariance{"covariance", this};
 };
 
@@ -44,4 +38,4 @@ class ObsAuxControlParameters : public oops::Parameters {
 
 }  // namespace aq
 
-#endif  // AQ_OBSAUXCONTROLPARAMETERS_H_
+#endif  // AQ_OBSAUXPARAMETERS_H_

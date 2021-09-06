@@ -12,7 +12,6 @@
 
 #include "oops/util/Logger.h"
 
-#include "aq/AqFortran.h"
 #include "aq/State.h"
 
 namespace aq {

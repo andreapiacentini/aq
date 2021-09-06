@@ -18,6 +18,7 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
+#include "aq/interface.h"
 #include "aq/Locations.h"
 
 namespace aq {
