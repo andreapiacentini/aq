@@ -14,18 +14,18 @@
 #include "oops/interface/LinearVariableChange.h"
 #include "oops/interface/VariableChange.h"
 
-#include "aq/AqTraits.h"
-#include "aq/ChangeVarAQ.h"
-#include "aq/ChangeVarTLADAQ.h"
+#include "aq/ChangeVar.h"
+#include "aq/LinearChangeVar.h"
+#include "aq/Traits.h"
 
 namespace aq {
 
 void instantiateAqChangeVarFactory() {
-  static oops::VariableChangeMaker<AqTraits, ChangeVarAQ> makerchangevar_("ChVarAQ");
-  static oops::VariableChangeMaker<AqTraits, ChangeVarAQ> makerdefchavar_("default");
+  static oops::VariableChangeMaker<Traits, ChangeVar> makerchangevar_("ChVarAQ");
+  static oops::VariableChangeMaker<Traits, ChangeVar> makerdefchavar_("default");
 
-  static oops::LinearVariableChangeMaker<aq::AqTraits,
-                                   oops::LinearVariableChange<aq::AqTraits, aq::ChangeVarTLADAQ> >
+  static oops::LinearVariableChangeMaker<aq::Traits,
+                                   oops::LinearVariableChange<aq::Traits, aq::LinearChangeVar> >
                makerChLinVarAQ_("ChVarAQ");
 }
 

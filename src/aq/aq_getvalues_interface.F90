@@ -12,7 +12,7 @@ use aq_fields_mod
 use aq_fields_interface
 use aq_getvalues_mod
 use aq_geom_mod
-use aq_gom_mod
+use aq_geovals_mod
 use aq_locs_mod
 use interp_matrix_structure_mod, only : csr_format
 use matrix_manipulations, only: deallocate_operator
@@ -24,7 +24,7 @@ private
 contains
 ! ------------------------------------------------------------------------------
 !> Interpolation from fields
-subroutine aq_getvalues_interp_c(c_locs,c_key_fld,c_t1,c_t2,c_key_gom) bind(c,name='aq_getvalues_interp_f90')
+subroutine aq_getvalues_interp_c(c_locs,c_key_fld,c_t1,c_t2,c_key_geovals) bind(c,name='aq_getvalues_interp_f90')
 
 implicit none
 
@@ -32,22 +32,22 @@ implicit none
 type(c_ptr),value,intent(in) :: c_locs          !< locations
 integer(c_int),intent(in) :: c_key_fld           !< Fields
 type(c_ptr),value,intent(in) :: c_t1, c_t2       !< times
-integer(c_int),intent(in) :: c_key_gom           !< Interpolated values
+integer(c_int),intent(in) :: c_key_geovals           !< Interpolated values
 
 ! Local variables
 type(aq_locs) :: locs
 type(aq_fields),pointer :: fld
-type(aq_gom), pointer :: gom
+type(aq_geovals), pointer :: geovals
 type(datetime) :: t1, t2
 
 ! Interface
 locs = aq_locs(c_locs)
 call aq_fields_registry%get(c_key_fld,fld)
-call aq_gom_registry%get(c_key_gom,gom)
+call aq_geovals_registry%get(c_key_geovals,geovals)
 call c_f_datetime(c_t1, t1)
 call c_f_datetime(c_t2, t2)
 ! Call Fortran
-call aq_getvalues_interp(locs,fld,t1,t2,gom)
+call aq_getvalues_interp(locs,fld,t1,t2,geovals)
 
 end subroutine aq_getvalues_interp_c
 ! ------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ call aq_getvalues_build(locs,fld,t1,t2,hmat)
 end subroutine aq_getvalues_build_c
 ! ------------------------------------------------------------------------------
 !> Interpolation from fields, tangent linear
-subroutine aq_getvalues_interp_tl_c(c_locs, c_key_fld,c_t1,c_t2,c_key_hmat,c_key_gom) bind(c,name='aq_getvalues_interp_tl_f90')
+subroutine aq_getvalues_interp_tl_c(c_locs, c_key_fld,c_t1,c_t2,c_key_hmat,c_key_geovals) bind(c,name='aq_getvalues_interp_tl_f90')
 
 implicit none
 
@@ -90,14 +90,14 @@ type(c_ptr),value,intent(in) :: c_locs           !< Locations
 integer(c_int),intent(in) :: c_key_fld           !< Fields
 type(c_ptr),value,intent(in) :: c_t1, c_t2       !< times
 integer(c_int),intent(in) :: c_key_hmat          !< Interpolation matrix
-integer(c_int),intent(in) :: c_key_gom           !< Interpolated values
+integer(c_int),intent(in) :: c_key_geovals           !< Interpolated values
 
 ! Local variables
 type(aq_locs) :: locs
 type(aq_fields),pointer :: fld
 type(datetime) :: t1, t2
 type(csr_format), pointer :: hmat
-type(aq_gom), pointer :: gom
+type(aq_geovals), pointer :: geovals
 
 ! Interface
 locs = aq_locs(c_locs)
@@ -105,15 +105,15 @@ call aq_fields_registry%get(c_key_fld,fld)
 call c_f_datetime(c_t1, t1)
 call c_f_datetime(c_t2, t2)
 call aq_hmat_registry%get(c_key_hmat,hmat)
-call aq_gom_registry%get(c_key_gom,gom)
+call aq_geovals_registry%get(c_key_geovals,geovals)
 
 ! Call Fortran
-call aq_getvalues_interp_tl(locs,fld,t1,t2,hmat,gom)
+call aq_getvalues_interp_tl(locs,fld,t1,t2,hmat,geovals)
 
 end subroutine aq_getvalues_interp_tl_c
 ! ------------------------------------------------------------------------------
 !> Interpolation from fields, adjoint
-subroutine aq_getvalues_interp_ad_c(c_locs,c_key_fld,c_t1,c_t2,c_key_hmat,c_key_gom) bind(c,name='aq_getvalues_interp_ad_f90')
+subroutine aq_getvalues_interp_ad_c(c_locs,c_key_fld,c_t1,c_t2,c_key_hmat,c_key_geovals) bind(c,name='aq_getvalues_interp_ad_f90')
 
 implicit none
 
@@ -122,25 +122,25 @@ type(c_ptr),value,intent(in) :: c_locs          !< locations
 integer(c_int),intent(in) :: c_key_fld           !< Fields
 type(c_ptr),value,intent(in) :: c_t1, c_t2       !< times
 integer(c_int),intent(in) :: c_key_hmat          !< Interpolation matrix
-integer(c_int),intent(in) :: c_key_gom           !< Interpolated values
+integer(c_int),intent(in) :: c_key_geovals           !< Interpolated values
 
 ! Local variables
 type(aq_locs) :: locs
 type(aq_fields),pointer :: fld
 type(datetime) :: t1, t2
 type(csr_format), pointer :: hmat
-type(aq_gom), pointer :: gom
+type(aq_geovals), pointer :: geovals
 
 ! Interface
 locs = aq_locs(c_locs)
 call aq_fields_registry%get(c_key_fld,fld)
 call aq_hmat_registry%get(c_key_hmat,hmat)
-call aq_gom_registry%get(c_key_gom,gom)
+call aq_geovals_registry%get(c_key_geovals,geovals)
 call c_f_datetime(c_t1, t1)
 call c_f_datetime(c_t2, t2)
 
 ! Call Fortran
-call aq_getvalues_interp_ad(locs,fld,t1,t2,hmat,gom)
+call aq_getvalues_interp_ad(locs,fld,t1,t2,hmat,geovals)
 
 end subroutine aq_getvalues_interp_ad_c
 ! ------------------------------------------------------------------------------

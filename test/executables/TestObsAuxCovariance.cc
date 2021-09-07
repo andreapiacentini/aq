@@ -8,13 +8,13 @@
  * does it submit to any jurisdiction.
  */
 
-#include "aq/AqTraits.h"
+#include "aq/Traits.h"
 #include "oops/runs/Run.h"
 #include "test/interface/ObsAuxCovariance.h"
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
-  test::ObsAuxCovariance<aq::AqObsTraits> tests;
+  test::ObsAuxCovariance<aq::ObsTraits> tests;
   return run.execute(tests);
 }
 

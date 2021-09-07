@@ -5,13 +5,13 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 // AQ #include "aq/instantiateAqChangeVarFactory.h"
-#include "aq/AqTraits.h"
+#include "aq/Traits.h"
 #include "oops/runs/EnsVariance.h"
 #include "oops/runs/Run.h"
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
   // AQ aq::instantiateAqChangeVarFactory();
-  oops::EnsVariance<aq::AqTraits> var;
+  oops::EnsVariance<aq::Traits> var;
   return run.execute(var);
 }

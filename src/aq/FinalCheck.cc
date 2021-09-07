@@ -9,6 +9,6 @@
 
 namespace aq {
 // -----------------------------------------------------------------------------
-static oops::interface::FilterMaker<AqObsTraits, FinalCheck> makerPreChk_("Final Check");
+static oops::interface::FilterMaker<ObsTraits, FinalCheck> makerPreChk_("Final Check");
 // -----------------------------------------------------------------------------
 }  // namespace aq

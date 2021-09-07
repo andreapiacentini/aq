@@ -5,13 +5,13 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
  */
 
-#include "aq/AqTraits.h"
+#include "aq/Traits.h"
 #include "oops/runs/Run.h"
 #include "test/interface/ObsOperator.h"
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
-  test::ObsOperator<aq::AqObsTraits> tests;
+  test::ObsOperator<aq::ObsTraits> tests;
   return run.execute(tests);
 }
 

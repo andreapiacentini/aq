@@ -1,64 +1,63 @@
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 list( APPEND aq_src_files
-  AqTraits.h
-  ChangeVarAQ.cc
-  ChangeVarAQ.h
-  ChangeVarTLADAQ.cc
-  ChangeVarTLADAQ.h
-  ErrorCovarianceAQ.cc
-  ErrorCovarianceAQ.h
-  FieldsAQ.cc
-  FieldsAQ.h
-  GeometryAQ.cc
-  GeometryAQ.h
-  GeometryAQIterator.cc
-  GeometryAQIterator.h
-  GetValuesAQ.cc
-  GetValuesAQ.h
-  GetValuesTLAD.cc
-  GetValuesTLAD.h
-  GomAQ.cc
-  GomAQ.h
-  IncrementAQ.cc
-  IncrementAQ.h
-  LocationsAQ.cc
-  LocationsAQ.h
-  ModelBias.h
-  ModelBiasCovariance.h
-  ModelBiasIncrement.h
+  Traits.h
+  ChangeVar.cc
+  ChangeVar.h
+  LinearChangeVar.cc
+  LinearChangeVar.h
+  Covariance.cc
+  Covariance.h
+  Fields.cc
+  Fields.h
+  Geometry.cc
+  Geometry.h
+  GeometryIterator.cc
+  GeometryIterator.h
+  GetValues.cc
+  GetValues.h
+  LinearGetValues.cc
+  LinearGetValues.h
+  GeoVals.cc
+  GeoVals.h
+  Increment.cc
+  Increment.h
+  Locations.cc
+  Locations.h
+  ModelAuxControl.h
+  ModelAuxCovariance.h
+  ModelAuxIncrement.h
   #AQ Do we really need them ?
-  ObsBias.cc
-  ObsBias.h
-  ObsBiasParameters.h
-  ObsBiasCovariance.cc
-  ObsBiasCovariance.h
-  ObsBiasIncrement.cc
-  ObsBiasIncrement.h
+  ObsAuxControl.cc
+  ObsAuxControl.h
+  ObsAuxParameters.h
+  ObsAuxCovariance.cc
+  ObsAuxCovariance.h
+  ObsAuxIncrement.cc
+  ObsAuxIncrement.h
   #AQ end of question
-  ObsDataAQ.h
-  ObsDiagsAQ.h
-  ObsIteratorAQ.cc
-  ObsIteratorAQ.h
-  ObsOpBaseAQ.cc
-  ObsOpBaseAQ.h
-  ObsOpBaseTLAD.cc
-  ObsOpBaseTLAD.h
-  ObsOperatorAQ.cc
-  ObsOperatorAQ.h
-  ObsOperatorTLAD.cc
-  ObsOperatorTLAD.h
-  ObsSpaceAQ.cc
-  ObsSpaceAQ.h
-  ObsStreamAQ.cc
-  ObsStreamAQ.h
-  ObsStreamTLAD.cc
-  ObsStreamTLAD.h
-  ObsVecAQ.cc
-  ObsVecAQ.h
-  StateAQ.cc
-  StateAQ.h
+  ObsData.h
+  ObsDiagnostics.h
+  ObsIterator.cc
+  ObsIterator.h
+  ObsOpBase.cc
+  ObsOpBase.h
+  LinearObsOpBase.cc
+  LinearObsOpBase.h
+  ObsOperator.cc
+  ObsOperator.h
+  LinearObsOperator.cc
+  LinearObsOperator.h
+  ObsSpace.cc
+  ObsSpace.h
+  ObsInSitu.cc
+  ObsInSitu.h
+  LinearObsInSitu.cc
+  LinearObsInSitu.h
+  ObsVec.cc
+  ObsVec.h
+  State.cc
+  State.h
   instantiateAqChangeVarFactory.h
-  AqFortran.h
   aq_blas_mod.F90
   aq_constants_mod.F90
   aq_fields_interface.F90
@@ -70,8 +69,8 @@ list( APPEND aq_src_files
   aq_geom_iter_mod.F90
   aq_getvalues_interface.F90
   aq_getvalues_mod.F90
-  aq_gom_interface.F90
-  aq_gom_mod.F90
+  aq_geovals_interface.F90
+  aq_geovals_mod.F90
   aq_interp_mod.F90
   aq_locs_f.cc
   aq_locs_f.h
@@ -82,8 +81,8 @@ list( APPEND aq_src_files
   aq_obsvec_mod.F90
   aq_obsvec_random_f.h
   aq_obsvec_random_f.cc
-  aq_stream_interface.F90
-  aq_stream_mod.F90
+  aq_insitu_interface.F90
+  aq_insitu_mod.F90
   aq_tools_mod.F90
   AnalyticInit.cc
   AnalyticInit.h

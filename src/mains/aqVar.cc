@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#include "aq/AqTraits.h"
 #include "aq/instantiateAqChangeVarFactory.h"
+#include "aq/Traits.h"
 #include "oops/runs/Run.h"
 #include "saber/oops/instantiateCovarFactory.h"
 #include "saber/oops/instantiateVariableChangeFactory.h"
@@ -16,9 +16,9 @@
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
   aq::instantiateAqChangeVarFactory();
-  saber::instantiateCovarFactory<aq::AqTraits>();
-  saber::instantiateLocalizationFactory<aq::AqTraits>();
-  saber::instantiateVariableChangeFactory<aq::AqTraits>();
-  oops::Variational<aq::AqTraits, aq::AqObsTraits> var;
+  saber::instantiateCovarFactory<aq::Traits>();
+  saber::instantiateLocalizationFactory<aq::Traits>();
+  saber::instantiateVariableChangeFactory<aq::Traits>();
+  oops::Variational<aq::Traits, aq::ObsTraits> var;
   return run.execute(var);
 }

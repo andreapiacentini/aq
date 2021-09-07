@@ -8,13 +8,13 @@
  * does it submit to any jurisdiction.
  */
 
-#include "aq/AqTraits.h"
+#include "aq/Traits.h"
 #include "oops/runs/Run.h"
 #include "test/interface/Geometry.h"
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
-  test::Geometry<aq::AqTraits> tests;
+  test::Geometry<aq::Traits> tests;
   return run.execute(tests);
 }
 

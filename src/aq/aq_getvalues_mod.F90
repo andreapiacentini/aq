@@ -13,7 +13,7 @@ use kinds
 use oops_variables_mod
 use aq_fields_mod
 use aq_geom_mod
-use aq_gom_mod
+use aq_geovals_mod
 use aq_locs_mod
 use aq_constants_mod
 
@@ -140,7 +140,7 @@ call lonlat_field%final()
 end subroutine aq_getvalues_build
 ! ------------------------------------------------------------------------------
 !> Interpolation from fields
-subroutine aq_getvalues_interp(locs,fld,t1,t2,gom)
+subroutine aq_getvalues_interp(locs,fld,t1,t2,geovals)
 
 implicit none
 
@@ -148,7 +148,7 @@ implicit none
 type(aq_locs), intent(in) :: locs      !< Locations
 type(aq_fields),intent(in) :: fld      !< Fields
 type(datetime),intent(in) :: t1, t2    !< times
-type(aq_gom),intent(inout) :: gom      !< Interpolated values
+type(aq_geovals),intent(inout) :: geovals      !< Interpolated values
 
 ! Local variables
 real(kind_real), pointer :: lonlat(:,:)
@@ -168,10 +168,10 @@ call lonlat_field%data(lonlat)
 
 if (trim(fld%geom%orientation) == 'down') nlev = fld%geom%levels
 
-n_vars = gom%vars%nvars()
+n_vars = geovals%vars%nvars()
 if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
 
-var_name = gom%vars%varlist()
+var_name = geovals%vars%varlist()
 allocate(surf_fld(fld%geom%grid%nx(1),fld%geom%grid%ny()))
 call fld%gather_var_at_lev(trim(var_name(1)), nlev, surf_fld, 0)
 
@@ -186,14 +186,14 @@ if (fld%geom%fmpi%rank() == 0) then
      &   pack(surf_fld,.true.), &
      &   1, &
      &   locs%nlocs(), &
-     &   gom%x)
+     &   geovals%x)
 
-  write(msg,'(3A,I2,2(A,G16.8))') 'Interpolated ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(gom%x),' max Hx', maxval(gom%x)
+  write(msg,'(3A,I2,2(A,G16.8))') 'Interpolated ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(geovals%x),' max Hx', maxval(geovals%x)
   call fckit_log%debug(msg)
   
 endif
 
-call fld%geom%fmpi%broadcast(gom%x,root=0)
+call fld%geom%fmpi%broadcast(geovals%x,root=0)
 
 !Release memory
 deallocate(surf_fld)
@@ -202,7 +202,7 @@ call lonlat_field%final()
 end subroutine aq_getvalues_interp
 ! ------------------------------------------------------------------------------
 !> Interpolation from fields - tangent linear
-subroutine aq_getvalues_interp_tl(locs,fld,t1,t2,hmat,gom)
+subroutine aq_getvalues_interp_tl(locs,fld,t1,t2,hmat,geovals)
 
 implicit none
 
@@ -211,7 +211,7 @@ type(aq_locs), intent(in) :: locs      !< Locations
 type(aq_fields),intent(in) :: fld      !< Fields
 type(datetime),intent(in) :: t1, t2    !< times
 type(csr_format),intent(in) :: hmat    !< Interpolation matrix
-type(aq_gom),intent(inout) :: gom      !< Interpolated values
+type(aq_geovals),intent(inout) :: geovals      !< Interpolated values
 
 !AQ interpolator
 integer :: nlev = 1
@@ -222,10 +222,10 @@ character(len=aq_strlen) :: msg
 
 if (trim(fld%geom%orientation) == 'down') nlev = fld%geom%levels
 
-n_vars = gom%vars%nvars()
+n_vars = geovals%vars%nvars()
 if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
 
-var_name = gom%vars%varlist()
+var_name = geovals%vars%varlist()
 allocate(surf_fld(fld%geom%grid%nx(1),fld%geom%grid%ny()))
 call fld%gather_var_at_lev(trim(var_name(1)), nlev, surf_fld, 0)
 
@@ -236,13 +236,13 @@ if (fld%geom%fmpi%rank() == 0) then
      &   pack(surf_fld,.true.), &
      &   1, &
      &   locs%nlocs(), &
-     &   gom%x)
+     &   geovals%x)
 
-  write(msg,'(3A,I2,2(A,G16.8))') 'Linear interp of ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(gom%x),' max Hx', maxval(gom%x)
+  write(msg,'(3A,I2,2(A,G16.8))') 'Linear interp of ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(geovals%x),' max Hx', maxval(geovals%x)
   call fckit_log%debug(msg)
 endif
 
-call fld%geom%fmpi%broadcast(gom%x,root=0)
+call fld%geom%fmpi%broadcast(geovals%x,root=0)
 
 ! Release memory
 deallocate(surf_fld)
@@ -250,7 +250,7 @@ deallocate(surf_fld)
 end subroutine aq_getvalues_interp_tl
 ! ------------------------------------------------------------------------------
 !> Interpolation from fields - adjoint
-subroutine aq_getvalues_interp_ad(locs,fld,t1,t2,hmat,gom)
+subroutine aq_getvalues_interp_ad(locs,fld,t1,t2,hmat,geovals)
 
 implicit none
 
@@ -259,7 +259,7 @@ type(aq_locs), intent(in) :: locs      !< Locations
 type(aq_fields),intent(inout) :: fld   !< Fields
 type(datetime),intent(in) :: t1, t2    !< times
 type(csr_format),intent(in) :: hmat    !< Interpolation matrix
-type(aq_gom),intent(in) :: gom         !< Interpolated values
+type(aq_geovals),intent(in) :: geovals         !< Interpolated values
 
 !AQ interpolator
 integer :: nlev = 1
@@ -271,10 +271,10 @@ character(len=aq_strlen) :: msg
 
 if (trim(fld%geom%orientation) == 'down') nlev = fld%geom%levels
 
-n_vars = gom%vars%nvars()
+n_vars = geovals%vars%nvars()
 if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
 
-var_name = gom%vars%varlist()
+var_name = geovals%vars%varlist()
 allocate(surf_fld(fld%geom%grid%nx(1),fld%geom%grid%ny()))
 surf_fld(:,:) = 0_kind_real
 
@@ -284,7 +284,7 @@ if (fld%geom%fmpi%rank() == 0) then
    surf_1d = 0_kind_real
    call addmult_matrixt_csr_vector( &
       &   Hmat, &
-      &   gom%x, &
+      &   geovals%x, &
       &   1, &
       &   locs%nlocs(), &
       &   surf_1d)

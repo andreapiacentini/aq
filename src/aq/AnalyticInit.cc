@@ -7,8 +7,9 @@
 
 #include "aq/AnalyticInit.h"
 
-#include "aq/GomAQ.h"
-#include "aq/LocationsAQ.h"
+#include "aq/aq_geovals_interface.h"
+#include "aq/GeoVals.h"
+#include "aq/Locations.h"
 
 namespace aq {
 
@@ -22,11 +23,11 @@ AnalyticInit::AnalyticInit(const eckit::Configuration & config): config_(config)
  * for use with the interpolation test.
  *
  */
-void AnalyticInit::fillGeoVaLs(const LocationsAQ & locs,
-                               GomAQ & geovals) const {
+void AnalyticInit::fillGeoVaLs(const Locations & locs,
+                               GeoVals & geovals) const {
   // Optionally replace values with analytic init
   if (config_.has("analytic_init"))
-    aq_gom_analytic_init_f90(geovals.toFortran(), locs, config_);
+    aq_geovals_analytic_init_f90(geovals.toFortran(), locs, config_);
 }
 // -----------------------------------------------------------------------------
 }  // namespace aq
