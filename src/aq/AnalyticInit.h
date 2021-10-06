@@ -8,21 +8,31 @@
 #ifndef AQ_ANALYTICINIT_H_
 #define AQ_ANALYTICINIT_H_
 
-#include "eckit/config/LocalConfiguration.h"
+#include "oops/interface/AnalyticInitBase.h"
+
+#include "aq/Traits.h"
 
 namespace aq {
   class Locations;
   class GeoVals;
 
+/// Parameters for QG Analytic init (empty except for analytic init method defined
+/// in the base class)
+class AnalyticInitParameters : public oops::AnalyticInitParametersBase {
+  OOPS_CONCRETE_PARAMETERS(AnalyticInitParameters, AnalyticInitParametersBase)
+};
+
 /// AnalyticInit class fills GeoVaLs with analytic formulae
 /// Options: baroclinic instability and large vortices
-class AnalyticInit {
+class AnalyticInit : public oops::interface::AnalyticInitBase<ObsTraits> {
  public:
-  explicit AnalyticInit(const eckit::Configuration &);
+  typedef  AnalyticInitParameters Parameters_;
+
+  explicit AnalyticInit(const Parameters_ &);
   void fillGeoVaLs(const Locations &, GeoVals &) const;
 
  private:
-  const eckit::LocalConfiguration config_;
+  Parameters_ options_;
 };
 
 }  // namespace aq

@@ -48,7 +48,7 @@ State::State(const Geometry & resol, const eckit::Configuration & file)
   oops::Variables vars(file, "state variables");
   oops::Log::trace() << "State::State variables: " << vars << std::endl;
   fields_.reset(new Fields(resol, vars, util::DateTime(file.getString("date"))));
-  if (file.has("analytic_init")) {
+  if (file.has("analytic init")) {
     fields_->analytic_init(file);
   } else if (file.has("read_from_file")) {
     const int read_from_file = file.getInt("read_from_file");

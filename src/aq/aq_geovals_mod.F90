@@ -476,14 +476,29 @@ type(fckit_configuration),intent(in) :: f_conf !< FCKIT configuration
 ! Local variables
 integer :: iloc
 real(kind_real) :: x,y
-character(len=30) :: ic
-character(len=:),allocatable :: str
-real(kind_real), pointer :: lonlat(:,:), z(:)
+real(kind_real), pointer :: xy(:,:), z(:)
 type(atlas_field) :: lonlat_field, z_field
+
+real(kind_real), parameter :: dp_pi=3.14159265359
+real(kind_real), parameter :: dLon0 = 6.3
+real(kind_real), parameter :: dLat0 = 0.8
+real(kind_real), parameter :: dR0   = 3.0
+real(kind_real), parameter :: dD    = 10.0
+real(kind_real), parameter :: dT    = 6.0
+real(kind_real) :: dp_conv
+
+real(kind_real) :: dSinC, dCosC, dCosT, dSinT
+real(kind_real) :: dTrm, dX, dY, dZ
+real(kind_real) :: dlon, dlat
+real(kind_real) :: dRho, dVt, dOmega
+
+dp_conv = dp_pi/180._kind_real
+dSinC = sin( dLat0 )
+dCosC = cos( dLat0 )
 
 ! get locations
 lonlat_field = locs%lonlat()
-call lonlat_field%data(lonlat)
+call lonlat_field%data(xy)
 
 z_field = locs%altitude()
 call z_field%data(z)
@@ -491,34 +506,32 @@ call z_field%data(z)
 ! Check allocation
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_analytic init: geovals not allocated')
 
-! Get analytic configuration
-call f_conf%get_or_die("analytic_init",str)
-ic = str
-call fckit_log%info('aq_geovals_analytic_init: ic = '//trim(ic))
-! do iloc=1,locs%nlocs()
-!   select case (trim(ic))
-!   case ('baroclinic-instability')
-!     ! Go to cartesian coordinates
-!     call lonlat_to_xy(lonlat(1,iloc),lonlat(2,iloc),x,y)
+do iloc=1,locs%nlocs()
+   ! Find the rotated longitude and latitude of a point on a sphere
+   !    with pole at (dLon0, dLat0).
+   dCosT = cos( xy(2,iloc)*dp_conv )
+   dSinT = sin( xy(2,iloc)*dp_conv )
 
-!     ! Compute values for baroclinic instability
-!     if (self%vars%has('x')) call baroclinic_instability(x,y,z(iloc),'x',self%x(iloc))
-!     if (self%vars%has('q')) call baroclinic_instability(x,y,z(iloc),'q',self%q(iloc))
-!     if (self%vars%has('u')) call baroclinic_instability(x,y,z(iloc),'u',self%u(iloc))
-!     if (self%vars%has('v')) call baroclinic_instability(x,y,z(iloc),'v',self%v(iloc))
-!   case ('large-vortices')
-!     ! Go to cartesian coordinates
-!     call lonlat_to_xy(lonlat(1,iloc),lonlat(2,iloc),x,y)
+   dTrm = dCosT * cos( xy(1,iloc)*dp_conv - dLon0 )
+   dX   = dSinC * dTrm - dCosC * dSinT
+   dY   = dCosT * sin( xy(1,iloc)*dp_conv - dLon0 )
+   dZ   = dSinC * dSinT + dCosC * dTrm
 
-!     ! Compute values for large vortices
-!     if (self%vars%has('x')) call large_vortices(x,y,z(iloc),'x',self%x(iloc))
-!     if (self%vars%has('q')) call large_vortices(x,y,z(iloc),'q',self%q(iloc))
-!     if (self%vars%has('u')) call large_vortices(x,y,z(iloc),'u',self%u(iloc))
-!     if (self%vars%has('v')) call large_vortices(x,y,z(iloc),'v',self%v(iloc))
-!   case default
-!     call abor1_ftn('aq_geovals_analytic_init: unknown initialization')
-!   endselect
-! enddo
+   dlon = atan2( dY, dX )
+   if( dlon < 0.0_kind_real ) dlon = dlon + 2.0_kind_real * dp_pi
+   dlat = asin( dZ )
+
+   dRho = dR0 * cos(dlat)
+   dVt = 3.0_kind_real * sqrt(3.0_kind_real)/2.0_kind_real/cosh(dRho)/cosh(dRho)*tanh(dRHo)
+   if (dRho == 0.0_kind_real) then
+      dOmega = 0.0_kind_real
+   else
+      dOmega = dVt / dRho
+   end if
+
+   self%x(iloc) = 2.0_kind_real * &
+      & ( 1.0_kind_real + tanh( dRho / dD * sin( dLon - dOmega * dT ) ) )
+end do
 
 call lonlat_field%final()
 call z_field%final()

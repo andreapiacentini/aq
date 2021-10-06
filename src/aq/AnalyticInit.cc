@@ -13,8 +13,10 @@
 
 namespace aq {
 
+static oops::AnalyticInitMaker<ObsTraits, AnalyticInit> makerAnalytic1_("vortices");
+
 // -----------------------------------------------------------------------------
-AnalyticInit::AnalyticInit(const eckit::Configuration & config): config_(config)
+AnalyticInit::AnalyticInit(const Parameters_ & options) : options_(options)
 { }
 // -----------------------------------------------------------------------------
 /*! \brief GeoVaLs Analytic Initialization
@@ -25,9 +27,7 @@ AnalyticInit::AnalyticInit(const eckit::Configuration & config): config_(config)
  */
 void AnalyticInit::fillGeoVaLs(const Locations & locs,
                                GeoVals & geovals) const {
-  // Optionally replace values with analytic init
-  if (config_.has("analytic_init"))
-    aq_geovals_analytic_init_f90(geovals.toFortran(), locs, config_);
+  aq_geovals_analytic_init_f90(geovals.toFortran(), locs, options_.toConfiguration());
 }
 // -----------------------------------------------------------------------------
 }  // namespace aq

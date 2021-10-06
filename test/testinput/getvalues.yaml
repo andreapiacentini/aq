@@ -17,7 +17,9 @@ geometry: *gems02_geom
 getvalues test:
   state generate:
     date: 2010-07-04T01:00:00Z
-    filename: Data/E0001/HMGEMS02+2010070401.nc
+    analytic init:
+      method: vortices
+    # filename: Data/E0001/HMGEMS02+2010070401.nc
     state variables: *vars
   interpolation tolerance: 1.5e-2
 state variables: [CO]

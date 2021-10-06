@@ -13,7 +13,6 @@
 
 #include <string>
 
-#include "aq/AnalyticInit.h"
 #include "aq/Covariance.h"
 #include "aq/Geometry.h"
 #include "aq/GeometryIterator.h"
@@ -78,7 +77,6 @@ struct ObsTraits {
 
   typedef aq::GeoVals               GeoVaLs;
   typedef aq::Locations           Locations;
-  typedef aq::AnalyticInit          AnalyticInit;
 };
 
 }  // namespace aq
