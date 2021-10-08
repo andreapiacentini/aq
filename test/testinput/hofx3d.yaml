@@ -15,7 +15,7 @@ gems02 geometry: &gems02_geom
   orientation: up
 geometry: *gems02_geom
 window begin: 2010-07-04T00:00:00Z
-window length: PT2H
+window length: PT1H
 state:
   date: 2010-07-04T01:00:00Z
   filename: Data/E0001/HMGEMS02+2010070401.nc
@@ -34,8 +34,8 @@ observations:
   obs operator:
     obs type: InSitu
     mod var: CO
-#  get values:
-#    filename: Data/HGOM+20100704_CO.gom
+  # get values:
+  #   filename: HGOM+20100704_CO.gom
 - obs space:
     obsdatain:
       obsfile: Data/HDAT+20100704.h5
@@ -46,7 +46,7 @@ observations:
   obs operator:
     obs type: InSitu
     mod var: O_3
-#  get values:
-#    filename: Data/HGOM+20100704_O3.gom
+  # get values:
+  #   filename: HGOM+20100704_O3.gom
 prints:
   frequency: PT3H

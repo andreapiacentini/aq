@@ -442,7 +442,7 @@ if (.not.self%lalloc) call abor1_ftn('aq_geovals_write_file: geovals not allocat
 call f_conf%get_or_die("filename",str)
 filename = str
 call fckit_log%info('aq_geovals_write_file: writing '//trim(filename))
-#ifdef AQ_FIX_GeoVals_MPI
+
 ! Create NetCDF file
 call ncerr(nf90_create(trim(filename)//'.nc',or(nf90_clobber,nf90_64bit_offset),ncid))
 
@@ -460,7 +460,7 @@ call ncerr(nf90_put_var(ncid,x_id,self%x))
 
 ! Close NetCDF file
 call ncerr(nf90_close(ncid))
-#endif
+
 end subroutine aq_geovals_write_file
 ! ------------------------------------------------------------------------------
 !> GeoVals analytic initialization

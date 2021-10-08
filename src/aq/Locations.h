@@ -36,7 +36,7 @@ class Locations : public util::Printable,
   static const std::string classname() {return "aq::Locations";}
 
 // Constructors and basic operators
-  Locations(atlas::FieldSet &, std::vector<util::DateTime> &&);
+  Locations(atlas::FieldSet &, std::vector<util::DateTime> &&, const eckit::mpi::Comm &);
   Locations(const eckit::Configuration &, const eckit::mpi::Comm &);
   Locations(const Locations &);
   ~Locations() {}
@@ -48,11 +48,15 @@ class Locations : public util::Printable,
   atlas::Field & altitude() {ASSERT(altitude_); return *altitude_;}
   util::DateTime & times(size_t idx) {return times_[idx];}
 
+  /// communicator
+  const eckit::mpi::Comm & comm() const {return comm_;}
+
  private:
   void print(std::ostream &) const;
   std::unique_ptr<atlas::functionspace::PointCloud> pointcloud_;
   std::unique_ptr<atlas::Field> altitude_;
   std::vector<util::DateTime> times_;
+  const eckit::mpi::Comm & comm_;
 };
 
 }  // namespace aq

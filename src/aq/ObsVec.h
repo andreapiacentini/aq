@@ -74,7 +74,7 @@ class ObsVec : public util::Printable,
 
  private:
   void print(std::ostream &) const;
-
+  const eckit::mpi::Comm & comm_;
   const ObsSpace & obsdb_;
   F90ovec keyOvec_;
 };

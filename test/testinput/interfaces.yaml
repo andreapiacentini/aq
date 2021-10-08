@@ -35,7 +35,7 @@ increment test:
 inc variables: *vars
 
 window begin: 2010-07-04T00:00:00Z
-window end: 2010-07-04T01:00:00Z
+window end: 2010-07-04T03:00:00Z
 
 locations:
   random lon min: -15.9
@@ -48,12 +48,12 @@ observations:
   geovals:
     filename: Data/HGOM+20100704_CO.gom
     state variables: [x]
-    norm: 2.993895370518691e-06
+    norm: 5.1134002123179723e-06
   obs space:
     obsdatain:
       obsfile: Data/HDAT+20100704.h5
     obsdataout:
-      obsfile: Data/HSTAT+20100704_CO.h5
+      obsfile: Data/HSTAT+20100704.h5
     obs type: CO
     instr name: AIRBASE_CO
   obs operator:
@@ -63,27 +63,20 @@ observations:
     coef TL: 1.e-4
     tolerance AD: 1.0e-10
     tolerance TL: 1.0e-6
-  obs bias:
-    insitu: -1.0e-6
-    covariance:
-      insitu: 2.0e-4
-  obs bias test:
-    norm: 1.0e-6
-    relative tolerance: 1.0e-18
-  rms ref: 8.4359999269081893e-07
-  reference global nobs: 267
+  rms ref: 1.8215734026760322e-07
+  reference global nobs: 788
   tolerance: 1.0e-8
 - obs error:
     covariance model: diagonal
   geovals:
     filename: Data/HGOM+20100704_O3.gom
     state variables: [x]
-    norm: 1.214946378460444e-06
+    norm: 2.1010644367170238e-06
   obs space:
     obsdatain:
       obsfile: Data/HDAT+20100704.h5
     obsdataout:
-      obsfile: Data/HSTAT+20100704_O3.h5
+      obsfile: Data/HSTAT+20100704.h5
     obs type: O3
     instr name: AIRBASE_O3
   obs operator:
@@ -93,13 +86,6 @@ observations:
     coef TL: 1.e-4
     tolerance AD: 1.0e-10
     tolerance TL: 1.0e-6
-  obs bias:
-    insitu: -1.0e-8
-    covariance:
-      insitu: 2.0e-6
-  obs bias test:
-    norm: 1.0e-8
-    relative tolerance: 1.0e-18
-  rms ref: 3.1146838334980476e-08
-  reference global nobs: 915
+  rms ref: 4.0286071556857082e-08
+  reference global nobs: 2720
   tolerance: 1.0e-8

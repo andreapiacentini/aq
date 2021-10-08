@@ -11,7 +11,6 @@ module aq_obsdb_interface
 
 use atlas_module
 use fckit_configuration_module, only: fckit_configuration
-use fckit_mpi_module,only: fckit_mpi_comm
 use datetime_mod
 use duration_mod
 use fckit_log_module, only: fckit_log
@@ -27,7 +26,7 @@ private
 contains
 ! ------------------------------------------------------------------------------
 !> Setup observation data
-subroutine aq_obsdb_setup_c(c_key_self,c_conf,c_winbgn,c_winend,c_comm) bind(c,name='aq_obsdb_setup_f90')
+subroutine aq_obsdb_setup_c(c_key_self,c_conf,c_winbgn,c_winend,c_openfile,c_key_other) bind(c,name='aq_obsdb_setup_f90')
 
 implicit none
 
@@ -36,31 +35,59 @@ integer(c_int),intent(inout) :: c_key_self !< Observation data
 type(c_ptr),value,intent(in) :: c_conf     !< Configuration
 type(c_ptr),value,intent(in) :: c_winbgn   !< Start of window
 type(c_ptr),value,intent(in) :: c_winend   !< End of window
-type(c_ptr),value,intent(in) :: c_comm
+logical(c_bool),intent(in)   :: c_openfile
+integer(c_int),intent(in)    :: c_key_other !< Used only for file id
 
 ! Local variables
 type(fckit_configuration) :: f_conf
-type(fckit_mpi_comm)      :: f_comm
 type(aq_obsdb),pointer :: self
+type(aq_obsdb),pointer :: other
 type(datetime) :: winbgn
 type(datetime) :: winend
+logical :: openfile
 
 ! Interface
 f_conf = fckit_configuration(c_conf)
-f_comm = fckit_mpi_comm(c_comm)
 call aq_obsdb_registry%init()
 call aq_obsdb_registry%add(c_key_self)
 call aq_obsdb_registry%get(c_key_self,self)
+call aq_obsdb_registry%get(c_key_other,other)
 call c_f_datetime(c_winbgn,winbgn)
 call c_f_datetime(c_winend,winend)
+openfile = c_openfile
 
 ! Call Fortran
-call aq_obsdb_setup(self,f_conf,winbgn,winend,f_comm)
+call aq_obsdb_setup(self,f_conf,winbgn,winend,openfile,other)
 
 end subroutine aq_obsdb_setup_c
 ! ------------------------------------------------------------------------------
 !> Delete observation data
-subroutine aq_obsdb_delete_c(c_key_self) bind(c,name='aq_obsdb_delete_f90')
+subroutine aq_obsdb_delete_c(c_key_self,c_closefile) bind(c,name='aq_obsdb_delete_f90')
+
+implicit none
+
+! Passed variables
+integer(c_int),intent(inout) :: c_key_self !< Observation data
+logical(c_bool),intent(in)   :: c_closefile
+
+! Local variables
+type(aq_obsdb),pointer :: self
+logical :: closefile
+
+! Interface
+call aq_obsdb_registry%get(c_key_self,self)
+closefile = c_closefile
+
+! Call Fortran
+call aq_obsdb_delete(self,closefile)
+
+! Clear interface
+call aq_obsdb_registry%remove(c_key_self)
+
+end subroutine aq_obsdb_delete_c
+! ------------------------------------------------------------------------------
+!> Read observation data
+subroutine aq_obsdb_read_c(c_key_self) bind(c,name='aq_obsdb_read_f90')
 
 implicit none
 
@@ -74,12 +101,9 @@ type(aq_obsdb),pointer :: self
 call aq_obsdb_registry%get(c_key_self,self)
 
 ! Call Fortran
-call aq_obsdb_delete(self)
+call aq_obsdb_read(self)
 
-! Clear interface
-call aq_obsdb_registry%remove(c_key_self)
-
-end subroutine aq_obsdb_delete_c
+end subroutine aq_obsdb_read_c
 ! ------------------------------------------------------------------------------
 !> Get observation data
 subroutine aq_obsdb_get_c(c_key_self,lgrp,c_grp,lcol,c_col,c_key_ovec) bind(c,name='aq_obsdb_get_f90')

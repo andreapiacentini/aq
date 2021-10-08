@@ -14,7 +14,6 @@ use datetime_mod
 use duration_mod
 use fckit_configuration_module, only: fckit_configuration
 use fckit_log_module, only: fckit_log
-use fckit_module, only: fckit_mpi_comm
 use iso_c_binding
 use kinds
 ! use netcdf
@@ -22,7 +21,11 @@ use aq_locs_mod
 use aq_obsvec_mod
 use random_mod
 use string_f_c_mod
-use H5_UTILS_MOD, ONLY : ip_hdf_namelen, ig_hdfverb, ip_hid_t
+use H5_UTILS_MOD, ONLY : ip_hdf_namelen, ig_hdfverb, ip_hid_t, h5state_t, &
+  open_h5group, close_h5group, close_h5space, check_h5file, Get_h5dset_size, &
+  create_h5file, create_h5group_instrdom, create_h5group_instr, create_h5group, &
+  create_attrib_string
+use H5_READ_MOD, only : open_h5file_rdonly, close_h5file
 USE HDF5
 
 implicit none
@@ -30,7 +33,7 @@ implicit none
 private
 public :: aq_obsdb
 public :: aq_obsdb_registry
-public :: aq_obsdb_setup,aq_obsdb_delete,aq_obsdb_get,aq_obsdb_put,aq_obsdb_locations,aq_obsdb_generate,aq_obsdb_nobs
+public :: aq_obsdb_setup,aq_obsdb_delete,aq_obsdb_read,aq_obsdb_get,aq_obsdb_put,aq_obsdb_locations,aq_obsdb_generate,aq_obsdb_nobs
 ! ------------------------------------------------------------------------------
 integer,parameter :: rseed = 1 !< Random seed (for reproducibility)
 type(datetime), save :: obs_ref_time 
@@ -56,8 +59,13 @@ type aq_obsdb
   character(len=:),allocatable :: spcname       !< Name of the chemical species
   character(len=1024) :: filein                 !< Input filename
   character(len=1024) :: fileout                !< Output filename
+  type(datetime) :: winbgn            !< Start of window
+  type(datetime) :: winend            !< End of window
+  integer(kind=ip_hid_t) :: il_hdat_id = 0
+  integer(kind=ip_hid_t) :: il_hstat_id = 0
+  type(h5state_t) :: h5statein
+  type(h5state_t) :: h5stateout
   type(group_data),pointer :: grphead => null() !< Head group
-  type(fckit_mpi_comm) :: fmpi
 end type aq_obsdb
 
 #define LISTED_TYPE aq_obsdb
@@ -76,7 +84,7 @@ contains
 #include "oops/util/linkedList_c.f"
 ! ------------------------------------------------------------------------------
 !> Setup observation data
-subroutine aq_obsdb_setup(self,f_conf,winbgn,winend,fckit_mpi)
+subroutine aq_obsdb_setup(self,f_conf,winbgn,winend,openfile,other)
 use string_utils
 
 implicit none
@@ -86,11 +94,15 @@ type(aq_obsdb),intent(inout) :: self           !< Observation data
 type(fckit_configuration),intent(in) :: f_conf !< FCKIT configuration
 type(datetime),intent(in) :: winbgn            !< Start of window
 type(datetime),intent(in) :: winend            !< End of window
-type(fckit_mpi_comm), intent(in) :: fckit_mpi
+logical,intent(in) :: openfile
+type(aq_obsdb),intent(in) :: other             !< Used only for file id
 
 ! Local variables
 character(len=1024) :: fin,fout
 character(len=:),allocatable :: str
+integer :: il_err
+logical :: ll_exists
+character(len=12) :: cl_obsgrp = 'OBSERVATIONS'
 
 ! Reference time for hdf5 I/O files
 call datetime_create("1970-01-01T00:00:00Z",obs_ref_time)
@@ -115,23 +127,58 @@ else
   fout = ''
 endif
 ! Set attributes
-self%fmpi = fckit_mpi
 self%filein = fin
 self%fileout = fout
+self%winbgn = winbgn
+self%winend = winend
 call f_conf%get_or_die("instr name",self%instrname)
 call f_conf%get_or_die("obs type",self%spcname)
-! Read observation data
-if (self%filein/='') call aq_obsdb_read(self,winbgn,winend)
+
+if (openfile) then
+  ! Init the hdf5 fortran library 
+  ! should go in our HDF5 library in a better place,
+  ! cause it was hidden in CREATE_H5FILE, which makes no sense
+  call H5open_f (il_err)
+  ! Open input hdf5 file
+  call open_h5file_rdonly(self%filein, self%il_hdat_id)
+  call check_h5file(self%il_hdat_id, trim(self%instrname), "Surface")
+  call fckit_log%info('aq_obsdb_setup: file in opened correctly')
+
+  ! Create HSTAT.h5 output file
+  call create_h5file(self%fileout, self%il_hstat_id)
+
+else
+  self%il_hdat_id = other%il_hdat_id
+  self%il_hstat_id = other%il_hstat_id
+endif
+
+call open_h5group(self%il_hdat_id, '/'//trim(self%instrname), self%h5statein%instr_id)
+
+call H5Lexists_f(self%il_hstat_id, trim(self%instrname), ll_exists, il_err)
+
+if (.not.ll_exists) then
+
+  call H5Gcreate_f(self%il_hstat_id, trim(self%instrname), &
+         & self%h5stateout%instr_id, il_err)
+  call create_attrib_string(self%h5stateout%instr_id, 'MeasurementType', "Surface")
+
+  ! Create instrument/domain  sub-groups
+  call create_h5group(self%h5stateout%instr_id, 'GEOLOCALIZATION')
+  call create_h5group(self%h5stateout%instr_id, 'OBSERVATIONS')
+
+  call create_h5group(self%h5stateout%instr_id,trim(cl_obsgrp)//'/'//trim(self%spcname))
+endif
 
 end subroutine aq_obsdb_setup
 ! ------------------------------------------------------------------------------
 !> Delete observation data
-subroutine aq_obsdb_delete(self)
+subroutine aq_obsdb_delete(self,closefile)
 
 implicit none
 
 ! Passed variables
 type(aq_obsdb),intent(inout) :: self !< Observation data
+logical,intent(in) :: closefile
 
 ! Local variables
 type(group_data),pointer :: jgrp
@@ -139,7 +186,14 @@ type(column_data),pointer :: jcol
 integer :: jobs
 
 ! Write observation data
-if (self%fileout/='' .and. self%fmpi%rank() == 0) call aq_obsdb_write(self)
+if (self%fileout/='') call aq_obsdb_write(self)
+
+if (closefile) then
+  call close_h5group(self%h5statein%instr_id)
+  call close_h5group(self%h5stateout%instr_id)
+  call close_h5file(self%il_hdat_id, .false.)
+  call close_h5file(self%il_hstat_id, .true.)
+endif
 
 ! Release memory
 do while (associated(self%grphead))
@@ -396,21 +450,16 @@ endif
 
 end subroutine aq_obsdb_nobs
 ! ------------------------------------------------------------------------------
-!  Private
-! ------------------------------------------------------------------------------
 !> Read observation data
-subroutine aq_obsdb_read(self,winbgn,winend)
+subroutine aq_obsdb_read(self)
 
-use H5_UTILS_MOD, only : ip_hid_t, h5state_t, open_h5group, close_h5group, close_h5space, check_h5file, Get_h5dset_size
-use H5_READ_MOD, only : open_h5file_rdonly, close_h5file, readslice_h5dset
+use H5_READ_MOD, only : readslice_h5dset
 use H5_SELECTION_MOD, only : Get_number_selected_timeelts
 
 implicit none
 
 ! Passed variables
 type(aq_obsdb),intent(inout) :: self !< Observation data
-type(datetime),intent(in) :: winbgn  !< Start of window
-type(datetime),intent(in) :: winend  !< End of window
 
 ! Local variables
 integer :: igrp,icol,iobs,ncol,nobs,jobs
@@ -425,10 +474,7 @@ type(datetime) :: tobs
 type(duration) :: dtwinbgn, dtwinend, dt
 character(len=1024) :: timestr1, timestr2
 real(kind_real),allocatable :: readbuf(:,:)
-
-integer(kind=ip_hid_t) :: il_hdat_id = 0
 integer(kind=ip_hid_t) :: il_instr_idin
-type(h5state_t) :: h5state
 integer :: id_tmin, id_tmax
 integer :: il_err
 ! integer :: ncols = 2
@@ -438,36 +484,29 @@ real(kind=4), dimension(:), allocatable :: rla_lats, rla_lons, rla_obs
 integer(kind=4), dimension(:), allocatable :: ila_times
 type(datetime),allocatable :: times(:)
 type(aq_obsvec) :: obsloc,obsval,obserr
-! Init the hdf5 fortran library 
-! should go in our HDF5 library in a better place,
-! cause it was hidden in CREATE_H5FILE, which makes no sense
-call H5open_f (il_err)
-! Open input hdf5 file
-call open_h5file_rdonly(self%filein, il_hdat_id)
-call check_h5file(il_hdat_id, trim(self%instrname), "Surface")
-
-call open_h5group(il_hdat_id, '/'//trim(self%instrname), h5state%instr_id)
 
 ! Get the window begin and window end time in seconds using the obs_ref_time
-call datetime_to_string(winbgn,timestr1)
-call datetime_to_string(winend,timestr2)
-call datetime_diff(winbgn,obs_ref_time,dtwinbgn)
-call datetime_diff(winend,obs_ref_time,dtwinend)
+call datetime_to_string(self%winbgn,timestr1)
+call datetime_to_string(self%winend,timestr2)
+call datetime_diff(self%winbgn,obs_ref_time,dtwinbgn)
+call datetime_diff(self%winend,obs_ref_time,dtwinend)
 ! Count the obs for the given instrument in the hdf5 file
 ! Loss of precision here cause obs were initially based on mocage datetime, 
 ! this will stop working sometime during this century
 id_tmin = int(duration_seconds(dtwinbgn),kind=4)
 id_tmax = int(duration_seconds(dtwinend),kind=4)
-nobs = Get_number_selected_timeelts(h5state,id_tmin,id_tmax)
 
+call fckit_log%info('aq_obsdb_read: reading = '//trim(self%instrname))
+
+nobs = Get_number_selected_timeelts(self%h5statein,id_tmin,id_tmax)
+! do not read 0 size obs !!!
 ! Read the data from the hdf5
 allocate(ila_times(nobs),rla_lats(nobs),rla_lons(nobs),rla_obs(nobs))
 
-call readslice_h5dset(h5state, 'GEOLOCALIZATION/Timestamp', ila_times)
-call readslice_h5dset(h5state, 'GEOLOCALIZATION/Latitude', rla_lats)
-call readslice_h5dset(h5state, 'GEOLOCALIZATION/Longitude', rla_lons)
-call readslice_h5dset(h5state, 'OBSERVATIONS/'//trim(self%spcname)//'/Y', rla_obs)
-
+call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Timestamp', ila_times)
+call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Latitude', rla_lats)
+call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Longitude', rla_lons)
+call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Y', rla_obs)
 ! Setup observation vector for the locations
 call aq_obsvec_setup(obsloc,3,nobs)
 
@@ -494,24 +533,15 @@ call aq_obsdb_put(self,trim(self%spcname),'ObsError',obserr) ! This should not b
 
 deallocate(ila_times,rla_lats,rla_lons,rla_obs,times)
 
-call close_h5space(h5state%memspace_id)
+call close_h5space(self%h5statein%memspace_id)
 
-call close_h5space(h5state%dataspace_id)
-
-call close_h5group(h5state%instr_id)
-
-call close_h5file(il_hdat_id, .false.)
-
-call H5close_f(il_err)
+call close_h5space(self%h5statein%dataspace_id)
 
 end subroutine aq_obsdb_read
 ! ------------------------------------------------------------------------------
 !> Write observation data
 subroutine aq_obsdb_write(self)
 
-use H5_UTILS_MOD, only : h5state_t, CREATE_H5FILE, CREATE_H5GROUP, CREATE_ATTRIB_STRING, &
-         & CREATE_H5GROUP_INSTR, CREATE_H5GROUP_INSTRDOM, CLOSE_H5GROUP, CLOSE_H5FILE
-use H5_UTILS_MOD, only : ip_hdf_namelen, ig_hdfverb, ip_hid_t
 use H5_WRITE_MOD, only : writeslice_h5dset_scalar
 
 implicit none
@@ -526,7 +556,6 @@ type(group_data),pointer :: jgrp
 type(column_data),pointer :: jcol
 character(len=6) :: igrpchar
 character(len=50) :: stime
-type(h5state_t) :: h5state
 integer(kind=ip_hid_t) :: il_hstat_id, il_instr_id
 character(len=15) :: cl_geogrp = 'GEOLOCALIZATION'
 character(len=12) :: cl_obsgrp = 'OBSERVATIONS'
@@ -538,18 +567,6 @@ type(duration) :: dtdiff
 
 CALL H5open_f(il_err)
 
-! Create HSTAT.h5 output file
-call create_h5file(self%fileout, il_hstat_id)
-
-call create_h5group_instr(il_hstat_id, trim(self%instrname), "Surface")
-
-!AQ TODO: hardcoded GEMS02 should come via a configuration
-call create_h5group_instrdom(il_hstat_id, trim(self%instrname)//'/'//'GEMS02', il_instr_id)
-
-call create_h5group(il_instr_id,trim(cl_obsgrp)//'/'//trim(self%spcname))
-
-h5state%instr_id = il_instr_id
-
 jgrp => self%grphead
 if (jgrp%nobs > 0) then
   allocate(cla_timehuman(jgrp%nobs),timestamp(jgrp%nobs))
@@ -559,8 +576,8 @@ if (jgrp%nobs > 0) then
     call datetime_diff(jgrp%times(iobs), obs_ref_time, dtdiff)
     timestamp(iobs) = int(duration_seconds(dtdiff),kind=4)
   end do
-  call writeslice_h5dset_scalar(h5state, trim(cl_geogrp)//'/TimeHuman', cla_timehuman)
-  call writeslice_h5dset_scalar(h5state, trim(cl_geogrp)//'/Timestamp', timestamp)
+  call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/TimeHuman', cla_timehuman)
+  call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Timestamp', timestamp)
   deallocate(cla_timehuman,timestamp)
 
   ! call writeslice_h5dset_scalar(il_instr_id, trim(cl_geogrp)//'/Timestamp', IDINT(self%time))
@@ -572,18 +589,18 @@ if (jgrp%nobs > 0) then
     icol = icol+1
     select case(trim(jcol%colname))
     case ('Location')
-      call writeslice_h5dset_scalar(h5state, trim(cl_geogrp)//'/Longitude', jcol%values(1,:))
-      call writeslice_h5dset_scalar(h5state, trim(cl_geogrp)//'/Latitude', jcol%values(2,:))
+      call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Longitude', jcol%values(1,:))
+      call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Latitude', jcol%values(2,:))
     case ('insitu')
-      call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx', jcol%values(1,:))
+      call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx', jcol%values(1,:))
     case ('ObsValue')
-      call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Y', jcol%values(1,:))
+      call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Y', jcol%values(1,:))
     case ('ObsError')
-       call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Covariance', jcol%values(1,:))
+       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Covariance', jcol%values(1,:))
     case ('EffectiveQC')
-       call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC', jcol%values(1,:))
+       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC', jcol%values(1,:))
     case ('EffectiveError')
-       call writeslice_h5dset_scalar(h5state, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError', jcol%values(1,:))
+       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError', jcol%values(1,:))
     case default    
       write(*,*) 'Warning:',jcol%colname,' not known'
     end select
@@ -592,14 +609,9 @@ if (jgrp%nobs > 0) then
   enddo
 endif
 
-call close_h5group(il_instr_id)
-
-call close_h5file(il_hstat_id, .true.)
-
-!AQ Pragmatically removed to avoid error messages without understanding why
-!AQ call H5close_f(il_err)
-
 end subroutine aq_obsdb_write
+! ------------------------------------------------------------------------------
+!  Private
 ! ------------------------------------------------------------------------------
 !> Find observation data group
 subroutine aq_obsdb_find_group(self,grp,find)

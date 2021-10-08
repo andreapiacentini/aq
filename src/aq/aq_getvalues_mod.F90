@@ -69,13 +69,12 @@ real(kind_real), dimension(1,1) :: dummylev
 real(kind_real), dimension(1) :: dummycoord
 real(kind_real), dimension(:), allocatable :: dummytime
 
-! Get locations
-lonlat_field = locs%lonlat()
-call lonlat_field%data(lonlat)
-
-if (trim(fld%geom%orientation) == 'down') nlev = fld%geom%levels
-
 if (fld%geom%fmpi%rank() == 0) then
+
+  ! Get locations
+  lonlat_field = locs%lonlat()
+  call lonlat_field%data(lonlat)
+
   !AQ could be stored once for all in the geometry so to avoid the extraction at every build.
   allocate(lonmod(fld%geom%grid%nx(1)))
   allocate(latmod(fld%geom%grid%ny()))
@@ -132,10 +131,11 @@ if (fld%geom%fmpi%rank() == 0) then
   deallocate(lonmod)
   deallocate(latmod)
   deallocate(dummytime)
-endif
 
-!Release memory
-call lonlat_field%final()
+  !Release memory
+  call lonlat_field%final()
+
+endif
 
 end subroutine aq_getvalues_build
 ! ------------------------------------------------------------------------------
@@ -150,30 +150,28 @@ type(aq_fields),intent(in) :: fld      !< Fields
 type(datetime),intent(in) :: t1, t2    !< times
 type(aq_geovals),intent(inout) :: geovals      !< Interpolated values
 
-! Local variables
-real(kind_real), pointer :: lonlat(:,:)
-type(atlas_field) :: lonlat_field
-
 !AQ interpolator
 integer :: nlev = 1
 real(aq_real), allocatable, dimension(:,:) :: surf_fld
 integer       :: n_vars
 character(len=:), allocatable :: var_name(:)
+character(len=aq_strlen) :: var
 character(len=aq_strlen) :: msg
 type(csr_format) :: Hmat
 
-! Get locations
-lonlat_field = locs%lonlat()
-call lonlat_field%data(lonlat)
-
 if (trim(fld%geom%orientation) == 'down') nlev = fld%geom%levels
 
-n_vars = geovals%vars%nvars()
-if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
+if (fld%geom%fmpi%rank() == 0) then
+   n_vars = geovals%vars%nvars()
+   if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
+   var_name = geovals%vars%varlist()
+   var = trim(var_name(1))
+endif
 
-var_name = geovals%vars%varlist()
+call fld%geom%fmpi%broadcast(var,root=0)
+
 allocate(surf_fld(fld%geom%grid%nx(1),fld%geom%grid%ny()))
-call fld%gather_var_at_lev(trim(var_name(1)), nlev, surf_fld, 0)
+call fld%gather_var_at_lev(trim(var), nlev, surf_fld, 0)
 
 if (fld%geom%fmpi%rank() == 0) then
   write(msg,'(3A,I2,2(A,G16.8))') 'Interpolate  ',trim(var_name(1)),' at lev ',nlev,' min fld', minval(surf_fld),' max fld', maxval(surf_fld)
@@ -193,11 +191,8 @@ if (fld%geom%fmpi%rank() == 0) then
   
 endif
 
-call fld%geom%fmpi%broadcast(geovals%x,root=0)
-
 !Release memory
 deallocate(surf_fld)
-call lonlat_field%final()
 
 end subroutine aq_getvalues_interp
 ! ------------------------------------------------------------------------------
@@ -218,16 +213,22 @@ integer :: nlev = 1
 real(aq_real), allocatable, dimension(:,:) :: surf_fld
 integer       :: n_vars
 character(len=:), allocatable :: var_name(:)
+character(len=aq_strlen) :: var
 character(len=aq_strlen) :: msg
 
 if (trim(fld%geom%orientation) == 'down') nlev = fld%geom%levels
 
-n_vars = geovals%vars%nvars()
-if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
+if (fld%geom%fmpi%rank() == 0) then
+   n_vars = geovals%vars%nvars()
+   if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
+   var_name = geovals%vars%varlist()
+   var = trim(var_name(1))
+endif
 
-var_name = geovals%vars%varlist()
+call fld%geom%fmpi%broadcast(var,root=0)
+
 allocate(surf_fld(fld%geom%grid%nx(1),fld%geom%grid%ny()))
-call fld%gather_var_at_lev(trim(var_name(1)), nlev, surf_fld, 0)
+call fld%gather_var_at_lev(trim(var), nlev, surf_fld, 0)
 
 if (fld%geom%fmpi%rank() == 0) then
   
@@ -241,8 +242,6 @@ if (fld%geom%fmpi%rank() == 0) then
   write(msg,'(3A,I2,2(A,G16.8))') 'Linear interp of ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(geovals%x),' max Hx', maxval(geovals%x)
   call fckit_log%debug(msg)
 endif
-
-call fld%geom%fmpi%broadcast(geovals%x,root=0)
 
 ! Release memory
 deallocate(surf_fld)
@@ -267,14 +266,20 @@ real(aq_real), allocatable, dimension(:) :: surf_1d
 real(aq_real), allocatable, dimension(:,:) :: surf_fld
 integer       :: n_vars
 character(len=:), allocatable :: var_name(:)
+character(len=aq_strlen) :: var
 character(len=aq_strlen) :: msg
 
 if (trim(fld%geom%orientation) == 'down') nlev = fld%geom%levels
 
-n_vars = geovals%vars%nvars()
-if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
+if (fld%geom%fmpi%rank() == 0) then
+   n_vars = geovals%vars%nvars()
+   if (n_vars.ne.1) call abor1_ftn('Getvalues interpolates only one field (variable)')
+   var_name = geovals%vars%varlist()
+   var = trim(var_name(1))
+endif
 
-var_name = geovals%vars%varlist()
+call fld%geom%fmpi%broadcast(var,root=0)
+
 allocate(surf_fld(fld%geom%grid%nx(1),fld%geom%grid%ny()))
 surf_fld(:,:) = 0_kind_real
 
@@ -291,11 +296,11 @@ if (fld%geom%fmpi%rank() == 0) then
    surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
    deallocate(surf_1d)
 
-   write(msg,'(3A,I2,2(A,G16.8))') 'Adjoint interp of ',trim(var_name(1)),' at lev ',nlev,' min dx', minval(surf_fld),' max dx', maxval(surf_fld)
+   write(msg,'(3A,I2,2(A,G16.8))') 'Adjoint interp of ',trim(var),' at lev ',nlev,' min dx', minval(surf_fld),' max dx', maxval(surf_fld)
   call fckit_log%debug(msg)
 endif
 
-call fld%scatteradd_var_at_lev(trim(var_name(1)), nlev, surf_fld, 0)
+call fld%scatteradd_var_at_lev(trim(var), nlev, surf_fld, 0)
 
 ! Release memory
 deallocate(surf_fld)
