@@ -72,12 +72,11 @@ double GeoVals::rms() const {
 // -----------------------------------------------------------------------------
 double GeoVals::normalizedrms(const GeoVals & rhs) const {
   double zz;
+  GeoVals temp_GeoVals(*this);
   if (comm_.rank() == 0) {
-    GeoVals temp_GeoVals(*this);
     aq_geovals_divide_f90(temp_GeoVals.keyGeoVals_, rhs.keyGeoVals_);
-    zz = temp_GeoVals.rms();
   }
-  comm_.broadcast(zz, 0);
+  zz = temp_GeoVals.rms();
   return zz;
 }
 // -----------------------------------------------------------------------------
