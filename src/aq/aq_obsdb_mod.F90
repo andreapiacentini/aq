@@ -146,7 +146,6 @@ if (openfile) then
 
   ! Create HSTAT.h5 output file
   call create_h5file(self%fileout, self%il_hstat_id)
-
 else
   self%il_hdat_id = other%il_hdat_id
   self%il_hstat_id = other%il_hstat_id
@@ -157,7 +156,6 @@ call open_h5group(self%il_hdat_id, '/'//trim(self%instrname), self%h5statein%ins
 call H5Lexists_f(self%il_hstat_id, trim(self%instrname), ll_exists, il_err)
 
 if (.not.ll_exists) then
-
   call H5Gcreate_f(self%il_hstat_id, trim(self%instrname), &
          & self%h5stateout%instr_id, il_err)
   call create_attrib_string(self%h5stateout%instr_id, 'MeasurementType', "Surface")
@@ -165,7 +163,6 @@ if (.not.ll_exists) then
   ! Create instrument/domain  sub-groups
   call create_h5group(self%h5stateout%instr_id, 'GEOLOCALIZATION')
   call create_h5group(self%h5stateout%instr_id, 'OBSERVATIONS')
-
   call create_h5group(self%h5stateout%instr_id,trim(cl_obsgrp)//'/'//trim(self%spcname))
 endif
 
@@ -500,42 +497,45 @@ call fckit_log%info('aq_obsdb_read: reading = '//trim(self%instrname))
 
 nobs = Get_number_selected_timeelts(self%h5statein,id_tmin,id_tmax)
 ! do not read 0 size obs !!!
-! Read the data from the hdf5
-allocate(ila_times(nobs),rla_lats(nobs),rla_lons(nobs),rla_obs(nobs))
+if (nobs == 0) then
+  call fckit_log%info('aq_obsdb_read: no obs found between '//trim(timestr1)//' and '//trim(timestr2))
+else
+  ! Read the data from the hdf5
+  allocate(ila_times(nobs),rla_lats(nobs),rla_lons(nobs),rla_obs(nobs))
 
-call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Timestamp', ila_times)
-call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Latitude', rla_lats)
-call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Longitude', rla_lons)
-call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Y', rla_obs)
-! Setup observation vector for the locations
-call aq_obsvec_setup(obsloc,3,nobs)
+  call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Timestamp', ila_times)
+  call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Latitude', rla_lats)
+  call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Longitude', rla_lons)
+  call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Y', rla_obs)
+  ! Setup observation vector for the locations
+  call aq_obsvec_setup(obsloc,3,nobs)
 
-! Setup observation vector for the observations
-call aq_obsvec_setup(obsval,1,nobs)
-call aq_obsvec_setup(obserr,1,nobs)
-allocate(times(nobs))
+  ! Setup observation vector for the observations
+  call aq_obsvec_setup(obsval,1,nobs)
+  call aq_obsvec_setup(obserr,1,nobs)
+  allocate(times(nobs))
 
-! Fill the arrays
-do iobs=1,nobs
-  tobs = obs_ref_time
-  dt = int(ila_times(iobs))
-  call datetime_update(tobs,dt)
-  times(iobs) = tobs
-  obsloc%values(:,iobs) = (/real(rla_lons(iobs),kind=kind_real),real(rla_lats(iobs),kind=kind_real),0.0d0/)
-  obsval%values(:,iobs) = rla_obs(iobs)
-  obserr%values(:,iobs) = rla_obs(iobs)
-enddo
+  ! Fill the arrays
+  do iobs=1,nobs
+    tobs = obs_ref_time
+    dt = int(ila_times(iobs))
+    call datetime_update(tobs,dt)
+    times(iobs) = tobs
+    obsloc%values(:,iobs) = (/real(rla_lons(iobs),kind=kind_real),real(rla_lats(iobs),kind=kind_real),0.0d0/)
+    obsval%values(:,iobs) = rla_obs(iobs)
+    obserr%values(:,iobs) = rla_obs(iobs)
+  enddo
 
-! Store observations data in the obsdb structure
-call aq_obsdb_create(self,trim(self%spcname),times,obsloc)
-call aq_obsdb_put(self,trim(self%spcname),'ObsValue',obsval)
-call aq_obsdb_put(self,trim(self%spcname),'ObsError',obserr) ! This should not be mandatory but it is asked by InSitu!!!!
+  ! Store observations data in the obsdb structure
+  call aq_obsdb_create(self,trim(self%spcname),times,obsloc)
+  call aq_obsdb_put(self,trim(self%spcname),'ObsValue',obsval)
+  call aq_obsdb_put(self,trim(self%spcname),'ObsError',obserr) ! This should not be mandatory but it is asked by InSitu!!!!
 
-deallocate(ila_times,rla_lats,rla_lons,rla_obs,times)
+  deallocate(ila_times,rla_lats,rla_lons,rla_obs,times)
+endif
 
 call close_h5space(self%h5statein%memspace_id)
-
-call close_h5space(self%h5statein%dataspace_id)
+call close_h5space(self%h5statein%dataspace_id) ! Verify if these calls are really needed here
 
 end subroutine aq_obsdb_read
 ! ------------------------------------------------------------------------------
@@ -591,7 +591,7 @@ if (jgrp%nobs > 0) then
     case ('Location')
       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Longitude', jcol%values(1,:))
       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Latitude', jcol%values(2,:))
-    case ('insitu')
+    case ('hofx')
       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx', jcol%values(1,:))
     case ('ObsValue')
       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Y', jcol%values(1,:))
@@ -601,8 +601,10 @@ if (jgrp%nobs > 0) then
        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC', jcol%values(1,:))
     case ('EffectiveError')
        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError', jcol%values(1,:))
+    case ('ObsBias')
+       call fckit_log%info('Warning: ObsBias not implemented in aq_obsdb_write')
     case default    
-      write(*,*) 'Warning:',jcol%colname,' not known'
+       call fckit_log%info('Warning: '//trim(jcol%colname)//' not known in aq_obsdb_write')
     end select
     ! Update
     jcol => jcol%next
