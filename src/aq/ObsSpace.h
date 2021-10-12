@@ -109,6 +109,9 @@ class ObsSpace : public oops::ObsSpaceBase {
   /// observation type
   const std::string & obsname() const {return obsname_;}
 
+  /// communicator
+  const eckit::mpi::Comm & comm() const {return comm_;}
+
   /// iterator to the first observation
   ObsIterator begin() const;
   /// iterator to the observation past-the-last
@@ -124,11 +127,15 @@ class ObsSpace : public oops::ObsSpaceBase {
   const std::string obsname_;        // corresponds with obstype
   const util::DateTime winbgn_;      // window for the observations
   const util::DateTime winend_;
+  std::string fileref_;              // Reference to the observation file
   oops::Variables obsvars_;          // variables simulated by ObsOperators
   const eckit::mpi::Comm & comm_;
 
   // defines mapping for Fortran structures
   static std::map < std::string, F90odb > theObsFileRegister_;
+  static std::map < std::string, int > theObsDbPerFile_;  // number of db per file
+  static std::map < std::string, F90odb > theObsDbRegister_;
+  static int theObsDbCount_;  // number of db used
   static int theObsFileCount_;  // number of files used
 };
 

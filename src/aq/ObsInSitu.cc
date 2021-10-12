@@ -39,7 +39,9 @@ InSitu::InSitu(const ObsSpace & odb, const eckit::Configuration & config)
 
 void InSitu::simulateObs(const GeoVals & geovals, ObsVec & ovec,
                               const ObsAuxControl & bias) const {
-  aq_insitu_equiv_f90(geovals.toFortran(), ovec.toFortran(), bias.insitu());
+  if (obsdb_.comm().rank() == 0) {
+    aq_insitu_equiv_f90(geovals.toFortran(), ovec.toFortran(), bias.insitu());
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -51,7 +53,9 @@ std::unique_ptr<Locations> InSitu::locations() const {
 // -----------------------------------------------------------------------------
 
 void InSitu::print(std::ostream & os) const {
-  os << "AQ in situ observation operator";
+  if (obsdb_.comm().rank() == 0) {
+    os << "AQ in situ observation operator";
+  }
 }
 
 // -----------------------------------------------------------------------------

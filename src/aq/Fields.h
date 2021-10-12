@@ -99,8 +99,6 @@ class Fields : public util::Printable,
 
   const int & toFortran() const {return keyFlds_;}
 
-  bool isForModel(const bool &) const {}
-
   oops::LocalIncrement getLocal(const GeometryIterator &) const;
   void setLocal(const oops::LocalIncrement &, const GeometryIterator &);
 

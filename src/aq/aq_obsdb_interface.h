@@ -32,8 +32,9 @@ namespace aq {
 extern "C" {
   void aq_obsdb_setup_f90(F90odb &, const eckit::Configuration &,
                           const util::DateTime &, const util::DateTime &,
-                          const eckit::mpi::Comm *);
-  void aq_obsdb_delete_f90(F90odb &);
+                          const bool &, F90odb &);
+  void aq_obsdb_delete_f90(F90odb &, const bool &);
+  void aq_obsdb_read_f90(F90odb &);
   void aq_obsdb_get_f90(const F90odb &, const int &, const char *,
                         const int &, const char *, const F90ovec &);
   void aq_obsdb_put_f90(const F90odb &, const int &, const char *,

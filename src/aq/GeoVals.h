@@ -15,6 +15,8 @@
 #include <string>
 #include <vector>
 
+#include "eckit/mpi/Comm.h"
+
 #include "oops/base/Variables.h"
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
@@ -40,8 +42,8 @@ class GeoVals : public util::Printable,
         const oops::Variables &);
   explicit GeoVals(const GeoVals &);
 
-  GeoVals(): keyGeoVals_(0) {}
-  explicit GeoVals(int & fgeovals): keyGeoVals_(fgeovals) {}
+  GeoVals(): keyGeoVals_(0), comm_(eckit::mpi::comm(NULL)) {}
+  explicit GeoVals(int & fgeovals): keyGeoVals_(fgeovals), comm_(eckit::mpi::self()) {}
 
   ~GeoVals();
 
@@ -58,12 +60,16 @@ class GeoVals : public util::Printable,
   void read(const eckit::Configuration &);
   void write(const eckit::Configuration &) const;
 
+  /// communicator
+  const eckit::mpi::Comm & comm() const {return comm_;}
+
   const int & toFortran() const {return keyGeoVals_;}
 
  private:
   void print(std::ostream &) const;
   F90geovals keyGeoVals_;
   oops::Variables vars_;
+  const eckit::mpi::Comm & comm_;
 };
 
 }  // namespace aq

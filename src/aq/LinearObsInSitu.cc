@@ -42,14 +42,18 @@ void LinearObsInSitu::setTrajectory(const GeoVals &, const ObsAuxControl &) {}
 
 void LinearObsInSitu::simulateObsTL(const GeoVals & geovals, ObsVec & ovec,
                                   const ObsAuxIncrement & bias) const {
-  aq_insitu_equiv_tl_f90(geovals.toFortran(), ovec.toFortran(), bias.insitu());
+  if (geovals.comm().rank() == 0) {
+    aq_insitu_equiv_tl_f90(geovals.toFortran(), ovec.toFortran(), bias.insitu());
+  }
 }
 
 // -----------------------------------------------------------------------------
 
 void LinearObsInSitu::simulateObsAD(GeoVals & geovals, const ObsVec & ovec,
                                   ObsAuxIncrement & bias) const {
-  aq_insitu_equiv_ad_f90(geovals.toFortran(), ovec.toFortran(), bias.insitu());
+  if (geovals.comm().rank() == 0) {
+    aq_insitu_equiv_ad_f90(geovals.toFortran(), ovec.toFortran(), bias.insitu());
+  }
 }
 
 // -----------------------------------------------------------------------------

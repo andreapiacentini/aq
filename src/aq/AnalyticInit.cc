@@ -27,7 +27,9 @@ AnalyticInit::AnalyticInit(const Parameters_ & options) : options_(options)
  */
 void AnalyticInit::fillGeoVaLs(const Locations & locs,
                                GeoVals & geovals) const {
-  aq_geovals_analytic_init_f90(geovals.toFortran(), locs, options_.toConfiguration());
+  if (locs.comm().rank() == 0) {
+    aq_geovals_analytic_init_f90(geovals.toFortran(), locs, options_.toConfiguration());
+  }
 }
 // -----------------------------------------------------------------------------
 }  // namespace aq

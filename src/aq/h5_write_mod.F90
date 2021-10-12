@@ -110,7 +110,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
             & il_memspace_id, il_err)
@@ -203,7 +203,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
             & il_memspace_id, il_err)
@@ -296,7 +296,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
             & il_memspace_id, il_err)
@@ -400,7 +400,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
             & il_memspace_id, il_err)
@@ -503,7 +503,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
             & il_memspace_id, il_err)
@@ -610,7 +610,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
             & il_memspace_id, il_err)
@@ -718,7 +718,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
             & il_memspace_id, il_err)
@@ -826,7 +826,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
             & il_memspace_id, il_err)
@@ -935,7 +935,7 @@ CONTAINS
          ila_begin(1) = ila_datasetdims(1)
          ila_count(1) = ila_memdims(1)
          ! Extend the dataset
-         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1)+ila_count(1), il_err)
+         CALL H5Dset_extent_f(il_dataset_id, ila_begin(1:1)+ila_count(1:1), il_err)
          ! Create simple dataspace
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
                                  & il_memspace_id, il_err)

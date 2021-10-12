@@ -43,7 +43,9 @@ type(datetime) :: t1, t2
 ! Interface
 locs = aq_locs(c_locs)
 call aq_fields_registry%get(c_key_fld,fld)
-call aq_geovals_registry%get(c_key_geovals,geovals)
+if (fld%geom%fmpi%rank() == 0) then
+    call aq_geovals_registry%get(c_key_geovals,geovals)
+endif
 call c_f_datetime(c_t1, t1)
 call c_f_datetime(c_t2, t2)
 ! Call Fortran
@@ -105,7 +107,9 @@ call aq_fields_registry%get(c_key_fld,fld)
 call c_f_datetime(c_t1, t1)
 call c_f_datetime(c_t2, t2)
 call aq_hmat_registry%get(c_key_hmat,hmat)
-call aq_geovals_registry%get(c_key_geovals,geovals)
+if (fld%geom%fmpi%rank() == 0) then
+    call aq_geovals_registry%get(c_key_geovals,geovals)
+endif
 
 ! Call Fortran
 call aq_getvalues_interp_tl(locs,fld,t1,t2,hmat,geovals)
@@ -135,7 +139,9 @@ type(aq_geovals), pointer :: geovals
 locs = aq_locs(c_locs)
 call aq_fields_registry%get(c_key_fld,fld)
 call aq_hmat_registry%get(c_key_hmat,hmat)
-call aq_geovals_registry%get(c_key_geovals,geovals)
+if (fld%geom%fmpi%rank() == 0) then
+    call aq_geovals_registry%get(c_key_geovals,geovals)
+endif
 call c_f_datetime(c_t1, t1)
 call c_f_datetime(c_t2, t2)
 

@@ -34,7 +34,10 @@ namespace aq {
 // -----------------------------------------------------------------------------
 // initialization for the static map
 std::map < std::string, F90odb > ObsSpace::theObsFileRegister_;
+std::map < std::string, F90odb > ObsSpace::theObsDbRegister_;
+std::map < std::string, int > ObsSpace::theObsDbPerFile_;
 int ObsSpace::theObsFileCount_ = 0;
+int ObsSpace::theObsDbCount_ = 0;
 
 // -----------------------------------------------------------------------------
 
@@ -44,64 +47,79 @@ ObsSpace::ObsSpace(const Parameters_ & params, const eckit::mpi::Comm & comm,
   : oops::ObsSpaceBase(params, comm, bgn, end), obsname_(params.obsType),
   winbgn_(bgn), winend_(end), obsvars_(), comm_(comm)
 {
-  typedef std::map< std::string, F90odb >::iterator otiter;
+  if (comm_.rank() == 0) {
+    typedef std::map< std::string, F90odb >::iterator otiter;
+    typedef std::map< std::string, F90odb >::iterator fiter;
 
-  eckit::LocalConfiguration fileconf = params.toConfiguration();
-  std::string ofin("-");
-  if (params.obsdatain.value() != boost::none) {
-    ofin = params.obsdatain.value()->obsfile;
-  }
-  std::string ofout("-");
-  if (params.obsdataout.value() != boost::none) {
-    ofout = params.obsdataout.value()->obsfile;
-    if (timeComm.size() > 1) {
-      std::ostringstream ss;
-      ss << "_" << timeComm.rank();
-      std::size_t found = ofout.find_last_of(".");
-      if (found == std::string::npos) found = ofout.length();
-      std::string fileout = ofout.insert(found, ss.str());
-      fileconf.set("obsdataout.obsfile", fileout);
+    eckit::LocalConfiguration fileconf = params.toConfiguration();
+    std::string ofin("-");
+    if (params.obsdatain.value() != boost::none) {
+      ofin = params.obsdatain.value()->obsfile;
     }
-  }
-  oops::Log::trace() << "ObsSpace: Obs files are: " << ofin << " and " << ofout << std::endl;
-  std::string ref = ofin + ofout;
-  if (ref == "--") {
-    ABORT("Underspecified observation files.");
-  }
-
-  ref = ref + bgn.toString() + end.toString();
-  // otiter it = theObsFileRegister_.find(ref);
-  // if ( it == theObsFileRegister_.end() ) {
-    // Open new file
-    oops::Log::trace() << "ObsSpace::getHelper: " << "Opening " << ref << std::endl;
-    aq_obsdb_setup_f90(key_, fileconf, bgn, end, &comm_);
-    // theObsFileRegister_[ref] = key_;
-  // } else {
-  //   // File already open
-  //   oops::Log::trace() << "ObsSpace::getHelper: " << ref << " already opened." << std::endl;
-  //   key_ = it->second;
-  // }
-  // theObsFileCount_++;
-
-  // Set variables simulated for different obstypes
-  if (obsname_ == "O3") obsvars_.push_back("O3");
-  if (obsname_ == "CO") obsvars_.push_back("CO");
-
-  //  Generate locations etc... if required
-  if (params.generate.value() != boost::none) {
-    const ObsGenerateParameters &gParams = *params.generate.value();
-    const util::Duration first(gParams.begin);
-    const util::DateTime start(winbgn_ + first);
-    const util::Duration freq(gParams.obsPeriod);
-    int nobstimes = 0;
-    util::DateTime now(start);
-    while (now <= winend_) {
-      ++nobstimes;
-      now += freq;
+    std::string ofout("-");
+    if (params.obsdataout.value() != boost::none) {
+      ofout = params.obsdataout.value()->obsfile;
+      if (timeComm.size() > 1) {
+        std::ostringstream ss;
+        ss << "_" << timeComm.rank();
+        std::size_t found = ofout.find_last_of(".");
+        if (found == std::string::npos) found = ofout.length();
+        std::string fileout = ofout.insert(found, ss.str());
+        fileconf.set("obsdataout.obsfile", fileout);
+      }
     }
-    int iobs;
-    aq_obsdb_generate_f90(key_, obsname_.size(), obsname_.c_str(), gParams.toConfiguration(),
-                          start, freq, nobstimes, iobs);
+    oops::Log::trace() << "ObsSpace: Obs files are: " << ofin << " and " << ofout << std::endl;
+    fileref_ = ofin + ofout;
+    if (fileref_ == "--") {
+      ABORT("Underspecified observation files.");
+    }
+    std::string dbref = fileref_ + obsname_ + bgn.toString() + end.toString();
+
+    otiter it = theObsDbRegister_.find(dbref);
+    if ( it == theObsDbRegister_.end() ) {
+      // Setup new db
+      oops::Log::trace() << "ObsSpace::getHelper: " << "Setting up " << dbref << std::endl;
+      fiter jt = theObsFileRegister_.find(fileref_);
+      if ( jt == theObsFileRegister_.end() ) {
+        aq_obsdb_setup_f90(key_, fileconf, bgn, end, true, key_);
+        theObsFileRegister_[fileref_] = key_;
+        theObsDbPerFile_[fileref_] = 1;
+        theObsFileCount_++;
+      } else {
+        F90odb keyold = jt->second;
+        aq_obsdb_setup_f90(key_, fileconf, bgn, end, false, keyold);
+        theObsDbPerFile_[fileref_]++;
+      }
+      theObsDbRegister_[dbref] = key_;
+      theObsDbCount_++;
+    } else {
+      // File already open
+      oops::Log::trace() << "ObsSpace::getHelper: " << dbref << " already setup." << std::endl;
+      key_ = it->second;
+    }
+
+    aq_obsdb_read_f90(key_);
+
+    // Set variables simulated for different obstypes
+    if (obsname_ == "O3") obsvars_.push_back("O3");
+    if (obsname_ == "CO") obsvars_.push_back("CO");
+
+    //  Generate locations etc... if required
+    if (params.generate.value() != boost::none) {
+      const ObsGenerateParameters &gParams = *params.generate.value();
+      const util::Duration first(gParams.begin);
+      const util::DateTime start(winbgn_ + first);
+      const util::Duration freq(gParams.obsPeriod);
+      int nobstimes = 0;
+      util::DateTime now(start);
+      while (now <= winend_) {
+        ++nobstimes;
+        now += freq;
+      }
+      int iobs;
+      aq_obsdb_generate_f90(key_, obsname_.size(), obsname_.c_str(), gParams.toConfiguration(),
+                            start, freq, nobstimes, iobs);
+    }
   }
 }
 
@@ -112,24 +130,41 @@ ObsSpace::~ObsSpace() {}
 // -----------------------------------------------------------------------------
 
 void ObsSpace::save() const {
-  // ASSERT(theObsFileCount_ > 0);
-  // theObsFileCount_--;
-  // if (theObsFileCount_ == 0) {
-  //  theObsFileRegister_.clear();
-    aq_obsdb_delete_f90(key_);
-  // }
+  if (comm_.rank() == 0) {
+    typedef std::map< std::string, int >::iterator fiter;
+    fiter it = theObsDbPerFile_.find(fileref_);
+    int dbperfilecount = it->second;
+    ASSERT(dbperfilecount > 0);
+    theObsDbPerFile_[fileref_]--;
+    dbperfilecount--;
+    if (dbperfilecount == 0) {
+      aq_obsdb_delete_f90(key_, true);
+      theObsFileCount_--;
+      if (theObsFileCount_ == 0) {
+        theObsFileRegister_.clear();
+        theObsDbPerFile_.clear();
+        theObsDbRegister_.clear();
+      }
+    } else {
+      aq_obsdb_delete_f90(key_, false);
+    }
+  }
 }
 
 // -----------------------------------------------------------------------------
 
 void ObsSpace::getdb(const std::string & col, int & keyData) const {
-  aq_obsdb_get_f90(key_, obsname_.size(), obsname_.c_str(), col.size(), col.c_str(), keyData);
+  if (comm_.rank() == 0) {
+    aq_obsdb_get_f90(key_, obsname_.size(), obsname_.c_str(), col.size(), col.c_str(), keyData);
+  }
 }
 
 // -----------------------------------------------------------------------------
 
 void ObsSpace::putdb(const std::string & col, const int & keyData) const {
-  aq_obsdb_put_f90(key_, obsname_.size(), obsname_.c_str(), col.size(), col.c_str(), keyData);
+  if (comm_.rank() == 0) {
+    aq_obsdb_put_f90(key_, obsname_.size(), obsname_.c_str(), col.size(), col.c_str(), keyData);
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -137,15 +172,19 @@ void ObsSpace::putdb(const std::string & col, const int & keyData) const {
 std::unique_ptr<Locations> ObsSpace::locations() const {
   atlas::FieldSet fields;
   std::vector<util::DateTime> times;
-  aq_obsdb_locations_f90(key_, obsname_.size(), obsname_.c_str(), fields.get(), times);
-  return std::unique_ptr<Locations>(new Locations(fields, std::move(times)));
+  if (comm_.rank() == 0) {
+    aq_obsdb_locations_f90(key_, obsname_.size(), obsname_.c_str(), fields.get(), times);
+  }
+  return std::unique_ptr<Locations>(new Locations(fields, std::move(times), comm_));
 }
 
 // -----------------------------------------------------------------------------
 
 int ObsSpace::nobs() const {
-  int iobs;
-  aq_obsdb_nobs_f90(key_, obsname_.size(), obsname_.c_str(), iobs);
+  int iobs = 0;
+  if (comm_.rank() == 0) {
+    aq_obsdb_nobs_f90(key_, obsname_.size(), obsname_.c_str(), iobs);
+  }
   return iobs;
 }
 // -----------------------------------------------------------------------------
@@ -161,7 +200,9 @@ ObsIterator ObsSpace::end() const {
 // -----------------------------------------------------------------------------
 
 void ObsSpace::print(std::ostream & os) const {
-  os << "ObsSpace for " << obsname_ << ", " << this->nobs() << " obs";
+  if (comm_.rank() == 0) {
+    os << "ObsSpace for " << obsname_ << ", " << this->nobs() << " obs";
+  }
 }
 
 // -----------------------------------------------------------------------------

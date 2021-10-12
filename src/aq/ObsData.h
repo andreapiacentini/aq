@@ -18,7 +18,6 @@
 #include "oops/util/ObjectCounter.h"
 #include "oops/util/Printable.h"
 
-#include "aq/aq_obsvec_interface.h"
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
 
@@ -90,7 +89,7 @@ void ObsData<DATATYPE>::ones() {
 // -----------------------------------------------------------------------------
 template<typename DATATYPE>
 void ObsData<DATATYPE>::mask(const ObsData<int> mask) {
-  aq_obsvec_mask_f90(data_.toFortran(), mask.toFortran());
+  data_.mask(mask);
 }
 // -----------------------------------------------------------------------------
 template<typename DATATYPE>
