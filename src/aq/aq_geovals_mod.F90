@@ -25,8 +25,8 @@ private
 public :: aq_geovals
 public :: aq_geovals_registry
 public :: aq_geovals_setup,aq_geovals_delete,aq_geovals_copy,aq_geovals_zero,aq_geovals_abs,aq_geovals_random,aq_geovals_mult, &
-        & aq_geovals_add,aq_geovals_diff,aq_geovals_schurmult,aq_geovals_divide,aq_geovals_rms,aq_geovals_dotprod,aq_geovals_stats,aq_geovals_maxloc, &
-        & aq_geovals_read_file, aq_geovals_write_file,aq_geovals_analytic_init
+        & aq_geovals_add,aq_geovals_diff,aq_geovals_schurmult,aq_geovals_divide,aq_geovals_rms,aq_geovals_dotprod, &
+        & aq_geovals_stats,aq_geovals_maxloc,aq_geovals_read_file, aq_geovals_write_file,aq_geovals_analytic_init
 ! ------------------------------------------------------------------------------
 type :: aq_geovals
   integer :: nobs                      !< Number of observations

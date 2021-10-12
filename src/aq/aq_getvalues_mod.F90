@@ -174,7 +174,8 @@ allocate(surf_fld(fld%geom%grid%nx(1),fld%geom%grid%ny()))
 call fld%gather_var_at_lev(trim(var), nlev, surf_fld, 0)
 
 if (fld%geom%fmpi%rank() == 0) then
-  write(msg,'(3A,I2,2(A,G16.8))') 'Interpolate  ',trim(var_name(1)),' at lev ',nlev,' min fld', minval(surf_fld),' max fld', maxval(surf_fld)
+  write(msg,'(3A,I2,2(A,G16.8))') 'Interpolate  ',trim(var_name(1)),' at lev ',nlev,' min fld', minval(surf_fld),' max fld', &
+ & maxval(surf_fld)
   call fckit_log%debug(msg)
 
   call aq_getvalues_build(locs,fld,t1,t2,hmat)
@@ -186,7 +187,8 @@ if (fld%geom%fmpi%rank() == 0) then
      &   locs%nlocs(), &
      &   geovals%x)
 
-  write(msg,'(3A,I2,2(A,G16.8))') 'Interpolated ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(geovals%x),' max Hx', maxval(geovals%x)
+  write(msg,'(3A,I2,2(A,G16.8))') 'Interpolated ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(geovals%x),' max Hx', &
+ & maxval(geovals%x)
   call fckit_log%debug(msg)
   
 endif
@@ -239,7 +241,8 @@ if (fld%geom%fmpi%rank() == 0) then
      &   locs%nlocs(), &
      &   geovals%x)
 
-  write(msg,'(3A,I2,2(A,G16.8))') 'Linear interp of ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(geovals%x),' max Hx', maxval(geovals%x)
+  write(msg,'(3A,I2,2(A,G16.8))') 'Linear interp of ',trim(var_name(1)),' at lev ',nlev,' min Hx', minval(geovals%x),' max Hx', &
+ & maxval(geovals%x)
   call fckit_log%debug(msg)
 endif
 
@@ -296,7 +299,8 @@ if (fld%geom%fmpi%rank() == 0) then
    surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
    deallocate(surf_1d)
 
-   write(msg,'(3A,I2,2(A,G16.8))') 'Adjoint interp of ',trim(var),' at lev ',nlev,' min dx', minval(surf_fld),' max dx', maxval(surf_fld)
+   write(msg,'(3A,I2,2(A,G16.8))') 'Adjoint interp of ',trim(var),' at lev ',nlev,' min dx', minval(surf_fld),' max dx', &
+ & maxval(surf_fld)
   call fckit_log%debug(msg)
 endif
 

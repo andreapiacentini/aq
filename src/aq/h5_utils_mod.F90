@@ -28,10 +28,10 @@ MODULE H5_UTILS_MOD
    END TYPE h5state_t
 
    INTEGER, PARAMETER :: ip_hdf_namelen=128
-   INTEGER, PARAMETER :: ip_missing_obs = -2                  ! The missing observation mask value
-   REAL(KIND=8), PARAMETER :: rp_hdf5_missing_value = -1.d+38 ! The missing real value in hdf5 files
-   REAL(KIND=8), PARAMETER :: rp_roundup_factor = 0.99d0      ! The factor to set an upper bound of rp_hdf5_missing_value
-   INTEGER, PARAMETER      :: ip_hdf5_missing_value = -2**31  ! The missing integer value in hdf5 files
+   INTEGER, PARAMETER :: ip_missing_obs = -2                   ! The missing observation mask value
+   REAL(KIND=8), PARAMETER :: rp_hdf5_missing_value = -1.d+38  ! The missing real value in hdf5 files
+   REAL(KIND=8), PARAMETER :: rp_roundup_factor = 0.99d0       ! The factor to set an upper bound of rp_hdf5_missing_value
+   INTEGER, PARAMETER      :: ip_hdf5_missing_value = -huge(1) ! The missing integer value in hdf5 files
    INTEGER :: ig_hdfverb = 0
    INTEGER :: ig_recursion
    CHARACTER(LEN=ip_hdf_namelen), DIMENSION(:), ALLOCATABLE :: cga_names_in_level

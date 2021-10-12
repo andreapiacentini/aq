@@ -14,19 +14,17 @@ use datetime_mod
 use duration_mod
 use fckit_configuration_module, only: fckit_configuration
 use fckit_log_module, only: fckit_log
-use iso_c_binding
 use kinds
-! use netcdf
 use aq_locs_mod
 use aq_obsvec_mod
 use random_mod
 use string_f_c_mod
-use H5_UTILS_MOD, ONLY : ip_hdf_namelen, ig_hdfverb, ip_hid_t, h5state_t, &
+use h5_utils_mod, only : ip_hdf_namelen, ig_hdfverb, ip_hid_t, h5state_t, &
   open_h5group, close_h5group, close_h5space, check_h5file, Get_h5dset_size, &
   create_h5file, create_h5group_instrdom, create_h5group_instr, create_h5group, &
   create_attrib_string
-use H5_READ_MOD, only : open_h5file_rdonly, close_h5file
-USE HDF5
+use h5_read_mod, only : open_h5file_rdonly, close_h5file
+use hdf5
 
 implicit none
 

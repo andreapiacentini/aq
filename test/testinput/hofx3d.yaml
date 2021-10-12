@@ -1,8 +1,4 @@
-variables: &vars
-  - CO
-  - O_3
-  - NO_2
-gems02 geometry: &gems02_geom
+geometry:
   nx: 260
   ny: 200
   dx: 0.2
@@ -13,13 +9,12 @@ gems02 geometry: &gems02_geom
   levels: 5
   model levels: 47
   orientation: up
-geometry: *gems02_geom
 window begin: 2010-07-04T01:00:00Z
 window length: PT1H
 state:
   date: 2010-07-04T01:00:00Z
   filename: Data/E0001/HMGEMS02+2010070401.nc
-  state variables: *vars
+  state variables: [CO, O_3, NO_2]
 observations:
 - obs space:
     obsdatain:
