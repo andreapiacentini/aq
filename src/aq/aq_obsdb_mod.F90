@@ -584,26 +584,31 @@ if (jgrp%nobs > 0) then
   icol = 0
   jcol => jgrp%colhead
   do while (associated(jcol))
-    icol = icol+1
-    select case(trim(jcol%colname))
-    case ('Location')
-      call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Longitude', jcol%values(1,:))
-      call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Latitude', jcol%values(2,:))
-    case ('hofx')
-      call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx', jcol%values(1,:))
-    case ('ObsValue')
-      call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Y', jcol%values(1,:))
-    case ('ObsError')
-       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Covariance', jcol%values(1,:))
-    case ('EffectiveQC')
-       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC', jcol%values(1,:))
-    case ('EffectiveError')
-       call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError', jcol%values(1,:))
-    case ('ObsBias')
-       call fckit_log%info('Warning: ObsBias not implemented in aq_obsdb_write')
-    case default    
-       call fckit_log%info('Warning: '//trim(jcol%colname)//' not known in aq_obsdb_write')
-    end select
+     icol = icol+1
+     if (trim(jcol%colname) == 'Location') then
+        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Longitude', jcol%values(1,:))
+        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_geogrp)//'/Latitude', jcol%values(2,:))
+     else if (trim(jcol%colname) == 'ObsValue') then
+        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Y', jcol%values(1,:))
+     else if (trim(jcol%colname) == 'ObsError') then
+        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Covariance', jcol%values(1,:))
+     else if (trim(jcol%colname) == 'ombg') then
+        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/OmB', jcol%values(1,:))
+     else if (trim(jcol%colname) == 'oman') then
+        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/OmA', jcol%values(1,:))
+     else if (jcol%colname(1:4) == 'hofx') then
+        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx'//jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
+     else if (jcol%colname(1:11) == 'EffectiveQC') then
+        ! EffectiveQC not implemented in AQ
+        ! call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC'//jcol%colname(12:len_trim(jcol%colname)), jcol%values(1,:))
+     else if (jcol%colname(1:14) == 'EffectiveError') then
+        call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError'//jcol%colname(15:len_trim(jcol%colname)), jcol%values(1,:))
+     else if (jcol%colname(1:7) == 'ObsBias') then
+        ! ObsBias not implemented in AQ
+        ! call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/ObsBias', jcol%values(1,:))
+     else
+        call fckit_log%info('Warning: '//trim(jcol%colname)//' not known in aq_obsdb_write')
+     end if
     ! Update
     jcol => jcol%next
   enddo
