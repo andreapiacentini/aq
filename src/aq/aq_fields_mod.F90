@@ -751,17 +751,17 @@ subroutine aq_field_dot_prod_with(self, other, zprod)
   else
      zprod = 0.0_oops_real
      if (self%prec == aq_single) then
-!$omp parallel do reduction(+:zprod)
+!!$omp parallel do reduction(+:zprod)
         do ib_var = 1, self%n_vars
            zprod = zprod + aq_dot_product(self%locsize, self%fldss(ib_var)%fld, other%fldss(ib_var)%fld)
         end do
-!$omp end parallel do
+!!$omp end parallel do
      else
-!$omp parallel do reduction(+:zprod)
+!!$omp parallel do reduction(+:zprod)
         do ib_var = 1, self%n_vars
            zprod = zprod + aq_dot_product(self%locsize, self%fldsd(ib_var)%fld, other%fldsd(ib_var)%fld)
         end do
-!$omp end parallel do
+!!$omp end parallel do
      end if
   end if
   call self%fmpi%allreduce(zprod,fckit_mpi_sum())
