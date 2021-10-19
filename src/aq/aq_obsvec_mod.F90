@@ -204,7 +204,7 @@ implicit none
 type(aq_obsvec),intent(inout) :: self !< Observation vector
 type(aq_obsvec),intent(in) :: mask    !< mask
 
-if ((self%nobs/=mask%nobs).or.(self%nlev/=mask%nlev)) call abor1_ftn('aq_obsvec_mask: inconsistent sizes')
+if ((self%nobs/=mask%nobs).or.(self%nlev/=mask%nlev)) call abor1_ftn('aq_obsvec_mask_with_missing: inconsistent sizes')
 
 where(mask%values == mask%missing) self%values = self%missing
 

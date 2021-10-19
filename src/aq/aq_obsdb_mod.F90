@@ -497,6 +497,16 @@ nobs = Get_number_selected_timeelts(self%h5statein,id_tmin,id_tmax)
 ! do not read 0 size obs !!!
 if (nobs == 0) then
   call fckit_log%info('aq_obsdb_read: no obs found between '//trim(timestr1)//' and '//trim(timestr2))
+  ! Setup observation vector for the observations
+  call aq_obsvec_setup(obsloc,3,nobs)
+  call aq_obsvec_setup(obsval,1,nobs)
+  call aq_obsvec_setup(obserr,1,nobs)
+  allocate(times(nobs))
+  ! Store observations data in the obsdb structure
+  call aq_obsdb_create(self,trim(self%spcname),times,obsloc)
+  call aq_obsdb_put(self,trim(self%spcname),'ObsValue',obsval)
+  call aq_obsdb_put(self,trim(self%spcname),'ObsError',obserr) ! This should not be mandatory but it is asked by InSitu!!!!
+  deallocate(times)
 else
   ! Read the data from the hdf5
   allocate(ila_times(nobs),rla_lats(nobs),rla_lons(nobs),rla_obs(nobs))
@@ -530,10 +540,10 @@ else
   call aq_obsdb_put(self,trim(self%spcname),'ObsError',obserr) ! This should not be mandatory but it is asked by InSitu!!!!
 
   deallocate(ila_times,rla_lats,rla_lons,rla_obs,times)
-endif
 
-call close_h5space(self%h5statein%memspace_id)
-call close_h5space(self%h5statein%dataspace_id) ! Verify if these calls are really needed here
+  call close_h5space(self%h5statein%memspace_id)
+  call close_h5space(self%h5statein%dataspace_id) ! Verify if these calls are really needed here
+endif
 
 end subroutine aq_obsdb_read
 ! ------------------------------------------------------------------------------

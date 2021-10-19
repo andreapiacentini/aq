@@ -101,8 +101,7 @@ ObsSpace::ObsSpace(const Parameters_ & params, const eckit::mpi::Comm & comm,
     aq_obsdb_read_f90(key_);
 
     // Set variables simulated for different obstypes
-    if (obsname_ == "O3") obsvars_.push_back("O3");
-    if (obsname_ == "CO") obsvars_.push_back("CO");
+    obsvars_.push_back(obsname_);
 
     //  Generate locations etc... if required
     if (params.generate.value() != boost::none) {
