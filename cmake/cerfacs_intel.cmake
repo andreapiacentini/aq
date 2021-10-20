@@ -52,6 +52,17 @@ set( ECBUILD_CXX_FLAGS_RELEASE      "-O3 -g -DNDEBUG -finline-limit=500 -std=c++
 set( ECBUILD_Fortran_FLAGS_RELEASE  "-O3 -g -DNDEBUG -nowarn -unroll -inline -finline-limit=500 -align array64byte" )
 
 ####################################################################
+# RELEASE WITH DEBUG INFO FLAGS
+####################################################################
+
+# for diagnostics:
+#  -diag-enable=vec -diag-file -Winline
+
+set( ECBUILD_C_FLAGS_RELWITHDEBINFO        "-O3 -g -traceback -finline-limit=500" )
+set( ECBUILD_CXX_FLAGS_RELWITHDEBINFO      "-O3 -g -traceback -finline-limit=500 -std=c++14" )
+set( ECBUILD_Fortran_FLAGS_RELWITHDEBINFO  "-O3 -g -traceback -nowarn -unroll -inline -finline-limit=500 -align array64byte" )
+
+####################################################################
 # BIT (REPRODUCIBLE) FLAGS
 ####################################################################
 
