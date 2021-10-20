@@ -14,14 +14,219 @@ list( APPEND aq_data_files
   HGOM+20100704_O3.gom.nc
 )
 
+list( APPEND aq_data_toplevel
+  E0001
+  E0002
+  E0003
+  E0004
+  E0005
+  E0006
+  E0007
+  E0008
+  E0009
+  E0010
+  HDAT+20100704.h5
+  HGOM+20100704_CO.gom.nc
+  HGOM+20100704_O3.gom.nc
+)
+
+list( APPEND aq_data_files_tier2
+  ENS04_reduced/HMGEMS02+2010070400+E0001.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0002.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0003.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0004.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0005.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0006.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0007.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0008.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0009.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0010.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0011.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0012.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0013.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0014.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0015.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0016.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0017.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0018.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0019.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0020.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0021.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0022.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0023.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0024.nc
+  ENS04_reduced/HMGEMS02+2010070400+E0025.nc
+  ENS04_reduced/HMGEMS02+2010070400.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0001.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0002.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0003.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0004.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0005.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0006.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0007.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0008.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0009.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0010.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0011.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0012.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0013.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0014.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0015.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0016.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0017.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0018.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0019.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0020.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0021.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0022.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0023.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0024.nc
+  ENS04_reduced/HMGEMS02+2010070401+E0025.nc
+  ENS04_reduced/HMGEMS02+2010070401.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0001.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0002.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0003.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0004.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0005.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0006.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0007.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0008.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0009.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0010.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0011.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0012.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0013.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0014.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0015.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0016.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0017.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0018.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0019.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0020.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0021.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0022.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0023.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0024.nc
+  ENS04_reduced/HMGEMS02+2010070402+E0025.nc
+  ENS04_reduced/HMGEMS02+2010070402.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0001.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0002.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0003.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0004.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0005.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0006.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0007.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0008.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0009.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0010.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0011.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0012.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0013.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0014.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0015.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0016.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0017.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0018.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0019.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0020.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0021.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0022.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0023.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0024.nc
+  ENS04_reduced/HMGEMS02+2010070403+E0025.nc
+  ENS04_reduced/HMGEMS02+2010070403.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0001.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0002.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0003.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0004.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0005.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0006.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0007.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0008.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0009.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0010.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0011.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0012.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0013.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0014.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0015.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0016.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0017.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0018.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0019.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0020.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0021.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0022.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0023.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0024.nc
+  ENS04_reduced/HMGEMS02+2010070404+E0025.nc
+  ENS04_reduced/HMGEMS02+2010070404.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0001.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0002.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0003.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0004.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0005.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0006.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0007.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0008.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0009.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0010.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0011.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0012.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0013.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0014.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0015.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0016.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0017.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0018.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0019.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0020.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0021.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0022.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0023.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0024.nc
+  ENS04_reduced/HMGEMS02+2010070405+E0025.nc
+  ENS04_reduced/HMGEMS02+2010070405.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0001.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0002.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0003.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0004.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0005.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0006.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0007.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0008.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0009.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0010.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0011.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0012.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0013.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0014.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0015.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0016.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0017.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0018.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0019.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0020.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0021.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0022.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0023.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0024.nc
+  ENS04_reduced/HMGEMS02+2010070406+E0025.nc
+  ENS04_reduced/HMGEMS02+2010070406.nc
+  HDAT+20100704.h5
+)
+
+list( APPEND aq_data_toplevel_tier2
+  ENS04_reduced
+  HDAT+20100704.h5
+)
+
 list( APPEND aq_testinput
   testinput/3densvar.yaml
-  #AQ testinput/4densvar.yaml
   testinput/addincrement.yaml
   testinput/addincrement_scaled.yaml
   testinput/diffstates.yaml
   testinput/dirac_loc_3d.yaml
-  #AQ testinput/dirac_loc_4d.yaml
   testinput/dirac_no_loc.yaml
   testinput/ens_recenter.yaml
   testinput/ens_variance.yaml
@@ -33,14 +238,19 @@ list( APPEND aq_testinput
   testinput/parameters_loc_3d.yaml
 )
 
+list( APPEND aq_testinput_tier2
+  testinput/dirac_no_loc_4d.yaml
+  #AQ testinput/parameters_loc_4d.yaml
+  #AQ testinput/dirac_loc_4d.yaml
+  #AQ testinput/4densvar.yaml
+)
+
 list( APPEND aq_testoutput
   testoutput/3densvar.test
-  #AQ testoutput/4densvar.test
   testoutput/addincrement.test
   testoutput/addincrement_scaled.test
   testoutput/diffstates.test
   testoutput/dirac_loc_3d.test
-  #AQ testoutput/dirac_loc_4d.test
   testoutput/dirac_no_loc.test
   testoutput/ens_recenter.test
   testoutput/ens_variance.test
@@ -49,10 +259,32 @@ list( APPEND aq_testoutput
   testoutput/parameters_loc_3d.test
 )
 
+list( APPEND aq_testoutput_tier2
+  testoutput/dirac_no_loc_4d.test
+  #AQ testoutput/parameters_loc_4d.test
+  #AQ testoutput/dirac_loc_4d.test
+  #AQ testoutput/4densvar.test
+)  
+
+
 # Link scripts
 list( APPEND tools_files
     aq_data_downloader.sh
+    aq_data_linker.sh
+    aq_data_downloader_tier2.sh
+    aq_data_linker_tier2.sh
 )
+
+# Set the test tiering
+# --------------------
+set( AQ_JEDI_TEST_TIER 1 )
+
+# Override AQ_JEDI_TEST_TIER using environment variable
+if( DEFINED ENV{AQ_JEDI_TEST_TIER} )
+    set( AQ_JEDI_TEST_TIER "$ENV{AQ_JEDI_TEST_TIER}" )
+endif()
+
+message(STATUS "Running aq tests for tiers up to and including tier " ${AQ_JEDI_TEST_TIER})
 
 foreach( FILENAME ${tools_files} )
     execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink
@@ -85,14 +317,54 @@ ecbuild_add_resources( TARGET   aq_test_scripts
                        ${aq_testinput}
                      )
 
+if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
+    foreach(FILENAME ${aq_testinput_tier2})
+        execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink
+               ${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME}
+               ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME} )
+    endforeach(FILENAME)
+
+    foreach(FILENAME ${aq_testoutput_tier2})
+        execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink
+               ${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME}
+               ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME} )
+    endforeach(FILENAME)
+	   
+    ecbuild_add_resources( TARGET   aq_test_scripts_tier2
+                           SOURCES_PACK
+                           ${aq_testinput_tier2}
+                         )
+endif()
+		   
 #####################################################################
 # download test
 #####################################################################
 
-ecbuild_add_test( TARGET    get_data_aq
-                  TYPE      SCRIPT
-                  COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_downloader.sh
-                  ARGS  ${aq_data_files} )
+if( DEFINED ENV{LOCAL_PATH_AQ_JEDI_TESTFILES} )
+    ecbuild_add_test( TARGET    link_data_aq
+                      TYPE      SCRIPT
+                      COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_linker.sh
+                      ARGS  ${aq_data_toplevel} )
+else()
+    ecbuild_add_test( TARGET    get_data_aq
+                      TYPE      SCRIPT
+                      COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_downloader.sh
+                      ARGS  ${aq_data_files} )
+endif()
+		  
+if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
+    if( DEFINED ENV{LOCAL_PATH_AQ_JEDI_TESTFILES} )
+        ecbuild_add_test( TARGET    link_data_aq_tier2
+                          TYPE      SCRIPT
+                          COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_linker_tier2.sh
+                          ARGS  ${aq_data_toplevel_tier2} )
+    else()
+        ecbuild_add_test( TARGET    get_data_aq_tier2
+                          TYPE      SCRIPT
+                          COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_downloader_tier2.sh
+                          ARGS  ${aq_data_files_tier2} )
+    endif()
+endif()
 
 #####################################################################
 # interface tests
@@ -279,15 +551,6 @@ ecbuild_add_test( TARGET test_aq_3densvar
                   COMMAND  aq_var.x )
 
 ######################################################################
-## 4d variational tests
-######################################################################
-
-#ecbuild_add_test( TARGET test_aq_4densvar
-#                  MPI 7
-#                  ARGS testinput/4densvar.yaml
-#                  COMMAND  aq_var.x )
-
-######################################################################
 ## state-related tests
 ######################################################################
 
@@ -311,3 +574,30 @@ ecbuild_add_test( TARGET test_aq_addincrement_scaled
                   ARGS testinput/addincrement_scaled.yaml
                   COMMAND  aq_addincrement.x
                   TEST_DEPENDS test_aq_diffstates )
+
+######################################################################
+## Tier 2 4d tests
+######################################################################
+
+if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
+
+    #####################################################################
+    # dirac tests
+    #####################################################################
+    
+    ecbuild_add_test( TARGET test_aq_dirac_no_loc_4d
+                      MPI 6
+                      OMP 4
+                      ARGS testinput/dirac_no_loc_4d.yaml
+                      COMMAND  aq_dirac.x)
+      
+    ######################################################################
+    ## 4d variational tests
+    ######################################################################
+    
+    #ecbuild_add_test( TARGET test_aq_4densvar
+    #                  MPI 7
+    #                  ARGS testinput/4densvar.yaml
+    #                  COMMAND  aq_var.x )
+
+endif()
