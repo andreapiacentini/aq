@@ -340,7 +340,7 @@ endif()
 # download test
 #####################################################################
 
-if( DEFINED ENV{LOCAL_PATH_AQ_JEDI_TESTFILES} )
+if( DEFINED ENV{AQ_JEDI_LOCAL_PATH_TESTFILES} )
     ecbuild_add_test( TARGET    link_data_aq
                       TYPE      SCRIPT
                       COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_linker.sh
@@ -353,7 +353,7 @@ else()
 endif()
 		  
 if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
-    if( DEFINED ENV{LOCAL_PATH_AQ_JEDI_TESTFILES} )
+    if( DEFINED ENV{AQ_JEDI_LOCAL_PATH_TESTFILES} )
         ecbuild_add_test( TARGET    link_data_aq_tier2
                           TYPE      SCRIPT
                           COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_linker_tier2.sh
@@ -586,8 +586,8 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
     #####################################################################
     
     ecbuild_add_test( TARGET test_aq_dirac_no_loc_4d
-                      MPI 6
-                      OMP 4
+                      MPI 14
+                      OMP 1
                       ARGS testinput/dirac_no_loc_4d.yaml
                       COMMAND  aq_dirac.x)
       

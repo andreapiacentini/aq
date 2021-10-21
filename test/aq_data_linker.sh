@@ -5,8 +5,8 @@ for item in "$@"; do
   if [ -e Data/${item} ]; then
     echo "Item ${item} already present"
   else
-    echo "Linking ${item}: ln -sf ${LOCAL_PATH_AQ_JEDI_TESTFILES}/aq-tests/${item} Data/${item}"
-    ln -sf ${LOCAL_PATH_AQ_JEDI_TESTFILES}/aq-tests/${item} Data/${item}
+    echo "Linking ${item}: ln -sf ${AQ_JEDI_LOCAL_PATH_TESTFILES}/aq-tests/${item} Data/${item}"
+    ln -sf ${AQ_JEDI_LOCAL_PATH_TESTFILES}/aq-tests/${item} Data/${item}
   fi
 done
 
