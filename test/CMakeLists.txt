@@ -187,32 +187,6 @@ list( APPEND aq_data_files_tier2
   ENS04_reduced/HMGEMS02+2010070405+E0024.nc
   ENS04_reduced/HMGEMS02+2010070405+E0025.nc
   ENS04_reduced/HMGEMS02+2010070405.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0001.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0002.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0003.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0004.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0005.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0006.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0007.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0008.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0009.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0010.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0011.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0012.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0013.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0014.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0015.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0016.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0017.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0018.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0019.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0020.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0021.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0022.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0023.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0024.nc
-  ENS04_reduced/HMGEMS02+2010070406+E0025.nc
-  ENS04_reduced/HMGEMS02+2010070406.nc
   HDAT+20100704.h5
 )
 
@@ -239,8 +213,8 @@ list( APPEND aq_testinput
 )
 
 list( APPEND aq_testinput_tier2
-  testinput/dirac_no_loc_4d.yaml
   #AQ testinput/parameters_loc_4d.yaml
+  testinput/dirac_no_loc_4d.yaml
   #AQ testinput/dirac_loc_4d.yaml
   #AQ testinput/4densvar.yaml
 )
@@ -260,8 +234,8 @@ list( APPEND aq_testoutput
 )
 
 list( APPEND aq_testoutput_tier2
-  testoutput/dirac_no_loc_4d.test
   #AQ testoutput/parameters_loc_4d.test
+  testoutput/dirac_no_loc_4d.test
   #AQ testoutput/dirac_loc_4d.test
   #AQ testoutput/4densvar.test
 )  
@@ -581,22 +555,40 @@ ecbuild_add_test( TARGET test_aq_addincrement_scaled
 
 if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
 
+    # #####################################################################
+    # # B Matrix tests
+    # #####################################################################
+    # 
+    # ecbuild_add_test( TARGET test_aq_parameters_loc_4d
+    #                   MPI 2
+    #                   OMP 6
+    #                   ARGS testinput/parameters_loc_4d.yaml
+    #                   COMMAND  aq_parameters.x )
+    # 
     #####################################################################
     # dirac tests
     #####################################################################
     
     ecbuild_add_test( TARGET test_aq_dirac_no_loc_4d
-                      MPI 14
-                      OMP 1
+                      MPI 12
+                      OMP 2
                       ARGS testinput/dirac_no_loc_4d.yaml
                       COMMAND  aq_dirac.x)
       
+    # 
+    # ecbuild_add_test( TARGET test_aq_dirac_loc_4d
+    #                   MPI 6
+    #                   OMP 4
+    #                   ARGS testinput/dirac_loc_4d.yaml
+    #                   COMMAND  aq_dirac.x )
+    # 
     ######################################################################
     ## 4d variational tests
     ######################################################################
     
     #ecbuild_add_test( TARGET test_aq_4densvar
-    #                  MPI 7
+    #                  MPI 6
+    #                  OMP 4
     #                  ARGS testinput/4densvar.yaml
     #                  COMMAND  aq_var.x )
 

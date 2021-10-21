@@ -50,8 +50,7 @@ recenter variables: [CO,NO_2]
 
 recentered output:
   datadir: Data
-  date: 2010-07-04T01:00:00Z
-  filename: Data/ERGEMS02+2010070401.nc
+  fileprefix: ERGEMS02
 
 test:
   reference filename: testoutput/ens_recenter.test

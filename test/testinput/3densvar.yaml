@@ -108,9 +108,8 @@ final:
     departures: oman
 
 output:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/ANGEMS02+2010070401.nc
-  frequency: PT6H
+  datadir: Data
+  fileprefix: A3GEMS02
 
 test:
   reference filename: testoutput/3densvar.test

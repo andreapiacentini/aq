@@ -26,8 +26,7 @@ increment:
   scaling factor: 0.5
 output:
   datadir: Data
-  date: 2010-07-04T01:00:00Z
-  filename: Data/ASGEMS02+2010070401.nc
+  fileprefix: ASGEMS02
 
 test:
   reference filename: testoutput/addincrement_scaled.test

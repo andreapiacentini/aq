@@ -1,3 +1,4 @@
+
 GEMS02 geometry: &id001
   domname: GEMS02
   dx: 0.2
@@ -49,12 +50,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0001.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0002.nc
@@ -88,12 +83,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0002.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0002.nc
       state variables:
       - CO
       - O_3
@@ -135,12 +124,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0003.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0004.nc
@@ -174,12 +157,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0004.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0004.nc
       state variables:
       - CO
       - O_3
@@ -221,12 +198,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0005.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0006.nc
@@ -260,12 +231,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0006.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0006.nc
       state variables:
       - CO
       - O_3
@@ -307,12 +272,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0007.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0008.nc
@@ -346,12 +305,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0008.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0008.nc
       state variables:
       - CO
       - O_3
@@ -393,12 +346,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0009.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0010.nc
@@ -432,12 +379,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0010.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0010.nc
       state variables:
       - CO
       - O_3
@@ -479,12 +420,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0011.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0012.nc
@@ -518,12 +453,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0012.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0012.nc
       state variables:
       - CO
       - O_3
@@ -565,12 +494,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0013.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0014.nc
@@ -604,12 +527,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0014.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0014.nc
       state variables:
       - CO
       - O_3
@@ -651,12 +568,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0015.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0016.nc
@@ -690,12 +601,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0016.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0016.nc
       state variables:
       - CO
       - O_3
@@ -737,12 +642,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0017.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0018.nc
@@ -776,12 +675,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0018.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0018.nc
       state variables:
       - CO
       - O_3
@@ -823,12 +716,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0019.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0020.nc
@@ -862,12 +749,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0020.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0020.nc
       state variables:
       - CO
       - O_3
@@ -909,12 +790,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0021.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0022.nc
@@ -948,12 +823,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0022.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0022.nc
       state variables:
       - CO
       - O_3
@@ -995,12 +864,6 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0023.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
   - states:
     - date: '2010-07-04T00:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0024.nc
@@ -1034,12 +897,6 @@ background error:
       - NO_2
     - date: '2010-07-04T05:00:00Z'
       filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0024.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0024.nc
       state variables:
       - CO
       - O_3
@@ -1081,14 +938,8 @@ background error:
       - CO
       - O_3
       - NO_2
-    - date: '2010-07-04T06:00:00Z'
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0025.nc
-      state variables:
-      - CO
-      - O_3
-      - NO_2
 dirac:
-  date: 2010-07-04T03:00:00Z
+  date: 2010-07-04T02:00:00Z
   londir: [ 7.9]
   latdir: [38.3]
   levdir: [  47]
@@ -1128,12 +979,6 @@ initial condition:
     - NO_2
   - date: '2010-07-04T05:00:00Z'
     filename: Data/ENS04_reduced/HMGEMS02+2010070405.nc
-    state variables:
-    - CO
-    - O_3
-    - NO_2
-  - date: '2010-07-04T06:00:00Z'
-    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
     state variables:
     - CO
     - O_3

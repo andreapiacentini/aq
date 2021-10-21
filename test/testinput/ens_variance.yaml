@@ -49,8 +49,7 @@ ensemble:
       filename: Data/E0010/HMGEMS02+2010070401.nc
 variance output:
   datadir: Data
-  date: 2010-07-04T01:00:00Z
-  filename: Data/EVGEMS02+2010070401.nc
+  fileprefix: EVGEMS02
 
 test:
   reference filename: testoutput/ens_variance.test

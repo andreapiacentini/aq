@@ -57,14 +57,13 @@ initial condition:
   date: 2010-07-04T01:00:00Z
   filename: Data/E0001/HMGEMS02+2010070401.nc
   state variables: *vars
-model:
-  tstep: PT1H
+
 output B:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/CBGEMS02+2010070401.nc
+  datadir: Data
+  fileprefix: B3GEMS02
 output variance:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/CVGEMS02+2010070401.nc
+  datadir: Data
+  fileprefix: V3GEMS02
 
 test:
   reference filename: testoutput/dirac_no_loc.test

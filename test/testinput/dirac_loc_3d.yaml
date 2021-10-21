@@ -67,12 +67,12 @@ initial condition:
   state variables: *vars
 
 output localization:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/CLGEMS02+2010070401.nc
+  datadir: Data
+  fileprefix: O3GEMS02
 
 output B:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/CBGEMS02+2010070401.nc
+  datadir: Data
+  fileprefix: L3GEMS02
 
 test:
   reference filename: testoutput/dirac_loc_3d.test

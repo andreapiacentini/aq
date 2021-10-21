@@ -25,8 +25,7 @@ state2:
   state variables: *vars
 output:
   datadir: Data
-  date: 2010-07-04T01:00:00Z
-  filename: Data/DIGEMS02+2010070401.nc
+  fileprefix: DIGEMS02
 
 test:
   reference filename: testoutput/diffstates.test
