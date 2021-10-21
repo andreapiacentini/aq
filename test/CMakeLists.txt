@@ -216,7 +216,7 @@ list( APPEND aq_testinput_tier2
   testinput/parameters_loc_4d.yaml
   testinput/dirac_no_loc_4d.yaml
   testinput/dirac_loc_4d.yaml
-  #AQ testinput/4densvar.yaml
+  testinput/4densvar.yaml
 )
 
 list( APPEND aq_testoutput
@@ -237,7 +237,7 @@ list( APPEND aq_testoutput_tier2
   testoutput/parameters_loc_4d.test
   testoutput/dirac_no_loc_4d.test
   testoutput/dirac_loc_4d.test
-  #AQ testoutput/4densvar.test
+  testoutput/4densvar.test
 )  
 
 
@@ -586,10 +586,10 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
     ## 4d variational tests
     ######################################################################
     
-    #ecbuild_add_test( TARGET test_aq_4densvar
-    #                  MPI 6
-    #                  OMP 4
-    #                  ARGS testinput/4densvar.yaml
-    #                  COMMAND  aq_var.x )
+    ecbuild_add_test( TARGET test_aq_4densvar
+                      MPI 12
+                      OMP 2
+                      ARGS testinput/4densvar.yaml
+                      COMMAND  aq_var.x )
 
 endif()
