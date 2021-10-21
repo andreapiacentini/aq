@@ -213,9 +213,9 @@ list( APPEND aq_testinput
 )
 
 list( APPEND aq_testinput_tier2
-  #AQ testinput/parameters_loc_4d.yaml
+  testinput/parameters_loc_4d.yaml
   testinput/dirac_no_loc_4d.yaml
-  #AQ testinput/dirac_loc_4d.yaml
+  testinput/dirac_loc_4d.yaml
   #AQ testinput/4densvar.yaml
 )
 
@@ -234,9 +234,9 @@ list( APPEND aq_testoutput
 )
 
 list( APPEND aq_testoutput_tier2
-  #AQ testoutput/parameters_loc_4d.test
+  testoutput/parameters_loc_4d.test
   testoutput/dirac_no_loc_4d.test
-  #AQ testoutput/dirac_loc_4d.test
+  testoutput/dirac_loc_4d.test
   #AQ testoutput/4densvar.test
 )  
 
@@ -555,16 +555,16 @@ ecbuild_add_test( TARGET test_aq_addincrement_scaled
 
 if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
 
-    # #####################################################################
-    # # B Matrix tests
-    # #####################################################################
-    # 
-    # ecbuild_add_test( TARGET test_aq_parameters_loc_4d
-    #                   MPI 2
-    #                   OMP 6
-    #                   ARGS testinput/parameters_loc_4d.yaml
-    #                   COMMAND  aq_parameters.x )
-    # 
+    #####################################################################
+    # B Matrix tests
+    #####################################################################
+    
+    ecbuild_add_test( TARGET test_aq_parameters_loc_4d
+                      MPI 2
+                      OMP 6
+                      ARGS testinput/parameters_loc_4d.yaml
+                      COMMAND  aq_parameters.x )
+    
     #####################################################################
     # dirac tests
     #####################################################################
@@ -575,13 +575,13 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
                       ARGS testinput/dirac_no_loc_4d.yaml
                       COMMAND  aq_dirac.x)
       
-    # 
-    # ecbuild_add_test( TARGET test_aq_dirac_loc_4d
-    #                   MPI 6
-    #                   OMP 4
-    #                   ARGS testinput/dirac_loc_4d.yaml
-    #                   COMMAND  aq_dirac.x )
-    # 
+    
+    ecbuild_add_test( TARGET test_aq_dirac_loc_4d
+                      MPI 12
+                      OMP 2
+                      ARGS testinput/dirac_loc_4d.yaml
+                      COMMAND  aq_dirac.x )
+    
     ######################################################################
     ## 4d variational tests
     ######################################################################

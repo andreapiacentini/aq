@@ -1,0 +1,46 @@
+variables: &vars
+  - CO
+  - O_3
+  - NO_2
+gems02 geometry: &gems02_geom
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+geometry: *gems02_geom
+
+# Mnemonics:
+memo:
+  - &state_ref
+    date: 2010-07-04T00:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
+    state variables: *vars
+
+background:
+  date: 2010-07-04T00:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
+  state variables: *vars
+
+bump:
+  datadir: Data
+  new_nicas: 1
+  prefix: loc_4d
+  resol: 8.0
+  strategy: common
+  forced_radii: 1
+  rh:
+    common: [1000.0e3]
+  rv:
+    common: [3.0]
+  write_nicas_local: 1
+input variables: *vars
+
+test:
+  reference filename: testoutput/parameters_loc_4d.test
+  test output filename: testoutput/parameters_loc_4d.log
