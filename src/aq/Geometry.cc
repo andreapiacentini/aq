@@ -31,17 +31,17 @@ Geometry::Geometry(const GeometryAqParameters & params,
   eckit::LocalConfiguration geomConfig(params.toConfiguration());
   geomConfig.set("type", "regional");
 
+  // Set default communicator
+  eckit::mpi::setCommDefault(comm_.name().c_str());
+
   // Setup regional grid
   atlasGrid_.reset(new atlas::StructuredGrid(geomConfig));
 
   // Setup partitioner
   atlas::grid::Partitioner partitioner("checkerboard");
 
-  // Setup distribution
-  atlas::grid::Distribution distribution(*atlasGrid_, partitioner);
-
   // Setup function space
-  atlasFunctionSpace_.reset(new atlas::functionspace::StructuredColumns(*atlasGrid_, distribution,
+  atlasFunctionSpace_.reset(new atlas::functionspace::StructuredColumns(*atlasGrid_, partitioner,
   geomConfig));
 
   // Setup Fortran geometry

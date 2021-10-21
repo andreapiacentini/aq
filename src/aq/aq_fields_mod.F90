@@ -1201,14 +1201,38 @@ subroutine aq_field_write(self, config, date)
   type(fckit_Configuration), intent(in) :: config
   type(datetime), optional,  intent(in) :: date
 
+  character(len=:), allocatable :: fileprefix
+  character(len=:), allocatable :: datadir
+  character(len=:), allocatable :: filetype
+  character(len=10) :: filedate
   character(len=:), allocatable :: file
   type(datetime) :: vdate
+  integer :: year, month, day, hour, minute, second
   integer :: strlen, dotpos
 
   vdate = self%date
   if (present(date)) vdate = date
 
-  call config%get_or_die("filename", file)
+  if (config%has("filename")) then
+     call config%get_or_die("filename", file)
+  else
+     call datetime_to_yyyymmddhhmmss(vdate, year, month, day, hour, &
+        & minute, second)
+     write(filedate,'(I4.4,3I2.2)') year, month, day, hour
+     call config%get_or_die("fileprefix", fileprefix)
+     if (config%has("filetype")) then
+        call config%get_or_die("filetype", filetype)
+     else
+        filetype="nc"
+     end if
+     if (config%has("datadir")) then
+        call config%get_or_die("datadir", datadir)
+        file=trim(datadir)//'/'//trim(fileprefix)//'+'//trim(filedate)//&
+           & '.'//trim(filetype) 
+     else
+        file=trim(fileprefix)//'+'//trim(filedate)//'.'//trim(filetype) 
+     end if
+  end if
   strlen = len(trim(file))
   dotpos = index(trim(file),'.',back=.true.)
 
