@@ -13,7 +13,9 @@ In order to compile AQ and its prerequisites from JSCDA
 `AQ_JEDI_SRC` - source directory of aq (the one where the git clone has been extracted)  
 `AQ_JEDI_BLD` - ecbuild directory of the aq bundle  
 `AQ_JEDI_DIR` - installation directory of the aq and prerequisite include, libs, exe  
-`AQ_JEDI_UTI` - installation directory of compilation utils  
+`AQ_JEDI_UTI` - installation directory of compilation utils
+`AQ_JEDI_TEST TIER` - (optional) level of testing, default to 1. 2 for 3d tests  
+`AQ_JEDI_LOCAL_PATH_TESTFILES` - (optional) path of test data on the local machine
 
 ## Load the appropriate modules
 On kraken:
