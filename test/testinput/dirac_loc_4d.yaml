@@ -1005,4 +1005,4 @@ output B:
 test:
   reference filename: testoutput/dirac_loc_4d.test
   test output filename: testoutput/dirac_loc_4d.log
-
+  float absolute tolerance: 1.e-30
