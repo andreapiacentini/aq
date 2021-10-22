@@ -18,13 +18,13 @@ geometry: *gems02_geom
 # Mnemonics:
 memo:
   - &state_ref
-    date: 2010-07-04T01:00:00Z
-    filename: Data/E0001/HMGEMS02+2010070401.nc
+    date: 2010-07-04T06:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
     state variables: *vars
 
 background:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/E0001/HMGEMS02+2010070401.nc
+  date: 2010-07-04T06:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: *vars
 
 bump:

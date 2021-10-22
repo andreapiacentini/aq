@@ -44,6 +44,16 @@ class ObsDataParameters : public oops::Parameters {
   oops::RequiredParameter<std::string> obsfile{"obsfile", this};
 };
 
+/// Contents of the `obserrors` YAML section.
+class ObsErrorsParameters : public oops::Parameters {
+  OOPS_CONCRETE_PARAMETERS(ObsErrorsParameters, Parameters)
+
+ public:
+  /// File path.
+  oops::RequiredParameter<std::string> type{"type", this};
+  oops::OptionalParameter<double> value{"value", this};
+};
+
 /// Options controlling generation of artificial observations.
 class ObsGenerateParameters : public oops::Parameters {
   OOPS_CONCRETE_PARAMETERS(ObsGenerateParameters, Parameters)
@@ -70,6 +80,8 @@ class ObsSpaceParameters : public oops::ObsSpaceParametersBase {
   oops::OptionalParameter<ObsDataParameters> obsdatain{"obsdatain", this};
   /// File to which to save observations and analysis.
   oops::OptionalParameter<ObsDataParameters> obsdataout{"obsdataout", this};
+  /// Specification of observation errors.
+  oops::OptionalParameter<ObsErrorsParameters> obserrors{"obserrors", this};
   /// Options controlling generation of artificial observations.
   oops::OptionalParameter<ObsGenerateParameters> generate{"generate", this};
 };

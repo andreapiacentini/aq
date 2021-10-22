@@ -57,8 +57,10 @@ type aq_obsdb
   character(len=:),allocatable :: spcname       !< Name of the chemical species
   character(len=1024) :: filein                 !< Input filename
   character(len=1024) :: fileout                !< Output filename
-  type(datetime) :: winbgn            !< Start of window
-  type(datetime) :: winend            !< End of window
+  type(datetime) :: winbgn                      !< Start of window
+  type(datetime) :: winend                      !< End of window
+  character(len=1024) :: obserrtype             !< Type of observation errors (%, fixed or from file)
+  real(kind_real) :: obserrval = 0.d0
   integer(kind=ip_hid_t) :: il_hdat_id = 0
   integer(kind=ip_hid_t) :: il_hstat_id = 0
   type(h5state_t) :: h5statein
@@ -118,12 +120,23 @@ call fckit_log%info('aq_obsdb_setup: file in = '//trim(fin))
 if (f_conf%has("obsdataout")) then
   call f_conf%get_or_die("obsdataout.obsfile",str)
   call swap_name_member(f_conf, str)
-
   fout = str
   call fckit_log%info('aq_obsdb_setup: file out = '//trim(fout))
 else
   fout = ''
 endif
+
+if (f_conf%has("obserrors")) then
+  call f_conf%get_or_die("obserrors.type",str)
+  self%obserrtype = trim(str)
+  if ((self%obserrtype.eq."percent").or.(self%obserrtype.eq."absolute")) then
+    call f_conf%get_or_die("obserrors.value",self%obserrval)
+  endif
+else
+  call fckit_log%info("aq_obsdb_setup: Obs errors not specified. Errors set to obs values.")
+  self%obserrtype = "unspecified"
+endif
+
 ! Set attributes
 self%filein = fin
 self%fileout = fout
@@ -475,7 +488,7 @@ integer :: il_err
 ! integer :: ncols = 2
 ! character(len=50), dimension(ncols) :: colnames = ['Location','ObsValue']
 ! integer, dimension(ncols) :: coldims = [ 2, 1 ]
-real(kind=4), dimension(:), allocatable :: rla_lats, rla_lons, rla_obs
+real(kind=4), dimension(:), allocatable :: rla_lats, rla_lons, rla_obs, rla_err
 integer(kind=4), dimension(:), allocatable :: ila_times
 type(datetime),allocatable :: times(:)
 type(aq_obsvec) :: obsloc,obsval,obserr
@@ -515,6 +528,10 @@ else
   call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Latitude', rla_lats)
   call readslice_h5dset(self%h5statein, 'GEOLOCALIZATION/Longitude', rla_lons)
   call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Y', rla_obs)
+  if (self%obserrtype.eq."fromfile") then
+    allocate(rla_err(nobs))
+    call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Covariance', rla_err)
+  endif
   ! Setup observation vector for the locations
   call aq_obsvec_setup(obsloc,3,nobs)
 
@@ -531,7 +548,16 @@ else
     times(iobs) = tobs
     obsloc%values(:,iobs) = (/real(rla_lons(iobs),kind=kind_real),real(rla_lats(iobs),kind=kind_real),0.0d0/)
     obsval%values(:,iobs) = rla_obs(iobs)
-    obserr%values(:,iobs) = rla_obs(iobs)
+    select case(self%obserrtype)
+    case ("percent")
+      obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)
+    case ("absolute")
+      obserr%values(:,iobs) = self%obserrval
+    case ("fromfile")
+      obserr%values(:,iobs) = rla_err(iobs)
+    case ("unspecified")
+      obserr%values(:,iobs) = rla_obs(iobs)
+    end select
   enddo
 
   ! Store observations data in the obsdb structure
@@ -540,6 +566,7 @@ else
   call aq_obsdb_put(self,trim(self%spcname),'ObsError',obserr) ! This should not be mandatory but it is asked by InSitu!!!!
 
   deallocate(ila_times,rla_lats,rla_lons,rla_obs,times)
+  if (self%obserrtype.eq."fromfile") deallocate(rla_err)
 
   call close_h5space(self%h5statein%memspace_id)
   call close_h5space(self%h5statein%dataspace_id) ! Verify if these calls are really needed here
@@ -609,7 +636,7 @@ if (jgrp%nobs > 0) then
      else if (jcol%colname(1:4) == 'hofx') then
         call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx'//jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
      else if (jcol%colname(1:11) == 'EffectiveQC') then
-        ! EffectiveQC not implemented in AQ
+        ! EffectiveQC not implemented in AQ ??? verify and restore in case
         ! call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC'//jcol%colname(12:len_trim(jcol%colname)), jcol%values(1,:))
      else if (jcol%colname(1:14) == 'EffectiveError') then
         call writeslice_h5dset_scalar(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError'//jcol%colname(15:len_trim(jcol%colname)), jcol%values(1,:))

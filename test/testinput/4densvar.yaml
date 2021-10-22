@@ -1002,6 +1002,9 @@ cost function:
     obs space:
       instr name: AIRBASE_O3
       obs type: O3
+      obserrors:
+        type: absolute
+        value: 5.0e-9
       obsdatain:
         obsfile: Data/HDAT+20100704.h5
       obsdataout:
@@ -1011,6 +1014,9 @@ cost function:
     obs operator:
       mod var: NO_2
       obs type: InSitu
+      obserrors:
+        type: percent
+        value: 20
     obs space:
       instr name: AIRBASE_NO2
       obs type: NO2
@@ -1026,6 +1032,9 @@ cost function:
     obs space:
       instr name: AIRBASE_CO
       obs type: CO
+      obserrors:
+        type: percent
+        value: 30
       obsdatain:
         obsfile: Data/HDAT+20100704.h5
       obsdataout:

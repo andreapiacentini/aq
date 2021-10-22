@@ -16,12 +16,12 @@ gems02 geometry: &gems02_geom
 state geometry: *gems02_geom
 increment geometry: *gems02_geom
 state1:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/E0001/HMGEMS02+2010070401.nc
+  date: 2010-07-04T06:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0001.nc
   state variables: *vars
 state2:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/E0002/HMGEMS02+2010070401.nc
+  date: 2010-07-04T06:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0002.nc
   state variables: *vars
 output:
   datadir: Data

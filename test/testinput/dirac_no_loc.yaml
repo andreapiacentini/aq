@@ -18,44 +18,44 @@ geometry: *gems02_geom
 # Mnemonics:
 memo:
   - &state_ref
-    date: 2010-07-04T01:00:00Z
-    filename: Data/E0001/HMGEMS02+2010070401.nc
+    date: 2010-07-04T06:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
     state variables: *vars
 
 background error:
   covariance model: ensemble
   members:
     - <<: *state_ref
-      filename: Data/E0001/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0001.nc
     - <<: *state_ref
-      filename: Data/E0002/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0002.nc
     - <<: *state_ref
-      filename: Data/E0003/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0003.nc
     - <<: *state_ref
-      filename: Data/E0004/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0004.nc
     - <<: *state_ref
-      filename: Data/E0005/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0005.nc
     - <<: *state_ref
-      filename: Data/E0006/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0006.nc
     - <<: *state_ref
-      filename: Data/E0007/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0007.nc
     - <<: *state_ref
-      filename: Data/E0008/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0008.nc
     - <<: *state_ref
-      filename: Data/E0009/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0009.nc
     - <<: *state_ref
-      filename: Data/E0010/HMGEMS02+2010070401.nc
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0010.nc
 
 dirac:
-  date: 2010-07-04T01:00:00Z
+  date: 2010-07-04T06:00:00Z
   londir: [ 7.9]    
   latdir: [38.3]    
   levdir: [  47]   
   var:    ['CO']
   
 initial condition:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/E0001/HMGEMS02+2010070401.nc
+  date: 2010-07-04T06:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: *vars
 
 output B:

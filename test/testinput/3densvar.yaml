@@ -17,20 +17,20 @@ gems02 geometry: &gems02_geom
 # Mnemonics:
 memo:
   - &state_ref
-    date: 2010-07-04T01:00:00Z
-    filename: Data/E0001/HMGEMS02+2010070401.nc
+    date: 2010-07-04T06:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
     state variables: *vars
 
 cost function:
   cost type: 3D-Var
-  window begin: 2010-07-04T00:00:00Z
+  window begin: 2010-07-04T05:00:00Z
   window length: PT2H
   analysis variables: *vars
   geometry: *gems02_geom
 
   background:
-    date: 2010-07-04T01:00:00Z
-    filename: Data/E0001/HMGEMS02+2010070401.nc
+    date: 2010-07-04T06:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
     state variables: *vars
 
   background error:
@@ -45,25 +45,25 @@ cost function:
       localization variables: *vars
     members:
       - <<: *state_ref
-        filename: Data/E0001/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0001.nc
       - <<: *state_ref
-        filename: Data/E0002/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0002.nc
       - <<: *state_ref
-        filename: Data/E0003/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0003.nc
       - <<: *state_ref
-        filename: Data/E0004/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0004.nc
       - <<: *state_ref
-        filename: Data/E0005/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0005.nc
       - <<: *state_ref
-        filename: Data/E0006/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0006.nc
       - <<: *state_ref
-        filename: Data/E0007/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0007.nc
       - <<: *state_ref
-        filename: Data/E0008/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0008.nc
       - <<: *state_ref
-        filename: Data/E0009/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0009.nc
       - <<: *state_ref
-        filename: Data/E0010/HMGEMS02+2010070401.nc
+        filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0010.nc
 
   observations:
   - obs space:
@@ -73,6 +73,9 @@ cost function:
         obsfile: Data/HSTAT+20100704.h5
       obs type: CO
       instr name: AIRBASE_CO
+      obserrors:
+        type: percent
+        value: 30
     obs operator:
       obs type: InSitu
       mod var: CO
@@ -85,6 +88,9 @@ cost function:
         obsfile: Data/HSTAT+20100704.h5
       obs type: O3
       instr name: AIRBASE_O3
+      obserrors:
+        type: absolute
+        value: 5.0e-9
     obs operator:
       obs type: InSitu
       mod var: O_3

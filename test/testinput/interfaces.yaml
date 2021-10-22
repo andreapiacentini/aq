@@ -17,25 +17,25 @@ geometry: *gems02_geom
 
 state test:
   statefile:
-    date: 2010-07-04T01:00:00Z
-    filename: Data/E0001/HMGEMS02+2010070401.nc
+    date: 2010-07-04T06:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
     state variables: *vars
   statefileout:
     datadir: Data
-    date: '2010-07-04T01:00:00Z'
-    filename: Data/HMGEMS02+2010070401_out.nc
+    date: '2010-07-04T06:00:00Z'
+    filename: Data/HMGEMS02+2010070406_out.nc
     state variables: *vars
-  date: 2010-07-04T01:00:00Z
-  norm file: 0.571914995356E-04
+  date: 2010-07-04T06:00:00Z
+  norm file: 5.7285093316388685e-05
   norm generated state: 1160.9686330528625
   tolerance: 1.0e-08
 
 increment test:
-  date: 2010-07-04T01:00:00Z
+  date: 2010-07-04T06:00:00Z
 inc variables: *vars
 
-window begin: 2010-07-04T00:00:00Z
-window end: 2010-07-04T03:00:00Z
+window begin: 2010-07-04T04:00:00Z
+window end: 2010-07-04T07:00:00Z
 
 locations:
   random lon min: -15.9
@@ -63,8 +63,8 @@ observations:
     coef TL: 1.e-4
     tolerance AD: 1.0e-10
     tolerance TL: 1.0e-6
-  rms ref: 1.8215734026760322e-07
-  reference global nobs: 788
+  rms ref: 1.8192661523483006e-07
+  reference global nobs: 790
   tolerance: 1.0e-8
 - obs error:
     covariance model: diagonal
@@ -86,6 +86,6 @@ observations:
     coef TL: 1.e-4
     tolerance AD: 1.0e-10
     tolerance TL: 1.0e-6
-  rms ref: 4.0286071556857082e-08
-  reference global nobs: 2720
+  rms ref: 4.0175445979907655e-08
+  reference global nobs: 2735
   tolerance: 1.0e-8
