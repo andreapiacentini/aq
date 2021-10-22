@@ -237,8 +237,6 @@ list( APPEND aq_testoutput_tier2
 list( APPEND tools_files
     aq_data_downloader.sh
     aq_data_linker.sh
-    aq_data_downloader_tier2.sh
-    aq_data_linker_tier2.sh
 )
 
 # Set the test tiering
@@ -319,15 +317,10 @@ else()
 endif()
 		  
 if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
-    if( DEFINED ENV{AQ_JEDI_LOCAL_PATH_TESTFILES} )
-        ecbuild_add_test( TARGET    link_data_aq_tier2
-                          TYPE      SCRIPT
-                          COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_linker_tier2.sh
-                          ARGS  ${aq_data_toplevel_tier2} )
-    else()
+    if( NOT DEFINED ENV{AQ_JEDI_LOCAL_PATH_TESTFILES} )
         ecbuild_add_test( TARGET    get_data_aq_tier2
                           TYPE      SCRIPT
-                          COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_downloader_tier2.sh
+                          COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_downloader.sh
                           ARGS  ${aq_data_files_tier2} )
     endif()
 endif()
