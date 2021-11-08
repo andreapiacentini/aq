@@ -995,13 +995,14 @@ initial condition:
     - O_3
     - NO_2
 
-output localization:
-  datadir: Data
-  fileprefix: O4GEMS02
-output B:
+output dirac:
   datadir: Data
   fileprefix: L4GEMS02
 
+output variance:
+  datadir: Data
+  fileprefix: O4GEMS02
+  
 test:
   reference filename: testoutput/dirac_loc_4d.test
   test output filename: testoutput/dirac_loc_4d.log

@@ -66,13 +66,13 @@ initial condition:
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: *vars
 
-output localization:
-  datadir: Data
-  fileprefix: O3GEMS02
-
-output B:
+output dirac:
   datadir: Data
   fileprefix: L3GEMS02
+
+output variance:
+  datadir: Data
+  fileprefix: O3GEMS02
 
 test:
   reference filename: testoutput/dirac_loc_3d.test

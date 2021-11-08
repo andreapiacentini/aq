@@ -48,6 +48,9 @@ class ObsAuxCovariance : public util::Printable,
   void inverseMultiply(const ObsAuxIncrement &, ObsAuxIncrement &) const;
   void randomize(ObsAuxIncrement &) const;
 
+  /// I/O and diagnostics
+  void write(const Parameters_ &) const {}
+
   bool active(const unsigned int ii) const {return variance_[ii] > 0.0;}
 
  private:

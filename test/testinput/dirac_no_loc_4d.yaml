@@ -983,9 +983,9 @@ initial condition:
     - CO
     - O_3
     - NO_2
-output B:
+output dirac:
   datadir: Data
-  fileprefix: B4GEMS02
+  fileprefix: D4GEMS02
 output variance:
   datadir: Data
   fileprefix: V4GEMS02

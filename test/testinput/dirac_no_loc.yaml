@@ -58,9 +58,9 @@ initial condition:
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: *vars
 
-output B:
+output dirac:
   datadir: Data
-  fileprefix: B3GEMS02
+  fileprefix: D3GEMS02
 output variance:
   datadir: Data
   fileprefix: V3GEMS02

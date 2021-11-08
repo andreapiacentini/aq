@@ -8,7 +8,7 @@ Input Dirac increment:
   Var. O_3: min = 0; max = 0; mean = 0; stddev = 0
   Var. NO_2: min = 0; max = 0; mean = 0; stddev = 0
 
-B * Increment: 
+Covariance(ensemble) * Increment: 
   Valid time: 2010-07-04T06:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
@@ -18,7 +18,7 @@ B * Increment:
   Var. O_3: min = -2.17994e-21; max = 1.3649e-21; mean = 5.16849e-25; stddev = 5.65179e-46
   Var. NO_2: min = -2.40612e-21; max = 1.31031e-22; mean = -2.19896e-24; stddev = 1.26684e-45
 
-Localized Increment: 
+Localization(ensemble) * Increment: 
   Valid time: 2010-07-04T06:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
@@ -27,4 +27,14 @@ Localized Increment:
   Var. CO: min = 0; max = 1; mean = 0.00768558; stddev = 0.00312471
   Var. O_3: min = 0; max = 1; mean = 0.00768558; stddev = 0.00312471
   Var. NO_2: min = 0; max = 1; mean = 0.00768558; stddev = 0.00312471
+
+Randomized variance: 
+  Valid time: 2010-07-04T06:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 0; max = 1.44111e-14; mean = 1.93045e-18; stddev = 4.63984e-33
+  Var. O_3: min = 0; max = 1.51981e-17; mean = 2.01864e-20; stddev = 1.02288e-38
+  Var. NO_2: min = 0; max = 1.1422e-16; mean = 3.78035e-20; stddev = 2.24944e-37
 
