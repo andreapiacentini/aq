@@ -15,6 +15,7 @@
 #include "aq/State.h"
 #include "eckit/config/Configuration.h"
 #include "oops/base/Variables.h"
+#include "oops/util/abor1_cpp.h"
 #include "oops/util/Logger.h"
 
 namespace aq {
@@ -25,25 +26,37 @@ LinearChangeVar::LinearChangeVar(const State &, const State &,
 LinearChangeVar::~LinearChangeVar() {}
 // -----------------------------------------------------------------------------
 void LinearChangeVar::multiply(const Increment & dxa, Increment & dxm) const {
+  if ( dxm.serialSize() > dxa.serialSize() ) {
+    ABORT("LinearChangeVar::multiply only allowed toward smaller or equal subsets");
+  }
   dxm = dxa;
   // AQ aq_change_var_tl_f90(dxa.fields().toFortran(), dxm.fields().toFortran());
   oops::Log::debug() << "LinearChangeVar::multiply" << dxm << std::endl;
 }
 // -----------------------------------------------------------------------------
 void LinearChangeVar::multiplyInverse(const Increment & dxm, Increment & dxa) const {
+  if ( dxm.serialSize() > dxa.serialSize() ) {
+    ABORT("LinearChangeVar::multiplyInverse only allowed from smaller or equal subsets");
+  }
   dxa = dxm;
   // AQ aq_change_var_tl_f90(dxm.fields().toFortran(), dxa.fields().toFortran());
   oops::Log::debug() << "LinearChangeVar::multiplyInverse" << dxm << std::endl;
 }
 // -----------------------------------------------------------------------------
 void LinearChangeVar::multiplyAD(const Increment & dxm, Increment & dxa) const {
-  dxa = dxm;
+  if ( dxm.serialSize() > dxa.serialSize() ) {
+    ABORT("LinearChangeVar::multiplyAD only allowed from smaller or equal subsets");
+  }
+  dxa += dxm;
   // AQ aq_change_var_ad_f90(dxm.fields().toFortran(), dxa.fields().toFortran());
   oops::Log::debug() << "LinearChangeVar::multiplyAD" << dxm << std::endl;
 }
 // -----------------------------------------------------------------------------
 void LinearChangeVar::multiplyInverseAD(const Increment & dxa, Increment & dxm) const {
-  dxm = dxa;
+  if ( dxm.serialSize() > dxa.serialSize() ) {
+    ABORT("LinearChangeVar::multiplyInverseAD only allowed toward smaller or equal subsets");
+  }
+  dxm += dxa;
   // AQ aq_change_var_ad_f90(dxa.fields().toFortran(), dxm.fields().toFortran());
   oops::Log::debug() << "LinearChangeVar::multiplyInverseAD" << dxm << std::endl;
 }
