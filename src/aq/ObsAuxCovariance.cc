@@ -13,11 +13,13 @@
 #include <array>
 #include <cmath>
 #include <iostream>
+#include <memory>
 #include <random>
 #include <sstream>
 #include <string>
 
 #include "aq/ObsAuxIncrement.h"
+#include "aq/ObsAuxPreconditioner.h"
 #include "oops/util/Logger.h"
 #include "oops/util/Random.h"
 
@@ -80,6 +82,12 @@ void ObsAuxCovariance::randomize(ObsAuxIncrement & dx) const {
     }
   }
 }
+
+// -----------------------------------------------------------------------------
+std::unique_ptr<ObsAuxPreconditioner> ObsAuxCovariance::preconditioner() const {
+  return std::make_unique<ObsAuxPreconditioner> (variance_);
+}
+
 // -----------------------------------------------------------------------------
 void ObsAuxCovariance::print(std::ostream & os) const {
   os << "ObsAuxCovariance::print not implemented";

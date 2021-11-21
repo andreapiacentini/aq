@@ -34,6 +34,8 @@ list( APPEND aq_src_files
   ObsAuxCovariance.h
   ObsAuxIncrement.cc
   ObsAuxIncrement.h
+  ObsAuxPreconditioner.cc
+  ObsAuxPreconditioner.h
   #AQ end of question
   ObsData.h
   ObsDiagnostics.h

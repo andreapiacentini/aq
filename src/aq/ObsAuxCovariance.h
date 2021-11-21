@@ -12,6 +12,7 @@
 #define AQ_OBSAUXCOVARIANCE_H_
 
 #include <array>
+#include <memory>
 #include <ostream>
 #include <string>
 #include <boost/noncopyable.hpp>
@@ -22,6 +23,7 @@
 
 #include "aq/ObsAuxControl.h"
 #include "aq/ObsAuxParameters.h"
+#include "aq/ObsAuxPreconditioner.h"
 
 namespace aq {
   class ObsAuxControl;
@@ -48,9 +50,10 @@ class ObsAuxCovariance : public util::Printable,
   void inverseMultiply(const ObsAuxIncrement &, ObsAuxIncrement &) const;
   void randomize(ObsAuxIncrement &) const;
 
+  std::unique_ptr<ObsAuxPreconditioner> preconditioner() const;
+
   /// I/O and diagnostics
   void write(const Parameters_ &) const {}
-
   bool active(const unsigned int ii) const {return variance_[ii] > 0.0;}
 
  private:
