@@ -19,6 +19,7 @@
 #include "oops/util/Printable.h"
 
 #include "aq/Locations.h"
+#include "aq/Tools.h"
 
 namespace eckit {
   class Configuration;
@@ -49,6 +50,7 @@ class GetValues : public util::Printable,
   void print(std::ostream &) const;
   Locations locs_;
   eckit::LocalConfiguration conf_;
+  bool debug_ = getEnv("AQ_DEBUG", 0) != 0;
 };
 // -----------------------------------------------------------------------------
 

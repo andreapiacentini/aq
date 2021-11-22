@@ -5,6 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+#include <unistd.h>
+
 #include <memory>
 
 #include "eckit/config/LocalConfiguration.h"
@@ -19,6 +21,7 @@
 #include "aq/GeoVals.h"
 #include "aq/Locations.h"
 #include "aq/State.h"
+#include "aq/Tools.h"
 
 namespace aq {
 
@@ -42,12 +45,28 @@ void GetValues::fillGeoVaLs(const State & state, const util::DateTime & t1,
   // the below call is an example if one wanted a different interpolation type
   const std::string interpType = conf_.getString("interpolation type", "default");
 
+  if (debug_) {
+    for (int i = 0; i < nbTimeInstances(); syncAll(), i++) {
+      if (timeInstance() == i) {
+        masterOut() << "fillGeoVals state on instance " << timeInstance() << " is ";
+        masterOut() << state << std::endl << std::flush;
+      }
+    }
+  }
   if (interpType == "default" || (interpType.compare(0, 8, "default_") == 0)) {
     oops::Log::trace() << state.fields() << std::endl;
     aq_getvalues_interp_f90(locs_, state.fields().toFortran(), t1, t2, geovals.toFortran());
   } else {
     std::string err_message("interpolation type option " + interpType + " not supported");
     throw eckit::BadValue(err_message, Here());
+  }
+  if (debug_) {
+    for (int i = 0; i < nbTimeInstances(); syncAll(), i++) {
+      if (timeInstance() == i) {
+        masterOut() << "fillGeoVals geovals on instance " << timeInstance() << " are " << std::endl;
+        masterOut() << geovals << std::endl << std::endl << std::flush;
+      }
+    }
   }
   oops::Log::trace() << "GetValues::fillGeoVaLs done" << std::endl;
 }
