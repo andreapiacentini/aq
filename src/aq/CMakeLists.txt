@@ -59,6 +59,8 @@ list( APPEND aq_src_files
   ObsVec.h
   State.cc
   State.h
+  Tools.cc
+  Tools.h
   instantiateAqChangeVarFactory.h
   aq_blas_mod.F90
   aq_constants_mod.F90
