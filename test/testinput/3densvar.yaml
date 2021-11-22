@@ -1,8 +1,8 @@
-variables: &vars
+_variables: &vars
   - CO
   - O_3
   - NO_2
-gems02 geometry: &gems02_geom
+_gems02 geometry: &gems02_geom
   nx: 260
   ny: 200
   dx: 0.2
@@ -15,7 +15,7 @@ gems02 geometry: &gems02_geom
   orientation: up
 
 # Mnemonics:
-memo:
+_memo:
   - &state_ref
     date: 2010-07-04T06:00:00Z
     filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
@@ -79,8 +79,6 @@ cost function:
     obs operator:
       obs type: InSitu
       mod var: CO
-#    get values:
-#      filename: Data/HGOM+20100704_CO.gom
   - obs space:
       obsdatain:
         obsfile: Data/HDAT+20100704.h5
@@ -94,8 +92,6 @@ cost function:
     obs operator:
       obs type: InSitu
       mod var: O_3
-#    get values:
-#      filename: Data/HGOM+20100704_O3.gom
 
 variational:
   minimizer:

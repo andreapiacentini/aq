@@ -26,8 +26,6 @@ observations:
   obs operator:
     obs type: InSitu
     mod var: CO
-  # get values:
-  #   filename: HGOM+20100704_CO.gom
 - obs space:
     obsdatain:
       obsfile: Data/HDAT+20100704.h5
@@ -38,5 +36,3 @@ observations:
   obs operator:
     obs type: InSitu
     mod var: O_3
-  # get values:
-  #   filename: HGOM+20100704_O3.gom
