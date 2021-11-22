@@ -10,6 +10,7 @@
 #include <ostream>
 #include <string>
 
+#include "oops/util/abor1_cpp.h"
 #include "oops/util/Logger.h"
 
 #include "aq/State.h"
@@ -21,11 +22,17 @@ ChangeVar::ChangeVar(const Geometry &, const eckit::Configuration &) {}
 ChangeVar::~ChangeVar() {}
 // -----------------------------------------------------------------------------
 void ChangeVar::changeVar(const State & xa, State & xm) const {
+  if ( xm.serialSize() > xa.serialSize() ) {
+    ABORT("ChangeVar::changeVar only allowed toward smaller or equal subsets");
+  }
   xm = xa;
   // AQ  aq_change_var_f90(xa.fields().toFortran(), xm.fields().toFortran());
 }
 // -----------------------------------------------------------------------------
 void ChangeVar::changeVarInverse(const State & xm, State & xa) const {
+  if ( xm.serialSize() > xa.serialSize() ) {
+    ABORT("ChangeVar::changeVarInverse only allowed from smaller or equal subsets");
+  }
   xa = xm;
   // AQ aq_change_var_f90(xm.fields().toFortran(), xa.fields().toFortran());
 }

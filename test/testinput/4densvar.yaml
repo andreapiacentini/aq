@@ -1,0 +1,1066 @@
+_geoms02 geometry: &id001
+  domname: GEMS02
+  dx: 0.2
+  dy: 0.2
+  levels: 5
+  model levels: 47
+  nx: 260
+  ny: 200
+  orientation: up
+  xmin: -15.9
+  ymin: 32.1
+cost function:
+  analysis variables:
+  - CO
+  - O_3
+  - NO_2
+  background:
+    states:
+    - date: '2010-07-04T00:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
+      state variables:
+      - CO
+      - O_3
+      - NO_2
+    - date: '2010-07-04T01:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070401.nc
+      state variables:
+      - CO
+      - O_3
+      - NO_2
+    - date: '2010-07-04T02:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070402.nc
+      state variables:
+      - CO
+      - O_3
+      - NO_2
+    - date: '2010-07-04T03:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070403.nc
+      state variables:
+      - CO
+      - O_3
+      - NO_2
+    - date: '2010-07-04T04:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070404.nc
+      state variables:
+      - CO
+      - O_3
+      - NO_2
+    - date: '2010-07-04T05:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070405.nc
+      state variables:
+      - CO
+      - O_3
+      - NO_2
+  background error:
+    covariance model: ensemble
+    localization:
+      bump:
+        datadir: Data
+        load_nicas_local: 1
+        prefix: loc_4d
+        strategy: common
+      localization method: BUMP
+      localization variables:
+      - CO
+      - O_3
+      - NO_2
+    members:
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0001.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0001.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0001.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0001.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0001.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0001.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0002.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0002.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0002.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0002.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0002.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0002.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0003.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0003.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0003.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0003.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0003.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0003.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0004.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0004.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0004.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0004.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0004.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0004.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0005.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0005.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0005.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0005.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0005.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0005.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0006.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0006.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0006.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0006.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0006.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0006.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0007.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0007.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0007.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0007.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0007.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0007.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0008.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0008.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0008.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0008.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0008.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0008.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0009.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0009.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0009.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0009.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0009.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0009.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0010.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0010.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0010.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0010.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0010.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0010.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0011.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0011.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0011.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0011.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0011.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0011.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0012.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0012.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0012.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0012.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0012.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0012.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0013.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0013.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0013.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0013.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0013.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0013.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0014.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0014.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0014.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0014.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0014.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0014.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0015.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0015.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0015.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0015.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0015.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0015.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0016.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0016.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0016.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0016.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0016.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0016.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0017.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0017.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0017.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0017.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0017.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0017.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0018.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0018.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0018.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0018.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0018.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0018.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0019.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0019.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0019.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0019.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0019.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0019.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0020.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0020.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0020.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0020.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0020.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0020.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0021.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0021.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0021.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0021.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0021.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0021.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0022.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0022.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0022.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0022.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0022.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0022.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0023.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0023.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0023.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0023.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0023.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0023.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0024.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0024.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0024.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0024.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0024.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0024.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+    - states:
+      - date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0025.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0025.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0025.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0025.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0025.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+      - date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0025.nc
+        state variables:
+        - CO
+        - O_3
+        - NO_2
+  cost type: 4D-Ens-Var
+  geometry: *id001
+  observations:
+  - obs error:
+      covariance model: diagonal
+    obs operator:
+      mod var: O_3
+      obs type: InSitu
+    obs space:
+      instr name: AIRBASE_O3
+      obs type: O3
+      obserrors:
+        type: absolute
+        value: 5.0e-9
+      obsdatain:
+        obsfile: Data/HDAT+20100704.h5
+      obsdataout:
+        obsfile: Data/HSTAT+20100704.h5
+  - obs error:
+      covariance model: diagonal
+    obs operator:
+      mod var: NO_2
+      obs type: InSitu
+      obserrors:
+        type: percent
+        value: 20
+    obs space:
+      instr name: AIRBASE_NO2
+      obs type: NO2
+      obsdatain:
+        obsfile: Data/HDAT+20100704.h5
+      obsdataout:
+        obsfile: Data/HSTAT+20100704.h5
+  - obs error:
+      covariance model: diagonal
+    obs operator:
+      mod var: CO
+      obs type: InSitu
+    obs space:
+      instr name: AIRBASE_CO
+      obs type: CO
+      obserrors:
+        type: percent
+        value: 30
+      obsdatain:
+        obsfile: Data/HDAT+20100704.h5
+      obsdataout:
+        obsfile: Data/HSTAT+20100704.h5
+  subwindow: PT1H
+  window begin: '2010-07-04T00:00:00Z'
+  window length: PT5H
+final:
+  diagnostics:
+    departures: oman
+  prints:
+    frequency: PT1H
+output:
+  datadir: Data
+  fileprefix: A4GEMS02
+test:
+  reference filename: testoutput/4densvar.test
+  test output filename: testoutput/4densvar.log
+variational:
+  iterations:
+  - diagnostics:
+      departures: ombg
+    geometry: *id001
+    gradient norm reduction: 1.0e-14
+    ninner: 20
+    test: 'on'
+  minimizer:
+    algorithm: DRPLanczos
+

@@ -19,6 +19,6 @@ ecbuild --prefix=${build_dir} \
 	-DENABLE_OOPS_DOC="OFF" \
         ${AQ_JEDI_SRC}/bundle
 make update
-make -j 12
+make -j 24
 make install
 

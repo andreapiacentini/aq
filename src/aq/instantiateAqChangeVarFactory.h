@@ -27,6 +27,9 @@ void instantiateAqChangeVarFactory() {
   static oops::LinearVariableChangeMaker<aq::Traits,
                                    oops::LinearVariableChange<aq::Traits, aq::LinearChangeVar> >
                makerChLinVarAQ_("ChVarAQ");
+  static oops::LinearVariableChangeMaker<aq::Traits,
+                                   oops::LinearVariableChange<aq::Traits, aq::LinearChangeVar> >
+               makerChLinVarDef_("default");
 }
 
 }  // namespace aq

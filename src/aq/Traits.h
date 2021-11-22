@@ -28,6 +28,7 @@
 #include "aq/ObsAuxControl.h"
 #include "aq/ObsAuxCovariance.h"
 #include "aq/ObsAuxIncrement.h"
+#include "aq/ObsAuxPreconditioner.h"
 #include "aq/ObsData.h"
 #include "aq/ObsDiagnostics.h"
 #include "aq/ObsIterator.h"
@@ -72,6 +73,7 @@ struct ObsTraits {
   typedef aq::ObsAuxControl               ObsAuxControl;
   typedef aq::ObsAuxIncrement      ObsAuxIncrement;
   typedef aq::ObsAuxCovariance     ObsAuxCovariance;
+  typedef aq::ObsAuxPreconditioner ObsAuxPreconditioner;
 
   typedef aq::ObsDiagnostics            ObsDiagnostics;
 

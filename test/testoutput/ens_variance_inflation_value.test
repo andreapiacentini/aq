@@ -1,10 +1,10 @@
 Variance: 
 
-  Valid time: 2010-07-04T01:00:00Z
+  Valid time: 2010-07-04T06:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 2 variables
-  Var. CO: min = 0; max = 4.48736e-13; mean = 1.28794e-17; stddev = 1.52911e-30
-  Var. O_3: min = 0; max = 5.94785e-18; mean = 2.51585e-21; stddev = 1.32134e-39
+  Var. CO: min = 0; max = 1.68202e-12; mean = 1.92037e-16; stddev = 5.13351e-29
+  Var. O_3: min = 0; max = 1.38653e-15; mean = 2.01725e-18; stddev = 1.03242e-34
 

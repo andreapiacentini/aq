@@ -37,7 +37,7 @@ set( FYPP_NO_LINE_NUMBERING TRUE )
 #  -diag-enable=vec -diag-file -Winline
 
 set( ECBUILD_C_FLAGS        "-xAVX" )
-set( ECBUILD_CXX_FLAGS      "-xAVX -std=c++14" )
+set( ECBUILD_CXX_FLAGS      "-xAVX -std=c++14 -diag-disable=2196" )
 set( ECBUILD_Fortran_FLAGS  "-xAVX -r8 -mkl ${Fortran_FLAG_AUTOMATIC_ARRAYS}")
 
 ####################################################################

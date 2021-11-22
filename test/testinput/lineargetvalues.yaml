@@ -22,8 +22,8 @@ linear getvalues test:
   tolerance TL: 1.0e-11
   tolerance AD: 1.0e-11
 locations:
-  window begin: 2010-07-04T01:00:00Z
-  window end: 2010-07-04T02:00:00Z
+  window begin: 2010-07-04T06:00:00Z
+  window end: 2010-07-04T07:00:00Z
   lons: [ -10, -8, 3, 15, 18, 24, 30, 33 ]
   lats: [  35, 64, 41, 50, 60, 33, 48, 34 ]
   nrandom: 10
@@ -32,6 +32,6 @@ locations:
   random lat min: 32.1
   random lat max: 69.9      
 background:
-  date: 2010-07-04T01:00:00Z
-  filename: Data/E0001/HMGEMS02+2010070401.nc
+  date: 2010-07-04T06:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: *vars
