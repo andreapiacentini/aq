@@ -1,8 +1,8 @@
-variables: &vars
+_variables: &vars
   - CO
   - O_3
   - NO_2
-GEMS02 geometry: &id001
+_gems02 geometry: &id001
   domname: GEMS02
   dx: 0.2
   dy: 0.2

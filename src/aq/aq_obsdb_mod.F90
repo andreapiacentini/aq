@@ -634,19 +634,37 @@ if (jgrp%nobs > 0) then
      else if (trim(jcol%colname) == 'oman') then
         call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/OmA', jcol%values(1,:))
      else if (jcol%colname(1:4) == 'hofx') then
-        select case(jcol%colname(5:len_trim(jcol%colname)))
-        case ('0')
-          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_bkg', jcol%values(1,:))
-        case ('1')
-          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_ana', jcol%values(1,:))
-        case default
-          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx'//jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
-        end select
+        if (len_trim(jcol%colname) == 4) then
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_dry'// &
+            & jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
+        else
+           select case(jcol%colname(5:len_trim(jcol%colname)))
+           ! N.B. We rely here on the assumption that no outer loop is used for AQ, i.e. hofx1 relates to the analysis
+           case ('0')
+              call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_bkg', jcol%values(1,:))
+           case ('1')
+              call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_ana', jcol%values(1,:))
+           case default
+              call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx'// &
+               & jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
+           end select
+        end if
      else if (jcol%colname(1:11) == 'EffectiveQC') then
         ! EffectiveQC not implemented in AQ ??? verify and restore in case
         ! call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC'//jcol%colname(12:len_trim(jcol%colname)), jcol%values(1,:))
      else if (jcol%colname(1:14) == 'EffectiveError') then
-        call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError'//jcol%colname(15:len_trim(jcol%colname)), jcol%values(1,:))
+        select case(jcol%colname(15:len_trim(jcol%colname)))
+        ! N.B. We rely here on the assumption that no outer loop is used for AQ, i.e. EffectiveError1 relates to the analysis
+        case ('0')
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError_bkg', &
+            & jcol%values(1,:))
+        case ('1')
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError_ana', &
+            & jcol%values(1,:))
+        case default
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError'// &
+            & jcol%colname(15:len_trim(jcol%colname)), jcol%values(1,:))
+        end select
      else if (jcol%colname(1:7) == 'ObsBias') then
         ! ObsBias not implemented in AQ
         ! call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/ObsBias', jcol%values(1,:))

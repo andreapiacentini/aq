@@ -34,6 +34,8 @@ list( APPEND aq_src_files
   ObsAuxCovariance.h
   ObsAuxIncrement.cc
   ObsAuxIncrement.h
+  ObsAuxPreconditioner.cc
+  ObsAuxPreconditioner.h
   #AQ end of question
   ObsData.h
   ObsDiagnostics.h
@@ -57,6 +59,8 @@ list( APPEND aq_src_files
   ObsVec.h
   State.cc
   State.h
+  Tools.cc
+  Tools.h
   instantiateAqChangeVarFactory.h
   aq_blas_mod.F90
   aq_constants_mod.F90
