@@ -635,7 +635,8 @@ if (jgrp%nobs > 0) then
         call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/OmA', jcol%values(1,:))
      else if (jcol%colname(1:4) == 'hofx') then
         if (len_trim(jcol%colname) == 4) then
-           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_dry'//jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_dry'// &
+            & jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
         else
            select case(jcol%colname(5:len_trim(jcol%colname)))
            ! N.B. We rely here on the assumption that no outer loop is used for AQ, i.e. hofx1 relates to the analysis
@@ -644,7 +645,8 @@ if (jgrp%nobs > 0) then
            case ('1')
               call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_ana', jcol%values(1,:))
            case default
-              call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx'//jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
+              call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx'// &
+               & jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
            end select
         end if
      else if (jcol%colname(1:11) == 'EffectiveQC') then
@@ -654,11 +656,14 @@ if (jgrp%nobs > 0) then
         select case(jcol%colname(15:len_trim(jcol%colname)))
         ! N.B. We rely here on the assumption that no outer loop is used for AQ, i.e. EffectiveError1 relates to the analysis
         case ('0')
-           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError_bkg', jcol%values(1,:))
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError_bkg', &
+            & jcol%values(1,:))
         case ('1')
-           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError_ana', jcol%values(1,:))
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError_ana', &
+            & jcol%values(1,:))
         case default
-           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError'//jcol%colname(15:len_trim(jcol%colname)), jcol%values(1,:))
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError'// &
+            & jcol%colname(15:len_trim(jcol%colname)), jcol%values(1,:))
         end select
      else if (jcol%colname(1:7) == 'ObsBias') then
         ! ObsBias not implemented in AQ

@@ -543,7 +543,8 @@ subroutine aq_field_copy(self, other)
               do ib_var = 1, self%n_vars
                  ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
                  if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: extraction target variable '//trim(self%var_name(ib_var))//' not in source variables')
+                    & call abor1_ftn('aq_field_copy: extraction target variable ' &
+                    & //trim(self%var_name(ib_var))//' not in source variables')
                  call aq_copy(self%locsize, other%fldss(ib_pos)%fld, self%fldss(ib_var)%fld)
               end do
 !$omp end parallel do
@@ -553,7 +554,8 @@ subroutine aq_field_copy(self, other)
               do ib_var = 1, self%n_vars
                  ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
                  if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: extraction target variable '//trim(self%var_name(ib_var))//' not in source variables')
+                    & call abor1_ftn('aq_field_copy: extraction target variable ' &
+                    & //trim(self%var_name(ib_var))//' not in source variables')
                  self%fldss(ib_var)%fld(:,:) = real(other%fldsd(ib_pos)%fld(:,:),kind=aq_single)
               end do
 !$omp end parallel do
@@ -566,7 +568,8 @@ subroutine aq_field_copy(self, other)
               do ib_var = 1, self%n_vars
                  ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
                  if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: extraction target variable '//trim(self%var_name(ib_var))//' not in source variables')
+                    & call abor1_ftn('aq_field_copy: extraction target variable ' &
+                    & //trim(self%var_name(ib_var))//' not in source variables')
                  self%fldsd(ib_var)%fld(:,:) = real(other%fldss(ib_pos)%fld(:,:),kind=aq_real)
               end do
 !$omp end parallel do
@@ -575,7 +578,8 @@ subroutine aq_field_copy(self, other)
               do ib_var = 1, self%n_vars
                  ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
                  if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: extraction target variable '//trim(self%var_name(ib_var))//' not in source variables')
+                    & call abor1_ftn('aq_field_copy: extraction target variable ' &
+                    & //trim(self%var_name(ib_var))//' not in source variables')
                  call aq_copy(self%locsize, other%fldsd(ib_pos)%fld, self%fldsd(ib_var)%fld)
               end do
 !$omp end parallel do
@@ -591,7 +595,8 @@ subroutine aq_field_copy(self, other)
               do ib_var = 1, other%n_vars
                  ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
                  if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: injection source variable '//trim(other%var_name(ib_var))//' not in target variables')
+                    & call abor1_ftn('aq_field_copy: injection source variable ' &
+                    & //trim(other%var_name(ib_var))//' not in target variables')
                  call aq_copy(self%locsize, other%fldss(ib_var)%fld, self%fldss(ib_pos)%fld)
               end do
 !$omp end parallel do
@@ -601,7 +606,8 @@ subroutine aq_field_copy(self, other)
               do ib_var = 1, other%n_vars
                  ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
                  if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: injection source variable '//trim(other%var_name(ib_var))//' not in target variables')
+                    & call abor1_ftn('aq_field_copy: injection source variable ' &
+                    & //trim(other%var_name(ib_var))//' not in target variables')
                  self%fldss(ib_pos)%fld(:,:) = real(other%fldsd(ib_var)%fld(:,:),kind=aq_single)
               end do
 !$omp end parallel do
@@ -614,7 +620,8 @@ subroutine aq_field_copy(self, other)
               do ib_var = 1, other%n_vars
                  ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
                  if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: injection source variable '//trim(other%var_name(ib_var))//' not in target variables')
+                    & call abor1_ftn('aq_field_copy: injection source variable ' &
+                    & //trim(other%var_name(ib_var))//' not in target variables')
                  self%fldsd(ib_pos)%fld(:,:) = real(other%fldss(ib_var)%fld(:,:),kind=aq_real)
               end do
 !$omp end parallel do
@@ -623,7 +630,8 @@ subroutine aq_field_copy(self, other)
               do ib_var = 1, other%n_vars
                  ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
                  if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: injection source variable '//trim(other%var_name(ib_var))//' not in target variables')
+                    & call abor1_ftn('aq_field_copy: injection source variable ' &
+                    & //trim(other%var_name(ib_var))//' not in target variables')
                  call aq_copy(self%locsize, other%fldsd(ib_var)%fld, self%fldsd(ib_pos)%fld)
               end do
 !$omp end parallel do
@@ -668,7 +676,8 @@ subroutine aq_field_self_add(self, other)
            do ib_var = 1, self%n_vars
               ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
               if (ib_pos < 1) &
-                 & call abor1_ftn('aq_field_self_add: extraction target variable '//trim(self%var_name(ib_var))//' not in source variables')
+                 & call abor1_ftn('aq_field_self_add: extraction target variable ' &
+                    & //trim(self%var_name(ib_var))//' not in source variables')
               call aq_axpy(self%locsize, 1.0_oops_real, other%fldss(ib_pos)%fld, self%fldss(ib_var)%fld)
            end do
 !$omp end parallel do
@@ -677,7 +686,8 @@ subroutine aq_field_self_add(self, other)
            do ib_var = 1, self%n_vars
               ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
               if (ib_pos < 1) &
-                 & call abor1_ftn('aq_field_self_add: extraction target variable '//trim(self%var_name(ib_var))//' not in source variables')
+                 & call abor1_ftn('aq_field_self_add: extraction target variable ' &
+                    & //trim(self%var_name(ib_var))//' not in source variables')
               call aq_axpy(self%locsize, 1.0_oops_real, other%fldsd(ib_pos)%fld, self%fldsd(ib_var)%fld)
            end do
 !$omp end parallel do
@@ -689,7 +699,8 @@ subroutine aq_field_self_add(self, other)
            do ib_var = 1, other%n_vars
               ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
               if (ib_pos < 1) &
-                 & call abor1_ftn('aq_field_self_add: injection source variable '//trim(self%var_name(ib_var))//' not in target variables')
+                 & call abor1_ftn('aq_field_self_add: injection source variable ' &
+                    & //trim(self%var_name(ib_var))//' not in target variables')
               call aq_axpy(self%locsize, 1.0_oops_real, other%fldss(ib_var)%fld, self%fldss(ib_pos)%fld)
            end do
 !$omp end parallel do
@@ -698,7 +709,8 @@ subroutine aq_field_self_add(self, other)
            do ib_var = 1, other%n_vars
               ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
               if (ib_pos < 1) &
-                 & call abor1_ftn('aq_field_self_add: injection source variable '//trim(self%var_name(ib_var))//' not in target variables')
+                 & call abor1_ftn('aq_field_self_add: injection source variable ' &
+                    & //trim(self%var_name(ib_var))//' not in target variables')
               call aq_axpy(self%locsize, 1.0_oops_real, other%fldsd(ib_var)%fld, self%fldsd(ib_pos)%fld)
            end do
 !$omp end parallel do
