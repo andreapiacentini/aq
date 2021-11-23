@@ -4,7 +4,7 @@ Input Dirac increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0; max = 1; mean = 3.84615e-06; stddev = 3.84614e-06
+  Var. CO: min = 0; max = 1; mean = 3.84615e-06; stddev = 0.00196901
   Var. O_3: min = 0; max = 0; mean = 0; stddev = 0
   Var. NO_2: min = 0; max = 0; mean = 0; stddev = 0
 
@@ -14,9 +14,9 @@ Covariance(ensemble) * Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -1.30496e-20; max = 3.04423e-19; mean = 1.61585e-22; stddev = 7.67288e-42
-  Var. O_3: min = -2.17994e-21; max = 1.3649e-21; mean = 5.16849e-25; stddev = 5.65179e-46
-  Var. NO_2: min = -2.40612e-21; max = 1.31031e-22; mean = -2.19896e-24; stddev = 1.26684e-45
+  Var. CO: min = -1.30496e-20; max = 3.04423e-19; mean = 1.61585e-22; stddev = 3.1625e-21
+  Var. O_3: min = -2.17994e-21; max = 1.3649e-21; mean = 5.16849e-25; stddev = 2.56107e-23
+  Var. NO_2: min = -2.40612e-21; max = 1.31031e-22; mean = -2.19896e-24; stddev = 4.1798e-23
 
 Localization(ensemble) * Increment: 
   Valid time: 2010-07-04T06:00:00Z
@@ -24,9 +24,9 @@ Localization(ensemble) * Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0; max = 1; mean = 0.00768558; stddev = 0.00312471
-  Var. O_3: min = 0; max = 1; mean = 0.00768558; stddev = 0.00312471
-  Var. NO_2: min = 0; max = 1; mean = 0.00768558; stddev = 0.00312471
+  Var. CO: min = 0; max = 1; mean = 0.00768558; stddev = 0.0720646
+  Var. O_3: min = 0; max = 1; mean = 0.00768558; stddev = 0.0720646
+  Var. NO_2: min = 0; max = 1; mean = 0.00768558; stddev = 0.0720646
 
 Randomized variance: 
   Valid time: 2010-07-04T06:00:00Z
@@ -34,7 +34,7 @@ Randomized variance:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0; max = 1.44111e-14; mean = 1.93045e-18; stddev = 4.63984e-33
-  Var. O_3: min = 0; max = 1.51981e-17; mean = 2.01864e-20; stddev = 1.02288e-38
-  Var. NO_2: min = 0; max = 1.1422e-16; mean = 3.78035e-20; stddev = 2.24944e-37
+  Var. CO: min = 0; max = 1.44111e-14; mean = 1.93045e-18; stddev = 1.27271e-16
+  Var. O_3: min = 0; max = 1.51981e-17; mean = 2.01864e-20; stddev = 2.04126e-19
+  Var. NO_2: min = 0; max = 1.1422e-16; mean = 3.78035e-20; stddev = 1.09668e-18
 

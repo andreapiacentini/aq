@@ -45,14 +45,6 @@ void GetValues::fillGeoVaLs(const State & state, const util::DateTime & t1,
   // the below call is an example if one wanted a different interpolation type
   const std::string interpType = conf_.getString("interpolation type", "default");
 
-  if (debug_) {
-    for (int i = 0; i < nbTimeInstances(); syncAll(), i++) {
-      if (timeInstance() == i) {
-        masterOut() << "fillGeoVals state on instance " << timeInstance() << " is ";
-        masterOut() << state << std::endl << std::flush;
-      }
-    }
-  }
   if (interpType == "default" || (interpType.compare(0, 8, "default_") == 0)) {
     oops::Log::trace() << state.fields() << std::endl;
     aq_getvalues_interp_f90(locs_, state.fields().toFortran(), t1, t2, geovals.toFortran());
@@ -63,8 +55,10 @@ void GetValues::fillGeoVaLs(const State & state, const util::DateTime & t1,
   if (debug_) {
     for (int i = 0; i < nbTimeInstances(); syncAll(), i++) {
       if (timeInstance() == i) {
-        masterOut() << "fillGeoVals geovals on instance " << timeInstance() << " are " << std::endl;
-        masterOut() << geovals << std::endl << std::endl << std::flush;
+        masterOut() << "fillGeoVals on instance " << timeInstance()
+                    << " from state:" << state << std::flush;
+        masterOut() << "to geovals:" << std::endl
+                    << geovals << std::endl << std::endl << std::flush;
       }
     }
   }

@@ -9,9 +9,9 @@ CostFunction::addIncrement: Analysis:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -1.76344e-06; max = 8.11729e-07; mean = 9.63583e-08; stddev = 6.34559e-16
-  Var. O_3: min = 8.17304e-10; max = 1.68094e-07; mean = 4.59735e-08; stddev = 3.74259e-16
-  Var. NO_2: min = 9.48942e-13; max = 8.6761e-08; mean = 8.09815e-10; stddev = 3.81153e-18
+  Var. CO: min = -1.76344e-06; max = 8.11729e-07; mean = 9.63583e-08; stddev = 5.67761e-08
+  Var. O_3: min = 8.17304e-10; max = 1.68094e-07; mean = 4.59735e-08; stddev = 4.60194e-08
+  Var. NO_2: min = 9.48942e-13; max = 8.6761e-08; mean = 8.09815e-10; stddev = 4.50904e-09
 
 
 

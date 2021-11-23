@@ -1039,7 +1039,7 @@ subroutine aq_field_stats_tot(self, valmin, valmax, mean, stddev, divnm1)
   if (present(divnm1)) then
      if (divnm1) den = den - 1.0_aq_real
   end if
-  stddev = stddev / den
+  stddev = sqrt(stddev / den)
   call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   !
 end subroutine aq_field_stats_tot
@@ -1143,7 +1143,7 @@ subroutine aq_field_stats_per_var(self, valmin, valmax, mean, stddev, divnm1)
   if (present(divnm1)) then
      if (divnm1) den = den - 1.0
   end if
-  stddev(:) = stddev(:) / den
+  stddev(:) = sqrt(stddev(:) / den)
   call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   !
 end subroutine aq_field_stats_per_var
@@ -1263,7 +1263,7 @@ subroutine aq_field_stats_per_var_lev(self, valmin, valmax, mean, stddev, divnm1
   if (present(divnm1)) then
      if (divnm1) den = den - 1.0_aq_real
   end if
-  stddev(:,:) = stddev(:,:) / den
+  stddev(:,:) = sqrt(stddev(:,:) / den)
   call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   !
 end subroutine aq_field_stats_per_var_lev

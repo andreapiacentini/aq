@@ -5,6 +5,6 @@ Variance:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 2 variables
-  Var. CO: min = 0; max = 1.68202e-12; mean = 1.92037e-16; stddev = 5.13351e-29
-  Var. O_3: min = 0; max = 1.38653e-15; mean = 2.01725e-18; stddev = 1.03242e-34
+  Var. CO: min = 0; max = 1.68202e-12; mean = 1.92037e-16; stddev = 1.297e-14
+  Var. O_3: min = 0; max = 1.38653e-15; mean = 2.01725e-18; stddev = 2.02245e-17
 

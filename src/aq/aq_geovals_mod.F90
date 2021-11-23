@@ -304,7 +304,7 @@ end if
 end subroutine aq_geovals_dotprod
 ! ------------------------------------------------------------------------------
 !> Compute GeoVals stats
-subroutine aq_geovals_stats(self,kobs,pmin,pmax,prms)
+subroutine aq_geovals_stats(self,kobs,pmin,pmax,pave,pstd)
 
 implicit none
 
@@ -313,27 +313,23 @@ type(aq_geovals),intent(inout) :: self       !< GeoVals
 integer,intent(inout) :: kobs            !< Number of observations
 real(kind_real),intent(inout) :: pmin    !< Minimum value
 real(kind_real),intent(inout) :: pmax    !< Maximum value
-real(kind_real),intent(inout) :: prms    !< RMS
-
-! Local variables
-integer :: nv
+real(kind_real),intent(inout) :: pave    !< Mean
+real(kind_real),intent(inout) :: pstd    !< StdDev
 
 ! Compute GeoVals stats
 kobs = self%nobs
 if (self%nobs>0) then
   pmin = huge(1.0)
   pmax = -huge(1.0)
-  prms = 0.0
-  nv = 0
   pmin = min(pmin,minval(self%x))
   pmax = max(pmax,maxval(self%x))
-  prms = prms+sum(self%x**2)
-  nv = nv+1
-  prms = sqrt(prms/real(self%nobs*nv,kind_real))
+  pave = sum(self%x)/real(self%nobs,kind_real)
+  pstd = sqrt(sum((self%x-pave)**2)/real(self%nobs,kind_real))
 else
   pmin = 0.0
   pmax = 0.0
-  prms = 0.0
+  pave = 0.0
+  pstd = 0.0
 end if
 
 end subroutine aq_geovals_stats

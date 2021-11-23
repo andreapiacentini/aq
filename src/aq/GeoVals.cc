@@ -152,13 +152,15 @@ void GeoVals::write(const eckit::Configuration & config) const {
 void GeoVals::print(std::ostream & os) const {
   if (comm_.rank() == 0) {
     int nobs;
-    double zmin, zmax, zrms;
-    aq_geovals_stats_f90(keyGeoVals_, nobs, zmin, zmax, zrms);
+    double zmin, zmax, zave, zstd;
+    aq_geovals_stats_f90(keyGeoVals_, nobs, zmin, zmax, zave, zstd);
     std::ios_base::fmtflags f(os.flags());
-    os << " nobs= " << nobs << std::scientific << std::setprecision(4)
+    os << "  GeoVals for var " << vars_[0] << ": nobs= " << nobs
+       << std::scientific << std::setprecision(4)
        << "  Min=" << std::setw(12) << zmin
        << ", Max=" << std::setw(12) << zmax
-       << ", RMS=" << std::setw(12) << zrms;
+       << ", Ave=" << std::setw(12) << zave
+       << ", Std=" << std::setw(12) << zstd;
     os.flags(f);
 
     // If the min value across all variables is positive, then this may be an

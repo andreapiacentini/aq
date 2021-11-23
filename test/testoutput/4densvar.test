@@ -10,54 +10,54 @@ CostFunction::addIncrement: Analysis:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 6.32821e-08; max = 1.28457e-06; mean = 9.64402e-08; stddev = 6.34675e-16
-  Var. O_3: min = 4.13245e-09; max = 1.8257e-07; mean = 4.8275e-08; stddev = 3.87367e-16
-  Var. NO_2: min = 2.72158e-13; max = 1.08147e-07; mean = 8.05477e-10; stddev = 3.92028e-18
+  Var. CO: min = 6.32821e-08; max = 1.28457e-06; mean = 9.64402e-08; stddev = 3.53959e-08
+  Var. O_3: min = 4.13245e-09; max = 1.8257e-07; mean = 4.8275e-08; stddev = 2.76972e-08
+  Var. NO_2: min = 2.72158e-13; max = 1.08147e-07; mean = 8.05477e-10; stddev = 2.76855e-09
 
   Valid time: 2010-07-04T01:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -1.20079e-06; max = 1.16275e-06; mean = 9.62274e-08; stddev = 6.08861e-16
-  Var. O_3: min = 3.42312e-09; max = 1.79969e-07; mean = 4.76608e-08; stddev = 3.77876e-16
-  Var. NO_2: min = -5.89921e-10; max = 9.8611e-08; mean = 8.05465e-10; stddev = 3.80464e-18
+  Var. CO: min = -1.20079e-06; max = 1.16275e-06; mean = 9.62274e-08; stddev = 3.46136e-08
+  Var. O_3: min = 3.42312e-09; max = 1.79969e-07; mean = 4.76608e-08; stddev = 2.73328e-08
+  Var. NO_2: min = -5.89921e-10; max = 9.8611e-08; mean = 8.05465e-10; stddev = 2.73325e-09
 
   Valid time: 2010-07-04T02:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -2.79683e-06; max = 9.0692e-07; mean = 9.60451e-08; stddev = 6.18811e-16
-  Var. O_3: min = 2.58513e-09; max = 1.74848e-07; mean = 4.70411e-08; stddev = 3.74079e-16
-  Var. NO_2: min = -1.42427e-09; max = 7.01188e-08; mean = 8.00858e-10; stddev = 3.5922e-18
+  Var. CO: min = -2.79683e-06; max = 9.0692e-07; mean = 9.60451e-08; stddev = 3.47753e-08
+  Var. O_3: min = 2.58513e-09; max = 1.74848e-07; mean = 4.70411e-08; stddev = 2.71686e-08
+  Var. NO_2: min = -1.42427e-09; max = 7.01188e-08; mean = 8.00858e-10; stddev = 2.66012e-09
 
   Valid time: 2010-07-04T03:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -3.80455e-06; max = 8.63914e-07; mean = 9.58746e-08; stddev = 6.36969e-16
-  Var. O_3: min = 1.8938e-09; max = 1.71813e-07; mean = 4.65037e-08; stddev = 3.72636e-16
-  Var. NO_2: min = -2.28079e-09; max = 5.50681e-08; mean = 7.94542e-10; stddev = 3.34483e-18
+  Var. CO: min = -3.80455e-06; max = 8.63914e-07; mean = 9.58746e-08; stddev = 3.51503e-08
+  Var. O_3: min = 1.8938e-09; max = 1.71813e-07; mean = 4.65037e-08; stddev = 2.70907e-08
+  Var. NO_2: min = -2.28079e-09; max = 5.50681e-08; mean = 7.94542e-10; stddev = 2.56523e-09
 
   Valid time: 2010-07-04T04:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -4.17252e-06; max = 7.99366e-07; mean = 9.57544e-08; stddev = 6.51253e-16
-  Var. O_3: min = 1.40077e-09; max = 1.70494e-07; mean = 4.60328e-08; stddev = 3.72516e-16
-  Var. NO_2: min = -4.61426e-09; max = 5.51061e-08; mean = 7.80723e-10; stddev = 3.0469e-18
+  Var. CO: min = -4.17252e-06; max = 7.99366e-07; mean = 9.57544e-08; stddev = 3.54484e-08
+  Var. O_3: min = 1.40077e-09; max = 1.70494e-07; mean = 4.60328e-08; stddev = 2.70599e-08
+  Var. NO_2: min = -4.61426e-09; max = 5.51061e-08; mean = 7.80723e-10; stddev = 2.44288e-09
 
   Valid time: 2010-07-04T05:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -3.89719e-06; max = 6.80286e-07; mean = 9.5696e-08; stddev = 6.67985e-16
-  Var. O_3: min = 1.05785e-09; max = 1.68808e-07; mean = 4.57689e-08; stddev = 3.75543e-16
-  Var. NO_2: min = -6.9534e-09; max = 6.08729e-08; mean = 7.47665e-10; stddev = 2.5991e-18
+  Var. CO: min = -3.89719e-06; max = 6.80286e-07; mean = 9.5696e-08; stddev = 3.58305e-08
+  Var. O_3: min = 1.05785e-09; max = 1.68808e-07; mean = 4.57689e-08; stddev = 2.71411e-08
+  Var. NO_2: min = -6.9534e-09; max = 6.08729e-08; mean = 7.47665e-10; stddev = 2.25577e-09
 
 
 

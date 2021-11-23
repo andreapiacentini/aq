@@ -4,9 +4,9 @@ State:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 5.53087e-08; max = 1.01973e-06; mean = 9.72932e-08; stddev = 6.99769e-16
-  Var. O_3: min = 7.99415e-10; max = 1.68111e-07; mean = 4.58776e-08; stddev = 3.76677e-16
-  Var. NO_2: min = 9.25205e-13; max = 6.25183e-08; mean = 6.67981e-10; stddev = 2.35e-18
+  Var. CO: min = 5.53087e-08; max = 1.01973e-06; mean = 9.72932e-08; stddev = 5.95628e-08
+  Var. O_3: min = 7.99415e-10; max = 1.68111e-07; mean = 4.58776e-08; stddev = 4.61437e-08
+  Var. NO_2: min = 9.25205e-13; max = 6.25183e-08; mean = 6.67981e-10; stddev = 3.55787e-09
 
 Increment: 
   Valid time: 2010-07-04T06:00:00Z
@@ -14,7 +14,7 @@ Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 1 variables
-  Var. O_3: min = -5.20895e-09; max = 3.35343e-09; mean = 3.87631e-11; stddev = 2.08466e-20
+  Var. O_3: min = -5.20895e-09; max = 3.35343e-09; mean = 3.87631e-11; stddev = 3.16649e-10
 
 State plus increment: 
   Valid time: 2010-07-04T06:00:00Z
@@ -22,7 +22,7 @@ State plus increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 5.53087e-08; max = 1.01973e-06; mean = 9.72932e-08; stddev = 6.99769e-16
-  Var. O_3: min = 8.13196e-10; max = 1.68117e-07; mean = 4.59164e-08; stddev = 3.75968e-16
-  Var. NO_2: min = 9.25205e-13; max = 6.25183e-08; mean = 6.67981e-10; stddev = 2.35e-18
+  Var. CO: min = 5.53087e-08; max = 1.01973e-06; mean = 9.72932e-08; stddev = 5.95628e-08
+  Var. O_3: min = 8.13196e-10; max = 1.68117e-07; mean = 4.59164e-08; stddev = 4.61067e-08
+  Var. NO_2: min = 9.25205e-13; max = 6.25183e-08; mean = 6.67981e-10; stddev = 3.55787e-09
 

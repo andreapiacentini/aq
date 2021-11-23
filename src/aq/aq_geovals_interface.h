@@ -45,7 +45,7 @@ extern "C" {
   void aq_geovals_divide_f90(const F90geovals &, const F90geovals &);
   void aq_geovals_rms_f90(const F90geovals &, double &);
   void aq_geovals_dotprod_f90(const F90geovals &, const F90geovals &, double &);
-  void aq_geovals_stats_f90(const F90geovals &, int &, double &, double &, double &);
+  void aq_geovals_stats_f90(const F90geovals &, int &, double &, double &, double &, double &);
   void aq_geovals_maxloc_f90(const F90geovals &, double &, int &, const oops::Variables &);
   void aq_geovals_read_file_f90(const F90geovals &, const eckit::Configuration &);
   void aq_geovals_write_file_f90(const F90geovals &, const eckit::Configuration &);

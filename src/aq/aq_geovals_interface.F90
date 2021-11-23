@@ -321,7 +321,7 @@ call aq_geovals_dotprod(geovals1,geovals2,c_prod)
 end subroutine aq_geovals_dotprod_c
 ! ------------------------------------------------------------------------------
 !> Compute GeoVals statistics
-subroutine aq_geovals_stats_c(c_key_self,c_kobs,c_pmin,c_pmax,c_prms) bind(c,name='aq_geovals_stats_f90')
+subroutine aq_geovals_stats_c(c_key_self,c_kobs,c_pmin,c_pmax,c_pave,c_pstd) bind(c,name='aq_geovals_stats_f90')
 
 implicit none
 
@@ -330,7 +330,8 @@ integer(c_int),intent(in) :: c_key_self !< GeoVals
 integer(c_int),intent(inout) :: c_kobs  !< Number of observations
 real(c_double),intent(inout) :: c_pmin  !< Minimum value
 real(c_double),intent(inout) :: c_pmax  !< Maximum value
-real(c_double),intent(inout) :: c_prms  !< RMS
+real(c_double),intent(inout) :: c_pave  !< Mean
+real(c_double),intent(inout) :: c_pstd  !< StdDev
 
 ! Local variables
 type(aq_geovals),pointer :: self
@@ -339,7 +340,7 @@ type(aq_geovals),pointer :: self
 call aq_geovals_registry%get(c_key_self,self)
 
 ! Call Fortran
-call aq_geovals_stats(self,c_kobs,c_pmin,c_pmax,c_prms)
+call aq_geovals_stats(self,c_kobs,c_pmin,c_pmax,c_pave,c_pstd)
 
 end subroutine aq_geovals_stats_c
 ! ------------------------------------------------------------------------------
