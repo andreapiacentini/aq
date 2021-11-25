@@ -18,7 +18,7 @@ ecbuild --prefix=${build_dir} \
 	-DENABLE_LORENZ95_MODEL=OFF \
 	-DENABLE_OOPS_DOC="OFF" \
         ${AQ_JEDI_SRC}/bundle \
-|| return $?
-make update || return $?
-make -j 24 || return $?
-make install || return $?
+|| exit $?
+make update || exit $?
+make -j 24 || exit $?
+make install || exit $?
