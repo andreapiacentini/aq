@@ -1,4 +1,3 @@
-CostJb   : Nonlinear Jb = 0
 CostJo   : Nonlinear Jo(O3) = 22330.9, nobs = 4526, Jo/n = 4.93391, err = 5e-09
 CostJo   : Nonlinear Jo(NO2) = 139908, nobs = 4046, Jo/n = 34.5794, err = 1.61101e-09
 CostJo   : Nonlinear Jo(CO) = 22046.8, nobs = 1313, Jo/n = 16.7912, err = 7.90389e-08
@@ -64,8 +63,7 @@ CostFunction::addIncrement: Analysis:
 
 
 
-CostJb   : Nonlinear Jb = 2550.36
 CostJo   : Nonlinear Jo(O3) = 22452.2, nobs = 4526, Jo/n = 4.96071, err = 5e-09
 CostJo   : Nonlinear Jo(NO2) = 52787.2, nobs = 4046, Jo/n = 13.0468, err = 1.61101e-09
 CostJo   : Nonlinear Jo(CO) = 8648.25, nobs = 1313, Jo/n = 6.58663, err = 7.90389e-08
-CostFunction: Nonlinear J = 86438
+CostFunction: Nonlinear J = 83887.6

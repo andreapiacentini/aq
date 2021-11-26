@@ -28,6 +28,7 @@ cost function:
   window begin: '2010-07-04T00:00:00Z'
   window length: PT5H
   geometry: *gems02_geom
+  jb evaluation: false
 
   background:
     states:
