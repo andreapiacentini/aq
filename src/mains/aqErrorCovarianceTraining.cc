@@ -8,19 +8,17 @@
  * does it submit to any jurisdiction.
  */
 
+#include "aq/instantiateAqChangeVarFactory.h"
 #include "aq/Traits.h"
 #include "oops/runs/Dirac.h"
 #include "oops/runs/Run.h"
-#include "saber/oops/EstimateParams.h"
+#include "saber/oops/ErrorCovarianceTraining.h"
 #include "saber/oops/instantiateCovarFactory.h"
-#include "saber/oops/instantiateLocalizationFactory.h"
-#include "saber/oops/instantiateVariableChangeFactory.h"
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
+  aq::instantiateAqChangeVarFactory();
   saber::instantiateCovarFactory<aq::Traits>();
-  saber::instantiateLocalizationFactory<aq::Traits>();
-  saber::instantiateVariableChangeFactory<aq::Traits>();
-  saber::EstimateParams<aq::Traits> dir;
+  saber::ErrorCovarianceTraining<aq::Traits> dir;
   return run.execute(dir);
 }

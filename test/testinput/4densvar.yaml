@@ -54,13 +54,16 @@ cost function:
   background error:
     covariance model: ensemble
     localization:
-      bump:
-        datadir: Data
-        load_nicas_local: 1
-        prefix: loc_4d
-        strategy: common
-      localization method: BUMP
-      localization variables: *vars
+      localization method: SABER
+      saber block:
+        saber block name: BUMP_NICAS
+        input variables: *vars
+        output variables: *vars
+        bump:
+          datadir: Data
+          load_nicas_local: true
+          prefix: loc_2pe
+          strategy: common
     members:
     - states:
       - <<: *state_ref

@@ -20,14 +20,24 @@ state test:
     date: 2010-07-04T06:00:00Z
     filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
     state variables: *vars
-  statefileout:
-    datadir: Data
+  write then read test:
+    state write:
+      datadir: Data
+      date: '2010-07-04T06:00:00Z'
+      filename: Data/HMGEMS02+2010070406_out.nc
+      state variables: *vars
+    state read:
+      datadir: Data
+      date: '2010-07-04T06:00:00Z'
+      filename: Data/HMGEMS02+2010070406_out.nc
+      state variables: *vars
+  state generate:
+    analytic init:
     date: '2010-07-04T06:00:00Z'
-    filename: Data/HMGEMS02+2010070406_out.nc
     state variables: *vars
   date: 2010-07-04T06:00:00Z
   norm file: 5.7285093316388685e-05
-  norm generated state: 1160.9686330528625
+  norm generated state: 1160.9686129899121
   tolerance: 1.0e-08
 
 increment test:

@@ -66,5 +66,5 @@ output variance:
   fileprefix: V3GEMS02
 
 test:
-  reference filename: testoutput/dirac_no_loc.test
-  test output filename: testoutput/dirac_no_loc.log
+  reference filename: testoutput/dirac_no_loc_3d.test
+  test output filename: testoutput/dirac_no_loc_3d.log
