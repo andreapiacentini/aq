@@ -12,6 +12,7 @@
 #include "eckit/utils/Translator.h"
 
 #include "aq/Tools.h"
+
 #include "oops/mpi/mpi.h"
 
 namespace aq {

@@ -491,7 +491,7 @@ ecbuild_add_test( TARGET test_aq_dirac_no_loc_3d
                   MPI 6
                   OMP 4
                   ARGS testinput/dirac_no_loc_3d.yaml
-                  COMMAND  aq_dirac.x)
+                  COMMAND  aq_dirac.x )
 
 ecbuild_add_test( TARGET test_aq_dirac_loc_3d
                   MPI 6
@@ -519,8 +519,7 @@ ecbuild_add_test( TARGET test_aq_diffstates
                   MPI 6
                   OMP 4
                   ARGS testinput/diffstates.yaml
-                  COMMAND  aq_diffstates.x
-		  )
+                  COMMAND  aq_diffstates.x )
 
 ecbuild_add_test( TARGET test_aq_addincrement
                   MPI 6
