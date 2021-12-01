@@ -29,16 +29,16 @@ background:
 
 bump:
   datadir: Data
-  new_nicas: 1
+  new_nicas: true
   prefix: loc_4d
   resol: 8.0
   strategy: common
-  forced_radii: 1
+  forced_radii: true
   rh:
     common: [1000.0e3]
   rv:
     common: [3.0]
-  write_nicas_local: 1
+  write_nicas_local: true
 input variables: *vars
 
 test:

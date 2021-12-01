@@ -30,7 +30,7 @@ ecbuild_add_executable( TARGET  aq_ens_recenter.x
                       )
 
 ecbuild_add_executable( TARGET  aq_parameters.x
-                        SOURCES aqEstimateParams.cc
+                        SOURCES aqErrorCovarianceTraining.cc
                         LIBS    aq
                                 saber
                       )
