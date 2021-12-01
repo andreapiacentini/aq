@@ -18,19 +18,19 @@ geometry: *gems02_geom
 # Mnemonics:
 _memo:
   - &state_ref
-    date: 2010-07-04T00:00:00Z
-    filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
+    date: 2010-07-04T06:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
     state variables: *vars
 
 background:
-  date: 2010-07-04T00:00:00Z
-  filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
+  date: 2010-07-04T06:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: *vars
 
 bump:
   datadir: Data
   new_nicas: true
-  prefix: loc_4d
+  prefix: loc_2pe
   resol: 8.0
   strategy: common
   forced_radii: true
@@ -42,5 +42,5 @@ bump:
 input variables: *vars
 
 test:
-  reference filename: testoutput/parameters_loc_4d.test
-  test output filename: testoutput/parameters_loc_4d.log
+  reference filename: testoutput/parameters_loc_2pe.test
+  test output filename: testoutput/parameters_loc_2pe.log

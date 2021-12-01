@@ -12,7 +12,6 @@
 #include "eckit/utils/Translator.h"
 
 #include "aq/Tools.h"
-
 #include "oops/mpi/mpi.h"
 
 namespace aq {
@@ -32,13 +31,13 @@ namespace aq {
   }
 
   void syncAll() {
-    MPI::COMM_WORLD.Barrier();
+    oops::mpi::world().barrier();
   }
 
   std::ofstream ofnull_;
 
   std::ostream& masterOut() {
-    if (oops::mpi::world().rank() == 0) {
+    if (eckit::mpi::comm().rank() == 0) {
       return std::cout;
     } else {
       ofnull_.setstate(std::ios_base::badbit);
@@ -47,11 +46,11 @@ namespace aq {
   }
 
   int timeInstance() {
-    return static_cast<int>(MPI::COMM_WORLD.Get_rank() / oops::mpi::world().size());
+    return static_cast<int>(oops::mpi::world().rank() / eckit::mpi::comm().size());
   }
 
   int nbTimeInstances() {
-    return static_cast<int>(MPI::COMM_WORLD.Get_size() / oops::mpi::world().size());
+    return static_cast<int>(oops::mpi::world().size() / eckit::mpi::comm().size());
   }
 
   // -----------------------------------------------------------------------------

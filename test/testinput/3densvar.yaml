@@ -44,7 +44,7 @@ cost function:
         bump:
           datadir: Data
           load_nicas_local: true
-          prefix: loc_3d
+          prefix: loc_6pe
           strategy: common
     members:
       - <<: *state_ref

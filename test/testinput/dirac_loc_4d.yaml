@@ -33,7 +33,7 @@ background error:
       bump:
         datadir: Data
         load_nicas_local: true
-        prefix: loc_4d
+        prefix: loc_2pe
         strategy: common
   members:
   - states:
