@@ -19,6 +19,8 @@
 
 #include "oops/base/Variables.h"
 #include "oops/util/ObjectCounter.h"
+#include "oops/util/parameters/Parameters.h"
+#include "oops/util/parameters/RequiredParameter.h"
 #include "oops/util/Printable.h"
 
 #include "aq/interface.h"
@@ -30,16 +32,26 @@ namespace oops {
 namespace aq {
   class Locations;
 
+/// Parameters controlling a GeoVaLs read/write
+class GeoValsParameters : public oops::Parameters {
+  OOPS_CONCRETE_PARAMETERS(GeoValsParameters, Parameters)
+
+ public:
+  oops::RequiredParameter<std::string> filename{"filename", "filename for input and output",
+                                                this};
+};
+
 /// GeoVals class to handle local model values for AQ model.
 
 class GeoVals : public util::Printable,
-              private util::ObjectCounter<GeoVals> {
+                private util::ObjectCounter<GeoVals> {
  public:
+  typedef GeoValsParameters Parameters_;
+
   static const std::string classname() {return "aq::GeoVals";}
 
   GeoVals(const Locations &, const oops::Variables &, const std::vector<size_t> &);
-  GeoVals(const eckit::Configuration &, const ObsSpace &,
-        const oops::Variables &);
+  GeoVals(const Parameters_ &, const ObsSpace &, const oops::Variables &);
   explicit GeoVals(const GeoVals &);
 
   GeoVals(): keyGeoVals_(0), comm_(eckit::mpi::comm(NULL)) {}
@@ -57,8 +69,8 @@ class GeoVals : public util::Printable,
   GeoVals & operator-=(const GeoVals &);
   GeoVals & operator*=(const GeoVals &);
   double dot_product_with(const GeoVals &) const;
-  void read(const eckit::Configuration &);
-  void write(const eckit::Configuration &) const;
+  void read(const Parameters_ &);
+  void write(const Parameters_ &) const;
 
   /// communicator
   const eckit::mpi::Comm & comm() const {return comm_;}

@@ -15,7 +15,6 @@
 #include "aq/aq_geovals_interface.h"
 #include "aq/Locations.h"
 #include "aq/ObsSpace.h"
-#include "eckit/config/Configuration.h"
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 
@@ -35,13 +34,13 @@ GeoVals::GeoVals(const Locations & locs, const oops::Variables & vars,
 // -----------------------------------------------------------------------------
 /*! AQ GeoVaLs Constructor with Config */
 
-  GeoVals::GeoVals(const eckit::Configuration & config,
+  GeoVals::GeoVals(const Parameters_ & params,
                const ObsSpace & ospace, const oops::Variables & vars):
   vars_(vars), comm_(ospace.comm())
 {
   if (comm_.rank() == 0) {
     aq_geovals_create_f90(keyGeoVals_, vars_);
-    aq_geovals_read_file_f90(keyGeoVals_, config);
+    aq_geovals_read_file_f90(keyGeoVals_, params.toConfiguration());
   }
 }
 // -----------------------------------------------------------------------------
@@ -137,15 +136,15 @@ double GeoVals::dot_product_with(const GeoVals & other) const {
   return zz;
 }
 // -----------------------------------------------------------------------------
-void GeoVals::read(const eckit::Configuration & config) {
+void GeoVals::read(const Parameters_ & params) {
   if (comm_.rank() == 0) {
-    aq_geovals_read_file_f90(keyGeoVals_, config);
+    aq_geovals_read_file_f90(keyGeoVals_, params.toConfiguration());
   }
 }
 // -----------------------------------------------------------------------------
-void GeoVals::write(const eckit::Configuration & config) const {
+void GeoVals::write(const Parameters_ & params) const {
   if (comm_.rank() == 0) {
-    aq_geovals_write_file_f90(keyGeoVals_, config);
+    aq_geovals_write_file_f90(keyGeoVals_, params.toConfiguration());
   }
 }
 // -----------------------------------------------------------------------------
