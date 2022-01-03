@@ -11,14 +11,14 @@
 #ifndef AQ_TRAITS_H_
 #define AQ_TRAITS_H_
 
-#include <string>
-
+#include "aq/ChangeVar.h"
 #include "aq/Covariance.h"
 #include "aq/Geometry.h"
 #include "aq/GeometryIterator.h"
 #include "aq/GeoVals.h"
 #include "aq/GetValues.h"
 #include "aq/Increment.h"
+#include "aq/LinearChangeVar.h"
 #include "aq/LinearGetValues.h"
 #include "aq/LinearObsOperator.h"
 #include "aq/Locations.h"
@@ -36,51 +36,6 @@
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
 #include "aq/State.h"
-
-namespace aq {
-
-struct Traits {
-  static std::string name() {return "AQ";}
-  static std::string nameCovar() {return "AqError";}
-  static std::string nameCovar4D() {return "AqError";}
-
-  typedef aq::Geometry            Geometry;
-
-  typedef aq::GeometryIterator    GeometryIterator;
-
-  typedef aq::GetValues           GetValues;
-  typedef aq::LinearGetValues     LinearGetValues;
-
-  typedef aq::State               State;
-  typedef aq::Increment           Increment;
-  typedef aq::Covariance     Covariance;
-
-  typedef aq::ModelAuxControl             ModelAuxControl;
-  typedef aq::ModelAuxIncrement    ModelAuxIncrement;
-  typedef aq::ModelAuxCovariance   ModelAuxCovariance;
-};
-
-struct ObsTraits {
-  static std::string name() {return "AQ obs";}
-
-  typedef aq::ObsSpace            ObsSpace;
-  typedef aq::ObsVec              ObsVector;
-  typedef aq::ObsOperator         ObsOperator;
-  typedef aq::LinearObsOperator       LinearObsOperator;
-  template <typename DATATYPE> using ObsDataVector = aq::ObsData<DATATYPE>;
-  typedef aq::ObsIterator         GeometryIterator;
-
-  typedef aq::ObsAuxControl               ObsAuxControl;
-  typedef aq::ObsAuxIncrement      ObsAuxIncrement;
-  typedef aq::ObsAuxCovariance     ObsAuxCovariance;
-  typedef aq::ObsAuxPreconditioner ObsAuxPreconditioner;
-
-  typedef aq::ObsDiagnostics            ObsDiagnostics;
-
-  typedef aq::GeoVals               GeoVaLs;
-  typedef aq::Locations           Locations;
-};
-
-}  // namespace aq
+#include "aq/TraitsFwd.h"
 
 #endif  // AQ_TRAITS_H_

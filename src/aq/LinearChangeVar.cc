@@ -12,6 +12,7 @@
 
 #include "aq/Geometry.h"
 #include "aq/Increment.h"
+#include "aq/interface.h"
 #include "aq/State.h"
 #include "eckit/config/Configuration.h"
 #include "oops/base/Variables.h"
@@ -20,45 +21,28 @@
 
 namespace aq {
 // -----------------------------------------------------------------------------
-LinearChangeVar::LinearChangeVar(const State &, const State &,
-                                 const Geometry & resol, const eckit::Configuration & conf) {}
+LinearChangeVar::LinearChangeVar(const Geometry &, const Parameters_ &) {}
 // -----------------------------------------------------------------------------
 LinearChangeVar::~LinearChangeVar() {}
 // -----------------------------------------------------------------------------
-void LinearChangeVar::multiply(const Increment & dxa, Increment & dxm) const {
-  if ( dxm.serialSize() > dxa.serialSize() ) {
-    ABORT("LinearChangeVar::multiply only allowed toward smaller or equal subsets");
-  }
-  dxm = dxa;
-  // AQ aq_change_var_tl_f90(dxa.fields().toFortran(), dxm.fields().toFortran());
-  oops::Log::debug() << "LinearChangeVar::multiply" << dxm << std::endl;
+void LinearChangeVar::multiply(Increment & dx, const oops::Variables & vars) const {
+// AQ  aq_change_var_tl_f90(dx.fields().toFortran(), vars);
 }
 // -----------------------------------------------------------------------------
-void LinearChangeVar::multiplyInverse(const Increment & dxm, Increment & dxa) const {
-  if ( dxm.serialSize() > dxa.serialSize() ) {
-    ABORT("LinearChangeVar::multiplyInverse only allowed from smaller or equal subsets");
-  }
-  dxa = dxm;
-  // AQ aq_change_var_tl_f90(dxm.fields().toFortran(), dxa.fields().toFortran());
-  oops::Log::debug() << "LinearChangeVar::multiplyInverse" << dxm << std::endl;
+void LinearChangeVar::multiplyInverse(Increment & dx, const oops::Variables & vars) const {
+// AQ  aq_change_var_tl_f90(dx.fields().toFortran(), vars);
 }
 // -----------------------------------------------------------------------------
-void LinearChangeVar::multiplyAD(const Increment & dxm, Increment & dxa) const {
-  if ( dxm.serialSize() > dxa.serialSize() ) {
-    ABORT("LinearChangeVar::multiplyAD only allowed from smaller or equal subsets");
-  }
-  dxa += dxm;
-  // AQ aq_change_var_ad_f90(dxm.fields().toFortran(), dxa.fields().toFortran());
-  oops::Log::debug() << "LinearChangeVar::multiplyAD" << dxm << std::endl;
+void LinearChangeVar::multiplyAD(Increment & dx, const oops::Variables & vars) const {
+// AQ  aq_change_var_ad_f90(dx.fields().toFortran(), vars);
 }
 // -----------------------------------------------------------------------------
-void LinearChangeVar::multiplyInverseAD(const Increment & dxa, Increment & dxm) const {
-  if ( dxm.serialSize() > dxa.serialSize() ) {
-    ABORT("LinearChangeVar::multiplyInverseAD only allowed toward smaller or equal subsets");
-  }
-  dxm += dxa;
-  // AQ aq_change_var_ad_f90(dxa.fields().toFortran(), dxm.fields().toFortran());
-  oops::Log::debug() << "LinearChangeVar::multiplyInverseAD" << dxm << std::endl;
+void LinearChangeVar::multiplyInverseAD(Increment & dx, const oops::Variables & vars) const {
+// AQ  aq_change_var_ad_f90(dx.fields().toFortran(), vars);
+}
+// -----------------------------------------------------------------------------
+void LinearChangeVar::setTrajectory(const State & background, const State & firstGuess) {
+  // No AQ trajectory used. No fortran to call here.
 }
 // -----------------------------------------------------------------------------
 void LinearChangeVar::print(std::ostream & os) const {

@@ -1,6 +1,6 @@
 /*
  * (C) Copyright 2017-2021 UCAR.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
@@ -11,9 +11,9 @@
 #include <ostream>
 #include <string>
 
-#include "oops/base/VariableChangeBase.h"
-
-#include "aq/Traits.h"
+#include "aq/ChangeVarParameters.h"
+#include "aq/Geometry.h"
+#include "oops/util/Printable.h"
 
 // Forward declarations
 namespace eckit {
@@ -27,16 +27,17 @@ namespace aq {
 // -----------------------------------------------------------------------------
 /// AQ change of variable
 
-class ChangeVar: public oops::VariableChangeBase<Traits> {
+class ChangeVar: public util::Printable {
  public:
+  typedef ChangeVarParameters Parameters_;
   static const std::string classname() {return "aq::ChangeVar";}
 
-  ChangeVar(const Geometry &, const eckit::Configuration &);
+  ChangeVar(const Parameters_ &, const Geometry &);
   ~ChangeVar();
 
 /// Perform transforms
-  void changeVar(const State &, State &) const override;
-  void changeVarInverse(const State &, State &) const override;
+  void changeVar(State &, const oops::Variables &) const;
+  void changeVarInverse(State &, const oops::Variables &) const;
 
  private:
   void print(std::ostream &) const override;

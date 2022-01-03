@@ -25,10 +25,6 @@
 
 #include "aq/interface.h"
 
-namespace oops {
-  class Variables;
-}
-
 namespace aq {
   class Locations;
 

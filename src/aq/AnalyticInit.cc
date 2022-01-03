@@ -21,7 +21,7 @@ AnalyticInit::AnalyticInit(const Parameters_ & options) : options_(options)
 // -----------------------------------------------------------------------------
 /*! \brief GeoVaLs Analytic Initialization
  *
- * \details This aq::AnalyticInit constructor was introduced for QG in May, 2018 
+ * \details This aq::AnalyticInit constructor was introduced for AQ in May, 2018 
  * for use with the interpolation test.
  *
  */

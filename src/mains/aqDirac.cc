@@ -8,7 +8,6 @@
  * does it submit to any jurisdiction.
  */
 
-#include "aq/instantiateAqChangeVarFactory.h"
 #include "aq/Traits.h"
 #include "oops/runs/Dirac.h"
 #include "oops/runs/Run.h"
@@ -16,7 +15,6 @@
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
-  aq::instantiateAqChangeVarFactory();
   saber::instantiateCovarFactory<aq::Traits>();
   oops::Dirac<aq::Traits> dir;
   return run.execute(dir);

@@ -137,7 +137,7 @@ void Fields::schur_product_with(const Fields & dx) {
 }
 // -----------------------------------------------------------------------------
 void Fields::random() {
-  aq_fields_random_f90(keyFlds_, vars_);
+  aq_fields_random_f90(keyFlds_);
 }
 // -----------------------------------------------------------------------------
 void Fields::dirac(const eckit::Configuration & config) {

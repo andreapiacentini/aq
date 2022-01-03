@@ -40,25 +40,25 @@ namespace aq {
 // -----------------------------------------------------------------------------
 Increment::Increment(const Geometry & resol, const oops::Variables & vars,
                          const util::DateTime & vt)
-  : fields_(new Fields(resol, vars, vt))
+  : fields_(new Fields(resol, vars, vt)), vars_(vars)
 {
   oops::Log::trace() << "Increment constructed." << std::endl;
 }
 // -----------------------------------------------------------------------------
 Increment::Increment(const Geometry & resol, const Increment & other)
-  : fields_(new Fields(*other.fields_, resol))
+  : fields_(new Fields(*other.fields_, resol)), vars_(other.vars_)
 {
   oops::Log::trace() << "Increment constructed from other." << std::endl;
 }
 // -----------------------------------------------------------------------------
 Increment::Increment(const Increment & other, const bool copy)
-  : fields_(new Fields(*other.fields_, copy))
+  : fields_(new Fields(*other.fields_, copy)), vars_(other.vars_)
 {
   oops::Log::trace() << "Increment copy-created." << std::endl;
 }
 // -----------------------------------------------------------------------------
 Increment::Increment(const Increment & other)
-  : fields_(new Fields(*other.fields_))
+  : fields_(new Fields(*other.fields_)), vars_(other.vars_)
 {
   oops::Log::trace() << "Increment copy-created." << std::endl;
 }
