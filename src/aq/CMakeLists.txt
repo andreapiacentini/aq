@@ -3,8 +3,10 @@ list( APPEND aq_src_files
   Traits.h
   ChangeVar.cc
   ChangeVar.h
+  ChangeVarParameters.h
   LinearChangeVar.cc
   LinearChangeVar.h
+  LinearChangeVarParameters.h
   Covariance.cc
   Covariance.h
   Fields.cc
@@ -61,7 +63,6 @@ list( APPEND aq_src_files
   State.h
   Tools.cc
   Tools.h
-  instantiateAqChangeVarFactory.h
   aq_blas_mod.F90
   aq_constants_mod.F90
   aq_fields_interface.F90

@@ -41,7 +41,7 @@ extern "C" {
   void aq_fields_zero_f90(const F90flds &);
   void aq_fields_ones_f90(const F90flds &);
   void aq_fields_dirac_f90(const F90flds &, const eckit::Configuration &);
-  void aq_fields_random_f90(const F90flds &, const oops::Variables &);
+  void aq_fields_random_f90(const F90flds &);
   void aq_fields_copy_f90(const F90flds &, const F90flds &);
   void aq_fields_self_add_f90(const F90flds &, const F90flds &);
   void aq_fields_self_sub_f90(const F90flds &, const F90flds &);

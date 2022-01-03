@@ -5,14 +5,12 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#include "aq/instantiateAqChangeVarFactory.h"
 #include "aq/Traits.h"
 #include "oops/runs/HofX3D.h"
 #include "oops/runs/Run.h"
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
-  aq::instantiateAqChangeVarFactory();
   oops::HofX3D<aq::Traits, aq::ObsTraits> hofx;
   return run.execute(hofx);
 }

@@ -118,10 +118,14 @@ class Increment : public util::Printable,
   void serialize(std::vector<double> &) const override;
   void deserialize(const std::vector<double> &, size_t &) override;
 
+/// Variables
+  const oops::Variables & variables() const {return vars_;}
+
 /// Data
  private:
   void print(std::ostream &) const override;
   std::unique_ptr<Fields> fields_;
+  oops::Variables vars_;
 };
 // -----------------------------------------------------------------------------
 

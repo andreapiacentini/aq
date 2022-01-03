@@ -16,7 +16,7 @@ namespace aq {
   class Locations;
   class GeoVals;
 
-/// Parameters for QG Analytic init (empty except for analytic init method defined
+/// Parameters for AQ Analytic init (empty except for analytic init method defined
 /// in the base class)
 class AnalyticInitParameters : public oops::AnalyticInitParametersBase {
   OOPS_CONCRETE_PARAMETERS(AnalyticInitParameters, AnalyticInitParametersBase)

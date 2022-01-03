@@ -12,10 +12,15 @@
 #include <string>
 
 #include "oops/util/Printable.h"
+#include "aq/LinearChangeVarParameters.h"
 
 // Forward declarations
 namespace eckit {
   class Configuration;
+}
+
+namespace oops {
+  class Variables;
 }
 
 namespace aq {
@@ -28,17 +33,18 @@ namespace aq {
 
 class LinearChangeVar: public util::Printable {
  public:
-  static const std::string classname() {return "aq::ChangeVar";}
+  typedef LinearChangeVarParameters Parameters_;
+  static const std::string classname() {return "aq::LinearChangeVar";}
 
-  LinearChangeVar(const State &, const State &, const Geometry &,
-                  const eckit::Configuration &);
+  LinearChangeVar(const Geometry &, const Parameters_ &);
   ~LinearChangeVar();
 
 /// Perform linear transforms
-  void multiply(const Increment &, Increment &) const;
-  void multiplyInverse(const Increment &, Increment &) const;
-  void multiplyAD(const Increment &, Increment &) const;
-  void multiplyInverseAD(const Increment &, Increment &) const;
+  void multiply(Increment &, const oops::Variables &) const;
+  void multiplyInverse(Increment &, const oops::Variables &) const;
+  void multiplyAD(Increment &, const oops::Variables &) const;
+  void multiplyInverseAD(Increment &, const oops::Variables &) const;
+  void setTrajectory(const State &, const State &);
 
  private:
   void print(std::ostream &) const override;
