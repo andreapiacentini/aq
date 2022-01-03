@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef AQ_MODEL_TRAITSFWD_H_
-#define AQ_MODEL_TRAITSFWD_H_
+#ifndef AQ_TRAITSFWD_H_
+#define AQ_TRAITSFWD_H_
 
 #include <string>
 
@@ -93,4 +93,4 @@ struct ObsTraits {
 
 }  // namespace aq
 
-#endif  // AQ_MODEL_TRAITSFWD_H_
+#endif  // AQ_TRAITSFWD_H_

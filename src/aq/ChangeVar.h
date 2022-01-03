@@ -11,9 +11,9 @@
 #include <ostream>
 #include <string>
 
+#include "aq/ChangeVarParameters.h"
 #include "aq/Geometry.h"
 #include "oops/util/Printable.h"
-#include "aq/ChangeVarParameters.h"
 
 // Forward declarations
 namespace eckit {

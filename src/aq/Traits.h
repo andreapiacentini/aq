@@ -35,7 +35,7 @@
 #include "aq/ObsOperator.h"
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
-#include "aq/TraitsFwd.h"
 #include "aq/State.h"
+#include "aq/TraitsFwd.h"
 
 #endif  // AQ_TRAITS_H_

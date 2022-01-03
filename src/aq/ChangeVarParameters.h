@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#ifndef AQ_MODEL_CHANGEVARPARAMETERS_H_
-#define AQ_MODEL_CHANGEVARPARAMETERS_H_
+#ifndef AQ_CHANGEVARPARAMETERS_H_
+#define AQ_CHANGEVARPARAMETERS_H_
 
 #include <ostream>
 #include <string>
@@ -28,4 +28,4 @@ class ChangeVarParameters : public oops::VariableChangeParametersBase {
 // -------------------------------------------------------------------------------------------------
 
 }  // namespace aq
-#endif  // AQ_MODEL_CHANGEVARPARAMETERS_H_
+#endif  // AQ_CHANGEVARPARAMETERS_H_

@@ -11,8 +11,8 @@
 #include <ostream>
 #include <string>
 
-#include "oops/util/Printable.h"
 #include "aq/LinearChangeVarParameters.h"
+#include "oops/util/Printable.h"
 
 // Forward declarations
 namespace eckit {
