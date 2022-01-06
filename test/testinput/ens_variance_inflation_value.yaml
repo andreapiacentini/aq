@@ -23,9 +23,9 @@ _memo:
     state variables: *vars
 
 background:
-  *state_ref
+  <<: *state_ref
+  state variables: [CO,O_3]
 ensemble:
-  output variables: [CO,O_3]
   members:
     - <<: *state_ref
       filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0001.nc
