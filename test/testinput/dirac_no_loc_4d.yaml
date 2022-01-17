@@ -531,7 +531,7 @@ initial condition:
 
 output dirac:
   datadir: Data
-  fileprefix: D4GEMS02
+  fileprefix: D4GEMS02_%id%
 
 output variance:
   datadir: Data

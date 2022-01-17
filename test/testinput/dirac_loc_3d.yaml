@@ -71,7 +71,7 @@ initial condition:
 
 output dirac:
   datadir: Data
-  fileprefix: L3GEMS02
+  fileprefix: L3GEMS02_%id%
 
 output variance:
   datadir: Data
