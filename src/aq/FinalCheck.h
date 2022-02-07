@@ -33,7 +33,11 @@ class FinalCheck : public oops::interface::ObsFilterBase<ObsTraits> {
 
   void preProcess() override {}
   void priorFilter(const GeoVals &) override {}
-  void postFilter(const ObsVec &, const ObsVec &, const ObsDiagnostics &) override {}
+  void postFilter(const GeoVals &,
+                  const ObsVec &,
+                  const ObsVec &,
+                  const ObsDiagnostics &) override {}
+  void checkFilterData(const oops::FilterStage filterStage) override {}
 
   oops::Variables requiredVars() const override {return novars_;}
   oops::Variables requiredHdiagnostics() const override {return novars_;}
