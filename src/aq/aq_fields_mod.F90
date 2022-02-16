@@ -25,6 +25,7 @@ use aq_geom_mod
 use aq_constants_mod
 use aq_blas_mod
 use aq_field_io_mod
+use aq_transform_mod
 !AP use aq_interp_mod
 !AP use aq_locs_mod
 use random_mod
@@ -49,6 +50,7 @@ type, extends(atlas_FieldSet) :: aq_fields
   character(len=:), allocatable :: fs_name
   type(datetime)                :: date
   character(len=:), allocatable :: var_name(:)
+  type(aq_transform)            :: var_transf
   type(aq_geom)                 :: geom
   type(fckit_mpi_comm)          :: fmpi
   integer                       :: prec
@@ -234,6 +236,8 @@ subroutine aq_field_create_from_other(self, other, name, date, kind)
   allocate(character(aq_varlen)::self%var_name(self%n_vars))
   self%var_name(:) = other%var_name(:)
   !
+  call self%var_transf%copy(other%var_transf)
+  !
   if (present(kind)) then
      self%prec = kind
      if (kind == aq_single) then
@@ -285,6 +289,7 @@ subroutine aq_field_delete(this)
   !
   integer(atlas_kind_idx) :: ib_var
   !
+  call this%var_transf%delete()
   if (allocated(this%var_name)) deallocate(this%var_name)
   if (allocated(this%fldsd)) then
      do ib_var = 1, this%n_vars
@@ -498,6 +503,7 @@ subroutine aq_field_copy(self, other)
   ll_copy = self%n_vars == other%n_vars
   if (ll_copy) ll_copy = all(self%var_name == other%var_name)
   if (ll_copy) then
+     call self%var_transf%copy(other%var_transf)
      select case(self%prec)
      case(aq_single)
         select case(other%prec)
@@ -1189,7 +1195,7 @@ subroutine aq_field_stats_per_var_lev(self, valmin, valmax, mean, stddev, divnm1
      end do
   end if
   call self%fmpi%allreduce(valmin,fckit_mpi_min())
-  call self%fmpi%allreduce(valmax,fckit_mpi_max())      
+  call self%fmpi%allreduce(valmax,fckit_mpi_max())
   !
   mean(:,:) = 0.0_aq_real
   stddev(:,:) = 0.0_aq_real
@@ -1215,13 +1221,13 @@ subroutine aq_field_stats_per_var_lev(self, valmin, valmax, mean, stddev, divnm1
      if (sgl) then
         do ib_k = 1, self%geom%levels
            do ib_var = 1, self%n_vars
-              mean(ib_var,ib_k) = sum(self%fldss(ib_var)%fld(ib_k,:)) 
+              mean(ib_var,ib_k) = sum(self%fldss(ib_var)%fld(ib_k,:))
            end do
         end do
      else
         do ib_k = 1, self%geom%levels
            do ib_var = 1, self%n_vars
-              mean(ib_var,ib_k) = sum(self%fldsd(ib_var)%fld(ib_k,:)) 
+              mean(ib_var,ib_k) = sum(self%fldsd(ib_var)%fld(ib_k,:))
            end do
         end do
      end if
@@ -1290,7 +1296,7 @@ subroutine aq_field_info(self, config)
   call datetime_to_yyyymmddhhmmss(self%date, year, month, day, hour, minute, second)
   call config%set('date',[year,month,day,hour,minute,second])
   call config%set('precision',self%prec)
-  
+
   geom_config = fckit_configuration()
   call self%geom%info(nx, ny, nz, deltax, deltay, xmin, ymin, mod_levels, halo, domname, orientation, model)
   call geom_config%set('nx',nx)
@@ -1314,7 +1320,7 @@ subroutine aq_field_info(self, config)
   allocate(meanvar(self%n_vars))
   allocate(stddevvar(self%n_vars))
   call self%stats(minvar, maxvar, meanvar, stddevvar)
-  
+
   do ib_var = 1, self%n_vars
      species_config = fckit_configuration()
      call species_config%set('min',minvar(ib_var))
@@ -1324,7 +1330,7 @@ subroutine aq_field_info(self, config)
      call stat_config%set(trim(self%var_name(ib_var)),species_config)
      call species_config%final()
   end do
-  
+
   deallocate(minvar)
   deallocate(maxvar)
   deallocate(meanvar)
@@ -1342,6 +1348,7 @@ subroutine aq_field_read(self, config, date)
   character(len=:), allocatable :: file
   type(datetime) :: vdate
   integer :: strlen, dotpos
+  type(fckit_Configuration) :: transform_config
 
   vdate = self%date
   if (present(date)) vdate = date
@@ -1360,12 +1367,37 @@ subroutine aq_field_read(self, config, date)
      call abor1_ftn('Input format '//file(dotpos+1:strlen)//' not recognised')
   end if
 
+  if (config%has("transfvar")) then
+     call config%get_or_die("transfvar", transform_config)
+     call self%var_transf%setup(self%var_name, transform_config)
+     call self%var_transf%apply(self, self%var_name)
+  end if
+
 end subroutine aq_field_read
 
 subroutine aq_field_write(self, config, date)
-  class(aq_fields),          intent(in) :: self
-  type(fckit_Configuration), intent(in) :: config
-  type(datetime), optional,  intent(in) :: date
+  class(aq_fields),          intent(inout) :: self
+  type(fckit_Configuration), intent(in)    :: config
+  type(datetime), optional,  intent(in)    :: date
+
+  type(aq_fields) :: output
+
+  if (self%var_transf%nb_vars > 0) then
+     call output%create_from(self)
+     call output%copy(self)
+     call output%var_transf%apply_inverse(output, output%var_name)
+     call aq_field_do_write(output, config, date)
+     call output%delete()
+  else
+     call aq_field_do_write(self, config, date)
+  end if
+
+end subroutine aq_field_write
+
+subroutine aq_field_do_write(self, config, date)
+  class(aq_fields),          intent(inout) :: self
+  type(fckit_Configuration), intent(in)    :: config
+  type(datetime), optional,  intent(in)    :: date
 
   character(len=:), allocatable :: fileprefix
   character(len=:), allocatable :: datadir
@@ -1394,9 +1426,9 @@ subroutine aq_field_write(self, config, date)
      if (config%has("datadir")) then
         call config%get_or_die("datadir", datadir)
         file=trim(datadir)//'/'//trim(fileprefix)//'+'//trim(filedate)//&
-           & '.'//trim(filetype) 
+           & '.'//trim(filetype)
      else
-        file=trim(fileprefix)//'+'//trim(filedate)//'.'//trim(filetype) 
+        file=trim(fileprefix)//'+'//trim(filedate)//'.'//trim(filetype)
      end if
   end if
   strlen = len(trim(file))
@@ -1417,14 +1449,16 @@ subroutine aq_field_write(self, config, date)
      call abor1_ftn('Output format '//file(dotpos+1:strlen)//' not recognised')
   end if
 
-end subroutine aq_field_write
+end subroutine aq_field_do_write
 
-subroutine aq_field_ana_IC(self)
-  class(aq_fields), intent(inout) :: self
+subroutine aq_field_ana_IC(self, config)
+  class(aq_fields), intent(inout)       :: self
+  type(fckit_Configuration), intent(in) :: config
 
   type(atlas_Field) :: field_xy
   real(atlas_kind_real64), pointer :: xy(:,:)
   integer(atlas_kind_idx) :: ib
+  type(fckit_Configuration) :: transform_config
 
   real(aq_real), parameter :: dp_pi=3.14159265359
   real(aq_real), parameter :: dLon0 = 6.3
@@ -1493,7 +1527,7 @@ subroutine aq_field_ana_IC(self)
         self%fldsd(1)%fld(ib,:) = 1.0_aq_real/real(ib,kind=aq_real) * self%fldsd(1)%fld(1,:)
      end do
   end if
-  
+
   ! Propagate to other species
   if (self%prec == aq_single) then
      do ib = 2, self%n_vars
@@ -1504,8 +1538,14 @@ subroutine aq_field_ana_IC(self)
         self%fldsd(ib)%fld(:,:) = self%fldsd(ib-1)%fld(:,:)*1.2_aq_real
      end do
   end if
-  
+
   call self%halo_exchange()
+  !
+  if (config%has("transfvar")) then
+     call config%get_or_die("transfvar", transform_config)
+     call self%var_transf%setup(self%var_name, transform_config)
+     call self%var_transf%apply(self, self%var_name)
+  end if
   !
 end subroutine aq_field_ana_IC
 
@@ -1863,7 +1903,7 @@ subroutine aq_field_to_atlas(self, vars, fieldset)
                   call afld_t%data(fldd)
                   fldd(:,:) = self%fldsd(self%idx_var(trim(fieldname)))%fld(:,:)
                end if
-!AQ This output should only be on debug channel               
+!AQ This output should only be on debug channel
 !AQ            else
 !AQ               if (self%fmpi%rank() == 0) &
 !AQ                  & print '(3A)', 'Skipping copy of ',trim(fieldname),&

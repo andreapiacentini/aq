@@ -502,7 +502,7 @@ f_conf = fckit_configuration(c_conf)
 call aq_fields_registry%get(c_key_fld,fld)
 
 ! Call Fortran
- call fld%analytic_IC()
+ call fld%analytic_IC(f_conf)
 
 end subroutine aq_fields_analytic_init_c
 ! ------------------------------------------------------------------------------
@@ -601,27 +601,27 @@ end subroutine aq_fields_to_atlas_c
 ! ------------------------------------------------------------------------------
 !AQ !> Get fields from ATLAS
 !AQ subroutine aq_fields_from_atlas_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_from_atlas_f90')
-!AQ 
+!AQ
 !AQ implicit none
-!AQ 
+!AQ
 !AQ ! Passed variables
 !AQ integer(c_int),intent(in) :: c_key_fld           !< Fields
 !AQ type(c_ptr),value,intent(in) :: c_vars           !< List of variables
 !AQ type(c_ptr),intent(in),value :: c_afieldset      !< ATLAS fieldset pointer
-!AQ 
+!AQ
 !AQ ! Local variables
 !AQ type(aq_fields),pointer :: fld
 !AQ type(oops_variables) :: vars
 !AQ type(atlas_fieldset) :: afieldset
-!AQ 
+!AQ
 !AQ ! Interface
 !AQ call aq_fields_registry%get(c_key_fld,fld)
 !AQ vars = oops_variables(c_vars)
 !AQ afieldset = atlas_fieldset(c_afieldset)
-!AQ 
+!AQ
 !AQ ! Call Fortran
 !AQ ! call aq_fields_from_atlas(fld,vars,afieldset)
-!AQ 
+!AQ
 !AQ end subroutine aq_fields_from_atlas_c
 ! ------------------------------------------------------------------------------
 !> Get points from fields
