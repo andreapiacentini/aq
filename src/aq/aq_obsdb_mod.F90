@@ -149,10 +149,10 @@ call f_conf%get_or_die("instr name",self%instrname)
 call f_conf%get_or_die("obs type",self%spcname)
 
 ! Variable transformation
-self%has_transform = f_conf%has("transfvar")
+self%has_transform = f_conf%has("transform")
 if (self%has_transform) then
-   call f_conf%get_or_die("transfvar.method",self%transform)
-   call f_conf%get_or_die("transfvar.parameters",self%tr_params)
+   call f_conf%get_or_die("transform.method",self%transform)
+   call f_conf%get_or_die("transform.parameters",self%tr_params)
 end if
 
 if (openfile) then
@@ -564,6 +564,7 @@ else
        case('log_threshold')
           obsval%values(:,iobs) = log10(rla_obs(iobs)+self%tr_params(1))
        case('log_bounded')
+          !AQ CHECK FORMULAE
           obsval%values(:,iobs) = log10(rla_obs(iobs)/(self%tr_params(1)-rla_obs(iobs)))
        case('scale')
           obsval%values(:,iobs) = rla_obs(iobs)*self%tr_params(1)
@@ -575,7 +576,15 @@ else
        case ("percent")
           select case(trim(self%transform))
           case('log_threshold')
-             obserr%values(:,iobs) = obsval%values(:,iobs) + log10(self%obserrval/100.d0)
+             obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)
+             obserr%values(:,iobs) = log10((rla_obs(iobs)+obserr%values(:,iobs))/ &
+                & (rla_obs(iobs)-obserr%values(:,iobs)))
+          case('log_bounded')
+             !AQ CHECK FORMULAE
+             obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)
+             obserr%values(:,iobs) = log10( &
+                & ((rla_obs(iobs)+obserr%values(:,iobs))/(self%tr_params(1)-rla_obs(iobs)-obserr%values(:,iobs)))/&
+                & ((rla_obs(iobs)-obserr%values(:,iobs))/(self%tr_params(1)-rla_obs(iobs)+obserr%values(:,iobs))))
           case('scale')
              obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)*self%tr_params(1)
           end select
@@ -585,6 +594,7 @@ else
              obserr%values(:,iobs) = log10((rla_obs(iobs)+self%obserrval)/ &
                 & (rla_obs(iobs)-self%obserrval))
           case('log_bounded')
+             !AQ CHECK FORMULAE
              obserr%values(:,iobs) = log10( &
                 & ((rla_obs(iobs)+self%obserrval)/(self%tr_params(1)-rla_obs(iobs)-self%obserrval))/&
                 & ((rla_obs(iobs)-self%obserrval)/(self%tr_params(1)-rla_obs(iobs)+self%obserrval)))

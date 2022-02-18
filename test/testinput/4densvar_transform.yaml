@@ -23,7 +23,7 @@ _memo:
     date: 2010-07-04T00:00:00Z
     filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
     state variables: *vars
-    transfvar:
+    transform:
       NO_2:
         *NO_2_transf
 
@@ -569,7 +569,7 @@ cost function:
       obsdataout:
         obsfile: Data/HSTAT+20100704.h5
       obs type: NO2
-      transfvar:
+      transform:
         *NO_2_transf
       instr name: AIRBASE_NO2
       obserrors:
@@ -619,5 +619,5 @@ output:
   fileprefix: A4GEMS02
 
 test:
-  reference filename: testoutput/4densvar_transfvar.test
-  test output filename: testoutput/4densvar_transfvar.log
+  reference filename: testoutput/4densvar_transform.test
+  test output filename: testoutput/4densvar_transform.log

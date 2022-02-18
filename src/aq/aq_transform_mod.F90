@@ -148,6 +148,7 @@ contains
                      fldd(:,:) = log10(fldd(:,:)+self%params(ib_t)%p(1))
                   end if
                case('log_bounded')
+                  !AQ CHECK FORMULAE
                   if (ll_sgl) then
                      call afld%data(flds)
                      flds(:,:) = log10(flds(:,:)/ &
@@ -206,13 +207,14 @@ contains
                      fldd(:,:) = 10.0**fldd(:,:)-self%params(ib_t)%p(1)
                   end if
                case('log_bounded')
+                  !AQ CHECK FORMULAE
                   if (ll_sgl) then
                      call afld%data(flds)
                      flds(:,:) = (10.0**flds(:,:)*real(self%params(ib_t)%p(1),kind=aq_single))/&
-                        & (1.0-10.0**flds(:,:))
+                        & (1.0+10.0**flds(:,:))
                   else
                      call afld%data(fldd)
-                     fldd(:,:) = (10.0**fldd(:,:)*self%params(ib_t)%p(1))/(1.0-10.0**fldd(:,:))
+                     fldd(:,:) = (10.0**fldd(:,:)*self%params(ib_t)%p(1))/(1.0+10.0**fldd(:,:))
                   end if
                case('scale')
                   if (ll_sgl) then

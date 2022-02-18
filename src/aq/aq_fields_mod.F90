@@ -1367,8 +1367,8 @@ subroutine aq_field_read(self, config, date)
      call abor1_ftn('Input format '//file(dotpos+1:strlen)//' not recognised')
   end if
 
-  if (config%has("transfvar")) then
-     call config%get_or_die("transfvar", transform_config)
+  if (config%has("transform")) then
+     call config%get_or_die("transform", transform_config)
      call self%var_transf%setup(self%var_name, transform_config)
      call self%var_transf%apply(self, self%var_name)
   end if
@@ -1541,8 +1541,8 @@ subroutine aq_field_ana_IC(self, config)
 
   call self%halo_exchange()
   !
-  if (config%has("transfvar")) then
-     call config%get_or_die("transfvar", transform_config)
+  if (config%has("transform")) then
+     call config%get_or_die("transform", transform_config)
      call self%var_transf%setup(self%var_name, transform_config)
      call self%var_transf%apply(self, self%var_name)
   end if

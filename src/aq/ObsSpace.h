@@ -68,8 +68,8 @@ class ObsGenerateParameters : public oops::Parameters {
 };
 
 /// Options controlling the variable tranformations.
-class ObsTransfvarParameters : public oops::Parameters {
-  OOPS_CONCRETE_PARAMETERS(ObsTransfvarParameters, Parameters)
+class ObsTransformParameters : public oops::Parameters {
+  OOPS_CONCRETE_PARAMETERS(ObsTransformParameters, Parameters)
 
  public:
   oops::RequiredParameter<std::string> method{"method", this};
@@ -94,7 +94,7 @@ class ObsSpaceParameters : public oops::ObsSpaceParametersBase {
   /// Options controlling generation of artificial observations.
   oops::OptionalParameter<ObsGenerateParameters> generate{"generate", this};
   /// Options controlling the variable transformations.
-  oops::OptionalParameter<ObsTransfvarParameters> transfvar{"transfvar", this};
+  oops::OptionalParameter<ObsTransformParameters> transform{"transform", this};
 };
 
 /// \brief ObsSpace for AQ model
