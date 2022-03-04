@@ -7,21 +7,22 @@
 # aq bundle
 # #########
 
-cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.12 )
+project( aq-bundle VERSION 0.0.1 LANGUAGES C CXX Fortran )
 
-find_package( ecbuild 3.5 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild)
-
-project( aq-bundle VERSION 1.0.0 LANGUAGES C CXX Fortran )
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
+find_package(ecbuild)
+set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake;${CMAKE_CURRENT_SOURCE_DIR}/ecbuild/cmake;${CMAKE_MODULE_PATH}")
 include( ecbuild_bundle )
 
 # Default release mode
-set( ECBUILD_DEFAULT_BUILD_TYPE Release )
+set( ECBUILD_DEFAULT_BUILD_TYPE RelWithDebInfo )
 
 # Enable MPI
-set( ENABLE_MPI ON CACHE BOOL "Compile with MPI")
+set( ENABLE_MPI ON CACHE BOOL "Compile with MPI" )
+
+# Avoid rebuild after each commit
+set( ECBUILD_RECORD_GIT_COMMIT_SHA1 OFF CACHE BOOL
+     "When building ecbuild projects that are Git repos, create variables recording the full and short Git revision" )
 
 # Initialize
 ecbuild_bundle_initialize()
@@ -42,58 +43,9 @@ ecbuild_bundle( PROJECT atlas GIT "https://github.com/ecmwf/atlas.git" TAG 0.24.
 # ----------------------
 ecbuild_bundle( PROJECT oops  GIT "https://github.com/jcsda/oops.git"  BRANCH develop UPDATE )
 ecbuild_bundle( PROJECT saber GIT "https://github.com/jcsda/saber.git" BRANCH develop UPDATE )
-#ecbuild_bundle( PROJECT ioda  GIT "https://github.com/jcsda/ioda.git"  BRANCH develop UPDATE )
-#ecbuild_bundle( PROJECT ufo   GIT "https://github.com/jcsda/ufo.git"   BRANCH develop UPDATE )
 
 # AQ repository
 # ------------------------------------
 ecbuild_bundle( PROJECT aq SOURCE .. )
-
-# ioda, ufo and saber test data
-#----------------------------------------
-
-# If IODA branch is being built set GIT_BRANCH_FUNC to IODA's current branch.
-# If a tagged version of IODA is being built set GIT_TAG_FUNC to ioda's current tag. In this case,
-# IODA test files will be download from UCAR DASH and ioda-data repo will not be cloned.
-# When LOCAL_PATH_JEDI_TESTFILES is set to the directory of IODA test files stored
-# in a local directory, ioda-data repo will not be cloned
-
-#find_branch_name(REPO_DIR_NAME ioda)
-# When LOCAL_PATH_JEDI_TESTFILES is set to the directory of IODA test files stored
-# in a local directory, ioda-data repo will not be cloned
-#if( NOT DEFINED ENV{LOCAL_PATH_JEDI_TESTFILES} AND NOT DEFINED ${GIT_TAG_FUNC} )
-#  ecbuild_bundle( PROJECT ioda-data GIT "https://github.com/JCSDA-internal/ioda-data.git" BRANCH develop UPDATE )
-#endif()
-
-# If IODA's current branch is available in ioda-data repo, that branch will be checked out
-#branch_checkout (REPO_DIR_NAME ioda-data
-#                 BRANCH ${GIT_BRANCH_FUNC} )
-
-# same procedure for ufo-data
-#find_branch_name(REPO_DIR_NAME ufo)
-#if( NOT DEFINED ENV{LOCAL_PATH_JEDI_TESTFILES} AND NOT DEFINED ${GIT_TAG_FUNC} )
-#  ecbuild_bundle( PROJECT ufo-data GIT "https://github.com/JCSDA-internal/ufo-data.git" BRANCH develop UPDATE )
-#endif()
-
-# If UFO's current branch is available in ufo-data repo, that branch will be checked out
-#branch_checkout (REPO_DIR_NAME ufo-data
-#                 BRANCH ${GIT_BRANCH_FUNC} )
-
-# same procedure for saber-data
-find_branch_name(REPO_DIR_NAME saber)
-if( NOT DEFINED ENV{LOCAL_PATH_JEDI_TESTFILES} AND NOT DEFINED ${GIT_TAG_FUNC} )
-  ecbuild_bundle( PROJECT saber-data GIT "https://github.com/JCSDA-internal/saber-data.git" BRANCH develop UPDATE )
-endif()
-
-# If saber's current branch is available in saber-data repo, that branch will be checked out
-branch_checkout (REPO_DIR_NAME saber-data
-                 BRANCH ${GIT_BRANCH_FUNC} )
-
-# Build Doxygen documentation
-# ---------------------------
-option(BUILD_AQ_BUNDLE_DOC "Build documentation" OFF)
-if(BUILD_AQ_BUNDLE_DOC)
-   add_subdirectory( Documentation )
-endif(BUILD_AQ_BUNDLE_DOC)
 
 ecbuild_bundle_finalize()
