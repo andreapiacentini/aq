@@ -576,10 +576,12 @@ else
        case ("percent")
           select case(trim(self%transform))
           case('log_threshold')
-             obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)
+             if (self%obserrval.ge.200) call abor1_ftn('Obserror cannot be > 200 % in case of log transform')
+             obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)*0.5d0
              obserr%values(:,iobs) = log10((rla_obs(iobs)+obserr%values(:,iobs))/ &
                 & (rla_obs(iobs)-obserr%values(:,iobs)))
           case('log_bounded')
+             call abor1_ftn('log_bounded errors not verified yet')
              !AQ CHECK FORMULAE
              obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)
              obserr%values(:,iobs) = log10( &
@@ -591,9 +593,10 @@ else
        case ("absolute")
           select case(trim(self%transform))
           case('log_threshold')
-             obserr%values(:,iobs) = log10((rla_obs(iobs)+self%obserrval)/ &
-                & (rla_obs(iobs)-self%obserrval))
+             obserr%values(:,iobs) = log10((rla_obs(iobs)+self%obserrval*0.5d0)/ &
+                & max((rla_obs(iobs)-self%obserrval*0.5d0),self%tr_params(1),1e-18))
           case('log_bounded')
+             call abor1_ftn('log_bounded errors not verified yet')
              !AQ CHECK FORMULAE
              obserr%values(:,iobs) = log10( &
                 & ((rla_obs(iobs)+self%obserrval)/(self%tr_params(1)-rla_obs(iobs)-self%obserrval))/&
@@ -604,8 +607,14 @@ else
        case ("fromfile")
           select case(trim(self%transform))
           case('log_threshold')
-             obserr%values(:,iobs) = log10((rla_obs(iobs)+rla_err(iobs))/ &
-                & (rla_obs(iobs)+rla_err(iobs)))
+             obserr%values(:,iobs) = log10((rla_obs(iobs)+rla_err(iobs)*0.5d0)/ &
+                & max((rla_obs(iobs)-rla_err(iobs)*0.5d0),self%tr_params(1),1e-18))
+          case('log_bounded')
+             call abor1_ftn('log_bounded errors not verified yet')
+             !AQ CHECK FORMULAE
+             obserr%values(:,iobs) = log10( &
+                & ((rla_obs(iobs)+self%obserrval)/(self%tr_params(1)-rla_obs(iobs)-self%obserrval))/&
+                & ((rla_obs(iobs)-self%obserrval)/(self%tr_params(1)-rla_obs(iobs)+self%obserrval)))
           case('scale')
              obserr%values(:,iobs) = rla_err(iobs)*self%tr_params(1)
           end select
