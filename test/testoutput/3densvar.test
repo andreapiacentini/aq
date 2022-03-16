@@ -2,22 +2,22 @@ CostJb   : Nonlinear Jb = 0
 CostJo   : Nonlinear Jo(CO) = 5832.86, nobs = 264, Jo/n = 22.0942, err = 8.18928e-08
 CostJo   : Nonlinear Jo(O3) = 3838.12, nobs = 918, Jo/n = 4.18095, err = 5e-09
 CostFunction: Nonlinear J = 9670.97
-DRIPCGMinimizer: reduction in residual norm = 1.25826e-05
+DRIPCGMinimizer: reduction in residual norm = 1.29343e-05
 CostFunction::addIncrement: Analysis: 
   Valid time: 2010-07-04T06:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -1.76344e-06; max = 8.11729e-07; mean = 9.63583e-08; stddev = 5.67761e-08
-  Var. O_3: min = 8.17304e-10; max = 1.68094e-07; mean = 4.59735e-08; stddev = 4.60194e-08
-  Var. NO_2: min = 9.48942e-13; max = 8.6761e-08; mean = 8.09815e-10; stddev = 4.50904e-09
+  Var. CO: min = -1.84952e-06; max = 8.02258e-07; mean = 9.62553e-08; stddev = 5.66051e-08
+  Var. O_3: min = 8.17276e-10; max = 1.68094e-07; mean = 4.5979e-08; stddev = 4.60176e-08
+  Var. NO_2: min = 9.48933e-13; max = 8.71751e-08; mean = 8.17829e-10; stddev = 4.57163e-09
 
 
 
 
 
-CostJb   : Nonlinear Jb = 708.797
-CostJo   : Nonlinear Jo(CO) = 1254.82, nobs = 264, Jo/n = 4.7531, err = 8.18928e-08
-CostJo   : Nonlinear Jo(O3) = 3652.47, nobs = 918, Jo/n = 3.97872, err = 5e-09
-CostFunction: Nonlinear J = 5616.08
+CostJb   : Nonlinear Jb = 692.555
+CostJo   : Nonlinear Jo(CO) = 1263.88, nobs = 264, Jo/n = 4.78744, err = 8.18928e-08
+CostJo   : Nonlinear Jo(O3) = 3651.94, nobs = 918, Jo/n = 3.97815, err = 5e-09
+CostFunction: Nonlinear J = 5608.38
