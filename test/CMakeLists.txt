@@ -206,6 +206,7 @@ list( APPEND aq_testinput
 
 list( APPEND aq_testinput_tier2
   testinput/4densvar.yaml
+  testinput/4densvar_transform.yaml
   testinput/dirac_loc_4d.yaml
   testinput/dirac_no_loc_4d.yaml
   testinput/parameters_loc_2pe.yaml
@@ -227,10 +228,11 @@ list( APPEND aq_testoutput
 
 list( APPEND aq_testoutput_tier2
   testoutput/4densvar.test
+  testoutput/4densvar_transform.test
   testoutput/dirac_loc_4d.test
   testoutput/dirac_no_loc_4d.test
   testoutput/parameters_loc_2pe.test
-)  
+)
 
 
 # Link scripts
@@ -293,13 +295,13 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
                ${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME}
                ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME} )
     endforeach(FILENAME)
-	   
+
     ecbuild_add_resources( TARGET   aq_test_scripts_tier2
                            SOURCES_PACK
                            ${aq_testinput_tier2}
                          )
 endif()
-		   
+
 #####################################################################
 # download test
 #####################################################################
@@ -315,7 +317,7 @@ else()
                       COMMAND   ${CMAKE_BINARY_DIR}/bin/aq_data_downloader.sh
                       ARGS  ${aq_data_files} )
 endif()
-		  
+
 if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
     if( NOT DEFINED ENV{AQ_JEDI_LOCAL_PATH_TESTFILES} )
         ecbuild_add_test( TARGET    get_data_aq_tier2
@@ -544,39 +546,46 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
     #####################################################################
     # B Matrix tests
     #####################################################################
-    
+
     ecbuild_add_test( TARGET test_aq_parameters_loc_2pe
                       MPI 2
                       OMP 2
                       ARGS testinput/parameters_loc_2pe.yaml
                       COMMAND  aq_error_covariance_training.x )
-    
+
     #####################################################################
     # dirac tests
     #####################################################################
-    
+
     ecbuild_add_test( TARGET test_aq_dirac_no_loc_4d
                       MPI 12
                       OMP 2
                       ARGS testinput/dirac_no_loc_4d.yaml
                       COMMAND  aq_dirac.x )
-      
-    
+
+
     ecbuild_add_test( TARGET test_aq_dirac_loc_4d
                       MPI 12
                       OMP 2
                       ARGS testinput/dirac_loc_4d.yaml
                       COMMAND  aq_dirac.x
                       TEST_DEPENDS test_aq_parameters_loc_2pe )
-    
+
     ######################################################################
     ## 4d variational tests
     ######################################################################
-    
+
     ecbuild_add_test( TARGET test_aq_4densvar
                       MPI 12
                       OMP 2
                       ARGS testinput/4densvar.yaml
+                      COMMAND  aq_var.x
+                      TEST_DEPENDS test_aq_parameters_loc_2pe )
+
+    ecbuild_add_test( TARGET test_aq_4densvar_transform
+                      MPI 12
+                      OMP 2
+                      ARGS testinput/4densvar_transform.yaml
                       COMMAND  aq_var.x
                       TEST_DEPENDS test_aq_parameters_loc_2pe )
 

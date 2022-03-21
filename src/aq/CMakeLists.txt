@@ -88,6 +88,7 @@ list( APPEND aq_src_files
   aq_obsvec_random_f.cc
   aq_insitu_interface.F90
   aq_insitu_mod.F90
+  aq_transform_mod.F90
   aq_tools_mod.F90
   AnalyticInit.cc
   AnalyticInit.h

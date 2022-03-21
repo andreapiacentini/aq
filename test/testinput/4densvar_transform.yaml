@@ -1,0 +1,623 @@
+_variables: &vars
+  - CO
+  - O_3
+  - NO_2
+_geoms02 geometry: &gems02_geom
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin: 32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+
+# Mnemonics:
+_NO_2 transform: &NO_2_transf
+  method: log_threshold
+  parameters: [1.e-9]
+_memo:
+  - &state_ref
+    date: 2010-07-04T00:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
+    state variables: *vars
+    transform:
+      NO_2:
+        *NO_2_transf
+
+cost function:
+  cost type: 4D-Ens-Var
+  analysis variables: *vars
+  subwindow: PT1H
+  window begin: '2010-07-04T00:00:00Z'
+  window length: PT5H
+  geometry: *gems02_geom
+  jb evaluation: false
+
+  background:
+    states:
+    - <<: *state_ref
+      date: '2010-07-04T00:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
+    - <<: *state_ref
+      date: '2010-07-04T01:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070401.nc
+    - <<: *state_ref
+      date: '2010-07-04T02:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070402.nc
+    - <<: *state_ref
+      date: '2010-07-04T03:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070403.nc
+    - <<: *state_ref
+      date: '2010-07-04T04:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070404.nc
+    - <<: *state_ref
+      date: '2010-07-04T05:00:00Z'
+      filename: Data/ENS04_reduced/HMGEMS02+2010070405.nc
+
+  background error:
+    covariance model: ensemble
+    localization:
+      localization method: SABER
+      saber block:
+        saber block name: BUMP_NICAS
+        input variables: *vars
+        output variables: *vars
+        bump:
+          datadir: Data
+          load_nicas_local: true
+          prefix: loc_2pe
+          strategy: common
+    members:
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0001.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0001.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0001.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0001.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0001.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0001.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0002.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0002.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0002.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0002.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0002.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0002.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0003.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0003.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0003.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0003.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0003.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0003.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0004.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0004.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0004.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0004.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0004.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0004.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0005.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0005.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0005.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0005.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0005.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0005.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0006.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0006.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0006.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0006.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0006.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0006.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0007.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0007.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0007.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0007.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0007.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0007.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0008.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0008.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0008.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0008.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0008.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0008.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0009.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0009.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0009.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0009.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0009.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0009.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0010.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0010.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0010.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0010.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0010.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0010.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0011.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0011.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0011.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0011.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0011.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0011.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0012.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0012.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0012.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0012.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0012.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0012.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0013.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0013.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0013.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0013.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0013.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0013.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0014.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0014.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0014.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0014.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0014.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0014.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0015.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0015.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0015.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0015.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0015.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0015.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0016.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0016.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0016.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0016.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0016.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0016.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0017.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0017.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0017.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0017.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0017.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0017.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0018.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0018.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0018.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0018.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0018.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0018.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0019.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0019.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0019.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0019.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0019.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0019.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0020.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0020.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0020.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0020.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0020.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0020.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0021.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0021.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0021.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0021.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0021.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0021.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0022.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0022.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0022.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0022.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0022.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0022.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0023.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0023.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0023.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0023.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0023.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0023.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0024.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0024.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0024.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0024.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0024.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0024.nc
+    - states:
+      - <<: *state_ref
+        date: '2010-07-04T00:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070400+E0025.nc
+      - <<: *state_ref
+        date: '2010-07-04T01:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070401+E0025.nc
+      - <<: *state_ref
+        date: '2010-07-04T02:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070402+E0025.nc
+      - <<: *state_ref
+        date: '2010-07-04T03:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070403+E0025.nc
+      - <<: *state_ref
+        date: '2010-07-04T04:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070404+E0025.nc
+      - <<: *state_ref
+        date: '2010-07-04T05:00:00Z'
+        filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0025.nc
+
+  observations:
+  - obs space:
+      obsdatain:
+        obsfile: Data/HDAT+20100704.h5
+      obsdataout:
+        obsfile: Data/HSTAT+20100704.h5
+      obs type: O3
+      instr name: AIRBASE_O3
+      obserrors:
+        type: absolute
+        value: 5.0e-9
+    obs operator:
+      obs type: InSitu
+      mod var: O_3
+    obs error:
+      covariance model: diagonal
+  - obs space:
+      obsdatain:
+        obsfile: Data/HDAT+20100704.h5
+      obsdataout:
+        obsfile: Data/HSTAT+20100704.h5
+      obs type: NO2
+      transform:
+        *NO_2_transf
+      instr name: AIRBASE_NO2
+      obserrors:
+        type: percent
+        value: 20
+    obs operator:
+      obs type: InSitu
+      mod var: NO_2
+    obs error:
+      covariance model: diagonal
+  - obs space:
+      obsdatain:
+        obsfile: Data/HDAT+20100704.h5
+      obsdataout:
+        obsfile: Data/HSTAT+20100704.h5
+      obs type: CO
+      instr name: AIRBASE_CO
+      obserrors:
+        type: percent
+        value: 30
+    obs operator:
+      obs type: InSitu
+      mod var: CO
+    obs error:
+      covariance model: diagonal
+
+variational:
+  minimizer:
+    algorithm: DRPLanczos
+
+  iterations:
+  - diagnostics:
+      departures: ombg
+    geometry: *gems02_geom
+    ninner: 20
+    gradient norm reduction: 1.0e-14
+    test: on
+
+final:
+  diagnostics:
+    departures: oman
+  prints:
+    frequency: PT1H
+
+output:
+  datadir: Data
+  fileprefix: A4GEMS02
+
+test:
+  reference filename: testoutput/4densvar_transform.test
+  test output filename: testoutput/4densvar_transform.log

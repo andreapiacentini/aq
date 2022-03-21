@@ -34,7 +34,7 @@ public :: aq_obsdb_registry
 public :: aq_obsdb_setup,aq_obsdb_delete,aq_obsdb_read,aq_obsdb_get,aq_obsdb_put,aq_obsdb_locations,aq_obsdb_generate,aq_obsdb_nobs
 ! ------------------------------------------------------------------------------
 integer,parameter :: rseed = 1 !< Random seed (for reproducibility)
-type(datetime), save :: obs_ref_time 
+type(datetime), save :: obs_ref_time
 
 type column_data
   character(len=50) :: colname                !< Column name
@@ -53,12 +53,15 @@ end type group_data
 
 type aq_obsdb
   integer :: ngrp = 1                           !< Number of groups (1 obs space == 1 instrument == 1 chemical spc in aq)
-  character(len=:),allocatable :: instrname     !< Instrument name 
+  character(len=:),allocatable :: instrname     !< Instrument name
   character(len=:),allocatable :: spcname       !< Name of the chemical species
   character(len=1024) :: filein                 !< Input filename
   character(len=1024) :: fileout                !< Output filename
   type(datetime) :: winbgn                      !< Start of window
   type(datetime) :: winend                      !< End of window
+  logical :: has_transform                      !< Variable transformation switch
+  character(len=:),allocatable :: transform     !< Variable transformation method
+  real(kind_real),dimension(:), allocatable :: tr_params !< Parameters for variable transform.
   character(len=1024) :: obserrtype             !< Type of observation errors (%, fixed or from file)
   real(kind_real) :: obserrval = 0.d0
   integer(kind=ip_hid_t) :: il_hdat_id = 0
@@ -145,8 +148,15 @@ self%winend = winend
 call f_conf%get_or_die("instr name",self%instrname)
 call f_conf%get_or_die("obs type",self%spcname)
 
+! Variable transformation
+self%has_transform = f_conf%has("transform")
+if (self%has_transform) then
+   call f_conf%get_or_die("transform.method",self%transform)
+   call f_conf%get_or_die("transform.parameters",self%tr_params)
+end if
+
 if (openfile) then
-  ! Init the hdf5 fortran library 
+  ! Init the hdf5 fortran library
   ! should go in our HDF5 library in a better place,
   ! cause it was hidden in CREATE_H5FILE, which makes no sense
   call H5open_f (il_err)
@@ -204,6 +214,8 @@ if (closefile) then
 endif
 
 ! Release memory
+if (self%has_transform) deallocate(self%tr_params)
+
 do while (associated(self%grphead))
   jgrp => self%grphead
   self%grphead => jgrp%next
@@ -499,7 +511,7 @@ call datetime_to_string(self%winend,timestr2)
 call datetime_diff(self%winbgn,obs_ref_time,dtwinbgn)
 call datetime_diff(self%winend,obs_ref_time,dtwinend)
 ! Count the obs for the given instrument in the hdf5 file
-! Loss of precision here cause obs were initially based on mocage datetime, 
+! Loss of precision here cause obs were initially based on mocage datetime,
 ! this will stop working sometime during this century
 id_tmin = int(duration_seconds(dtwinbgn),kind=4)
 id_tmax = int(duration_seconds(dtwinend),kind=4)
@@ -547,17 +559,81 @@ else
     call datetime_update(tobs,dt)
     times(iobs) = tobs
     obsloc%values(:,iobs) = (/real(rla_lons(iobs),kind=kind_real),real(rla_lats(iobs),kind=kind_real),0.0d0/)
-    obsval%values(:,iobs) = rla_obs(iobs)
-    select case(self%obserrtype)
-    case ("percent")
-      obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)
-    case ("absolute")
-      obserr%values(:,iobs) = self%obserrval
-    case ("fromfile")
-      obserr%values(:,iobs) = rla_err(iobs)
-    case ("unspecified")
-      obserr%values(:,iobs) = rla_obs(iobs)
-    end select
+    if (self%has_transform) then
+       select case(trim(self%transform))
+       case('log_threshold')
+          obsval%values(:,iobs) = log10(rla_obs(iobs)+self%tr_params(1))
+       case('log_bounded')
+          !AQ CHECK FORMULAE
+          obsval%values(:,iobs) = log10(rla_obs(iobs)/(self%tr_params(1)-rla_obs(iobs)))
+       case('scale')
+          obsval%values(:,iobs) = rla_obs(iobs)*self%tr_params(1)
+       case default
+          call abor1_ftn('Transformation '//trim(self%transform)//&
+             &' for obs type '//trim(self%spcname)//' not recognised')
+       end select
+       select case(self%obserrtype)
+       case ("percent")
+          select case(trim(self%transform))
+          case('log_threshold')
+             if (self%obserrval.ge.200) call abor1_ftn('Obserror cannot be > 200 % in case of log transform')
+             obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)*0.5d0
+             obserr%values(:,iobs) = log10((rla_obs(iobs)+obserr%values(:,iobs))/ &
+                & (rla_obs(iobs)-obserr%values(:,iobs)))
+          case('log_bounded')
+             call abor1_ftn('log_bounded errors not verified yet')
+             !AQ CHECK FORMULAE
+             obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)
+             obserr%values(:,iobs) = log10( &
+                & ((rla_obs(iobs)+obserr%values(:,iobs))/(self%tr_params(1)-rla_obs(iobs)-obserr%values(:,iobs)))/&
+                & ((rla_obs(iobs)-obserr%values(:,iobs))/(self%tr_params(1)-rla_obs(iobs)+obserr%values(:,iobs))))
+          case('scale')
+             obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)*self%tr_params(1)
+          end select
+       case ("absolute")
+          select case(trim(self%transform))
+          case('log_threshold')
+             obserr%values(:,iobs) = log10((rla_obs(iobs)+self%obserrval*0.5d0)/ &
+                & max((rla_obs(iobs)-self%obserrval*0.5d0),self%tr_params(1),1e-18))
+          case('log_bounded')
+             call abor1_ftn('log_bounded errors not verified yet')
+             !AQ CHECK FORMULAE
+             obserr%values(:,iobs) = log10( &
+                & ((rla_obs(iobs)+self%obserrval)/(self%tr_params(1)-rla_obs(iobs)-self%obserrval))/&
+                & ((rla_obs(iobs)-self%obserrval)/(self%tr_params(1)-rla_obs(iobs)+self%obserrval)))
+          case('scale')
+             obserr%values(:,iobs) = self%obserrval*self%tr_params(1)
+          end select
+       case ("fromfile")
+          select case(trim(self%transform))
+          case('log_threshold')
+             obserr%values(:,iobs) = log10((rla_obs(iobs)+rla_err(iobs)*0.5d0)/ &
+                & max((rla_obs(iobs)-rla_err(iobs)*0.5d0),self%tr_params(1),1e-18))
+          case('log_bounded')
+             call abor1_ftn('log_bounded errors not verified yet')
+             !AQ CHECK FORMULAE
+             obserr%values(:,iobs) = log10( &
+                & ((rla_obs(iobs)+self%obserrval)/(self%tr_params(1)-rla_obs(iobs)-self%obserrval))/&
+                & ((rla_obs(iobs)-self%obserrval)/(self%tr_params(1)-rla_obs(iobs)+self%obserrval)))
+          case('scale')
+             obserr%values(:,iobs) = rla_err(iobs)*self%tr_params(1)
+          end select
+       case ("unspecified")
+          obserr%values(:,iobs) = obsval%values(:,iobs)
+       end select
+    else
+       obsval%values(:,iobs) = rla_obs(iobs)
+       select case(self%obserrtype)
+       case ("percent")
+          obserr%values(:,iobs) = self%obserrval/100.d0*rla_obs(iobs)
+       case ("absolute")
+          obserr%values(:,iobs) = self%obserrval
+       case ("fromfile")
+          obserr%values(:,iobs) = rla_err(iobs)
+       case ("unspecified")
+          obserr%values(:,iobs) = rla_obs(iobs)
+       end select
+    end if
   enddo
 
   ! Store observations data in the obsdb structure
@@ -597,8 +673,8 @@ character(len=12) :: cl_obsgrp = 'OBSERVATIONS'
 character(len=19), dimension(:), allocatable :: cla_timehuman
 integer :: il
 integer :: il_err
-integer, dimension(:), allocatable :: timestamp                 
-type(duration) :: dtdiff                   
+integer, dimension(:), allocatable :: timestamp
+type(duration) :: dtdiff
 
 CALL H5open_f(il_err)
 

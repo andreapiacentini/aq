@@ -51,7 +51,7 @@ locations:
   random lon min: -15.9
   random lon max: 35.9
   random lat min: 32.1
-  random lat max: 69.9      
+  random lat max: 69.9
 observations:
 - obs error:
     covariance model: diagonal

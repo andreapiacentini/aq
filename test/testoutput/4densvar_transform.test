@@ -1,0 +1,69 @@
+CostJo   : Nonlinear Jo(O3) = 22330.9, nobs = 4526, Jo/n = 4.93391, err = 5e-09
+CostJo   : Nonlinear Jo(NO2) = 53157.5, nobs = 4046, Jo/n = 13.1383, err = 0.0871502
+CostJo   : Nonlinear Jo(CO) = 22046.8, nobs = 1313, Jo/n = 16.7912, err = 7.90389e-08
+CostFunction: Nonlinear J = 97535.2
+DRPLanczosMinimizer: reduction in residual norm = 0.000107481
+CostFunction::addIncrement: Analysis: 
+  Valid time: 2010-07-04T00:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 6.32821e-08; max = 1.28457e-06; mean = 9.64402e-08; stddev = 3.53959e-08
+  Var. O_3: min = 4.13245e-09; max = 1.8257e-07; mean = 4.8275e-08; stddev = 2.76972e-08
+  Var. NO_2: min = -8.99988; max = -6.96199; mean = -8.82203; stddev = 0.298218
+
+  Valid time: 2010-07-04T01:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = -1.29932e-06; max = 1.16269e-06; mean = 9.61644e-08; stddev = 3.44724e-08
+  Var. O_3: min = 3.42292e-09; max = 1.79969e-07; mean = 4.76622e-08; stddev = 2.73332e-08
+  Var. NO_2: min = -9.03788; max = -7.00064; mean = -8.81856; stddev = 0.307419
+
+  Valid time: 2010-07-04T02:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = -2.97133e-06; max = 8.76102e-07; mean = 9.59213e-08; stddev = 3.46148e-08
+  Var. O_3: min = 2.58482e-09; max = 1.74848e-07; mean = 4.70455e-08; stddev = 2.71672e-08
+  Var. NO_2: min = -9.07814; max = -6.7923; mean = -8.81374; stddev = 0.318035
+
+  Valid time: 2010-07-04T03:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = -4.02466e-06; max = 8.59283e-07; mean = 9.56896e-08; stddev = 3.50022e-08
+  Var. O_3: min = 1.89409e-09; max = 1.71813e-07; mean = 4.65137e-08; stddev = 2.70816e-08
+  Var. NO_2: min = -9.04151; max = -6.7657; mean = -8.80871; stddev = 0.326878
+
+  Valid time: 2010-07-04T04:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = -4.40587e-06; max = 7.7879e-07; mean = 9.54979e-08; stddev = 3.52773e-08
+  Var. O_3: min = 1.40305e-09; max = 1.70494e-07; mean = 4.60532e-08; stddev = 2.7037e-08
+  Var. NO_2: min = -9.01559; max = -6.87513; mean = -8.80507; stddev = 0.330254
+
+  Valid time: 2010-07-04T05:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = -4.11184e-06; max = 6.78443e-07; mean = 9.53391e-08; stddev = 3.56015e-08
+  Var. O_3: min = 1.62837e-10; max = 1.68808e-07; mean = 4.5809e-08; stddev = 2.7101e-08
+  Var. NO_2: min = -9.00894; max = -6.82794; mean = -8.80483; stddev = 0.325092
+
+
+
+
+
+
+CostJo   : Nonlinear Jo(O3) = 22335.3, nobs = 4526, Jo/n = 4.93489, err = 5e-09
+CostJo   : Nonlinear Jo(NO2) = 32334.2, nobs = 4046, Jo/n = 7.99163, err = 0.0871502
+CostJo   : Nonlinear Jo(CO) = 8682.07, nobs = 1313, Jo/n = 6.61239, err = 7.90389e-08
+CostFunction: Nonlinear J = 63351.6
