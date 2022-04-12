@@ -93,6 +93,22 @@ GeometryIterator Geometry::end() const {
   return GeometryIterator(*this, nx*ny+1);
 }
 // -------------------------------------------------------------------------------------------------
+void Geometry::latlon(std::vector<double> & lats, std::vector<double> & lons, const bool) const {
+  const size_t npts = atlasGrid_->size();
+  lats.resize(npts);
+  lons.resize(npts);
+  atlas::Grid::PointLonLat lonlat;
+  size_t jj = 0;
+  for (atlas::idx_t jy = 0; jy < atlasGrid_->ny(); ++jy) {
+    for (atlas::idx_t jx = 0; jx < atlasGrid_->nx(jy); ++jx) {
+       lonlat = atlasGrid_->lonlat(jx, jy);
+       lats[jj] = lonlat[1];
+       lons[jj] = lonlat[0];
+       jj++;
+    }
+  }
+}
+// -------------------------------------------------------------------------------------------------
 std::vector<double> Geometry::verticalCoord(std::string & vcUnits) const {
   // returns vertical coordinate in untis of vcUnits
   int nx = 0;

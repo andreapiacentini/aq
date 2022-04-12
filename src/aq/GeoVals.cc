@@ -135,6 +135,25 @@ double GeoVals::dot_product_with(const GeoVals & other) const {
   comm_.broadcast(zz, 0);
   return zz;
 }
+
+// -----------------------------------------------------------------------------
+void GeoVals::fill(const std::vector<size_t> & indx, const std::vector<double> & vals) {
+  const size_t npts = indx.size();
+  const size_t nvals = vals.size();
+  std::vector<int> findx(indx.size());
+  for (size_t jj = 0; jj < indx.size(); ++jj) findx[jj] = indx[jj] + 1;
+
+  aq_geovals_fill_f90(keyGeoVals_, npts, findx[0], nvals, vals[0]);
+}
+// -----------------------------------------------------------------------------
+void GeoVals::fillAD(const std::vector<size_t> & indx, std::vector<double> & vals) const {
+  const size_t npts = indx.size();
+  const size_t nvals = vals.size();
+  std::vector<int> findx(indx.size());
+  for (size_t jj = 0; jj < indx.size(); ++jj) findx[jj] = indx[jj] + 1;
+
+  aq_geovals_fillad_f90(keyGeoVals_, npts, findx[0], nvals, vals[0]);
+}
 // -----------------------------------------------------------------------------
 void GeoVals::read(const Parameters_ & params) {
   if (comm_.rank() == 0) {

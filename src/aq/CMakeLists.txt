@@ -15,14 +15,12 @@ list( APPEND aq_src_files
   Geometry.h
   GeometryIterator.cc
   GeometryIterator.h
-  GetValues.cc
-  GetValues.h
-  LinearGetValues.cc
-  LinearGetValues.h
   GeoVals.cc
   GeoVals.h
   Increment.cc
   Increment.h
+  Interpolator.cc
+  Interpolator.h
   Locations.cc
   Locations.h
   ModelAuxControl.h
@@ -72,8 +70,6 @@ list( APPEND aq_src_files
   aq_geom_mod.F90
   aq_geom_iter_interface.F90
   aq_geom_iter_mod.F90
-  aq_getvalues_interface.F90
-  aq_getvalues_mod.F90
   aq_geovals_interface.F90
   aq_geovals_mod.F90
   aq_interp_mod.F90

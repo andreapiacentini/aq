@@ -47,6 +47,8 @@ class Locations : public util::Printable,
   atlas::Field lonlat() const {return pointcloud_->lonlat();}
   atlas::Field & altitude() {ASSERT(altitude_); return *altitude_;}
   util::DateTime & times(size_t idx) {return times_[idx];}
+  void localCoords(const util::DateTime &, const util::DateTime &,
+                   std::vector<double> &, std::vector<double> &, std::vector<size_t> &) const;
 
   /// communicator
   const eckit::mpi::Comm & comm() const {return comm_;}

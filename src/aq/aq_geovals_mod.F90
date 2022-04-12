@@ -26,7 +26,8 @@ public :: aq_geovals
 public :: aq_geovals_registry
 public :: aq_geovals_setup,aq_geovals_delete,aq_geovals_copy,aq_geovals_zero,aq_geovals_abs,aq_geovals_random,aq_geovals_mult, &
         & aq_geovals_add,aq_geovals_diff,aq_geovals_schurmult,aq_geovals_divide,aq_geovals_rms,aq_geovals_dotprod, &
-        & aq_geovals_stats,aq_geovals_maxloc,aq_geovals_read_file, aq_geovals_write_file,aq_geovals_analytic_init
+        & aq_geovals_stats,aq_geovals_maxloc,aq_geovals_read_file, aq_geovals_write_file,aq_geovals_analytic_init, &
+        & aq_geovals_fill, aq_geovals_fillad
 ! ------------------------------------------------------------------------------
 type :: aq_geovals
   integer :: nobs                      !< Number of observations
@@ -110,6 +111,54 @@ end if
 !AQ till here
 
 end subroutine aq_geovals_copy
+! ------------------------------------------------------------------------------
+subroutine aq_geovals_fill(self, c_nloc, c_indx, c_nval, c_vals)
+implicit none
+type(aq_geovals), intent(inout) :: self
+integer(c_int), intent(in) :: c_nloc
+integer(c_int), intent(in) :: c_indx(c_nloc)
+integer(c_int), intent(in) :: c_nval
+real(c_double), intent(in) :: c_vals(c_nval)
+
+integer :: jvar, jloc, iloc, ii
+
+if (.not.self%lalloc) call abor1_ftn('aq_geovals_fill: gom not allocated')
+
+ii = 0
+do jvar=1,self%vars%nvars()
+  do jloc=1,c_nloc
+    iloc = c_indx(jloc)
+    ii = ii + 1
+    self%x(iloc) = c_vals(ii)
+  enddo
+enddo
+if (ii /= c_nval) call abor1_ftn('aq_geovals_fill: error size')
+
+end subroutine aq_geovals_fill
+! ------------------------------------------------------------------------------
+subroutine aq_geovals_fillad(self, c_nloc, c_indx, c_nval, c_vals)
+implicit none
+type(aq_geovals), intent(in) :: self
+integer(c_int), intent(in) :: c_nloc
+integer(c_int), intent(in) :: c_indx(c_nloc)
+integer(c_int), intent(in) :: c_nval
+real(c_double), intent(inout) :: c_vals(c_nval)
+
+integer :: jvar, jloc, iloc, ii
+
+if (.not.self%lalloc) call abor1_ftn('aq_geovals_fillad: gom not allocated')
+
+ii = 0
+do jvar=1,self%vars%nvars()
+  do jloc=1,c_nloc
+    iloc = c_indx(jloc)
+    ii = ii + 1
+    c_vals(ii) = self%x(iloc)
+  enddo
+enddo
+if (ii /= c_nval) call abor1_ftn('aq_geovals_fillad: error size')
+
+end subroutine aq_geovals_fillad
 ! ------------------------------------------------------------------------------
 !> Set GeoVals to zero
 subroutine aq_geovals_zero(self)

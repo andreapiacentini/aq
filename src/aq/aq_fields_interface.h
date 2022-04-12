@@ -68,6 +68,10 @@ extern "C" {
                               atlas::field::FieldSetImpl *);
 // AQ  void aq_fields_from_atlas_f90(const F90flds &, const oops::Variables &,
 // AQ                              atlas::field::FieldSetImpl *);
+  void aq_fields_getvals_f90(const F90flds &, const oops::Variables &,
+                             const int &, const double &, const int &, double &);
+  void aq_fields_getvalsad_f90(const F90flds &, const oops::Variables &,
+                               const int &, const double &, const int &, const double &);
   void aq_fields_getpoint_f90(const F90flds&, const F90iter&, const int &, double &);
   void aq_fields_setpoint_f90(const F90flds&, const F90iter&, const int &, const double &);
   void aq_fields_serialsize_f90(const F90flds &, int &);

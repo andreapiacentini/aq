@@ -83,6 +83,8 @@ class Geometry : public util::Printable,
 
   std::vector<size_t> variableSizes(const oops::Variables & vars) const;
 
+  void latlon(std::vector<double> &, std::vector<double> &, const bool) const;
+
  private:
   Geometry & operator=(const Geometry &);
   void print(std::ostream &) const;

@@ -112,6 +112,38 @@ call aq_geovals_copy(self,other)
 
 end subroutine aq_geovals_copy_c
 ! ------------------------------------------------------------------------------
+subroutine aq_geovals_fill_c(c_key, c_nloc, c_indx, c_nval, c_vals) bind(c, name="aq_geovals_fill_f90")
+implicit none
+integer(c_int), intent(in) :: c_key
+integer(c_int), intent(in) :: c_nloc
+integer(c_int), intent(in) :: c_indx(c_nloc)
+integer(c_int), intent(in) :: c_nval
+real(c_double), intent(in) :: c_vals(c_nval)
+
+type(aq_geovals), pointer :: self
+
+call aq_geovals_registry%get(c_key,self)
+
+call aq_geovals_fill(self, c_nloc, c_indx, c_nval, c_vals)
+
+end subroutine aq_geovals_fill_c
+! ------------------------------------------------------------------------------
+subroutine aq_geovals_fillad_c(c_key, c_nloc, c_indx, c_nval, c_vals) bind(c, name="aq_geovals_fillad_f90")
+implicit none
+integer(c_int), intent(in) :: c_key
+integer(c_int), intent(in) :: c_nloc
+integer(c_int), intent(in) :: c_indx(c_nloc)
+integer(c_int), intent(in) :: c_nval
+real(c_double), intent(inout) :: c_vals(c_nval)
+
+type(aq_geovals),pointer :: self
+
+call aq_geovals_registry%get(c_key, self)
+
+call aq_geovals_fillad(self, c_nloc, c_indx, c_nval, c_vals)
+
+end subroutine aq_geovals_fillad_c
+! ------------------------------------------------------------------------------
 !> Set GeoVals to zero
 subroutine aq_geovals_zero_c(c_key_self) bind(c,name='aq_geovals_zero_f90')
 
