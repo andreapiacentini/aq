@@ -11,6 +11,7 @@ module aq_geovals_mod
 use atlas_module, only: atlas_field
 use fckit_configuration_module, only: fckit_configuration
 use fckit_log_module, only: fckit_log
+use fckit_mpi_module
 use iso_c_binding
 use kinds
 use netcdf
@@ -34,6 +35,7 @@ type :: aq_geovals
   real(kind_real), allocatable :: x(:) !< Chemical observations values
   logical :: lalloc = .false.          !< Allocation flag
   type(oops_variables) :: vars         !< Variables
+  type(fckit_mpi_comm) :: fmpi         !< Communicator
 end type aq_geovals
 
 #define LISTED_TYPE aq_geovals
@@ -307,17 +309,31 @@ real(kind_real),intent(inout) :: rms !< RMS
 
 ! Local variables
 integer :: nv
+real(kind_real) :: norm
 
 ! Initialization
 rms = 0.0
 nv = 0
 
-! Loop over values
-rms = rms+sum(self%x**2)
-nv = nv+1
+if (self%nobs>0) then
+   ! Loop over values
+   rms = rms+sum(self%x**2)
+   nv = nv+1
+
+   ! Total number of values
+   norm = real(self%nobs*nv,kind_real)
+else
+   ! No value
+   rms = 0.0
+   norm = 0.0
+end if
+
+! Allreduce
+call self%fmpi%allreduce(rms,fckit_mpi_sum())
+call self%fmpi%allreduce(norm,fckit_mpi_sum())
 
 ! Normalize and take square-root
-rms = sqrt(rms/real(self%nobs*nv,kind_real))
+rms = sqrt(rms/norm)
 
 end subroutine aq_geovals_rms
 ! ------------------------------------------------------------------------------
@@ -337,18 +353,13 @@ integer :: jo,jv
 ! Check
 if (geovals1%nobs/=geovals2%nobs) call abor1_ftn('aq_geovals_dotprod: inconsistent GeoVals sizes')
 
-! Initialization
-prod = 0.0
-
 ! Dot product
-!AQ Temporary stub waiting for geovals files I/O
-if (allocated(geovals1%x).and.allocated(geovals2%x)) then
-prod = prod+sum(geovals1%x*geovals2%x)
-!AQ here too
+if ((geovals1%nobs>0).and.(geovals2%nobs>0)) then
+   prod = sum(geovals1%x*geovals2%x)
 else
-  prod = 1.0 ! Not zero for tests using ratios
+   prod = 0.0
 end if
-!AQ till here
+call geovals1%fmpi%allreduce(prod,fckit_mpi_sum())
 
 end subroutine aq_geovals_dotprod
 ! ------------------------------------------------------------------------------
@@ -367,13 +378,22 @@ real(kind_real),intent(inout) :: pstd    !< StdDev
 
 ! Compute GeoVals stats
 kobs = self%nobs
-if (self%nobs>0) then
+call self%fmpi%allreduce(kobs,fckit_mpi_sum())
+if (kobs>0) then
   pmin = huge(1.0)
+  if (self%nobs>0) pmin = min(pmin,minval(self%x))
+  call self%fmpi%allreduce(pmin,fckit_mpi_min())
   pmax = -huge(1.0)
-  pmin = min(pmin,minval(self%x))
-  pmax = max(pmax,maxval(self%x))
-  pave = sum(self%x)/real(self%nobs,kind_real)
-  pstd = sqrt(sum((self%x-pave)**2)/real(self%nobs,kind_real))
+  if (self%nobs>0) pmax = max(pmax,maxval(self%x))
+  call self%fmpi%allreduce(pmax,fckit_mpi_max())
+  pave = 0.0
+  if (self%nobs>0) pave = sum(self%x)
+  call self%fmpi%allreduce(pave,fckit_mpi_sum())
+  pave = pave/real(kobs,kind_real)
+  pstd = 0.0
+  if (self%nobs>0) pstd = sum((self%x-pave)**2)
+  call self%fmpi%allreduce(pstd,fckit_mpi_sum())
+  pstd = sqrt(pstd/real(kobs,kind_real))
 else
   pmin = 0.0
   pmax = 0.0
@@ -389,7 +409,7 @@ subroutine aq_geovals_maxloc(self,mxval,mxloc,mxvar)
 implicit none
 
 ! Passed variables
-type(aq_geovals),intent(inout) :: self          !< GeoVals
+type(aq_geovals),intent(inout) :: self      !< GeoVals
 real(kind_real),intent(inout) :: mxval      !< Maximum value
 integer,intent(inout) :: mxloc              !< Location of maximum value
 type(oops_variables),intent(inout) :: mxvar !< Variable of maximum value

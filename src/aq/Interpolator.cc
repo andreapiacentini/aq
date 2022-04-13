@@ -10,9 +10,9 @@
 #include <ostream>
 #include <vector>
 
+#include "aq/aq_fields_interface.h"
 #include "aq/Geometry.h"
 #include "aq/Increment.h"
-#include "aq/aq_fields_interface.h"
 #include "aq/State.h"
 
 namespace aq {

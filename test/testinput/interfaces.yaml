@@ -59,7 +59,7 @@ observations:
     filename: Data/HGOM+20100704_CO.gom
   geovals test:
     state variables: [x]
-    norm: 5.1134002123179723e-06
+    norm: 1.2525221370818201e-05
   obs space:
     obsdatain:
       obsfile: Data/HDAT+20100704.h5
@@ -83,7 +83,7 @@ observations:
     filename: Data/HGOM+20100704_O3.gom
   geovals test:
     state variables: [x]
-    norm: 2.1010644367170238e-06
+    norm: 5.14653578666488e-06
   obs space:
     obsdatain:
       obsfile: Data/HDAT+20100704.h5

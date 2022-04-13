@@ -31,11 +31,13 @@ namespace aq {
   class Locations;
 
 extern "C" {
-  void aq_geovals_setup_f90(F90geovals &, const Locations &, const oops::Variables &);
-  void aq_geovals_create_f90(F90geovals &, const oops::Variables &);
+  void aq_geovals_setup_f90(F90geovals &, const Locations &, const oops::Variables &,
+                            const eckit::mpi::Comm *);
+  void aq_geovals_create_f90(F90geovals &, const oops::Variables &, const eckit::mpi::Comm *);
   void aq_geovals_delete_f90(F90geovals &);
   void aq_geovals_copy_f90(const F90geovals &, const F90geovals &);
-  void aq_geovals_fill_f90(const F90geovals &, const int &, const int &, const int &, const double &);
+  void aq_geovals_fill_f90(const F90geovals &, const int &, const int &, const int &,
+                           const double &);
   void aq_geovals_fillad_f90(const F90geovals &, const int &, const int &, const int &, double &);
   void aq_geovals_zero_f90(const F90geovals &);
   void aq_geovals_abs_f90(const F90geovals &);
