@@ -458,31 +458,38 @@ integer :: ncid,nobs_id,nobs,x_id,q_id,u_id,v_id
 character(len=1024) :: filename
 character(len=:),allocatable :: str
 
-! Get filename
-call f_conf%get_or_die("filename",str)
-filename = str
-call fckit_log%info('aq_geovals_read_file: reading '//trim(filename))
+! Input on master proc only
+if (self%fmpi%rank() == 0) then
+   ! Get filename
+   call f_conf%get_or_die("filename",str)
+   filename = str
+   call fckit_log%info('aq_geovals_read_file: reading '//trim(filename))
 
-! Open NetCDF file
-call ncerr(nf90_open(trim(filename)//'.nc',nf90_nowrite,ncid))
+   ! Open NetCDF file
+   call ncerr(nf90_open(trim(filename)//'.nc',nf90_nowrite,ncid))
 
-! Get dimension id
-call ncerr(nf90_inq_dimid(ncid,'nobs',nobs_id))
+   ! Get dimension id
+   call ncerr(nf90_inq_dimid(ncid,'nobs',nobs_id))
 
-! Get dimension
-call ncerr(nf90_inquire_dimension(ncid,nobs_id,len=nobs))
+   ! Get dimension
+   call ncerr(nf90_inquire_dimension(ncid,nobs_id,len=nobs))
+else
+   nobs = 0
+end if
 
 ! GeoVals setup
 call aq_geovals_setup(self,nobs)
 
-! Get variables ids
-call ncerr(nf90_inq_varid(ncid,'x',x_id))
+if (self%fmpi%rank() == 0) then
+   ! Get variables ids
+   call ncerr(nf90_inq_varid(ncid,'x',x_id))
 
-! Get variables
-call ncerr(nf90_get_var(ncid,x_id,self%x))
+   ! Get variables
+   call ncerr(nf90_get_var(ncid,x_id,self%x))
 
-! Close NetCDF file
-call ncerr(nf90_close(ncid))
+   ! Close NetCDF file
+   call ncerr(nf90_close(ncid))
+end if
 
 end subroutine aq_geovals_read_file
 ! ------------------------------------------------------------------------------
@@ -503,28 +510,31 @@ character(len=:),allocatable :: str
 ! Check allocation
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_write_file: geovals not allocated')
 
-! Set filename
-call f_conf%get_or_die("filename",str)
-filename = str
-call fckit_log%info('aq_geovals_write_file: writing '//trim(filename))
+! Output from master proc only
+if ( self%fmpi%rank() == 0) then
+   ! Set filename
+   call f_conf%get_or_die("filename",str)
+   filename = str
+   call fckit_log%info('aq_geovals_write_file: writing '//trim(filename))
 
-! Create NetCDF file
-call ncerr(nf90_create(trim(filename)//'.nc',or(nf90_clobber,nf90_64bit_offset),ncid))
+   ! Create NetCDF file
+   call ncerr(nf90_create(trim(filename)//'.nc',or(nf90_clobber,nf90_64bit_offset),ncid))
 
-! Define dimensions
-call ncerr(nf90_def_dim(ncid,'nobs',self%nobs,nobs_id))
+   ! Define dimensions
+   call ncerr(nf90_def_dim(ncid,'nobs',self%nobs,nobs_id))
 
-! Define variables
-call ncerr(nf90_def_var(ncid,'x',nf90_double,(/nobs_id/),x_id))
+   ! Define variables
+   call ncerr(nf90_def_var(ncid,'x',nf90_double,(/nobs_id/),x_id))
 
-! End definitions
-call ncerr(nf90_enddef(ncid))
+   ! End definitions
+   call ncerr(nf90_enddef(ncid))
 
-! Put variables
-call ncerr(nf90_put_var(ncid,x_id,self%x))
+   ! Put variables
+   call ncerr(nf90_put_var(ncid,x_id,self%x))
 
-! Close NetCDF file
-call ncerr(nf90_close(ncid))
+   ! Close NetCDF file
+   call ncerr(nf90_close(ncid))
+end if
 
 end subroutine aq_geovals_write_file
 ! ------------------------------------------------------------------------------
