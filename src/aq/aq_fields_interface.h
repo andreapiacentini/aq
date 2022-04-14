@@ -20,6 +20,8 @@
 #include "atlas/functionspace.h"
 #include "atlas/grid.h"
 
+#include "aq/interface.h"
+
 // Forward declarations
 namespace eckit {
   class Configuration;
