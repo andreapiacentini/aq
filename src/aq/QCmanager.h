@@ -5,8 +5,8 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
  */
 
-#ifndef AQ_FINALCHECK_H_
-#define AQ_FINALCHECK_H_
+#ifndef AQ_QCMANAGER_H_
+#define AQ_QCMANAGER_H_
 
 #include <memory>
 #include <ostream>
@@ -26,10 +26,11 @@ namespace aq {
   class ObsSpace;
   class ObsVec;
 
-class FinalCheck : public oops::interface::ObsFilterBase<ObsTraits> {
+class QCmanager : public oops::interface::ObsFilterBase<ObsTraits> {
  public:
-  FinalCheck(const ObsSpace &, const eckit::Configuration &,
+  QCmanager(const ObsSpace &, const eckit::Configuration &,
             std::shared_ptr<ObsData<int> >, std::shared_ptr<ObsData<float> >): novars_() {}
+  ~QCmanager() {}
 
   void preProcess() override {}
   void priorFilter(const GeoVals &) override {}
@@ -49,4 +50,4 @@ class FinalCheck : public oops::interface::ObsFilterBase<ObsTraits> {
 
 }  // namespace aq
 
-#endif  // AQ_FINALCHECK_H_
+#endif  // AQ_QCMANAGER_H_

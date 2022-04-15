@@ -42,7 +42,7 @@ class ObsBias;
 class ObsBiasIncrement;
 class ObsBiasCovariance;
 class ObsBiasPreconditioner;
-class ObsDiags;
+class ObsDiagnostics;
 
 class GeoVals;
 class Locations;

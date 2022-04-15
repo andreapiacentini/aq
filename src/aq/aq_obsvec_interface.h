@@ -19,6 +19,11 @@
 #include "aq/interface.h"
 
 // Forward declarations
+namespace eckit {
+  class Configuration;
+}
+
+// Forward declarations
 namespace aq {
   class ObsSpace;
 
@@ -37,6 +42,8 @@ extern "C" {
   /// mask ObsVector (with key \p mask_key) values are set to missing value
   void aq_obsvec_mask_with_missing_f90(const F90ovec & obsvector_key,
                                        const F90ovec & mask_key);
+  void aq_obsvec_threshold_check_f90(const F90ovec & obsvector_key,const F90ovec & othervector_key,
+   const F90ovec & mask_key, const eckit::Configuration &);
   void aq_obsvec_mul_scal_f90(const F90ovec &, const double &);
   void aq_obsvec_add_f90(const F90ovec &, const F90ovec &);
   void aq_obsvec_sub_f90(const F90ovec &, const F90ovec &);

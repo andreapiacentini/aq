@@ -13,6 +13,8 @@ use iso_c_binding
 use kinds
 use missing_values_mod
 use random_mod
+use fckit_module
+use aq_constants_mod
 
 implicit none
 
@@ -20,7 +22,7 @@ private
 public :: aq_obsvec
 public :: aq_obsvec_registry
 public :: aq_obsvec_setup,aq_obsvec_clone,aq_obsvec_delete,aq_obsvec_copy,aq_obsvec_zero, &
-        & aq_obsvec_settomissing_ith,aq_obsvec_ones,aq_obsvec_mask,aq_obsvec_mask_with_missing, &
+        & aq_obsvec_settomissing_ith,aq_obsvec_ones,aq_obsvec_mask,aq_obsvec_mask_with_missing, aq_obsvec_threshold_check, &
         & aq_obsvec_mul_scal,aq_obsvec_add,aq_obsvec_sub,aq_obsvec_mul,aq_obsvec_div, &
         & aq_obsvec_axpy,aq_obsvec_invert,aq_obsvec_random,aq_obsvec_dotprod,aq_obsvec_stats, &
         & aq_obsvec_size,aq_obsvec_nobs,aq_obsvec_nobs_withmask,aq_obsvec_get_withmask
@@ -209,6 +211,33 @@ if ((self%nobs/=mask%nobs).or.(self%nlev/=mask%nlev)) call abor1_ftn('aq_obsvec_
 where(mask%values == mask%missing) self%values = self%missing
 
 end subroutine aq_obsvec_mask_with_missing
+! ------------------------------------------------------------------------------
+!> Mask observations and set qcflag to one where observation vectors differ by more than lambda
+subroutine aq_obsvec_threshold_check(self,other,qcflag,config)
+implicit none
+
+! Passed variables
+type(aq_obsvec),intent(inout) :: self          !< Simulated obs vector
+type(aq_obsvec),intent(inout) :: other         !< Obs vector
+type(aq_obsvec),intent(inout) :: qcflag        !< Mask
+type(fckit_Configuration),intent(in) :: config !< Filter config
+
+real(aq_real) :: threshold
+
+call config%get_or_die("threshold",threshold)
+if ((self%nobs/=other%nobs).or.(self%nlev/=other%nlev)) call abor1_ftn('aq_obsvec_mask: inconsistent sizes')
+write(*,*) 'threshold', threshold
+! write(*,*) 'self'
+! write(*,*) self%values
+! write(*,*) 'other'
+! write(*,*) other%values
+where(abs(self%values - other%values) > threshold) 
+  self%values = self%missing
+  ! other%values = other%missing
+  qcflag%values = 1
+end where
+
+end subroutine aq_obsvec_threshold_check
 ! ------------------------------------------------------------------------------
 !> Multiply observation vector with a scalar
 subroutine aq_obsvec_mul_scal(self,zz)

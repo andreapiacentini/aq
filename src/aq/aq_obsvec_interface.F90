@@ -11,6 +11,7 @@ module aq_obsvec_interface
 
 use iso_c_binding
 use aq_obsvec_mod
+use fckit_configuration_module, only: fckit_configuration
 
 implicit none
 
@@ -206,6 +207,32 @@ call aq_obsvec_registry%get(c_key_mask,mask)
 call aq_obsvec_mask_with_missing(self,mask)
 
 end subroutine aq_obsvec_mask_with_missing_c
+! ------------------------------------------------------------------------------
+!> Mask self observation vector (set values to missing where mask is set)
+subroutine aq_obsvec_threshold_check_c(c_key_self,c_key_other,c_key_mask,c_key_config) bind(c,name='aq_obsvec_threshold_check_f90')
+
+implicit none
+
+! Passed variables
+integer(c_int),intent(in) :: c_key_self  !< Observation vector
+integer(c_int),intent(in) :: c_key_other  !< Observation vector
+integer(c_int),intent(in) :: c_key_mask  !< Mask
+type(c_ptr),value,intent(in) :: c_key_config !< Filter configuration 
+
+! Local variables
+type(aq_obsvec),pointer :: self,other,mask
+type(fckit_configuration) :: f_conf
+
+! Interface
+f_conf = fckit_configuration(c_key_config)
+call aq_obsvec_registry%get(c_key_self,self)
+call aq_obsvec_registry%get(c_key_other,other)
+call aq_obsvec_registry%get(c_key_mask,mask)
+
+! Call Fortran
+call aq_obsvec_threshold_check(self,other,mask,f_conf)
+
+end subroutine aq_obsvec_threshold_check_c
 ! ------------------------------------------------------------------------------
 !> Multiply observation vector with a scalar
 subroutine aq_obsvec_mul_scal_c(c_key_self,zz) bind(c,name='aq_obsvec_mul_scal_f90')
