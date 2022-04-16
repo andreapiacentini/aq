@@ -2003,7 +2003,7 @@ subroutine aq_field_getvals(self, vars, lats, lons, vals)
 
    !AQ interpolator
    integer       :: nlev = 1
-   integer       :: nlocs, offset, jvar, jproc
+   integer       :: loc_nlocs, glo_nlocs, offset, jvar, jproc
    real(aq_real), allocatable, dimension(:,:) :: surf_fld
    character(len=aq_strlen) :: fname
    type(csr_format) :: Hmat
@@ -2012,29 +2012,33 @@ subroutine aq_field_getvals(self, vars, lats, lons, vals)
 
    if (trim(self%geom%orientation) == 'down') nlev = self%geom%levels
 
-   nlocs = size(lats)
+   loc_nlocs = size(lats)
+   call self%fmpi%allreduce(loc_nlocs,glo_nlocs,fckit_mpi_sum())
+   if ( glo_nlocs == 0 ) return
    allocate(surf_fld(self%geom%grid%nx(1),self%geom%grid%ny()))
-   call aq_build_interp(nlocs,lats,lons,self,hmat)
+   if ( loc_nlocs > 0 ) call aq_build_interp(loc_nlocs,lats,lons,self,hmat)
 
+   print *,'AP AP halo: ',self%geom%halo
    offset = 0
    do jvar=1,vars%nvars()
       fname = vars%variable(jvar)
 
       ! All to all
-      do jproc=0,self%fmpi%size()-1
-         call self%gather_var_at_lev(trim(fname), nlev, surf_fld, jproc)
-      end do
+      call self%gather_var_at_lev(trim(fname), nlev, surf_fld, 0)
+      call self%fmpi%broadcast(surf_fld, root=0)
 
-      ! Interpolate
-      call multiply_matrix_csr_vector( &
-       &   Hmat, &
-       &   pack(surf_fld,.true.), &
-       &   1, &
-       &   nlocs, &
-       &   vals(offset+1:offset+nlocs))
+      ! Local Interpolation
+      if ( loc_nlocs > 0 ) then
+         call multiply_matrix_csr_vector( &
+            &   Hmat, &
+            &   pack(surf_fld,.true.), &
+            &   1, &
+            &   loc_nlocs, &
+            &   vals(offset+1:offset+loc_nlocs))
 
-      ! Update offset
-      offset = offset+nlocs
+         ! Update offset
+         offset = offset+loc_nlocs
+      end if
    enddo
 
    if (size(vals) /= offset) call abor1_ftn('aq_field_getvals: error size')
@@ -2054,7 +2058,7 @@ subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
 
    !AQ interpolator
    integer       :: nlev = 1
-   integer       :: nlocs, offset, jvar, jproc
+   integer       :: loc_nlocs, glo_nlocs, offset, jvar, jproc
    real(aq_real), allocatable, dimension(:) :: surf_1d(:)
    real(aq_real), allocatable, dimension(:,:) :: surf_fld
    character(len=aq_strlen) :: fname
@@ -2064,39 +2068,44 @@ subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
 
    if (trim(self%geom%orientation) == 'down') nlev = self%geom%levels
 
-   nlocs = size(lats)
+   loc_nlocs = size(lats)
+   call self%fmpi%allreduce(loc_nlocs,glo_nlocs,fckit_mpi_sum())
+   if ( glo_nlocs == 0 ) return
    allocate(surf_fld(self%geom%grid%nx(1),self%geom%grid%ny()))
-   allocate(surf_1d(self%geom%grid%nx(1)*self%geom%grid%ny()))
-   call aq_build_interp(nlocs,lats,lons,self,hmat)
+   if ( loc_nlocs > 0 ) then
+      allocate(surf_1d(self%geom%grid%nx(1)*self%geom%grid%ny()))
+      call aq_build_interp(loc_nlocs,lats,lons,self,hmat)
+   end if
 
    offset = 0
    do jvar=1,vars%nvars()
       fname = vars%variable(jvar)
 
-      surf_1d = 0_kind_real
-      call addmult_matrixt_csr_vector( &
-         &   Hmat, &
-         &   vals(offset+1:offset+nlocs), &
-         &   1, &
-         &   nlocs, &
-         &   surf_1d)
-
       surf_fld(:,:) = 0_kind_real
-      surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
+      if ( loc_nlocs > 0 ) then
+         surf_1d = 0_kind_real
+         call addmult_matrixt_csr_vector( &
+            &   Hmat, &
+            &   vals(offset+1:offset+loc_nlocs), &
+            &   1, &
+            &   loc_nlocs, &
+            &   surf_1d)
 
-      do jproc=0,self%fmpi%size()-1
-         call self%scatteradd_var_at_lev(trim(fname), nlev, surf_fld, jproc)
-      end do
+         surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
+      end if
+
+      call self%fmpi%allreduce(surf_fld,fckit_mpi_sum())
+      call self%scatteradd_var_at_lev(trim(fname), nlev, surf_fld, 0)
 
       ! Update offset
-      offset = offset+nlocs
+      offset = offset+loc_nlocs
    enddo
 
    if (size(vals) /= offset) call abor1_ftn('aq_field_getvalsad: error size')
 
    ! Release memory
    deallocate(surf_fld)
-   deallocate(surf_1d)
+   if ( loc_nlocs > 0 ) deallocate(surf_1d)
 
 end subroutine aq_field_getvalsad
 
