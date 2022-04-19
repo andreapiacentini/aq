@@ -12,9 +12,9 @@ module floats
    integer, parameter :: std = dbl
 
    real(std), parameter :: Zero   = 0.0_std
-   real(std), parameter :: Half   = 0.5_std 
+   real(std), parameter :: Half   = 0.5_std
    real(std), parameter :: One    = 1.0_std
-   real(std), parameter :: Two    = 2.0_std 
+   real(std), parameter :: Two    = 2.0_std
    real(std), parameter :: Three  = 3.0_std
 
    real(std), parameter :: Small = tiny(Zero)
@@ -66,7 +66,7 @@ contains
             y0_j   = y0(j)
             z0_jp1 = x0(j+1)
             y0_jp1 = y0(j+1)
-            dz1 = x1(i) - z0_j 
+            dz1 = x1(i) - z0_j
             dz2 = x1(i) - z0_jp1
             if((dz1*dz2).le.0.) then
                dz1 = abs(dz1) / abs(z0_jp1-z0_j)
@@ -148,7 +148,7 @@ contains
                z0_jp1 = 0.
                y0_jp1 = 0.
             endif
-            dz1 = x1(i) - z0_j 
+            dz1 = x1(i) - z0_j
             dz2 = x1(i) - z0_jp1
             if((dz1*dz2).le.0.) then
                dz1 = abs(dz1) / abs(z0_jp1-z0_j)
@@ -221,7 +221,7 @@ contains
       !      1-D Linear interpolation and extrapolation.
       !
       ! Input:
-      !	y:	 The input vector 
+      !	y:	 The input vector
       !	x:	 The absicissae values for y
       !	x1:	 The absicissae values for the result (y1)
       !	NoData:  Missing data value for y
@@ -249,7 +249,7 @@ contains
          stop
       endif
 
-      if (present(NoData)) then 
+      if (present(NoData)) then
 
          Counter = 0
 
@@ -262,7 +262,7 @@ contains
          allocate( yy(N) )
 
          if (N .ge. 2) then
-            k = 1 
+            k = 1
             do  i=1, size(x)
                if ( y(i) .ne. NoData ) then
                   xx(k) = x(i)
@@ -270,7 +270,7 @@ contains
                   k = k+1
                endif
             enddo
-         else 
+         else
             print *, 'LInterp1% Only one valid point.'
             y1 = NoData
             LINTERP1 = y1
@@ -293,7 +293,7 @@ contains
          ENDWHERE
          deallocate( xx )
          deallocate( yy )
-      else 
+      else
          y1=INTERPOL(y,x,x1)
       endif
 
@@ -315,19 +315,19 @@ contains
       !	E1 - Interpolation
       !
       ! CALLING SEQUENCE:
-      !	Result = INTERPOL(V, X, U)	
+      !	Result = INTERPOL(V, X, U)
       !
       ! INPUTS:
       !	V:	The input vector can be any type except string.
       !
       !	X:	The absicissae values for V.  This vecotr must have same # of
-      !		elements as V.  The values MUST be monotonically ascending 
+      !		elements as V.  The values MUST be monotonically ascending
       !		or descending.
       !
-      !	U:	The absicissae values for the result.  The result will have 
-      !		the same number of elements as U.  U does not need to be 
+      !	U:	The absicissae values for the result.  The result will have
+      !		the same number of elements as U.  U does not need to be
       !		monotonic.
-      !	
+      !
       !
       ! OUTPUTS:
       !	INTERPOL returns a floating-point vector of N points determined
@@ -355,7 +355,7 @@ contains
       !
       M = size(V)	!# of input pnts
 
-      if (size(X) .ne. M) then  
+      if (size(X) .ne. M) then
          print *, 'INTERPOL %  V and X must have same # of elements'
          stop
       endif
@@ -364,24 +364,24 @@ contains
 
       r = V(1)	!floating, dbl or cmplx result
 
-      if (X(2) - X(1) .ge. 0) then 
-         s1 = 1.0 
-      else 
-         s1 = -1.0 
+      if (X(2) - X(1) .ge. 0) then
+         s1 = 1.0
+      else
+         s1 = -1.0
       endif !Incr or Decr X
 
       ix = 1			!current point
       do i=1,N 	                   !point loop
          d = s1 * (U(i)-X(ix))	!difference
-         if (abs(d) .lt. tiny(d)) then 
-            r(i)=V(ix) 
+         if (abs(d) .lt. tiny(d)) then
+            r(i)=V(ix)
          else   !at point
-            if (d > 0) then 
+            if (d > 0) then
                do while ( (s1*(U(i)-X(ix+1)) > 0) .and. (ix < M-1) )
                   ix=ix+1
                enddo
-            else 
-               do while ( (s1*(U(i)-X(ix)) < 0) .and.  (ix > 1) ) 
+            else
+               do while ( (s1*(U(i)-X(ix)) < 0) .and.  (ix > 1) )
                   ix=ix-1
                enddo
             endif
@@ -407,19 +407,19 @@ contains
       !	E1 - Interpolation
       !
       ! CALLING SEQUENCE:
-      !	Result = INTERPOL_2(V, X, U)	
+      !	Result = INTERPOL_2(V, X, U)
       !
       ! INPUTS:
       !	V:	The input vector can be any type except string.
       !
       !	X:	The absicissae values for V.  This vecotr must have same # of
-      !		elements as V.  The values MUST be monotonically ascending 
+      !		elements as V.  The values MUST be monotonically ascending
       !		or descending.
       !
-      !	U:	The absicissae values for the result.  The result will have 
-      !		the same number of elements as U.  U does not need to be 
+      !	U:	The absicissae values for the result.  The result will have
+      !		the same number of elements as U.  U does not need to be
       !		monotonic.
-      !	
+      !
       !
       ! OUTPUTS:
       !	INTERPOL_2 returns a floating-point vector of N points determined
@@ -448,7 +448,7 @@ contains
       !
       M = size(V)	!# of input pnts
 
-      if (size(X) .ne. M) then  
+      if (size(X) .ne. M) then
          print *, 'INTERPOL_2 %  V and X must have same # of elements'
          stop
       endif
@@ -457,10 +457,10 @@ contains
 
       r = V(1)	!floating, dbl or cmplx result
 
-      if (X(2) - X(1) .ge. 0) then 
-         s1 = 1.0 
-      else 
-         s1 = -1.0 
+      if (X(2) - X(1) .ge. 0) then
+         s1 = 1.0
+      else
+         s1 = -1.0
       endif !Incr or Decr X
 
       r=nodata
@@ -468,15 +468,15 @@ contains
       ix = 1			!current point
       do i=1,N 	                   !point loop
          d = s1 * (U(i)-X(ix))	!difference
-         if (abs(d) .lt. tiny(d)) then 
-            r(i)=V(ix) 
+         if (abs(d) .lt. tiny(d)) then
+            r(i)=V(ix)
          else   !at point
-            if (d > 0) then 
+            if (d > 0) then
                do while ( (s1*(U(i)-X(ix+1)) > 0) .and. (ix < M-1) )
                   ix=ix+1
                enddo
-            else 
-               do while ( (s1*(U(i)-X(ix)) < 0) .and.  (ix > 1) ) 
+            else
+               do while ( (s1*(U(i)-X(ix)) < 0) .and.  (ix > 1) )
                   ix=ix-1
                enddo
             endif
@@ -568,7 +568,7 @@ contains
       AA = A
       bb = b
       !
-      call LUDCMP( AA, N, N, Indx, d, Flag ) 
+      call LUDCMP( AA, N, N, Indx, d, Flag )
       if(Flag.ne.0) call abort()
       call LUBKSB( AA, N, N, Indx, bb )
       x = bb
@@ -859,19 +859,19 @@ contains
       !
    end subroutine conjugate_gradient
 
-   subroutine get_coef_interpol( X, U , weights, positions )      
+   subroutine get_coef_interpol( X, U , weights, positions )
       ! NAME:
       !       get_coef_interpol
       !
       ! PURPOSE:
-      !       this is a version of the interpolation routine INTERPOL contained 
-      !       in the original assimilation package from NCAR. Instead of returning 
-      !       the interpolated array, the routine returns the arrays with the 
+      !       this is a version of the interpolation routine INTERPOL contained
+      !       in the original assimilation package from NCAR. Instead of returning
+      !       the interpolated array, the routine returns the arrays with the
       !       obtained weights and positions.
       !
-      !- revision 1.1 Jan 11, 2006: the routine now handles cases with 0 in the U array. 
+      !- revision 1.1 Jan 11, 2006: the routine now handles cases with 0 in the U array.
       ! this corresponds to cases when only a part of the U vector is used (the number of
-      ! observed pressure levels is smaller than the dimension of the array. 
+      ! observed pressure levels is smaller than the dimension of the array.
       !
       use floats
       implicit none
@@ -908,12 +908,12 @@ contains
                positions(i2)=ix
                weights(i1)=1.
                weights(i2)=0.
-            else   
+            else
                if (d > 0) then
                   do while ( (s1*(U(i)-X(ix+1)) > 0) .and. (ix < M-1) )
                      ix=ix+1
                   enddo
-               else    
+               else
                   do while ( (s1*(U(i)-X(ix)) < 0) .and.  (ix > 1) )
                      ix=ix-1
                   enddo
@@ -942,7 +942,7 @@ contains
                         weights(i2)=(U(i)-X(ix))*factor
                      endif
                   else   !si1 and si2 have the same sign
-                     if (si1.gt.0) then  !obs above the top model level 
+                     if (si1.gt.0) then  !obs above the top model level
                         if (X(ix)>X(ix+1)) then
                            weights(i1)=0.
                            weights(i2)=1.
@@ -979,7 +979,7 @@ contains
 end module MathLib
 module INTERP_MATRIX_STRUCTURE_MOD
 
-   use floats 
+   use floats
 
    implicit none
 
@@ -1004,16 +1004,16 @@ module INTERP_MATRIX_STRUCTURE_MOD
       integer*4  :: nlev     !numb. of model veritcal levels
 
       real(std),dimension(2)                     :: date
-      real(std), pointer                         :: lat(:,:)    
-      real(std), pointer                         :: lon(:,:)    
-      real(std), pointer                         :: traceur(:,:,:,:)      
-      real(std), pointer                         :: pres(:,:,:,:) 
+      real(std), pointer                         :: lat(:,:)
+      real(std), pointer                         :: lon(:,:)
+      real(std), pointer                         :: traceur(:,:,:,:)
+      real(std), pointer                         :: pres(:,:,:,:)
    end type MODEL_DATA
 
 end module INTERP_MATRIX_STRUCTURE_MOD
 module matrix_manipulations
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   !this module contains routines that facilitate manipulating CSR matrices. 
+   !this module contains routines that facilitate manipulating CSR matrices.
    ! calls the csr libraries.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    !
@@ -1027,8 +1027,8 @@ module matrix_manipulations
 contains
 
    subroutine multiply_matrices_csr( iw             & !work array
-      ,Ha_csr                  & !matrix A 
-      ,Hb_csr                  & !matrix B 
+      ,Ha_csr                  & !matrix A
+      ,Hb_csr                  & !matrix B
       ,Hc_csr                  & !matrix C=A*B
       ,nmaxc                   &
       )
@@ -1041,7 +1041,7 @@ contains
       use interp_matrix_structure_mod
 
 
-      implicit none 
+      implicit none
       !
       !INPUT:
       integer, dimension(:)                  :: iw
@@ -1054,12 +1054,12 @@ contains
       integer*4        :: job,ierr,np,NPRF,ALLOC_ERR
 
 
-      job = 1 
-      ! the problem with the iw variable is that it is dimensioned by the number of 
+      job = 1
+      ! the problem with the iw variable is that it is dimensioned by the number of
       ! columns of the full matrix which is large: 1522800 for 90*180*47*2
       ! To avoid intializing iw to zero in amub (as coded in SPARSKIT, and which takes time),
-      ! the initialization is done only once in this routine. The variable iw is reinitialized to 
-      ! zero in amub2 uniquely for the indicies which were modified.  
+      ! the initialization is done only once in this routine. The variable iw is reinitialized to
+      ! zero in amub2 uniquely for the indicies which were modified.
 
       if (allocated(Hc_csr%H)) then
          call deallocate_operator(Hc_csr)
@@ -1085,12 +1085,12 @@ contains
       do np=1,NPRF
 
          !amub2 is a SPARSKIT routine modified by NOVELTIS to run faster. For details
-         !see the routine amub2 in this file. 
+         !see the routine amub2 in this file.
          call amub2(Ha_csr%nrow,Hb_csr%ncol,job,              &
             Ha_csr%H(:,np),Ha_csr%j(:,np),Ha_csr%i(:,np), &    !matrix A
             Hb_csr%H(:,np),Hb_csr%j(:,np),Hb_csr%i(:,np), &    !matrix B
             Hc_csr%H(:,np),Hc_csr%j(:,np),Hc_csr%i(:,np), &    !out:A*B
-            nmaxc,iw,ierr) 
+            nmaxc,iw,ierr)
          call check_error_sparse(ierr,"amub")
       end do
 
@@ -1142,7 +1142,7 @@ contains
    end subroutine multiply_matrix_csr_vector
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   subroutine multiply_matrixT_csr_vector(           & 
+   subroutine multiply_matrixT_csr_vector(           &
                                 !  input
       H_csr                   & !matrix in format csr
       ,vector                  & !vector
@@ -1153,7 +1153,7 @@ contains
       )
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      ! routine that multiplies the transpose of a matrix in CSR format by a vector, 
+      ! routine that multiplies the transpose of a matrix in CSR format by a vector,
       ! uses the routine atmux
       ! from SPARSKIT
       ! written by Andrea Piacentini
@@ -1184,7 +1184,7 @@ contains
    end subroutine multiply_matrixT_csr_vector
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   subroutine addmult_matrixT_csr_vector(           & 
+   subroutine addmult_matrixT_csr_vector(           &
                                 !  input
       H_csr                   & !matrix in format csr
       ,vector                  & !vector
@@ -1192,10 +1192,11 @@ contains
       ,NPRF                    & !dim 2
                                 !  output
       ,vector_out              & !the resulting vector
+      ,NoData                  & !the bad value used for masking
       )
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      ! routine that multiplies the transpose of a matrix in CSR format by a vector, 
+      ! routine that multiplies the transpose of a matrix in CSR format by a vector,
       ! uses the routine atmux
       ! from SPARSKIT
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1211,20 +1212,32 @@ contains
       real(std),dimension(ncol,NPRF)         :: vector
       integer                                :: ncol
       integer                                :: NPRF
+      real(std), optional                    :: NoData
       !OUTPUT:
       real(std),dimension(:),intent(inout)   :: vector_out
       !LOCAL:
       integer*4        :: np,ALLOC_ERR,ib_i,ib_k
 
-      do np=1,NPRF
-         do ib_i = 1,H_csr%nrow
-            do ib_k = H_csr%i(ib_i,np), H_csr%i(ib_i+1,np)-1
-               vector_out(H_csr%j(ib_k,np)) = vector_out(H_csr%j(ib_k,np)) &
-                  + vector(ib_i,np)*H_csr%H(ib_k,np)
+      if (present(NoData)) then
+         do np=1,NPRF
+            do ib_i = 1,H_csr%nrow
+               do ib_k = H_csr%i(ib_i,np), H_csr%i(ib_i+1,np)-1
+                  if (vector(ib_i,np) /= NoData) &
+                     vector_out(H_csr%j(ib_k,np)) = vector_out(H_csr%j(ib_k,np)) &
+                     + vector(ib_i,np)*H_csr%H(ib_k,np)
+               end do
             end do
          end do
-      end do
-
+      else
+         do np=1,NPRF
+            do ib_i = 1,H_csr%nrow
+               do ib_k = H_csr%i(ib_i,np), H_csr%i(ib_i+1,np)-1
+                  vector_out(H_csr%j(ib_k,np)) = vector_out(H_csr%j(ib_k,np)) &
+                     + vector(ib_i,np)*H_csr%H(ib_k,np)
+               end do
+            end do
+         end do
+      end if
       return
    end subroutine addmult_matrixT_csr_vector
 
@@ -1232,7 +1245,7 @@ contains
 
 
    subroutine copy_matrix_csr(Ha_csr    &
-      ,Hb_csr) 
+      ,Hb_csr)
 
       use floats
       use interp_matrix_structure_mod
@@ -1270,30 +1283,30 @@ contains
       return
    end subroutine copy_matrix_csr
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   ! SPARSKIT routine modified slightly to run faster. The intialization 
-   ! of the array iw is very time consuming for arrays with large number 
+   ! SPARSKIT routine modified slightly to run faster. The intialization
+   ! of the array iw is very time consuming for arrays with large number
    ! of columns. Instead of intializing the array iw each time the routine
-   ! is called, the inialization is done once in the calling routine. The 
-   ! indicies used by amub2 are reset to zero at the end of the routine. 
+   ! is called, the inialization is done once in the calling routine. The
+   ! indicies used by amub2 are reset to zero at the end of the routine.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    subroutine amub2 (nrow,ncol,job,a,ja,ia,b,jb,ib,  &
-      c,jc,ic,nzmax,iw,ierr) 
-      real*8 a(*), b(*), c(*) 
+      c,jc,ic,nzmax,iw,ierr)
+      real*8 a(*), b(*), c(*)
       integer ja(*),jb(*),jc(*),ia(nrow+1),ib(*),ic(*),iw(ncol)
-      real*8 scal 
+      real*8 scal
       logical values
-      values = (job .ne. 0) 
+      values = (job .ne. 0)
       len = 0
-      ic(1) = 1 
+      ic(1) = 1
       ierr = 0
 
       !      do j=1, ncol
       !         iw(j) = 0
       !      enddo
       !c
-      do ii=1, nrow 
-         !c     row i 
-         do ka=ia(ii), ia(ii+1)-1 
+      do ii=1, nrow
+         !c     row i
+         do ka=ia(ii), ia(ii+1)-1
 	    if (values) scal = a(ka)
 	    jj   = ja(ka)
 	    do kb=ib(jj),ib(jj+1)-1
@@ -1359,7 +1372,7 @@ contains
       ! THIS ROUTINE DEALLOCATES THE ARRAYS IN THE CSR_FORMAT structure
       use interp_matrix_structure_mod
 
-      implicit none 
+      implicit none
       !
       !INPUT:
       type(CSR_FORMAT)                       :: H_csr
@@ -1434,36 +1447,36 @@ end module matrix_manipulations
 module transformations_matrix
    !-------------------------------------------
    !this module contains the subroutines used in the transformation of the MOCAGE
-   ! data from model space to observational space. The routines return the 
+   ! data from model space to observational space. The routines return the
    ! interpolation matrices corresponding to the interpolation matrices. The matrices
    ! are represented in the Compressed Sparse Row (CSR) format to avoid creating
    ! and manipulating the matrices with full model dimensions.
    !
    !-------------------------------------------
    ! CSR FORMAT:
-   ! IN THE CSR FORMAT EACH MATRIX IS REPRESENTED BY THREE ARRAYS (see the document 
-   ! contained in the CSR documentation): 
+   ! IN THE CSR FORMAT EACH MATRIX IS REPRESENTED BY THREE ARRAYS (see the document
+   ! contained in the CSR documentation):
    ! -THE REAL ARRAY CONTAINING THE NON-ZERO ELEMENTS (SIZE NNZ)
-   ! -INTEGER ARRAY (JZ) CONTAINING THE COLUMN INDEX FOR EACH NON-ZERO ELEMENT 
-   !  (SIZE NNZ) 
-   ! -INTEGER ARRAY (IZ) CONTAINING THE POINTERS (POSITIONS) TO THE ELEMENTS IN 
-   !  THE REAL ARRAY. THE DIMENSIONS ARE NLEV+1, WITH THE FIRST NLEV ELEMENTS POINTING 
-   !  TO THE LOCATION OF THE FIRST ELEMENT IN EACH OF THE ROWS OF THE FULL MATRIX. THE 
-   !  ELEMENT N+1 CONTAINS : IA(1)+NNZ  
+   ! -INTEGER ARRAY (JZ) CONTAINING THE COLUMN INDEX FOR EACH NON-ZERO ELEMENT
+   !  (SIZE NNZ)
+   ! -INTEGER ARRAY (IZ) CONTAINING THE POINTERS (POSITIONS) TO THE ELEMENTS IN
+   !  THE REAL ARRAY. THE DIMENSIONS ARE NLEV+1, WITH THE FIRST NLEV ELEMENTS POINTING
+   !  TO THE LOCATION OF THE FIRST ELEMENT IN EACH OF THE ROWS OF THE FULL MATRIX. THE
+   !  ELEMENT N+1 CONTAINS : IA(1)+NNZ
    !-------------------------------------------
 
-   ! 
+   !
    ! VERSION: 1.0
    ! WRITTEN BY: NOVELTIS (A.KLONECKI)
    ! CREATION DATE: 26/09/2005
    ! REVISION DATE:
 
-contains 
+contains
 
    !
    !******************************************************************
    ! THE ROUTINE transf_horiz_interp_matrix IS RESPONSIBLE FOR PREPARING THE MATRIX
-   ! FOR THE HORIZONTAL INTERPOLATION OF THE MODEL DATA TOWARDS THE HORIZONTAL GRID 
+   ! FOR THE HORIZONTAL INTERPOLATION OF THE MODEL DATA TOWARDS THE HORIZONTAL GRID
    ! OF THE OBSERVATIONS. THE INPUT DATA IS GIVEN FOR ALL MODEL LEVELS AND FOR ONE
    ! OR TWO MOCAGE TIME PERIODS.THE OUTPUT MATRIX IS GIVEN IN THE CRS FORMAT
    !******************************************************************
@@ -1481,35 +1494,35 @@ contains
 
       ! INPUT VARIABLES:
 
-      integer  ,intent(in)  :: NPRF       !numb. of obser. profiles present in 
+      integer  ,intent(in)  :: NPRF       !numb. of obser. profiles present in
       !the current MOCAGE interval
-      integer*4,intent(in)  :: nlon,nlat  !numb. of model longitudes and latitudes 
-      integer*4,intent(in)  :: nlev       !numb. of model vertical levels          
-      integer*4,intent(in)  :: ntime      !numb. of model outputs (1 if no temporal 
-      !interpolation, 2 if temp. interpolation 
+      integer*4,intent(in)  :: nlon,nlat  !numb. of model longitudes and latitudes
+      integer*4,intent(in)  :: nlev       !numb. of model vertical levels
+      integer*4,intent(in)  :: ntime      !numb. of model outputs (1 if no temporal
+      !interpolation, 2 if temp. interpolation
       !between two model outputs.
       ! Model lats and longs
       real(std), dimension(nlat),intent(in)         :: latmod
       real(std), dimension(nlon),intent(in)         :: lonmod
       ! IASI lats and longs
       real(std),dimension(NPRF),intent(in)                 :: lat_o
-      real(std),dimension(NPRF),intent(in)                 :: lon_o   
-      logical                  ,intent(in)                 :: periodic_lon 
+      real(std),dimension(NPRF),intent(in)                 :: lon_o
+      logical                  ,intent(in)                 :: periodic_lon
       ! OUTPUT VARIABLES:
       !  Obs that are not in the model domain
       logical,dimension(NPRF),intent(out)             :: discard_obs
-      !  The horizontal interp matrix in the CSR representation (structure with 3 arrays):  
+      !  The horizontal interp matrix in the CSR representation (structure with 3 arrays):
       type(CSR_FORMAT)                                :: H_csr
 
       ! LOCAL VARIABLES:
-      !  variables used for horizontal interpolations:       
-      !  the 4 model pixels encircling the obs (NPRF,4) : 
-      integer,   pointer         :: nhxy(:,:)       
+      !  variables used for horizontal interpolations:
+      !  the 4 model pixels encircling the obs (NPRF,4) :
+      integer,   pointer         :: nhxy(:,:)
       !  weights for the 4 pixels, used in horiz. interpol. (NPRF,4) :
       real(std),    pointer         :: hxy(:,:)
       !
       !  variables used for matrix representation:
-      integer*4 nmax 
+      integer*4 nmax
       integer*4 i1,i2,j1,j2
       real(std)    wj1,wj2,wi1,wi2
       !  indexing variables:
@@ -1532,10 +1545,10 @@ contains
       call check_allocate(ALLOC_ERR,"transf_horiz_interp_matrix")
 
       ! calculate the weights:
-      call define_hxy(nlon,nlat,NPRF        & 
-         ,latmod,lonmod           &  
-         ,lat_o                   &  
-         ,lon_o                   &  
+      call define_hxy(nlon,nlat,NPRF        &
+         ,latmod,lonmod           &
+         ,lat_o                   &
+         ,lon_o                   &
          ,periodic_lon            &
          ,hxy,nhxy,discard_obs)
       !      print *,'define_hxy called'
@@ -1543,7 +1556,7 @@ contains
       ! define the dimensions of the CRS arrays
       H_csr%NPRF  = NPRF
       H_csr%nrow  = nlev*ntime
-      H_csr%ncol  = nlat*nlon*nlev*ntime 
+      H_csr%ncol  = nlat*nlon*nlev*ntime
       nmax        = NUMB_NON_ZERO*H_csr%nrow  !there are 4 non 0 elements in each row
       H_csr%nmax  = nmax
 
@@ -1556,15 +1569,15 @@ contains
 
 
       do n=1,NPRF
-         if (discard_obs(n)) then 
+         if (discard_obs(n)) then
             write(*,*) 'WARNING, found observations that are not in the model domain!'
             write(*,*) 'observation number ',n,'lat,lon',lat_o(n),lon_o(n)
             H_csr%H(:,n)=0.
             H_csr%i(:,n)=0
             H_csr%j(:,n)=0
          else
-            ! construct the matrix for the horizontal interpolation in the 
-            ! CSR format          
+            ! construct the matrix for the horizontal interpolation in the
+            ! CSR format
             !
             ! positions of the 4 model pixels:
             j1  = nhxy(n,1)   !lat1
@@ -1585,11 +1598,11 @@ contains
             ind3=(j2-1)*nlon+i1
             ind4=(j2-1)*nlon+i2
 
-            ! construct the operator matrix: (for explanation see the 
+            ! construct the operator matrix: (for explanation see the
             ! corresponding document)
-            ! the dimensions of the full matrix are : 
-            ! Rows=ntime*nlev ,  Columns=nlat*nlon*nlev*ntime  
-            ! 
+            ! the dimensions of the full matrix are :
+            ! Rows=ntime*nlev ,  Columns=nlat*nlon*nlev*ntime
+            !
             icounter=1
             do it=1,ntime
                do k=1,nlev
@@ -1599,7 +1612,7 @@ contains
                   H_csr%H(icounter+2,n)=wj2*wi1
                   H_csr%H(icounter+3,n)=wj2*wi2
                   !assign the integer array with the column positions for non-zero weights
-                  indk=(it-1)*nlat*nlon*nlev+(k-1)*nlat*nlon 
+                  indk=(it-1)*nlat*nlon*nlev+(k-1)*nlat*nlon
                   H_csr%j(icounter  ,n)=indk+ind1
                   H_csr%j(icounter+1,n)=indk+ind2
                   H_csr%j(icounter+2,n)=indk+ind3
@@ -1630,9 +1643,9 @@ contains
 
    !******************************************************************
    !******************************************************************
-   ! THE ROUTINE transf_vert_interp_matrix IS RESPONSIBLE FOR THE PREPARING THE 
-   ! MATRIX CORRESPONDING TO THE VERTICAL INTERPOLATION OF THE 
-   ! MODEL DATA TOWARDS THE VERTICAL (pressure) GRID OF THE OBSERVATIONS. 
+   ! THE ROUTINE transf_vert_interp_matrix IS RESPONSIBLE FOR THE PREPARING THE
+   ! MATRIX CORRESPONDING TO THE VERTICAL INTERPOLATION OF THE
+   ! MODEL DATA TOWARDS THE VERTICAL (pressure) GRID OF THE OBSERVATIONS.
    ! THE INPUT DATA IS GIVEN FOR ONE or TWO MOCAGE TIME PERIODS.
    !******************************************************************
    !******************************************************************
@@ -1643,12 +1656,12 @@ contains
       NPRF,nlev,mlev,ntime,         &
       H_csr)
 
-      use floats 
+      use floats
       use MathLib
       use interp_matrix_structure_mod
       use matrix_manipulations
 
-      implicit none 
+      implicit none
 
       ! INPUT VARIABLES
       integer*4,intent(in)       :: nlev  !model levels
@@ -1659,7 +1672,7 @@ contains
       real(std), dimension(ntime*nlev,NPRF),intent(in)     :: pres_inth   !model pressures
       real(std), dimension(mlev,NPRF)      ,intent(in)     :: pres_o      !obs pressures
       logical,dimension(NPRF)              ,intent(in)     :: discard_obs !obs to discard
-      ! 
+      !
       ! OUTPUT VARIABLES
       !  The vertical interpolation matrix in the CSR representation (structure with 3 arrays):
       type(CSR_FORMAT)    :: H_csr  !REAL ARRAY
@@ -1703,14 +1716,14 @@ contains
       call check_allocate(ALLOC_ERR,"transf_vert_interp_matrix")
       allocate(H_csr%i(H_csr%nrow+1,NPRF),STAT=ALLOC_ERR)
       call check_allocate(ALLOC_ERR,"transf_vert_interp_matrix")
-      !      
+      !
       allocate(weights(nmax),STAT=ALLOC_ERR)
       call check_allocate(ALLOC_ERR,"transf_vert_interp_matrix")
       allocate(positions(nmax),STAT=ALLOC_ERR)
       call check_allocate(ALLOC_ERR,"transf_vert_interp_matrix")
       !
       do ip=1,NPRF
-         if (.not.discard_obs(ip)) then 
+         if (.not.discard_obs(ip)) then
             do it=1,ntime
                ind1=(it-1)*mlev*NUMB_NON_ZERO
                ind2=it*mlev*NUMB_NON_ZERO
@@ -1747,17 +1760,17 @@ contains
 
    !******************************************************************
    !******************************************************************
-   ! THE ROUTINE transf_temp_interp_matrix IS RESPONSIBLE FOR THE PREPARING 
-   ! THE MATRIX FOR TEMPORAL INTERPOLATION OF THE MODEL DATA TO THE TIME OF 
-   ! OBS USING THE TWO MOCAGE INTERVALS at T and T+DT.  
+   ! THE ROUTINE transf_temp_interp_matrix IS RESPONSIBLE FOR THE PREPARING
+   ! THE MATRIX FOR TEMPORAL INTERPOLATION OF THE MODEL DATA TO THE TIME OF
+   ! OBS USING THE TWO MOCAGE INTERVALS at T and T+DT.
    !******************************************************************
    !******************************************************************
    !******************************************************************
    subroutine transf_temp_interp_matrix(mlev,NPRF,ntime,date_in,date_out, &
       H_csr  )
       !
-      use floats 
-      use interp_matrix_structure_mod 
+      use floats
+      use interp_matrix_structure_mod
       use matrix_manipulations
       !
       implicit none
@@ -1804,7 +1817,7 @@ contains
       allocate(H_csr%i(H_csr%nrow+1,NPRF),STAT = ALLOC_ERR)
       call check_allocate(ALLOC_ERR,"transf_temp_interp_matrix")
 
-      if (ntime.ne.2) then 
+      if (ntime.ne.2) then
          write(*,*) 'ERROR, the time interpolation routine was called for ntime which is not 2'
          call exit(-1)
       end if
@@ -1812,7 +1825,7 @@ contains
       do i=1,NPRF
          w1=(date_in(2)-date_out(i))*fact
          w2=(date_out(i)-date_in(1))*fact
-         ! create matrix: 
+         ! create matrix:
          !   first create the real array with non zero values: (see the corresponding document)
          do k=1,mlev
             H_csr%H((k-1)*2+1,i)=w1
@@ -1823,7 +1836,7 @@ contains
             H_csr%j((k-1)*2+1,i)=k
             H_csr%j((k-1)*2+2,i)=k+mlev
          end do
-         !   and finally the integer array with the pointers to the first element in 
+         !   and finally the integer array with the pointers to the first element in
          !   each row of the full matrix.
          do k=1,mlev+1
             H_csr%i(k,i)=(k-1)*NUMB_NON_ZERO+1
@@ -1876,7 +1889,7 @@ contains
          ll_not_mono = (lon_model(ip).gt.lon_model(ip+1))
          if (ll_not_mono) exit LON
       end do LON
-      !          
+      !
       ! loop over observations
       !
 !$omp parallel default(none), &
@@ -1886,11 +1899,11 @@ contains
 !$omp shared(lon_obs,lon_model,lat_obs,lat_model), &
 !$omp private(k,found_cell,test_lon,test_lat), &
 !$omp private(i1,i2,j1,j2,i,j,ii,jj,dx1,dx2,dy1,dy2)
-!$omp do          
+!$omp do
       OBS : do k=1,nobs
-         !          
+         !
          ! reset flag and cell coordinates
-         !          
+         !
          found_cell = .false.
          i1         = -99
          i2         = -99
@@ -1912,9 +1925,9 @@ contains
             if (test_lat) exit LOOP_J
          end do LOOP_J
          jj=j
-         !          
+         !
          ! easy case : found a cell
-         !          
+         !
          if(test_lat.and.test_lon) then
             i1 = ii
             i2 = ii + 1
@@ -2038,7 +2051,7 @@ end module transformations_matrix
 
 module space_time_operator_mod
 
-   ! Modules that only groups former single subroutines for the 
+   ! Modules that only groups former single subroutines for the
    ! construction of noveltis spatiotemporal interpolator
 
    private dnscsr
@@ -2050,14 +2063,14 @@ contains
    ! VERSION: 1.1
    ! WRITTEN BY: NOVELTIS (A.KLONECKI)
    ! THE PROGRAM IS BASED ON THE ALGORITHMS PRESENT IN THE ASSIMILATION CODE
-   ! WRITTEN BY JF Lamarque 
-   ! 
+   ! WRITTEN BY JF Lamarque
+   !
    ! CREATION DATE: 10/08/2005
    ! REVISION DATE: 12/01/2006
    !    -added flags : flag_averaging_kernel,flag_temp_interp
    !    -handles non-constant observed pressure levels
-   !    -instead of estimating the number of nonzero elements for the products 
-   !     of multiplication of two matrices (nmax), these values are computed 
+   !    -instead of estimating the number of nonzero elements for the products
+   !     of multiplication of two matrices (nmax), these values are computed
    !     based on analytic expressions.
 
    !******************************************************************
@@ -2068,7 +2081,7 @@ contains
       ,nlev_m          &
       ,ntime           &
       ,latmod          & !data:
-      ,lonmod          & 
+      ,lonmod          &
       ,pres_m          &
       ,date_MOCAGE     &
       ! INPUT OBS DATA:
@@ -2102,12 +2115,12 @@ contains
       !-------------------------------------------------------------------
       ! INPUT DATA:
       !numb. of model longitudes and latitudes
-      integer*4,intent(in)                      :: nlon,nlat  
+      integer*4,intent(in)                      :: nlon,nlat
       !numb. of model veritcal levels
-      integer*4,intent(in)                      :: nlev_m   
-      !numb. of temporary MOCAGE files: if 1 no temporal interpolation  
+      integer*4,intent(in)                      :: nlev_m
+      !numb. of temporary MOCAGE files: if 1 no temporal interpolation
       !                                 if 2 - temporal interpolation :
-      integer*4,intent(in)                      :: ntime     
+      integer*4,intent(in)                      :: ntime
 
       ! model lats and lons:
       real(std), dimension(nlat),intent(in):: latmod
@@ -2117,12 +2130,12 @@ contains
       real(std), dimension(ntime),intent(in)    :: date_MOCAGE
 
       !numb. of obser. profiles in MOCAGE interval being treated:
-      integer,intent(in)                        :: NPRF       
+      integer,intent(in)                        :: NPRF
       !maximum numb. of obs vertical levels
-      integer*4,intent(in)                      :: n_lvls  
+      integer*4,intent(in)                      :: n_lvls
       !this variable dimensions the AvKernel(n_lvls_out,n_lvls),=1 in case
-      ! of integrated column data   
-      integer*4,intent(in)                      :: n_lvls_out 
+      ! of integrated column data
+      integer*4,intent(in)                      :: n_lvls_out
 
       real(std),dimension(NPRF),intent(in)      :: lat      !IASI lat
       real(std),dimension(NPRF),intent(in)      :: lon      !IASI lon
@@ -2157,15 +2170,15 @@ contains
 
       logical, dimension(NPRF)      :: discard_obs
 
-      ! MODEL PRESSURE INTEGRATED TO THE LOCATION OF OBSERVATION 
+      ! MODEL PRESSURE INTEGRATED TO THE LOCATION OF OBSERVATION
       real(std),pointer,dimension(:,:)      :: pres_inth
 
-      !# of model levels used in vertical interpolation, if the averaging kernel is used, 
+      !# of model levels used in vertical interpolation, if the averaging kernel is used,
       ! this number is used to store the  number of non-zero elements in the final
-      !  matrix  
+      !  matrix
       integer*4                                 :: np   !indexing variable
       ! number of non-zero elements in the CSR format:
-      integer*4                                 :: nmax 
+      integer*4                                 :: nmax
       integer*4                                 :: ierr !error index
       ! actual number of levels for interpolation (depend on interp. kind)
       integer                                   :: nlev
@@ -2186,7 +2199,7 @@ contains
       ! END OF DECLARATIONS
 
       !-----------------------------------------------------------------
-      ! 1) PREPARE THE MATRIX TO INTERPOLATE MODEL CO AND PRES FROM MODEL GRID TO 
+      ! 1) PREPARE THE MATRIX TO INTERPOLATE MODEL CO AND PRES FROM MODEL GRID TO
       !    OBS LOCATIONS
       if (vert_interp_kind == ip_2d) then
          nlev = 1
@@ -2202,7 +2215,7 @@ contains
          Hh_csr)
 
       !-----------------------------------------------------------------
-      ! 2) PREPARE THE MATRIX TO INTERPOLATE TO OBS VERTICAL LEVELS (coarse): 
+      ! 2) PREPARE THE MATRIX TO INTERPOLATE TO OBS VERTICAL LEVELS (coarse):
       !
       select case(vert_interp_kind)
       case (ip_interp)
@@ -2239,7 +2252,7 @@ contains
          Hv_csr%i(:,:) = 0
 
          do ip=1,NPRF
-            if (.not.discard_obs(ip)) then 
+            if (.not.discard_obs(ip)) then
                do k = 1,Hv_csr%nrow
                   Hv_csr%H(k,ip) = 1.
                   Hv_csr%j(k,ip) = k*nlev_m
@@ -2251,28 +2264,28 @@ contains
          end do
       end select
       !-----------------------------------------------------------------
-      ! 3) PREPARE THE MATRIX TO INTERPOLATE WITH RESPECT TO TIME 
+      ! 3) PREPARE THE MATRIX TO INTERPOLATE WITH RESPECT TO TIME
 
-      if (flag_temp_interp) then   !if the temporal interpolation is 
+      if (flag_temp_interp) then   !if the temporal interpolation is
          ! necessary:
 
          call transf_temp_interp_matrix(n_lvls,                 &
-            NPRF,ntime,                              & 
+            NPRF,ntime,                              &
             date_MOCAGE(1:2),                        &
             date,                     &
             Ht_csr)
       end if
       !-------------------------------------------
       ! 4) the Averaging matrix is already calculated, convert to the CSR format
-      if (flag_averaging_kernel) then 
+      if (flag_averaging_kernel) then
          Ha_csr%NPRF = NPRF
          Ha_csr%ncol = n_lvls
          Ha_csr%nrow = n_lvls_out
          nmax=Ha_csr%ncol*Ha_csr%nrow
          Ha_csr%nmax = nmax
          allocate(Ha_csr%H(nmax,NPRF))    !for now the same for all profiles
-         allocate(Ha_csr%j(nmax,NPRF))    
-         allocate(Ha_csr%i(Ha_csr%nrow+1,NPRF)) 
+         allocate(Ha_csr%j(nmax,NPRF))
+         allocate(Ha_csr%i(Ha_csr%nrow+1,NPRF))
          do np=1,NPRF
             call dnscsr(Ha_csr%nrow,Ha_csr%ncol,nmax,  &
                avg_kernel(:,:,np),Ha_csr%nrow,Ha_csr%H(:,np),  &
@@ -2283,11 +2296,11 @@ contains
       !---
       !-------------------------------------------
       !-------------------------------------------
-      ! FINISHED CONSTRUCTING THE MATRICES, NOW MULTIPLY THEM TO OBTAIN THE FINAL 
+      ! FINISHED CONSTRUCTING THE MATRICES, NOW MULTIPLY THEM TO OBTAIN THE FINAL
       ! OBSERVATIONAL OPERATOR H=Ha*Ht*Hv*Hh
       ! FOR THE INDIVIDUAL MATRICES IT WAS STRAIGHTFORWARD TO FIND THE NUMBER OF
       ! NON ZERO ELEMENTS. FOR THE PRODUCTS OF TWO MATRICES, THE NUMBER OF NON ZERO
-      ! ELEMENTS CAN BE ALSO ESTIMATED ANALYTICALLY. THE FORMULAS ARE GIVEN 
+      ! ELEMENTS CAN BE ALSO ESTIMATED ANALYTICALLY. THE FORMULAS ARE GIVEN
       ! BELOW.
       !-------------------------------------------
       !-------------------------------------------
@@ -2303,7 +2316,7 @@ contains
             ,Hv_csr    & !matrix A
             ,Hh_csr    & !matrix B
             ,Hres1_csr & !out:A*B
-            ,nmax)   
+            ,nmax)
 
          !
          call deallocate_operator(Hv_csr)
@@ -2313,10 +2326,10 @@ contains
       end select
 
       call deallocate_operator(Hh_csr)
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       !next calculate: H_t*H_res where H_res is H_v*H_h:
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
-      if (flag_temp_interp) then      
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      if (flag_temp_interp) then
          !the multiplication of Ht*Hres gives 16 non zero values in each row
          nmax = 16 * Ht_csr%nrow
 
@@ -2334,10 +2347,10 @@ contains
       end if  !if flag_temp_interp
 
       call deallocate_operator(Hres1_csr)
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!              
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       if ( flag_averaging_kernel ) then
          ! calculate H_a*H_res where H_res is : H_t*H_v*H_h
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          nmax = get_number_col(Hres2_csr,NPRF,discard_obs)*Ha_csr%nrow
          allocate(iw(Hres2_csr%ncol))    !work array needed for routine amub
          iw=0
@@ -2353,11 +2366,11 @@ contains
       end if
 
       call deallocate_operator(Hres2_csr)
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!              
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       if ( flag_scale_input ) then
          ! and finaly scale the input by multiplication of the weights
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
-         !                                    
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         !
          do ip = 1, NPRF
             do ib = 1,Hres_csr%nrow
                do k = Hres_csr%i(ib,ip), Hres_csr%i(ib+1,ip)-1
@@ -2367,9 +2380,9 @@ contains
             end do
          end do
       end if
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       ! finished calculating the H matrix,
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
       return
    end subroutine observ_operator
@@ -2381,7 +2394,7 @@ contains
       ,nlev_m          &
       ,ntime           &
       ,latmod          & !data:
-      ,lonmod          & 
+      ,lonmod          &
       ,pres_m          &
       ,pres_m_int      &
       ,date_MOCAGE     &
@@ -2411,12 +2424,12 @@ contains
       !-------------------------------------------
       ! INPUT DATA:
       !numb. of model longitudes and latitudes
-      integer*4,intent(in)                      :: nlon,nlat  
+      integer*4,intent(in)                      :: nlon,nlat
       !numb. of model veritcal levels
-      integer*4,intent(in)                      :: nlev_m   
-      !numb. of temporary MOCAGE files: if 1 no temporal interpolation  
+      integer*4,intent(in)                      :: nlev_m
+      !numb. of temporary MOCAGE files: if 1 no temporal interpolation
       !                                 if 2 - temporal interpolation :
-      integer*4,intent(in)                      :: ntime     
+      integer*4,intent(in)                      :: ntime
 
       ! model lats and lons:
       real(std), dimension(nlat),intent(in):: latmod
@@ -2427,10 +2440,10 @@ contains
       real(std), dimension(ntime),intent(in)    :: date_MOCAGE
 
       !numb. of obser. profiles in MOCAGE interval being treated:
-      integer,intent(in)                        :: NPRF       
+      integer,intent(in)                        :: NPRF
       !this variable dimensions the AvKernel(n_lvls_out,n_lvls),=1 in case
-      ! of integrated column data   
-      integer*4,intent(in)                      :: n_lvls_out 
+      ! of integrated column data
+      integer*4,intent(in)                      :: n_lvls_out
 
       real(std),dimension(NPRF),intent(in)      :: lat      !IASI lat
       real(std),dimension(NPRF),intent(in)      :: lon      !IASI lon
@@ -2461,21 +2474,21 @@ contains
 
       logical, dimension(NPRF)     :: discard_obs
 
-      ! MODEL PRESSURE INTEGRATED TO THE LOCATION OF OBSERVATION 
+      ! MODEL PRESSURE INTEGRATED TO THE LOCATION OF OBSERVATION
       real(std),pointer,dimension(:,:)      :: pres_inth
       real(std),pointer,dimension(:,:)      :: pres_inth_int
 
       real(std), dimension(:,:,:),allocatable  :: col_kernel
 
-      !# of model levels used in vertical interpolation, 
-      ! if the averaging kernel is used, 
+      !# of model levels used in vertical interpolation,
+      ! if the averaging kernel is used,
       ! this number is used to store the  number of non-zero elements in the final
-      !  matrix  
-      integer*4                                 :: n_lvls  
-      integer*4                                 :: lvls_out 
+      !  matrix
+      integer*4                                 :: n_lvls
+      integer*4                                 :: lvls_out
       integer*4                                 :: np   !indexing variable
       ! number of non-zero elements in the CSR format:
-      integer*4                                 :: nmax 
+      integer*4                                 :: nmax
       integer*4                                 :: ierr !error index
 
       integer*4                                 :: ALLOC_ERR
@@ -2497,7 +2510,7 @@ contains
       if (NPRF .ne. size(pres_bounds,DIM=3)) write(0,*) ' WRONG PRES BOUNDS 3RD DIM'
 
       !-------------------------------------------
-      ! 1) PREPARE THE MATRIX TO INTERPOLATE MODEL CO AND PRES FROM MODEL GRID TO 
+      ! 1) PREPARE THE MATRIX TO INTERPOLATE MODEL CO AND PRES FROM MODEL GRID TO
       !    OBS LOCATIONS
       call transf_horiz_interp_matrix(NPRF,nlon,nlat,nlev_m,ntime,      &
          latmod,lonmod,                      &
@@ -2507,16 +2520,16 @@ contains
          Hh_csr)
       !
       !-------------------------------------------
-      ! 2) NO NEED OF VERTICAL INTERPOLATION: 
+      ! 2) NO NEED OF VERTICAL INTERPOLATION:
       !
       !-------------------------------------------
-      ! 3) PREPARE THE MATRIX TO INTERPOLATE WITH RESPECT TO TIME 
+      ! 3) PREPARE THE MATRIX TO INTERPOLATE WITH RESPECT TO TIME
 
-      if (flag_temp_interp) then   !if the temporal interpolation is 
+      if (flag_temp_interp) then   !if the temporal interpolation is
          ! necessary:
 
          call transf_temp_interp_matrix(nlev_m,                &
-            NPRF,ntime,            & 
+            NPRF,ntime,            &
             date_MOCAGE(1:2),      &
             date,                  &
             Ht_csr)
@@ -2524,17 +2537,17 @@ contains
       !
       !-------------------------------------------
       !-------------------------------------------
-      ! FINISHED CONSTRUCTING THE MATRICES, NOW MULTIPLY THEM TO OBTAIN THE FINAL 
+      ! FINISHED CONSTRUCTING THE MATRICES, NOW MULTIPLY THEM TO OBTAIN THE FINAL
       ! OBSERVATIONAL OPERATOR H=Ha*Ht*Hh
       ! FOR THE INDIVIDUAL MATRICES IT WAS STRAIGHTFORWARD TO FIND THE NUMBER OF
       ! NON ZERO ELEMENTS. FOR THE PRODUCTS OF TWO MATRICES, THE NUMBER OF NON ZERO
-      ! ELEMENTS CAN BE ALSO ESTIMATED ANALYTICALLY. THE FORMULAS ARE GIVEN 
+      ! ELEMENTS CAN BE ALSO ESTIMATED ANALYTICALLY. THE FORMULAS ARE GIVEN
       ! BELOW.
       !-------------------------------------------
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       ! calculate: H_t*H_h:
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
-      if (flag_temp_interp) then      
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      if (flag_temp_interp) then
          !the multiplication of Ht*Hres gives 16 non zero values in each row
          nmax = 16 * Ht_csr%nrow
 
@@ -2569,7 +2582,7 @@ contains
       ! pres_inth_int now contains the model interface press. on the obs hor. grid
       !
       !-------------------------------------------
-      ! 4) Compute the avg kernel matrix for total columns (cubic), 
+      ! 4) Compute the avg kernel matrix for total columns (cubic),
       !    then convert it to the CSR format
       !
       allocate(col_kernel(n_lvls,nlev_m,NPRF))
@@ -2585,8 +2598,8 @@ contains
       nmax=Hc_csr%ncol*Hc_csr%nrow
       Hc_csr%nmax = nmax
       allocate(Hc_csr%H(nmax,NPRF))    !for now the same for all profiles
-      allocate(Hc_csr%j(nmax,NPRF))    
-      allocate(Hc_csr%i(Hc_csr%nrow+1,NPRF))   
+      allocate(Hc_csr%j(nmax,NPRF))
+      allocate(Hc_csr%i(Hc_csr%nrow+1,NPRF))
       do np=1,NPRF
          call dnscsr(Hc_csr%nrow,Hc_csr%ncol,nmax,  &
             col_kernel(:,:,np),Hc_csr%nrow,Hc_csr%H(:,np),  &
@@ -2598,15 +2611,15 @@ contains
       !-------------------------------------------
       ! 5) the Averaging matrix is already calculated, convert to the CSR format
 
-      if (flag_averaging_kernel) then 
+      if (flag_averaging_kernel) then
          Ha_csr%NPRF = NPRF
          Ha_csr%ncol = n_lvls
          Ha_csr%nrow = n_lvls_out
          nmax=Ha_csr%ncol*Ha_csr%nrow
          Ha_csr%nmax = nmax
          allocate(Ha_csr%H(nmax,NPRF))    !for now the same for all profiles
-         allocate(Ha_csr%j(nmax,NPRF))    
-         allocate(Ha_csr%i(Ha_csr%nrow+1,NPRF)) 
+         allocate(Ha_csr%j(nmax,NPRF))
+         allocate(Ha_csr%i(Ha_csr%nrow+1,NPRF))
          do np=1,NPRF
             call dnscsr(Ha_csr%nrow,Ha_csr%ncol,nmax,  &
                avg_kernel(:,:,np),Ha_csr%nrow,Ha_csr%H(:,np),  &
@@ -2618,7 +2631,7 @@ contains
       !
       ! calculate H_c*H_res where H_res is : H_t*H_h
       !-------------------------------------------
-      !                
+      !
       lvls_out = nlev_m/2+1
       nmax = lvls_out * 16 * Hc_csr%nrow
 
@@ -2636,7 +2649,7 @@ contains
       !
       ! and finally calculate H_a*H_res where H_res is : H_c*H_t*H_h
       !-------------------------------------------
-      !                
+      !
       if ( flag_averaging_kernel ) then
          nmax = get_number_col(Hres3_csr,NPRF,discard_obs)*Ha_csr%nrow
          allocate(iw(Hres3_csr%ncol))    !work array needed for routine amub
@@ -2653,12 +2666,12 @@ contains
       end if
 
       call deallocate_operator(Hres3_csr)
-      !                                    
+      !
       !-------------------------------------------
-      !                
+      !
       ! finished calculating the H matrix,
       !-------------------------------------------
-      ! 
+      !
       return
 
    end subroutine observ_operator_tc
@@ -2692,14 +2705,14 @@ contains
       !numb. of model/obs profiles
       integer*4,intent(in)                      :: n_prof
       !numb. of model veritcal levels
-      integer*4,intent(in)                      :: nlev_m                               
+      integer*4,intent(in)                      :: nlev_m
       ! model fields:
       real(std), dimension(nlev_m,n_prof),intent(in) :: pres_m
       !maximum numb. of obs vertical levels
-      integer*4,intent(in)                      :: n_lvls  
+      integer*4,intent(in)                      :: n_lvls
       !this variable dimensions the AvKernel(n_lvls_out,n_lvls),=1 in case
-      ! of integrated column data   
-      integer*4,intent(in)                      :: n_lvls_out 
+      ! of integrated column data
+      integer*4,intent(in)                      :: n_lvls_out
 
       real(std),dimension(n_lvls,n_prof),intent(in):: pres_o
 
@@ -2723,18 +2736,18 @@ contains
 
       logical, dimension(n_prof)      :: discard_obs
 
-      !# of model levels used in vertical interpolation, if the averaging kernel is used, 
+      !# of model levels used in vertical interpolation, if the averaging kernel is used,
       ! this number is used to store the  number of non-zero elements in the final
-      !  matrix  
+      !  matrix
       integer*4                                 :: np   !indexing variable
       ! number of non-zero elements in the CSR format:
-      integer*4                                 :: nmax 
+      integer*4                                 :: nmax
       integer*4                                 :: ierr !error index
 
       integer*4                                 :: ALLOC_ERR
 
       ! loop counters and indexing variables
-      integer*4 :: ip, i, k, n, indk 
+      integer*4 :: ip, i, k, n, indk
 
       allocate(Hres1_csr%H(1,1))
       allocate(Hres1_csr%j(1,1))
@@ -2751,7 +2764,7 @@ contains
       Hh_csr%NPRF  = n_prof ! The destination number of profiles
       Hh_csr%nrow  = nlev_m ! The destination size (vertical on grid model)
       Hh_csr%ncol  = n_prof*nlev_m ! The input size (the number of input 1D profiles)
-      nmax         = Hh_csr%nrow*1  ! One to one correspondence between input profiles and output ones 
+      nmax         = Hh_csr%nrow*1  ! One to one correspondence between input profiles and output ones
       Hh_csr%nmax  = nmax
 
       allocate(Hh_csr%H(nmax,n_prof),STAT=ALLOC_ERR)
@@ -2765,11 +2778,11 @@ contains
       Hh_csr%i(:,:) = 0
 
       do n=1,n_prof
-         ! construct the operator matrix: (for explanation see the 
+         ! construct the operator matrix: (for explanation see the
          ! corresponding document)
-         ! the dimensions of the full matrix are : 
-         ! Rows=nlev ,  Columns=nprof*nlev  
-         ! 
+         ! the dimensions of the full matrix are :
+         ! Rows=nlev ,  Columns=nprof*nlev
+         !
          do k=1,nlev_m
             ! assign the real array with non-zero weights
             Hh_csr%H(k,n)=1.
@@ -2789,8 +2802,8 @@ contains
          ! matrix construction finished
       end do  !n=1,n_prof
       !-------------------------------------------
-      ! 2) PREPARE THE MATRIX TO INTERPOLATE TO OBS VERTICAL LEVELS (coarse): 
-      !                         
+      ! 2) PREPARE THE MATRIX TO INTERPOLATE TO OBS VERTICAL LEVELS (coarse):
+      !
       discard_obs(:) = .false.
 
       call transf_vert_interp_matrix(pres_m,pres_o,    &
@@ -2800,14 +2813,14 @@ contains
 
       !-------------------------------------------
       ! 4) the Averaging matrix is already calculated, convert to the CSR format
-      if (flag_averaging_kernel) then 
+      if (flag_averaging_kernel) then
          Ha_csr%NPRF = n_prof
          Ha_csr%ncol = n_lvls
          Ha_csr%nrow = n_lvls_out
          nmax=Ha_csr%ncol*Ha_csr%nrow
          Ha_csr%nmax = nmax
          allocate(Ha_csr%H(nmax,n_prof))    !for now the same for all profiles
-         allocate(Ha_csr%j(nmax,n_prof))    
+         allocate(Ha_csr%j(nmax,n_prof))
          allocate(Ha_csr%i(Ha_csr%nrow+1,n_prof))
          do np=1,n_prof
             call dnscsr(Ha_csr%nrow,Ha_csr%ncol,nmax,  &
@@ -2818,11 +2831,11 @@ contains
       !---
       !-------------------------------------------
       !-------------------------------------------
-      ! FINISHED CONSTRUCTING THE MATRICES, NOW MULTIPLY THEM TO OBTAIN THE FINAL 
+      ! FINISHED CONSTRUCTING THE MATRICES, NOW MULTIPLY THEM TO OBTAIN THE FINAL
       ! OBSERVATIONAL OPERATOR H=Ha*Ht*Hv*Hh
       ! FOR THE INDIVIDUAL MATRICES IT WAS STRAIGHTFORWARD TO FIND THE NUMBER OF
       ! NON ZERO ELEMENTS. FOR THE PRODUCTS OF TWO MATRICES, THE NUMBER OF NON ZERO
-      ! ELEMENTS CAN BE ALSO ESTIMATED ANALYTICALLY. THE FORMULAS ARE GIVEN 
+      ! ELEMENTS CAN BE ALSO ESTIMATED ANALYTICALLY. THE FORMULAS ARE GIVEN
       ! BELOW.
       !-------------------------------------------
       !-------------------------------------------
@@ -2837,15 +2850,15 @@ contains
          ,Hv_csr    & !matrix A
          ,Hh_csr    & !matrix B
          ,Hres1_csr & !out:A*B
-         ,nmax)   
+         ,nmax)
 
       call deallocate_operator(Hv_csr)
       deallocate(iw)
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!              
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       if ( flag_averaging_kernel ) then
          ! and finaly calculate H_a*H_res where H_res is : H_t*H_v*H_h
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          nmax = get_number_col(Hres1_csr,n_prof,discard_obs)*Ha_csr%nrow
          allocate(iw(Hres1_csr%ncol))    !work array needed for routine amub
          iw=0
@@ -2861,10 +2874,10 @@ contains
       end if
 
       call deallocate_operator(Hres1_csr)
-      !                                    
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
+      !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       ! finished calculating the H matrix,
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
       return
    end subroutine observ_operator_vert
@@ -2881,13 +2894,13 @@ contains
       !  |_|\/|_| \_____/ \_____/ \_/ \_/ \_____/ |_____|
       !
       !   MODELE DE CHIMIE ATMOSPHERIQUE A GRANDE ECHELLE
-      !   VERSION_RELEASE_BUGFIX : 0_1_1 
+      !   VERSION_RELEASE_BUGFIX : 0_1_1
       !
       !CC DATE : 09/06/2005
       !
-      !   Type      : Chemistry 
+      !   Type      : Chemistry
       !   Purpose   : Compute a total column
-      !   Called by : 
+      !   Called by :
       !
       !CC
       !
@@ -2896,7 +2909,7 @@ contains
       !  Modified :
       !
       !CCCC
-      !	
+      !
       implicit none
       !
       !
@@ -2908,15 +2921,15 @@ contains
       real (KIND=8) , dimension (2,NIV_OBS,NPRF) :: RP_O
       real (KIND=8) , dimension (NIV_OBS,NIV,NPRF) :: AVK
       !
-      ! LOOPS      
+      ! LOOPS
       integer :: I,L,K
       ! INDEXES
       integer :: LTOP,LBOT
       ! COEFFICIENTS
       real(KIND=8) :: rl_TOP,rl_BOT
-      ! CONSTANTS      
+      ! CONSTANTS
       real(KIND=8) :: MAIR,GG,AVO,DOBSON
-      ! WEIGHTS FOR NEIGHBORING LEVELS       	
+      ! WEIGHTS FOR NEIGHBORING LEVELS
       real (KIND=8), allocatable   :: ALFZ1MAS(:,:),ALFZ2MAS(:,:)
       real (KIND=8), allocatable   :: ALFZ3MAS(:,:),ALFZ4MAS(:,:)
       real (KIND=8), allocatable   :: ALFZ5MAS(:,:)
@@ -2949,7 +2962,7 @@ contains
          do L=1,NIV
             RP(L,:)=RP_SWAP(NIV-L+1,:)
          end do
-         !	
+         !
          RP_SWAP(:,:)=RPLT(:,:)
          do L=1,NIV
             RPLT(L,:)=RP_SWAP(NIV-L+1,:)
@@ -2966,7 +2979,7 @@ contains
       DOBSON=2.685E20
       !
       ! 2. COMPUTE WEIGHTS
-      !        
+      !
       call TRANSF_TOTCOL_WEIGHTS(NIV,NPRF,RP,RPLT &
          ,ALFZ1MAS,ALFZ2MAS &
          ,ALFZ3MAS,ALFZ4MAS &
@@ -2998,7 +3011,7 @@ contains
             RP_O_TOP = min(RP_O(1,K,I),RP_O(2,K,I))
             RP_O_BOT = max(RP_O(1,K,I),RP_O(2,K,I))
 
-            if (abs(RP_O_TOP).lt.1.e-6 .or. RPLT(1,I).gt.RP_O_TOP) then 
+            if (abs(RP_O_TOP).lt.1.e-6 .or. RPLT(1,I).gt.RP_O_TOP) then
                !***        Bring down the 0. or very small top boundary to the model roof
                LTOP=1
                rl_TOP=1.
@@ -3015,11 +3028,11 @@ contains
                end do
                !
                rl_TOP=(RPLT(LTOP,I)-RP_O_TOP)/ &
-                  (RPLT(LTOP,I)-RPLT(LTOP-1,I)) 
+                  (RPLT(LTOP,I)-RPLT(LTOP-1,I))
 
             end if
             !
-            if (RPLT(NIV,I).lt.RP_O_BOT) then 
+            if (RPLT(NIV,I).lt.RP_O_BOT) then
                !***        Bring up the very large bottom boundary to the model ground
                LBOT=NIV
                rl_BOT=1.
@@ -3037,7 +3050,7 @@ contains
                LBOT=LBOT+1
                !
                rl_BOT=(RP_O_BOT-RPLT(LBOT-1,I))/ &
-                  (RPLT(LBOT,I)-RPLT(LBOT-1,I)) 
+                  (RPLT(LBOT,I)-RPLT(LBOT-1,I))
             end if
             !
             ! 5. FILL AVK_KERNEL LINES
@@ -3045,7 +3058,7 @@ contains
             !        IF(.NOT.LL_OUT) THEN
             if (LTOP.eq.LBOT) then
                rl_TOP=(RP_O_BOT-RP_O_TOP)/ &
-                  (RPLT(LTOP,I)-RPLT(LTOP-1,I)) 
+                  (RPLT(LTOP,I)-RPLT(LTOP-1,I))
                AVK(K,LTOP,I)=rl_TOP*AVK_COEFF(LTOP)
             else
                AVK(K,LTOP,I)=rl_TOP*AVK_COEFF(LTOP)
@@ -3062,7 +3075,7 @@ contains
                AVK(:,L,I)=RP_SWAP(:,NIV-L+1)
             end do
          end if
-      end do ! I = 1,NPRF 
+      end do ! I = 1,NPRF
       !
       ! CLEAN UP
       !
@@ -3073,7 +3086,7 @@ contains
          do L=1,NIV
             RP(L,:)=RP_SWAP(NIV-L+1,:)
          end do
-         !	
+         !
          RP_SWAP(:,:)=RPLT(:,:)
          do L=1,NIV
             RPLT(L,:)=RP_SWAP(NIV-L+1,:)
@@ -3086,16 +3099,16 @@ contains
       deallocate (ALFZ3MAS)
       deallocate (ALFZ4MAS)
       deallocate (ALFZ5MAS)
-      !    
+      !
    end subroutine TRANSF_TOTCOL_AVG_KERNEL
    !
    subroutine TRANSF_TOTCOL_WEIGHTS(NIV,NPRF,PL,PLT  &
       ,ALFZ1MAS,ALFZ2MAS  &
       ,ALFZ3MAS,ALFZ4MAS  &
       ,ALFZ5MAS)
-      !     
+      !
       implicit none
-      !	
+      !
       !
       !     Subroutine arguments.
       !     ~~~~~~~~~~~~~~~~~~~~
@@ -3107,7 +3120,7 @@ contains
       real (KIND=8) , dimension (NPRF,NIV) :: ALFZ5MAS
       !
       !     Variables locales.
-      !     ~~~~~~~~~~~~~~~~~      
+      !     ~~~~~~~~~~~~~~~~~
       !
       integer :: I,J,L,LP1
       real (KIND=8) :: PL1,PL2,PLT0,PLT1,PLT2,COEF,DP2
@@ -3116,8 +3129,8 @@ contains
       real (KIND=8) :: RP12,RP13,RP14,RP23,RP24,RP34
       real (KIND=8) , allocatable :: INVPROD(:,:),SOMPROD(:,:)
       real (KIND=8) , allocatable :: PROD(:,:),SOM(:,:)
-      real (KIND=8) , allocatable :: ZCOEF(:)	
-      !        
+      real (KIND=8) , allocatable :: ZCOEF(:)
+      !
       allocate (INVPROD(NIV,4))
       allocate (SOMPROD(NIV,4))
       allocate (PROD(NIV,4))
@@ -3139,15 +3152,15 @@ contains
          ALFZ1MAS(I,1)=0.
          ALFZ2MAS(I,1)=0.
          ALFZ3MAS(I,1)=(PLT1-PLT0)-COEF
-         ALFZ4MAS(I,1)=COEF          
-         ALFZ5MAS(I,1)=0.                    
-         !                  
+         ALFZ4MAS(I,1)=COEF
+         ALFZ5MAS(I,1)=0.
+         !
          ! 2 eme cas: maille L=2.
          ! Interpolation lineaire dans la premiere moitie de maille
          ! puis cubique dans la seconde moitie (les coefficients
          ! beta correspondant a la seconde moitie sont calcules plus loin)
-         !                
-         COEF=((PL2-PLT1)**2)/2.     
+         !
+         COEF=((PL2-PLT1)**2)/2.
          COEF=COEF/(PL2-PL1)
          ALFZ1MAS(I,2)=0.
          ALFZ2MAS(I,2)=COEF
@@ -3233,7 +3246,7 @@ contains
          RPTN  =PLT(NIV,I)
          RPTNM1=PLT(NIV-1,I)
          COEF=(RPTNM1**2-RPNM1**2)/2.-RPN*(RPTNM1-RPNM1)
-         COEF=COEF/(RPNM1-RPN)         
+         COEF=COEF/(RPNM1-RPN)
          ALFZ3MAS(I,NIV-1)=ALFZ3MAS(I,NIV-1)+               COEF
          ALFZ4MAS(I,NIV-1)=ALFZ4MAS(I,NIV-1)+(RPTNM1-RPNM1)-COEF
          ALFZ5MAS(I,NIV-1)=0.
@@ -3250,9 +3263,9 @@ contains
          ALFZ1MAS(I,NIV)=0.
          ALFZ2MAS(I,NIV)=           -COEF
          ALFZ3MAS(I,NIV)=RPTN-RPTNM1+COEF
-         ALFZ4MAS(I,NIV)=0.         
+         ALFZ4MAS(I,NIV)=0.
          ALFZ5MAS(I,NIV)=0.
-         !         
+         !
       enddo
       !
       deallocate (INVPROD)
@@ -3270,7 +3283,7 @@ contains
       ,nlev_m          &
       ,ntime           &
       ,latmod          & !data:
-      ,lonmod          & 
+      ,lonmod          &
       ,pres_m          &
       ,pres_m_int      &
       ,date_MOCAGE     &
@@ -3300,12 +3313,12 @@ contains
       !-------------------------------------------
       ! INPUT DATA:
       !numb. of model longitudes and latitudes
-      integer*4,intent(in)                      :: nlon,nlat  
+      integer*4,intent(in)                      :: nlon,nlat
       !numb. of model veritcal levels
-      integer*4,intent(in)                      :: nlev_m   
-      !numb. of temporary MOCAGE files: if 1 no temporal interpolation  
+      integer*4,intent(in)                      :: nlev_m
+      !numb. of temporary MOCAGE files: if 1 no temporal interpolation
       !                                 if 2 - temporal interpolation :
-      integer*4,intent(in)                      :: ntime     
+      integer*4,intent(in)                      :: ntime
 
       ! model lats and lons:
       real(std), dimension(nlat),intent(in):: latmod
@@ -3316,10 +3329,10 @@ contains
       real(std), dimension(ntime),intent(in)    :: date_MOCAGE
 
       !numb. of obser. profiles in MOCAGE interval being treated:
-      integer,intent(in)                        :: NPRF       
+      integer,intent(in)                        :: NPRF
       !this variable dimensions the AvKernel(n_lvls_out,n_lvls),=1 in case
-      ! of integrated column data   
-      integer*4,intent(in)                      :: n_lvls_out 
+      ! of integrated column data
+      integer*4,intent(in)                      :: n_lvls_out
 
       real(std),dimension(NPRF),intent(in)      :: lat      !IASI lat
       real(std),dimension(NPRF),intent(in)      :: lon      !IASI lon
@@ -3345,23 +3358,23 @@ contains
 
       logical, dimension(NPRF)      :: discard_obs
 
-      ! MODEL PRESSURE INTEGRATED TO THE LOCATION OF OBSERVATION 
+      ! MODEL PRESSURE INTEGRATED TO THE LOCATION OF OBSERVATION
       real(std),pointer,dimension(:,:)      :: pres_inth
       real(std),pointer,dimension(:,:)      :: pres_inth_int
 
       real(std), dimension(nlev_m,NPRF), intent(out)  :: avg_kernel
       real(std), dimension(n_lvls_out,nlev_m,NPRF), intent(out)  :: cell_fractions
       !maximum numb. of obs vertical levels
-      integer*4                                 :: n_lvls  
+      integer*4                                 :: n_lvls
 
-      !# of model levels used in vertical interpolation, 
-      ! if the averaging kernel is used, 
+      !# of model levels used in vertical interpolation,
+      ! if the averaging kernel is used,
       ! this number is used to store the  number of non-zero elements in the final
-      !  matrix  
-      integer*4                                 :: lvls_out 
+      !  matrix
+      integer*4                                 :: lvls_out
       integer*4                                 :: np   !indexing variable
       ! number of non-zero elements in the CSR format:
-      integer*4                                 :: nmax 
+      integer*4                                 :: nmax
       integer*4                                 :: ierr !error index
 
       integer*4                                 :: ALLOC_ERR
@@ -3371,7 +3384,7 @@ contains
       ! END OF DECLARATIONS
 
       !-------------------------------------------
-      ! 1) PREPARE THE MATRIX TO INTERPOLATE MODEL CO AND PRES FROM MODEL GRID TO 
+      ! 1) PREPARE THE MATRIX TO INTERPOLATE MODEL CO AND PRES FROM MODEL GRID TO
       !    OBS LOCATIONS
       call transf_horiz_interp_matrix(NPRF,nlon,nlat,nlev_m,ntime,      &
          latmod,lonmod,                      &
@@ -3381,18 +3394,18 @@ contains
          Hh_csr)
       !
       !-------------------------------------------
-      ! 2) NO NEED OF VERTICAL INTERPOLATION: 
+      ! 2) NO NEED OF VERTICAL INTERPOLATION:
       !
       n_lvls = nlev_m
       !
       !-------------------------------------------
-      ! 3) PREPARE THE MATRIX TO INTERPOLATE WITH RESPECT TO TIME 
+      ! 3) PREPARE THE MATRIX TO INTERPOLATE WITH RESPECT TO TIME
 
-      if (flag_temp_interp) then   !if the temporal interpolation is 
+      if (flag_temp_interp) then   !if the temporal interpolation is
          ! necessary:
 
          call transf_temp_interp_matrix(n_lvls,                &
-            NPRF,ntime,            & 
+            NPRF,ntime,            &
             date_MOCAGE(1:2),      &
             date,                  &
             Ht_csr)
@@ -3400,17 +3413,17 @@ contains
       !
       !-------------------------------------------
       !-------------------------------------------
-      ! FINISHED CONSTRUCTING THE MATRICES, NOW MULTIPLY THEM TO OBTAIN THE FINAL 
+      ! FINISHED CONSTRUCTING THE MATRICES, NOW MULTIPLY THEM TO OBTAIN THE FINAL
       ! OBSERVATIONAL OPERATOR H=Ha*Ht*Hh
       ! FOR THE INDIVIDUAL MATRICES IT WAS STRAIGHTFORWARD TO FIND THE NUMBER OF
       ! NON ZERO ELEMENTS. FOR THE PRODUCTS OF TWO MATRICES, THE NUMBER OF NON ZERO
-      ! ELEMENTS CAN BE ALSO ESTIMATED ANALYTICALLY. THE FORMULAS ARE GIVEN 
+      ! ELEMENTS CAN BE ALSO ESTIMATED ANALYTICALLY. THE FORMULAS ARE GIVEN
       ! BELOW.
       !-------------------------------------------
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       ! calculate: H_t*H_h:
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                
-      if (flag_temp_interp) then      
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      if (flag_temp_interp) then
          !the multiplication of Ht*Hres gives 16 non zero values in each row
          nmax = 16 * Ht_csr%nrow
 
@@ -3445,7 +3458,7 @@ contains
       ! pres_inth_int now contains the model interface press. on the obs hor. grid
       !
       !-------------------------------------------
-      ! 4) Compute the avg kernel matrix for total columns (cubic), 
+      ! 4) Compute the avg kernel matrix for total columns (cubic),
       !    then convert it to the CSR format
       !
       call transf_totcol_avg_kernel2(nlev_m,n_lvls_out,NPRF,pres_inth, &
@@ -3456,10 +3469,10 @@ contains
       deallocate(pres_inth_int)
       !
       !-------------------------------------------
-      !                
+      !
       ! finished calculating the H matrix,
       !-------------------------------------------
-      ! 
+      !
       return
    end subroutine observ_operator_tc2
    !
@@ -3474,13 +3487,13 @@ contains
       !  |_|\/|_| \_____/ \_____/ \_/ \_/ \_____/ |_____|
       !
       !   MODELE DE CHIMIE ATMOSPHERIQUE A GRANDE ECHELLE
-      !   VERSION_RELEASE_BUGFIX : 0_1_1 
+      !   VERSION_RELEASE_BUGFIX : 0_1_1
       !
       !CC DATE : 09/06/2005
       !
-      !   Type      : Chemistry 
+      !   Type      : Chemistry
       !   Purpose   : Compute a total column
-      !   Called by : 
+      !   Called by :
       !
       !CC
       !
@@ -3489,7 +3502,7 @@ contains
       !  Modified :
       !
       !CCCC
-      !   
+      !
       implicit none
       !
       !
@@ -3502,15 +3515,15 @@ contains
       real (KIND=8) , dimension (NIV,NPRF) :: AVK
       real (KIND=8) , dimension (NIV_OBS,NIV,NPRF) :: FRACS
       !
-      ! LOOPS      
+      ! LOOPS
       integer :: I,L,K
       ! INDEXES
       integer :: LTOP,LBOT
       ! COEFFICIENTS
       real(KIND=8) :: rl_TOP,rl_BOT
-      ! CONSTANTS      
+      ! CONSTANTS
       real(KIND=8) :: MAIR,GG,AVO,DOBSON
-      ! WEIGHTS FOR NEIGHBORING LEVELS        
+      ! WEIGHTS FOR NEIGHBORING LEVELS
       real (KIND=8), allocatable   :: ALFZ1MAS(:,:),ALFZ2MAS(:,:)
       real (KIND=8), allocatable   :: ALFZ3MAS(:,:),ALFZ4MAS(:,:)
       real (KIND=8), allocatable   :: ALFZ5MAS(:,:)
@@ -3543,7 +3556,7 @@ contains
          do L=1,NIV
             RP(L,:)=RP_SWAP(NIV-L+1,:)
          end do
-         !   
+         !
          RP_SWAP(:,:)=RPLT(:,:)
          do L=1,NIV
             RPLT(L,:)=RP_SWAP(NIV-L+1,:)
@@ -3560,7 +3573,7 @@ contains
       DOBSON=2.685E20
       !
       ! 2. COMPUTE WEIGHTS
-      !        
+      !
       call TRANSF_TOTCOL_WEIGHTS(NIV,NPRF,RP,RPLT &
          ,ALFZ1MAS,ALFZ2MAS &
          ,ALFZ3MAS,ALFZ4MAS &
@@ -3592,7 +3605,7 @@ contains
             RP_O_TOP = min(RP_O(1,K,I),RP_O(2,K,I))
             RP_O_BOT = max(RP_O(1,K,I),RP_O(2,K,I))
 
-            if (abs(RP_O_TOP).lt.1.e-6 .or. RPLT(1,I).gt.RP_O_TOP) then 
+            if (abs(RP_O_TOP).lt.1.e-6 .or. RPLT(1,I).gt.RP_O_TOP) then
                !***        Bring down the 0. or very small top boundary to the model roof
                LTOP=1
                rl_TOP=1.
@@ -3609,11 +3622,11 @@ contains
                end do
                !
                rl_TOP=(RPLT(LTOP,I)-RP_O_TOP)/ &
-                  (RPLT(LTOP,I)-RPLT(LTOP-1,I)) 
+                  (RPLT(LTOP,I)-RPLT(LTOP-1,I))
 
             end if
             !
-            if (RPLT(NIV,I).lt.RP_O_BOT) then 
+            if (RPLT(NIV,I).lt.RP_O_BOT) then
                !***        Bring up the very large bottom boundary to the model ground
                LBOT=NIV
                rl_BOT=1.
@@ -3631,7 +3644,7 @@ contains
                LBOT=LBOT+1
                !
                rl_BOT=(RP_O_BOT-RPLT(LBOT-1,I))/ &
-                  (RPLT(LBOT,I)-RPLT(LBOT-1,I)) 
+                  (RPLT(LBOT,I)-RPLT(LBOT-1,I))
             end if
             !
             ! 5. FILL AVK_KERNEL LINES
@@ -3639,7 +3652,7 @@ contains
             if(.not.LL_OUT) then
                if (LTOP.eq.LBOT) then
                   rl_TOP=(RP_O_BOT-RP_O_TOP)/ &
-                     (RPLT(LTOP,I)-RPLT(LTOP-1,I)) 
+                     (RPLT(LTOP,I)-RPLT(LTOP-1,I))
                   FRACS(K,LTOP,I)=rl_TOP
                else
                   FRACS(K,LTOP,I)=rl_TOP
@@ -3661,7 +3674,7 @@ contains
                AVK(L,I)=RP_SWAP(1,NIV-L+1)
             end do
          end if
-      end do! I = 1,NPRF 
+      end do! I = 1,NPRF
       !
       ! CLEAN UP
       !
@@ -3672,7 +3685,7 @@ contains
          do L=1,NIV
             RP(L,:)=RP_SWAP(NIV-L+1,:)
          end do
-         !   
+         !
          RP_SWAP(:,:)=RPLT(:,:)
          do L=1,NIV
             RPLT(L,:)=RP_SWAP(NIV-L+1,:)
@@ -3685,7 +3698,7 @@ contains
       deallocate (ALFZ3MAS)
       deallocate (ALFZ4MAS)
       deallocate (ALFZ5MAS)
-      !    
+      !
    end subroutine TRANSF_TOTCOL_AVG_KERNEL2
 
    function get_number_col(Hv_csr,NPRF,discard_obs)
@@ -3740,18 +3753,18 @@ contains
 
    subroutine dnscsr(nrow,ncol,nzmax,dns,ndns,a,ja,ia,ierr)
 
-      implicit none 
+      implicit none
 
       real(KIND=8) :: dns(ndns,*),a(*)
       integer      :: ia(*),ja(*)
       integer      :: nrow,ncol,nzmax,ndns,ierr
       !-----------------------------------------------------------------------
-      ! Dense		to    Compressed Row Sparse 
-      !----------------------------------------------------------------------- 
+      ! Dense		to    Compressed Row Sparse
+      !-----------------------------------------------------------------------
       !
       ! converts a densely stored matrix into a row orientied
       ! compactly sparse matrix. ( reverse of csrdns )
-      ! Note: this routine does not check whether an element 
+      ! Note: this routine does not check whether an element
       ! is small. It considers that a(i,j) is zero if it is exactly
       ! equal to zero: see test below.
       !-----------------------------------------------------------------------
@@ -3763,25 +3776,25 @@ contains
       ! nzmax = maximum number of nonzero elements allowed. This
       !         should be set to be the lengths of the arrays a and ja.
       ! dns   = input nrow x ncol (dense) matrix.
-      ! ndns	= first dimension of dns. 
+      ! ndns	= first dimension of dns.
       !
       ! on return:
-      !---------- 
-      ! 
-      ! a, ja, ia = value, column, pointer  arrays for output matrix 
+      !----------
       !
-      ! ierr	= integer error indicator: 
+      ! a, ja, ia = value, column, pointer  arrays for output matrix
+      !
+      ! ierr	= integer error indicator:
       !         ierr .eq. 0 means normal retur
       !         ierr .eq. i means that the the code stopped while
       !         processing row number i, because there was no space left in
       !         a, and ja (as defined by parameter nzmax).
-      !----------------------------------------------------------------------- 
+      !-----------------------------------------------------------------------
       integer :: next, i, j
       ierr = 0
       next = 1
       ia(1) = 1
       do i=1,nrow
-         do j=1, ncol 
+         do j=1, ncol
             if (dns(i,j) .eq. 0.0d0) cycle
             if (next .gt. nzmax) then
                ierr = i
@@ -3794,8 +3807,8 @@ contains
          ia(i+1) = next
       end do
       return
-      !---- end of dnscsr ---------------------------------------------------- 
-      !----------------------------------------------------------------------- 
+      !---- end of dnscsr ----------------------------------------------------
+      !-----------------------------------------------------------------------
    end subroutine dnscsr
 
 end module space_time_operator_mod

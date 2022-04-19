@@ -2062,6 +2062,7 @@ subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
    real(aq_real), allocatable, dimension(:,:) :: surf_fld
    character(len=aq_strlen) :: fname
    type(csr_format) :: Hmat
+   real(aq_real) :: filter_val
 
    if (trim(self%geom%orientation) == 'down') nlev = self%geom%levels
 
@@ -2072,6 +2073,7 @@ subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
    if ( loc_nlocs > 0 ) then
       allocate(surf_1d(self%geom%grid%nx(1)*self%geom%grid%ny()))
       call aq_build_interp(loc_nlocs,lats,lons,self,hmat)
+      filter_val = missing_value(filter_val)
    end if
 
    offset = 0
@@ -2086,7 +2088,8 @@ subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
             &   vals(offset+1:offset+loc_nlocs), &
             &   1, &
             &   loc_nlocs, &
-            &   surf_1d)
+            &   surf_1d, &
+            &   filter_val)
 
          surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
       end if
