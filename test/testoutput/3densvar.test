@@ -17,7 +17,7 @@ CostFunction::addIncrement: Analysis:
 
 
 
-CostJb   : Nonlinear Jb = 692.555
+CostJb   : Nonlinear Jb = 692.554
 CostJo   : Nonlinear Jo(CO) = 1263.88, nobs = 264, Jo/n = 4.78744, err = 8.18928e-08
 CostJo   : Nonlinear Jo(O3) = 3651.94, nobs = 918, Jo/n = 3.97815, err = 5e-09
 CostFunction: Nonlinear J = 5608.38

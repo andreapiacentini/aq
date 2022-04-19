@@ -24,9 +24,9 @@ Localization(ensemble) * Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0; max = 1; mean = 0.00925749; stddev = 0.0807545
-  Var. O_3: min = 0; max = 1; mean = 0.00925749; stddev = 0.0807545
-  Var. NO_2: min = 0; max = 1; mean = 0.00925749; stddev = 0.0807545
+  Var. CO: min = 0; max = 1; mean = 0.0092575; stddev = 0.0807545
+  Var. O_3: min = 0; max = 1; mean = 0.0092575; stddev = 0.0807545
+  Var. NO_2: min = 0; max = 1; mean = 0.0092575; stddev = 0.0807545
 
 Randomized variance: 
   Valid time: 2010-07-04T06:00:00Z
@@ -36,5 +36,5 @@ Randomized variance:
   with 3 variables
   Var. CO: min = 0; max = 1.47216e-14; mean = 1.93551e-18; stddev = 1.27246e-16
   Var. O_3: min = 0; max = 1.5008e-17; mean = 2.02849e-20; stddev = 2.04346e-19
-  Var. NO_2: min = 0; max = 1.11402e-16; mean = 3.82658e-20; stddev = 1.10169e-18
+  Var. NO_2: min = 0; max = 1.11402e-16; mean = 3.82659e-20; stddev = 1.10169e-18
 
