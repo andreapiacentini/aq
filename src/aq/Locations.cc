@@ -36,19 +36,17 @@ Locations::Locations(const eckit::Configuration & config, const eckit::mpi::Comm
 : comm_(comm)
 {
   if (comm_.rank() == 0) {
-    std::vector<double> lons;
-    std::vector<double> lats;
     std::vector<double> z;
     unsigned int nrandom;
     if (config.has("lats") || config.has("nrandom")) {
       /*! These are optional lists of locations that the user can
       * specify in the config file for testing
       */
-      lons = config.getDoubleVector("lons");
-      lats = config.getDoubleVector("lats");
+      lons_ = config.getDoubleVector("lons");
+      lats_ = config.getDoubleVector("lats");
 
-      ASSERT(lons.size() == lats.size());
-      for (std::size_t jj=0; jj < lons.size(); ++jj) {
+      ASSERT(lons_.size() == lats_.size());
+      for (std::size_t jj=0; jj < lons_.size(); ++jj) {
         z.push_back(0.);
       }
 
@@ -81,21 +79,21 @@ Locations::Locations(const eckit::Configuration & config, const eckit::mpi::Comm
       randlons.sort();
 
       for (std::size_t jj=0; jj < nrandom; ++jj) {
-        lons.push_back(randlons[jj]);
-        lats.push_back(randlats[jj]);
+        lons_.push_back(randlons[jj]);
+        lats_.push_back(randlats[jj]);
         z.push_back(0.);
       }
     }
 
-    const unsigned int nlocs = lons.size();
+    const unsigned int nlocs = lons_.size();
     ASSERT(nlocs > 0);
 
     /*! render lat, lon as an atlas functionspace */
     atlas::Field field_lonlat("lonlat", make_datatype<double>(), make_shape(nlocs, 2));
     auto lonlat = make_view<double, 2>(field_lonlat);
     for ( unsigned int j = 0; j < nlocs; ++j ) {
-        lonlat(j, 0) = lons[j];
-        lonlat(j, 1) = lats[j];
+        lonlat(j, 0) = lons_[j];
+        lonlat(j, 1) = lats_[j];
     }
     pointcloud_.reset(new atlas::functionspace::PointCloud(field_lonlat));
 
@@ -133,11 +131,11 @@ Locations::Locations(const eckit::Configuration & config, const eckit::mpi::Comm
 Locations::Locations(const Locations & other)
 : comm_(other.comm_)
 {
-//  if (comm_.rank() == 0) {
-    pointcloud_.reset(new atlas::functionspace::PointCloud(other.lonlat()));
-    altitude_.reset(new atlas::Field(*other.altitude_));
-    times_ = other.times_;
-//  }
+  pointcloud_.reset(new atlas::functionspace::PointCloud(other.lonlat()));
+  altitude_.reset(new atlas::Field(*other.altitude_));
+  times_ = other.times_;
+  lats_ = other.lats_;
+  lons_ = other.lons_;
 }
 // -------------------------------------------------------------------------
 /*! Constructor from fields and times.  These may be obtained from the obsdb,
@@ -161,6 +159,14 @@ Locations::Locations(atlas::FieldSet & fields,
     altitude_.reset(new atlas::Field("altitude", make_datatype<double>(),
                      make_shape(nlocs)));
   }
+  lats_.resize(pointcloud_->size());
+  lons_.resize(pointcloud_->size());
+  atlas::Field field_lonlat = pointcloud_->lonlat();
+  auto lonlat = make_view<double, 2>(field_lonlat);
+  for (size_t jloc = 0; jloc < pointcloud_->size(); ++jloc) {
+    lats_[jloc] = lonlat(jloc, 1);
+    lons_[jloc] = lonlat(jloc, 0);
+  }
 }
 // -------------------------------------------------------------------------
 void Locations::localCoords(const util::DateTime & t1, const util::DateTime & t2,
@@ -169,19 +175,16 @@ void Locations::localCoords(const util::DateTime & t1, const util::DateTime & t2
   lats.clear();
   lons.clear();
   indx.clear();
-//  if (comm_.rank() == 0) {
-    int nobs = pointcloud_->size();
-    atlas::Field field_lonlat = pointcloud_->lonlat();
-    auto lonlat = make_view<double, 2>(field_lonlat);
-    for (size_t jj=0; jj < static_cast<size_t>(nobs); ++jj) {
-//      if (times_[jj] > t1 && times_[jj] <= t2) { // TODO: fix input file
-      if (times_[jj] >= t1 && times_[jj] <= t2) {
-        lats.push_back(lonlat(jj, 1));
-        lons.push_back(lonlat(jj, 0));
-        indx.push_back(jj);
-      }
+  int nobs = pointcloud_->size();
+  atlas::Field field_lonlat = pointcloud_->lonlat();
+  auto lonlat = make_view<double, 2>(field_lonlat);
+  for (size_t jj=0; jj < static_cast<size_t>(nobs); ++jj) {
+    if (times_[jj] >= t1 && times_[jj] <= t2) {
+      lats.push_back(lonlat(jj, 1));
+      lons.push_back(lonlat(jj, 0));
+      indx.push_back(jj);
     }
-//  }
+  }
 }
 // -------------------------------------------------------------------------
 void Locations::print(std::ostream & os) const {

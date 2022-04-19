@@ -1626,8 +1626,8 @@ subroutine aq_field_gather_var_at_lev(self, var, lev, fld_2d, owner)
   il_var = self%idx_var(trim(var))
 
   aloc_2d = self%geom%fs%create_field(name=trim(var),  &
-     &                                   kind=atlas_real(self%prec), &
-     &                                   levels=0)
+     &                                kind=atlas_real(self%prec), &
+     &                                levels=0)
   !
   if (self%prec == aq_single) then
      call aloc_2d%data(loc_2ds)
@@ -1638,10 +1638,10 @@ subroutine aq_field_gather_var_at_lev(self, var, lev, fld_2d, owner)
   end if
 
   aglo_2d = self%geom%fs%create_field(name=trim(var),  &
-     &                                   kind=atlas_real(self%prec), &
-     &                                   global = .true., &
-     &                                   owner = il_owner, &
-     &                                   levels=0)
+     &                                kind=atlas_real(self%prec), &
+     &                                global = .true., &
+     &                                owner = il_owner, &
+     &                                levels=0)
   call self%geom%fs%gather(aloc_2d, aglo_2d)
   if ( self%fmpi%rank() == il_owner ) then
      if (self%prec == aq_single) then
@@ -1691,10 +1691,10 @@ subroutine aq_field_scatteradd_var_at_lev(self, var, lev, fld_2d, owner)
   il_var = self%idx_var(trim(var))
 
   aglo_2d = self%geom%fs%create_field(name=trim(var),  &
-     &                                   kind=atlas_real(self%prec), &
-     &                                   global = .true., &
-     &                                   owner = il_owner, &
-     &                                   levels=0)
+     &                                kind=atlas_real(self%prec), &
+     &                                global = .true., &
+     &                                owner = il_owner, &
+     &                                levels=0)
   if ( self%fmpi%rank() == il_owner ) then
      if (self%prec == aq_single) then
         call aglo_2d%data(glo_2ds, shape=[self%geom%grid%nx(1),self%geom%grid%ny()])
@@ -1707,8 +1707,8 @@ subroutine aq_field_scatteradd_var_at_lev(self, var, lev, fld_2d, owner)
   end if
 
   aloc_2d = self%geom%fs%create_field(name=trim(var),  &
-     &                                   kind=atlas_real(self%prec), &
-     &                                   levels=0)
+     &                                kind=atlas_real(self%prec), &
+     &                                levels=0)
   !
   call self%geom%fs%scatter(aglo_2d, aloc_2d)
   !
@@ -2008,8 +2008,6 @@ subroutine aq_field_getvals(self, vars, lats, lons, vals)
    character(len=aq_strlen) :: fname
    type(csr_format) :: Hmat
 
-   ! TODO: not optimal, should be improved
-
    if (trim(self%geom%orientation) == 'down') nlev = self%geom%levels
 
    loc_nlocs = size(lats)
@@ -2018,14 +2016,15 @@ subroutine aq_field_getvals(self, vars, lats, lons, vals)
    allocate(surf_fld(self%geom%grid%nx(1),self%geom%grid%ny()))
    if ( loc_nlocs > 0 ) call aq_build_interp(loc_nlocs,lats,lons,self,hmat)
 
-   print *,'AP AP halo: ',self%geom%halo
    offset = 0
    do jvar=1,vars%nvars()
       fname = vars%variable(jvar)
 
       ! All to all
       call self%gather_var_at_lev(trim(fname), nlev, surf_fld, 0)
-      call self%fmpi%broadcast(surf_fld, root=0)
+      ! If the geometry as a halo, perform the interpolation in parallel
+      ! otherwise assume that by construction loc_nlocs is >0 only on the master
+      if ( self%geom%halo >= 1 ) call self%fmpi%broadcast(surf_fld, root=0)
 
       ! Local Interpolation
       if ( loc_nlocs > 0 ) then
@@ -2064,8 +2063,6 @@ subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
    character(len=aq_strlen) :: fname
    type(csr_format) :: Hmat
 
-   ! TODO: not optimal, should be improved
-
    if (trim(self%geom%orientation) == 'down') nlev = self%geom%levels
 
    loc_nlocs = size(lats)
@@ -2094,7 +2091,7 @@ subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
          surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
       end if
 
-      call self%fmpi%allreduce(surf_fld,fckit_mpi_sum())
+      if ( self%geom%halo >= 1 ) call self%fmpi%allreduce(surf_fld,fckit_mpi_sum())
       call self%scatteradd_var_at_lev(trim(fname), nlev, surf_fld, 0)
 
       ! Update offset
