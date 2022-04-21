@@ -55,7 +55,7 @@ find_package( HDF5 REQUIRED COMPONENTS Fortran_HL HL Fortran )
 find_package( NetCDF REQUIRED COMPONENTS Fortran )
 
 # atlas
-find_package( atlas 0.20.2 REQUIRED )
+find_package( atlas 0.27.0 REQUIRED COMPONENTS OMP OMP_Fortran )
 
 # oops
 find_package( oops 1.0.0 REQUIRED )

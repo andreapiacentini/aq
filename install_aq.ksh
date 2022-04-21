@@ -17,6 +17,7 @@ ecbuild --prefix=${build_dir} \
         -DCMAKE_INSTALL_PREFIX=${install_dir} \
 	-DENABLE_LORENZ95_MODEL=OFF \
 	-DENABLE_OOPS_DOC="OFF" \
+	-DENABLE_OMP="ON" \
         ${AQ_JEDI_SRC}/bundle \
 || exit $?
 make update || exit $?
