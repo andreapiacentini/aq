@@ -38,7 +38,7 @@ set( FYPP_NO_LINE_NUMBERING TRUE )
 
 set( ECBUILD_C_FLAGS        "-xAVX" )
 set( ECBUILD_CXX_FLAGS      "-xAVX -std=c++14 -diag-disable=2196" )
-set( ECBUILD_Fortran_FLAGS  "-xAVX -r8 -mkl ${Fortran_FLAG_AUTOMATIC_ARRAYS}")
+set( ECBUILD_Fortran_FLAGS  "-xAVX -r8 -qmkl ${Fortran_FLAG_AUTOMATIC_ARRAYS}")
 
 ####################################################################
 # RELEASE FLAGS
@@ -99,7 +99,7 @@ set( Boost_NO_SYSTEM_PATHS on )
 # LINK FLAGS
 ####################################################################
 
-set( ECBUILD_Fortran_LINK_FLAGS  "-mkl" )
+set( ECBUILD_Fortran_LINK_FLAGS  "-qmkl" )
 
 ###################################################################
 # 

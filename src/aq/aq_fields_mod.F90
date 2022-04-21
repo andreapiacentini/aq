@@ -18,7 +18,6 @@ use duration_mod
 use fckit_log_module,only: fckit_log
 use iso_c_binding
 use kinds
-use missing_values_mod
 !$ use omp_lib
 use oops_variables_mod
 use aq_geom_mod
@@ -29,6 +28,11 @@ use aq_transform_mod
 !AP use aq_interp_mod
 !AP use aq_locs_mod
 use random_mod
+
+!AQ interpolator
+use interp_matrix_structure_mod, only : csr_format
+use space_time_operator_mod, only : observ_operator
+use matrix_manipulations, only : multiply_matrix_csr_vector, addmult_matrixt_csr_vector
 
 implicit none
 
@@ -96,6 +100,8 @@ contains
      &                                          aq_field_deserialize_real
   procedure, public :: set_atlas             => aq_field_set_atlas
   procedure, public :: to_atlas              => aq_field_to_atlas
+  procedure, public :: getvals               => aq_field_getvals
+  procedure, public :: getvalsad             => aq_field_getvalsad
   !
   procedure, public :: kind                  => aq_field_kind
   procedure, public :: name                  => aq_field_name
@@ -1619,8 +1625,8 @@ subroutine aq_field_gather_var_at_lev(self, var, lev, fld_2d, owner)
   il_var = self%idx_var(trim(var))
 
   aloc_2d = self%geom%fs%create_field(name=trim(var),  &
-     &                                   kind=atlas_real(self%prec), &
-     &                                   levels=0)
+     &                                kind=atlas_real(self%prec), &
+     &                                levels=0)
   !
   if (self%prec == aq_single) then
      call aloc_2d%data(loc_2ds)
@@ -1631,10 +1637,10 @@ subroutine aq_field_gather_var_at_lev(self, var, lev, fld_2d, owner)
   end if
 
   aglo_2d = self%geom%fs%create_field(name=trim(var),  &
-     &                                   kind=atlas_real(self%prec), &
-     &                                   global = .true., &
-     &                                   owner = il_owner, &
-     &                                   levels=0)
+     &                                kind=atlas_real(self%prec), &
+     &                                global = .true., &
+     &                                owner = il_owner, &
+     &                                levels=0)
   call self%geom%fs%gather(aloc_2d, aglo_2d)
   if ( self%fmpi%rank() == il_owner ) then
      if (self%prec == aq_single) then
@@ -1684,10 +1690,10 @@ subroutine aq_field_scatteradd_var_at_lev(self, var, lev, fld_2d, owner)
   il_var = self%idx_var(trim(var))
 
   aglo_2d = self%geom%fs%create_field(name=trim(var),  &
-     &                                   kind=atlas_real(self%prec), &
-     &                                   global = .true., &
-     &                                   owner = il_owner, &
-     &                                   levels=0)
+     &                                kind=atlas_real(self%prec), &
+     &                                global = .true., &
+     &                                owner = il_owner, &
+     &                                levels=0)
   if ( self%fmpi%rank() == il_owner ) then
      if (self%prec == aq_single) then
         call aglo_2d%data(glo_2ds, shape=[self%geom%grid%nx(1),self%geom%grid%ny()])
@@ -1700,8 +1706,8 @@ subroutine aq_field_scatteradd_var_at_lev(self, var, lev, fld_2d, owner)
   end if
 
   aloc_2d = self%geom%fs%create_field(name=trim(var),  &
-     &                                   kind=atlas_real(self%prec), &
-     &                                   levels=0)
+     &                                kind=atlas_real(self%prec), &
+     &                                levels=0)
   !
   call self%geom%fs%scatter(aglo_2d, aloc_2d)
   !
@@ -1921,5 +1927,185 @@ subroutine aq_field_to_atlas(self, vars, fieldset)
    !
 end subroutine aq_field_to_atlas
 
-! ------------------------------------------------------------------------------
+subroutine aq_build_interp(nlocs, latobs, lonobs, fld, hmat)
+
+implicit none
+
+integer,intent(in) :: nlocs
+real(kind_real), intent(in) :: latobs(nlocs) !< Locations latitudes
+real(kind_real), intent(in) :: lonobs(nlocs) !< Locations longitudes
+type(aq_fields),intent(in) :: fld         !< Fields
+type(csr_format),intent(inout) :: hmat !< Interpolation matrix
+
+! Local variables
+integer :: jloc
+
+character(len=aq_strlen) :: msg
+integer :: ib
+real(kind_real), allocatable :: lonmod(:), latmod(:)
+real(kind_real), dimension(1,1) :: dummylev
+real(kind_real), dimension(1) :: dummycoord
+real(kind_real), dimension(:), allocatable :: dummytime
+
+
+  !AQ could be stored once for all in the geometry so to avoid the extraction at every build.
+  allocate(lonmod(fld%geom%grid%nx(1)))
+  allocate(latmod(fld%geom%grid%ny()))
+  do ib = 1, fld%geom%grid%nx(1)
+     lonmod(ib) = fld%geom%grid%x(ib,1)
+  end do
+  do ib = 1, fld%geom%grid%ny()
+     latmod(ib) = fld%geom%grid%y(ib)
+  end do
+  allocate(dummytime(nlocs))
+  dummytime(:) = 0_kind_real
+
+  call observ_operator ( &
+     &   fld%geom%grid%ny(), &
+     &   fld%geom%grid%nx(1), &
+     &   1, & ! Only on input level in the gathered surface field
+     &   1, & ! Only one exact time (no time interpolation)
+     &   latmod, &
+     &   lonmod, &
+     &   dummycoord, & ! Vert coord not relevat
+     &   dummycoord, & ! Obs time not relevant
+     &   nlocs, &
+     &   1, & ! Levels in and out are 1
+     &   1, &
+     &   latobs, &
+     &   lonobs, &
+     &   .false., & ! aq grid not considered as lon periodic
+     &   dummytime, &
+     &   dummylev, &
+     &   2, & ! It is the ground interpolator option
+     &   .false., & ! no input scaling
+     &   .false., & ! no averaging kernel
+     &   .false., & ! no time interpolation
+     &   Hmat)
+
+  write(msg,'(A)') 'Built interpolator'
+  call fckit_log%debug(msg)
+
+  deallocate(lonmod)
+  deallocate(latmod)
+  deallocate(dummytime)
+
+end subroutine aq_build_interp
+
+subroutine aq_field_getvals(self, vars, lats, lons, vals)
+   implicit none
+   class(aq_fields),intent(in)      :: self
+   type(oops_variables),intent(in) :: vars
+   real(kind_real), intent(in)     :: lats(:)
+   real(kind_real), intent(in)     :: lons(:)
+   real(c_double), intent(inout)   :: vals(:)
+
+   !AQ interpolator
+   integer       :: nlev = 1
+   integer       :: loc_nlocs, glo_nlocs, offset, jvar, jproc
+   real(aq_real), allocatable, dimension(:,:) :: surf_fld
+   character(len=aq_strlen) :: fname
+   type(csr_format) :: Hmat
+
+   if (trim(self%geom%orientation) == 'down') nlev = self%geom%levels
+
+   loc_nlocs = size(lats)
+   call self%fmpi%allreduce(loc_nlocs,glo_nlocs,fckit_mpi_sum())
+   if ( glo_nlocs == 0 ) return
+   allocate(surf_fld(self%geom%grid%nx(1),self%geom%grid%ny()))
+   if ( loc_nlocs > 0 ) call aq_build_interp(loc_nlocs,lats,lons,self,hmat)
+
+   offset = 0
+   do jvar=1,vars%nvars()
+      fname = vars%variable(jvar)
+
+      ! All to all
+      call self%gather_var_at_lev(trim(fname), nlev, surf_fld, 0)
+      ! If the geometry as a halo, perform the interpolation in parallel
+      ! otherwise assume that by construction loc_nlocs is >0 only on the master
+      if ( self%geom%halo >= 1 ) call self%fmpi%broadcast(surf_fld, root=0)
+
+      ! Local Interpolation
+      if ( loc_nlocs > 0 ) then
+         call multiply_matrix_csr_vector( &
+            &   Hmat, &
+            &   pack(surf_fld,.true.), &
+            &   1, &
+            &   loc_nlocs, &
+            &   vals(offset+1:offset+loc_nlocs))
+
+         ! Update offset
+         offset = offset+loc_nlocs
+      end if
+   enddo
+
+   if (size(vals) /= offset) call abor1_ftn('aq_field_getvals: error size')
+
+   ! Release memory
+   deallocate(surf_fld)
+
+end subroutine aq_field_getvals
+
+subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
+   implicit none
+   class(aq_fields),intent(inout)      :: self
+   type(oops_variables),intent(in) :: vars
+   real(kind_real), intent(in)     :: lats(:)
+   real(kind_real), intent(in)     :: lons(:)
+   real(c_double), intent(in)   :: vals(:)
+
+   !AQ interpolator
+   integer       :: nlev = 1
+   integer       :: loc_nlocs, glo_nlocs, offset, jvar, jproc
+   real(aq_real), allocatable, dimension(:) :: surf_1d(:)
+   real(aq_real), allocatable, dimension(:,:) :: surf_fld
+   character(len=aq_strlen) :: fname
+   type(csr_format) :: Hmat
+   real(aq_real) :: filter_val
+
+   if (trim(self%geom%orientation) == 'down') nlev = self%geom%levels
+
+   loc_nlocs = size(lats)
+   call self%fmpi%allreduce(loc_nlocs,glo_nlocs,fckit_mpi_sum())
+   if ( glo_nlocs == 0 ) return
+   allocate(surf_fld(self%geom%grid%nx(1),self%geom%grid%ny()))
+   if ( loc_nlocs > 0 ) then
+      allocate(surf_1d(self%geom%grid%nx(1)*self%geom%grid%ny()))
+      call aq_build_interp(loc_nlocs,lats,lons,self,hmat)
+      filter_val = missing_value
+   end if
+
+   offset = 0
+   do jvar=1,vars%nvars()
+      fname = vars%variable(jvar)
+
+      surf_fld(:,:) = 0_kind_real
+      if ( loc_nlocs > 0 ) then
+         surf_1d = 0_kind_real
+         call addmult_matrixt_csr_vector( &
+            &   Hmat, &
+            &   vals(offset+1:offset+loc_nlocs), &
+            &   1, &
+            &   loc_nlocs, &
+            &   surf_1d, &
+            &   filter_val)
+
+         surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
+      end if
+
+      if ( self%geom%halo >= 1 ) call self%fmpi%allreduce(surf_fld,fckit_mpi_sum())
+      call self%scatteradd_var_at_lev(trim(fname), nlev, surf_fld, 0)
+
+      ! Update offset
+      offset = offset+loc_nlocs
+   enddo
+
+   if (size(vals) /= offset) call abor1_ftn('aq_field_getvalsad: error size')
+
+   ! Release memory
+   deallocate(surf_fld)
+   if ( loc_nlocs > 0 ) deallocate(surf_1d)
+
+end subroutine aq_field_getvalsad
+
 end module aq_fields_mod

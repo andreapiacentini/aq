@@ -21,9 +21,8 @@ class GeometryIterator;
 class State;
 class Increment;
 class ErrorCovariance;
+class InterpolatorQG;
 
-class GetValues;
-class GetValuesTLAD;
 class ChangeVar;
 class ChangeVarTLAD;
 
@@ -56,18 +55,17 @@ struct Traits {
 
   typedef aq::GeometryIterator    GeometryIterator;
 
-  typedef aq::GetValues           GetValues;
-  typedef aq::LinearGetValues     LinearGetValues;
   typedef aq::ChangeVar           VariableChange;
   typedef aq::LinearChangeVar     LinearVariableChange;
 
   typedef aq::State               State;
   typedef aq::Increment           Increment;
   typedef aq::Covariance          Covariance;
+  typedef aq::Interpolator        LocalInterpolator;
 
-  typedef aq::ModelAuxControl      ModelAuxControl;
-  typedef aq::ModelAuxIncrement    ModelAuxIncrement;
-  typedef aq::ModelAuxCovariance   ModelAuxCovariance;
+  typedef aq::ModelAuxControl     ModelAuxControl;
+  typedef aq::ModelAuxIncrement   ModelAuxIncrement;
+  typedef aq::ModelAuxCovariance  ModelAuxCovariance;
 };
 
 struct ObsTraits {

@@ -35,16 +35,14 @@ option("BUNDLE_SKIP_ECKIT" "Don't build eckit" "OFF" ) # Skip eckit build unless
 option("BUNDLE_SKIP_FCKIT" "Don't build fckit" "OFF") # Skip fckit build unless user passes -DBUNDLE_SKIP_FCKIT=OFF
 option("BUNDLE_SKIP_ATLAS" "Don't build atlas" "OFF") # Skip atlas build unless user passes -DBUNDLE_SKIP_ATLAS=OFF
 
-ecbuild_bundle( PROJECT eckit GIT "https://github.com/ecmwf/eckit.git" TAG 1.16.0 )
-ecbuild_bundle( PROJECT fckit GIT "https://github.com/ecmwf/fckit.git" TAG 0.9.2 )
-ecbuild_bundle( PROJECT atlas GIT "https://github.com/ecmwf/atlas.git" TAG 0.24.1 )
+ecbuild_bundle( PROJECT eckit GIT "https://github.com/ecmwf/eckit.git" TAG 1.18.2 )
+ecbuild_bundle( PROJECT fckit GIT "https://github.com/ecmwf/fckit.git" TAG 0.9.5 )
+ecbuild_bundle( PROJECT atlas GIT "https://github.com/ecmwf/atlas.git" TAG 0.27.0 )
 
 # Core JEDI repositories
 # ----------------------
-# ecbuild_bundle( PROJECT oops  GIT "https://github.com/jcsda/oops.git"  BRANCH develop UPDATE )
-# ecbuild_bundle( PROJECT saber GIT "https://github.com/jcsda/saber.git" BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT oops  GIT "https://github.com/jcsda/oops.git"  TAG c08d1eb8b2749bf010633223363a5c87608b08d3 )
-ecbuild_bundle( PROJECT saber GIT "https://github.com/jcsda/saber.git" TAG 82557f3708092dd4dde102edaa35eaeca3a7c911 )
+ecbuild_bundle( PROJECT oops  GIT "https://github.com/jcsda/oops.git"  BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT saber GIT "https://github.com/jcsda/saber.git" BRANCH develop UPDATE )
 
 # AQ repository
 # ------------------------------------

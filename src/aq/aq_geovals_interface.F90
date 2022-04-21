@@ -10,6 +10,7 @@ module aq_geovals_interface
 
 use atlas_module, only: atlas_field
 use fckit_configuration_module, only: fckit_configuration
+use fckit_mpi_module,only: fckit_mpi_comm
 use iso_c_binding
 use aq_geom_mod
 use aq_geovals_mod
@@ -23,7 +24,7 @@ private
 contains
 ! ------------------------------------------------------------------------------
 !> Setup GeoVals
-subroutine aq_geovals_setup_c(c_key_self,c_locs,c_vars) bind(c,name='aq_geovals_setup_f90')
+subroutine aq_geovals_setup_c(c_key_self,c_locs,c_vars,c_comm) bind(c,name='aq_geovals_setup_f90')
 
 implicit none
 
@@ -31,6 +32,7 @@ implicit none
 integer(c_int),intent(inout) :: c_key_self !< GeoVals
 type(c_ptr),value,intent(in) :: c_locs     !< Locations
 type(c_ptr),value,intent(in) :: c_vars     !< Variables
+type(c_ptr),intent(in),value :: c_comm
 
 ! Local variables
 type(aq_geovals),pointer :: self
@@ -42,6 +44,7 @@ call aq_geovals_registry%add(c_key_self)
 call aq_geovals_registry%get(c_key_self,self)
 locs = aq_locs(c_locs)
 self%vars = oops_variables(c_vars)
+self%fmpi = fckit_mpi_comm(c_comm)
 
 ! Call Fortran
 call aq_geovals_setup(self,locs%nlocs())
@@ -49,13 +52,14 @@ call aq_geovals_setup(self,locs%nlocs())
 end subroutine aq_geovals_setup_c
 ! ------------------------------------------------------------------------------
 !> Create GeoVals and do nothing
-subroutine aq_geovals_create_c(c_key_self,c_vars) bind(c,name='aq_geovals_create_f90')
+subroutine aq_geovals_create_c(c_key_self,c_vars,c_comm) bind(c,name='aq_geovals_create_f90')
 
 implicit none
 
 ! Passed variables
 integer(c_int),intent(inout) :: c_key_self !< GeoVals
 type(c_ptr),value,intent(in) :: c_vars     !< Variables
+type(c_ptr),intent(in),value :: c_comm
 
 ! Local variables
 type(aq_geovals),pointer :: self
@@ -65,6 +69,7 @@ call aq_geovals_registry%init()
 call aq_geovals_registry%add(c_key_self)
 call aq_geovals_registry%get(c_key_self,self)
 self%vars = oops_variables(c_vars)
+self%fmpi = fckit_mpi_comm(c_comm)
 
 end subroutine aq_geovals_create_c
 ! ------------------------------------------------------------------------------
@@ -111,6 +116,38 @@ call aq_geovals_registry%get(c_key_other,other)
 call aq_geovals_copy(self,other)
 
 end subroutine aq_geovals_copy_c
+! ------------------------------------------------------------------------------
+subroutine aq_geovals_fill_c(c_key, c_nloc, c_indx, c_nval, c_vals) bind(c, name="aq_geovals_fill_f90")
+implicit none
+integer(c_int), intent(in) :: c_key
+integer(c_int), intent(in) :: c_nloc
+integer(c_int), intent(in) :: c_indx(c_nloc)
+integer(c_int), intent(in) :: c_nval
+real(c_double), intent(in) :: c_vals(c_nval)
+
+type(aq_geovals), pointer :: self
+
+call aq_geovals_registry%get(c_key,self)
+
+call aq_geovals_fill(self, c_nloc, c_indx, c_nval, c_vals)
+
+end subroutine aq_geovals_fill_c
+! ------------------------------------------------------------------------------
+subroutine aq_geovals_fillad_c(c_key, c_nloc, c_indx, c_nval, c_vals) bind(c, name="aq_geovals_fillad_f90")
+implicit none
+integer(c_int), intent(in) :: c_key
+integer(c_int), intent(in) :: c_nloc
+integer(c_int), intent(in) :: c_indx(c_nloc)
+integer(c_int), intent(in) :: c_nval
+real(c_double), intent(inout) :: c_vals(c_nval)
+
+type(aq_geovals),pointer :: self
+
+call aq_geovals_registry%get(c_key, self)
+
+call aq_geovals_fillad(self, c_nloc, c_indx, c_nval, c_vals)
+
+end subroutine aq_geovals_fillad_c
 ! ------------------------------------------------------------------------------
 !> Set GeoVals to zero
 subroutine aq_geovals_zero_c(c_key_self) bind(c,name='aq_geovals_zero_f90')
