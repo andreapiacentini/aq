@@ -11,6 +11,7 @@ module aq_geovals_mod
 use atlas_module, only: atlas_field
 use fckit_configuration_module, only: fckit_configuration
 use fckit_log_module, only: fckit_log
+use fckit_mpi_module
 use iso_c_binding
 use kinds
 use netcdf
@@ -26,13 +27,15 @@ public :: aq_geovals
 public :: aq_geovals_registry
 public :: aq_geovals_setup,aq_geovals_delete,aq_geovals_copy,aq_geovals_zero,aq_geovals_abs,aq_geovals_random,aq_geovals_mult, &
         & aq_geovals_add,aq_geovals_diff,aq_geovals_schurmult,aq_geovals_divide,aq_geovals_rms,aq_geovals_dotprod, &
-        & aq_geovals_stats,aq_geovals_maxloc,aq_geovals_read_file, aq_geovals_write_file,aq_geovals_analytic_init
+        & aq_geovals_stats,aq_geovals_maxloc,aq_geovals_read_file, aq_geovals_write_file,aq_geovals_analytic_init, &
+        & aq_geovals_fill, aq_geovals_fillad
 ! ------------------------------------------------------------------------------
 type :: aq_geovals
   integer :: nobs                      !< Number of observations
   real(kind_real), allocatable :: x(:) !< Chemical observations values
   logical :: lalloc = .false.          !< Allocation flag
   type(oops_variables) :: vars         !< Variables
+  type(fckit_mpi_comm) :: fmpi         !< Communicator
 end type aq_geovals
 
 #define LISTED_TYPE aq_geovals
@@ -110,6 +113,54 @@ end if
 !AQ till here
 
 end subroutine aq_geovals_copy
+! ------------------------------------------------------------------------------
+subroutine aq_geovals_fill(self, c_nloc, c_indx, c_nval, c_vals)
+implicit none
+type(aq_geovals), intent(inout) :: self
+integer(c_int), intent(in) :: c_nloc
+integer(c_int), intent(in) :: c_indx(c_nloc)
+integer(c_int), intent(in) :: c_nval
+real(c_double), intent(in) :: c_vals(c_nval)
+
+integer :: jvar, jloc, iloc, ii
+
+if (.not.self%lalloc) call abor1_ftn('aq_geovals_fill: gom not allocated')
+
+ii = 0
+do jvar=1,self%vars%nvars()
+  do jloc=1,c_nloc
+    iloc = c_indx(jloc)
+    ii = ii + 1
+    self%x(iloc) = c_vals(ii)
+  enddo
+enddo
+if (ii /= c_nval) call abor1_ftn('aq_geovals_fill: error size')
+
+end subroutine aq_geovals_fill
+! ------------------------------------------------------------------------------
+subroutine aq_geovals_fillad(self, c_nloc, c_indx, c_nval, c_vals)
+implicit none
+type(aq_geovals), intent(in) :: self
+integer(c_int), intent(in) :: c_nloc
+integer(c_int), intent(in) :: c_indx(c_nloc)
+integer(c_int), intent(in) :: c_nval
+real(c_double), intent(inout) :: c_vals(c_nval)
+
+integer :: jvar, jloc, iloc, ii
+
+if (.not.self%lalloc) call abor1_ftn('aq_geovals_fillad: gom not allocated')
+
+ii = 0
+do jvar=1,self%vars%nvars()
+  do jloc=1,c_nloc
+    iloc = c_indx(jloc)
+    ii = ii + 1
+    c_vals(ii) = self%x(iloc)
+  enddo
+enddo
+if (ii /= c_nval) call abor1_ftn('aq_geovals_fillad: error size')
+
+end subroutine aq_geovals_fillad
 ! ------------------------------------------------------------------------------
 !> Set GeoVals to zero
 subroutine aq_geovals_zero(self)
@@ -258,17 +309,31 @@ real(kind_real),intent(inout) :: rms !< RMS
 
 ! Local variables
 integer :: nv
+real(kind_real) :: norm
 
 ! Initialization
 rms = 0.0
 nv = 0
 
-! Loop over values
-rms = rms+sum(self%x**2)
-nv = nv+1
+if (self%nobs>0) then
+   ! Loop over values
+   rms = rms+sum(self%x**2)
+   nv = nv+1
+
+   ! Total number of values
+   norm = real(self%nobs*nv,kind_real)
+else
+   ! No value
+   rms = 0.0
+   norm = 0.0
+end if
+
+! Allreduce
+call self%fmpi%allreduce(rms,fckit_mpi_sum())
+call self%fmpi%allreduce(norm,fckit_mpi_sum())
 
 ! Normalize and take square-root
-rms = sqrt(rms/real(self%nobs*nv,kind_real))
+rms = sqrt(rms/norm)
 
 end subroutine aq_geovals_rms
 ! ------------------------------------------------------------------------------
@@ -288,18 +353,13 @@ integer :: jo,jv
 ! Check
 if (geovals1%nobs/=geovals2%nobs) call abor1_ftn('aq_geovals_dotprod: inconsistent GeoVals sizes')
 
-! Initialization
-prod = 0.0
-
 ! Dot product
-!AQ Temporary stub waiting for geovals files I/O
-if (allocated(geovals1%x).and.allocated(geovals2%x)) then
-prod = prod+sum(geovals1%x*geovals2%x)
-!AQ here too
+if ((geovals1%nobs>0).and.(geovals2%nobs>0)) then
+   prod = sum(geovals1%x*geovals2%x)
 else
-  prod = 1.0 ! Not zero for tests using ratios
+   prod = 0.0
 end if
-!AQ till here
+call geovals1%fmpi%allreduce(prod,fckit_mpi_sum())
 
 end subroutine aq_geovals_dotprod
 ! ------------------------------------------------------------------------------
@@ -318,13 +378,22 @@ real(kind_real),intent(inout) :: pstd    !< StdDev
 
 ! Compute GeoVals stats
 kobs = self%nobs
-if (self%nobs>0) then
+call self%fmpi%allreduce(kobs,fckit_mpi_sum())
+if (kobs>0) then
   pmin = huge(1.0)
+  if (self%nobs>0) pmin = min(pmin,minval(self%x))
+  call self%fmpi%allreduce(pmin,fckit_mpi_min())
   pmax = -huge(1.0)
-  pmin = min(pmin,minval(self%x))
-  pmax = max(pmax,maxval(self%x))
-  pave = sum(self%x)/real(self%nobs,kind_real)
-  pstd = sqrt(sum((self%x-pave)**2)/real(self%nobs,kind_real))
+  if (self%nobs>0) pmax = max(pmax,maxval(self%x))
+  call self%fmpi%allreduce(pmax,fckit_mpi_max())
+  pave = 0.0
+  if (self%nobs>0) pave = sum(self%x)
+  call self%fmpi%allreduce(pave,fckit_mpi_sum())
+  pave = pave/real(kobs,kind_real)
+  pstd = 0.0
+  if (self%nobs>0) pstd = sum((self%x-pave)**2)
+  call self%fmpi%allreduce(pstd,fckit_mpi_sum())
+  pstd = sqrt(pstd/real(kobs,kind_real))
 else
   pmin = 0.0
   pmax = 0.0
@@ -340,7 +409,7 @@ subroutine aq_geovals_maxloc(self,mxval,mxloc,mxvar)
 implicit none
 
 ! Passed variables
-type(aq_geovals),intent(inout) :: self          !< GeoVals
+type(aq_geovals),intent(inout) :: self      !< GeoVals
 real(kind_real),intent(inout) :: mxval      !< Maximum value
 integer,intent(inout) :: mxloc              !< Location of maximum value
 type(oops_variables),intent(inout) :: mxvar !< Variable of maximum value
@@ -389,31 +458,38 @@ integer :: ncid,nobs_id,nobs,x_id,q_id,u_id,v_id
 character(len=1024) :: filename
 character(len=:),allocatable :: str
 
-! Get filename
-call f_conf%get_or_die("filename",str)
-filename = str
-call fckit_log%info('aq_geovals_read_file: reading '//trim(filename))
+! Input on master proc only
+if (self%fmpi%rank() == 0) then
+   ! Get filename
+   call f_conf%get_or_die("filename",str)
+   filename = str
+   call fckit_log%info('aq_geovals_read_file: reading '//trim(filename))
 
-! Open NetCDF file
-call ncerr(nf90_open(trim(filename)//'.nc',nf90_nowrite,ncid))
+   ! Open NetCDF file
+   call ncerr(nf90_open(trim(filename)//'.nc',nf90_nowrite,ncid))
 
-! Get dimension id
-call ncerr(nf90_inq_dimid(ncid,'nobs',nobs_id))
+   ! Get dimension id
+   call ncerr(nf90_inq_dimid(ncid,'nobs',nobs_id))
 
-! Get dimension
-call ncerr(nf90_inquire_dimension(ncid,nobs_id,len=nobs))
+   ! Get dimension
+   call ncerr(nf90_inquire_dimension(ncid,nobs_id,len=nobs))
+else
+   nobs = 0
+end if
 
 ! GeoVals setup
 call aq_geovals_setup(self,nobs)
 
-! Get variables ids
-call ncerr(nf90_inq_varid(ncid,'x',x_id))
+if (self%fmpi%rank() == 0) then
+   ! Get variables ids
+   call ncerr(nf90_inq_varid(ncid,'x',x_id))
 
-! Get variables
-call ncerr(nf90_get_var(ncid,x_id,self%x))
+   ! Get variables
+   call ncerr(nf90_get_var(ncid,x_id,self%x))
 
-! Close NetCDF file
-call ncerr(nf90_close(ncid))
+   ! Close NetCDF file
+   call ncerr(nf90_close(ncid))
+end if
 
 end subroutine aq_geovals_read_file
 ! ------------------------------------------------------------------------------
@@ -434,28 +510,31 @@ character(len=:),allocatable :: str
 ! Check allocation
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_write_file: geovals not allocated')
 
-! Set filename
-call f_conf%get_or_die("filename",str)
-filename = str
-call fckit_log%info('aq_geovals_write_file: writing '//trim(filename))
+! Output from master proc only
+if ( self%fmpi%rank() == 0) then
+   ! Set filename
+   call f_conf%get_or_die("filename",str)
+   filename = str
+   call fckit_log%info('aq_geovals_write_file: writing '//trim(filename))
 
-! Create NetCDF file
-call ncerr(nf90_create(trim(filename)//'.nc',or(nf90_clobber,nf90_64bit_offset),ncid))
+   ! Create NetCDF file
+   call ncerr(nf90_create(trim(filename)//'.nc',or(nf90_clobber,nf90_64bit_offset),ncid))
 
-! Define dimensions
-call ncerr(nf90_def_dim(ncid,'nobs',self%nobs,nobs_id))
+   ! Define dimensions
+   call ncerr(nf90_def_dim(ncid,'nobs',self%nobs,nobs_id))
 
-! Define variables
-call ncerr(nf90_def_var(ncid,'x',nf90_double,(/nobs_id/),x_id))
+   ! Define variables
+   call ncerr(nf90_def_var(ncid,'x',nf90_double,(/nobs_id/),x_id))
 
-! End definitions
-call ncerr(nf90_enddef(ncid))
+   ! End definitions
+   call ncerr(nf90_enddef(ncid))
 
-! Put variables
-call ncerr(nf90_put_var(ncid,x_id,self%x))
+   ! Put variables
+   call ncerr(nf90_put_var(ncid,x_id,self%x))
 
-! Close NetCDF file
-call ncerr(nf90_close(ncid))
+   ! Close NetCDF file
+   call ncerr(nf90_close(ncid))
+end if
 
 end subroutine aq_geovals_write_file
 ! ------------------------------------------------------------------------------

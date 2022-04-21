@@ -83,13 +83,17 @@ class Geometry : public util::Printable,
 
   std::vector<size_t> variableSizes(const oops::Variables & vars) const;
 
+  void latlon(std::vector<double> &, std::vector<double> &, const bool) const;
+
  private:
   Geometry & operator=(const Geometry &);
   void print(std::ostream &) const;
   F90geom keyGeom_;
+  int halo_ = 0;
   const eckit::mpi::Comm & comm_;
   std::unique_ptr<atlas::StructuredGrid> atlasGrid_;
   std::unique_ptr<atlas::functionspace::StructuredColumns> atlasFunctionSpace_;
+  std::unique_ptr<atlas::functionspace::StructuredColumns> atlasFunctionSpaceNoHalo_;
   std::unique_ptr<atlas::FieldSet> atlasFieldSet_;
 };
 // -----------------------------------------------------------------------------

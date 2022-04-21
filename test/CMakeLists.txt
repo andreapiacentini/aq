@@ -197,10 +197,8 @@ list( APPEND aq_testinput
   testinput/ens_recenter.yaml
   testinput/ens_variance.yaml
   testinput/ens_variance_inflation_value.yaml
-  testinput/getvalues.yaml
   testinput/hofx3d.yaml
   testinput/interfaces.yaml
-  testinput/lineargetvalues.yaml
   testinput/parameters_loc_6pe.yaml
 )
 
@@ -427,20 +425,6 @@ ecbuild_add_test( TARGET  test_aq_obs_aux_covariance
                   OMP 4
                   SOURCES executables/TestObsAuxCovariance.cc
                   ARGS    "testinput/interfaces.yaml"
-                  LIBS    aq )
-
-ecbuild_add_test( TARGET  test_aq_getvalues
-                  MPI 6
-                  OMP 4
-                  SOURCES executables/TestGetValues.cc
-                  ARGS    "testinput/getvalues.yaml"
-                  LIBS    aq )
-
-ecbuild_add_test( TARGET  test_aq_lineargetvalues
-                  MPI 6
-                  OMP 4
-                  SOURCES executables/TestLinearGetValues.cc
-                  ARGS    "testinput/lineargetvalues.yaml"
                   LIBS    aq )
 
 #####################################################################
