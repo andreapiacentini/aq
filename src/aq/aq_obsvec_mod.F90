@@ -11,7 +11,6 @@ module aq_obsvec_mod
 
 use iso_c_binding
 use kinds
-use missing_values_mod
 use random_mod
 use fckit_module
 use aq_constants_mod
@@ -81,7 +80,7 @@ allocate(self%values(self%nlev,self%nobs))
 
 ! Initialization
 self%values = 0.0_kind_real
-self%missing = missing_value(self%missing)
+self%missing = missing_value
 
 end subroutine aq_obsvec_setup
 ! ------------------------------------------------------------------------------
@@ -227,13 +226,8 @@ real(aq_real) :: threshold
 call config%get_or_die("threshold",threshold)
 if ((self%nobs/=other%nobs).or.(self%nlev/=other%nlev)) call abor1_ftn('aq_obsvec_mask: inconsistent sizes')
 write(*,*) 'threshold', threshold
-! write(*,*) 'self'
-! write(*,*) self%values
-! write(*,*) 'other'
-! write(*,*) other%values
 where(abs(self%values - other%values) > threshold) 
   self%values = self%missing
-  ! other%values = other%missing
   qcflag%values = 1
 end where
 

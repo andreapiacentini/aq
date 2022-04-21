@@ -674,6 +674,7 @@ character(len=19), dimension(:), allocatable :: cla_timehuman
 integer :: il
 integer :: il_err
 integer, dimension(:), allocatable :: timestamp
+integer, allocatable :: ila_mask(:)
 type(duration) :: dtdiff
 
 CALL H5open_f(il_err)
@@ -721,22 +722,29 @@ if (jgrp%nobs > 0) then
            case ('1')
               call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_ana', jcol%values(1,:))
            case default
-              call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx'// &
+              call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Hx_'// &
                & jcol%colname(5:len_trim(jcol%colname)) , jcol%values(1,:))
            end select
         end if
      else if (jcol%colname(1:11) == 'EffectiveQC') then
-        ! EffectiveQC not implemented in AQ ??? verify and restore in case
+        ! Readapt to ensure compatibility with MOCAGE output (0 rejected obs, 1 accepted obs)
+        allocate(ila_mask(jgrp%nobs))
+        where(jcol%values(1,:) == 1) 
+          ila_mask = 0 
+        elsewhere 
+          ila_mask = 1
+        endwhere
         select case(jcol%colname(12:len_trim(jcol%colname)))
         ! N.B. We rely here on the assumption that no outer loop is used for AQ, i.e. 1 relates to the analysis
         case ('0')  
-          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC_bkg', jcol%values(1,:))
+          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Mask_bkg', ila_mask)
         case ('1')
-          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC_ana', jcol%values(1,:))
+          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Mask_ana', ila_mask)
         case default
-          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveQC'// &
-            & jcol%colname(12:len_trim(jcol%colname)), jcol%values(1,:))
+          call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Mask_'// &
+            & jcol%colname(12:len_trim(jcol%colname)), ila_mask)
         end select
+        deallocate(ila_mask)
      else if (jcol%colname(1:14) == 'EffectiveError') then
         select case(jcol%colname(15:len_trim(jcol%colname)))
         ! N.B. We rely here on the assumption that no outer loop is used for AQ, i.e. EffectiveError1 relates to the analysis
@@ -747,7 +755,7 @@ if (jgrp%nobs > 0) then
            call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError_ana', &
             & jcol%values(1,:))
         case default
-           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError'// &
+           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/EffectiveError_'// &
             & jcol%colname(15:len_trim(jcol%colname)), jcol%values(1,:))
         end select
      else if (jcol%colname(1:7) == 'ObsBias') then

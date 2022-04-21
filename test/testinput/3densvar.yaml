@@ -79,9 +79,9 @@ cost function:
       obserrors:
         type: percent
         value: 30
-    # obs filters:
-    # - filter: Background Check
-    #   threshold: 5.0e-7
+    obs filters:
+    - filter: Background Check
+      threshold: 1.0e-7
     obs operator:
       obs type: InSitu
       mod var: CO

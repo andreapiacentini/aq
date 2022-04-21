@@ -30,13 +30,14 @@ void BackgroundCheck::postFilter(const GeoVals &,
                                  const ObsVec &,
                                  const ObsDiagnostics &) {
   if (obsdb_.comm().rank() == 0) {
-    ObsVec yobs(obsdb_,"ObsValue");
+    ObsVec yobs(obsdb_, "ObsValue");
     oops::Log::info() << "BackgroundCheck::postFilter operations " << std::endl;
     eckit::LocalConfiguration filterConfig(options_.toConfiguration());
     // Qui devo avere una cosa del genere
     // obsdb_.getdb("ObsValue", yobs);
     oops::Log::info() << filterConfig << std::endl;
-    aq_obsvec_threshold_check_f90(hofx.toFortran(),yobs.toFortran(),(*qcflags_).toFortran(),filterConfig);
+    aq_obsvec_threshold_check_f90(hofx.toFortran(), yobs.toFortran(),
+      (*qcflags_).toFortran(), filterConfig);
     size_t inflate = 0;
     size_t ireject = 0;
     // for (size_t jj = 0; jj < yobs.size(); ++jj) {

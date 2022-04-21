@@ -267,6 +267,7 @@ type(aq_geovals),intent(in) :: geovals         !< Interpolated values
 integer :: nlev = 1
 real(aq_real), allocatable, dimension(:) :: surf_1d
 real(aq_real), allocatable, dimension(:,:) :: surf_fld
+real(kind_real), allocatable, dimension(:) :: lgeovals
 integer       :: n_vars
 character(len=:), allocatable :: var_name(:)
 character(len=aq_strlen) :: var
@@ -287,18 +288,22 @@ allocate(surf_fld(fld%geom%grid%nx(1),fld%geom%grid%ny()))
 surf_fld(:,:) = 0_kind_real
 
 if (fld%geom%fmpi%rank() == 0) then
-
+   ! Set to zero obs vector elements that correspond to masked observations (geovals is not masked)
+   ! This is a workaround. Does it satisfies all possible use cases?
+   allocate(lgeovals(locs%nlocs()))
+   lgeovals = geovals%x
+   where(lgeovals == missing_value) lgeovals = 0_kind_real
    allocate(surf_1d(fld%geom%grid%nx(1)*fld%geom%grid%ny()))
    surf_1d = 0_kind_real
    call addmult_matrixt_csr_vector( &
       &   Hmat, &
-      &   geovals%x, &
+      &   lgeovals, &
       &   1, &
       &   locs%nlocs(), &
       &   surf_1d)
    surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
    deallocate(surf_1d)
-
+   deallocate(lgeovals)
    write(msg,'(3A,I2,2(A,G16.8))') 'Adjoint interp of ',trim(var),' at lev ',nlev,' min dx', minval(surf_fld),' max dx', &
  & maxval(surf_fld)
   call fckit_log%debug(msg)

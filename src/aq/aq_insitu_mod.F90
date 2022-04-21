@@ -36,7 +36,9 @@ integer :: iobs
 
 ! Loop over observations
 do iobs=1,geovals%nobs
-  insitu%values(1,iobs) = geovals%x(iobs)+bias
+  if (insitu%values(1,iobs) /= insitu%missing ) then
+    insitu%values(1,iobs) = geovals%x(iobs)+bias
+  endif
 enddo
 
 end subroutine aq_insitu_equiv
@@ -56,8 +58,10 @@ integer :: iobs
 
 ! Loop over observations
 do iobs=1,geovals%nobs
-  geovals%x(iobs) = insitu%values(1,iobs)
-  bias = bias+insitu%values(1,iobs)
+  if (insitu%values(1,iobs) /= insitu%missing ) then
+    geovals%x(iobs) = insitu%values(1,iobs)
+    bias = bias+insitu%values(1,iobs)
+  endif
 enddo
 
 end subroutine aq_insitu_equiv_ad
