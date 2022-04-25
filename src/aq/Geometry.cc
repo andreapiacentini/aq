@@ -123,7 +123,8 @@ void Geometry::latlon(std::vector<double> & lats, std::vector<double> & lons,
     lats.resize(npts);
     lons.resize(npts);
     for (size_t jj = 0; jj < npts; ++jj) {
-      lats[jj] = lonlat(jj, 1);
+      double lat = lonlat(jj, 1);
+      lats[jj] = std::max(std::min(lat, 90.0), -90.0);
       lons[jj] = lonlat(jj, 0);
     }
   } else {
