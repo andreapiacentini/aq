@@ -41,7 +41,13 @@ Geometry::Geometry(const GeometryAqParameters & params,
   atlasGrid_.reset(new atlas::StructuredGrid(geomConfig));
 
   // Setup partitioner
-  atlas::grid::Partitioner partitioner("checkerboard");
+  atlas::grid::Partitioner partitioner;
+  if ( halo_) {
+    partitioner = atlas::grid::Partitioner(atlas::util::Config("type","checkerboard") |
+                                           atlas::util::Config("regular",true));
+  } else {
+    partitioner = atlas::grid::Partitioner("checkerboard");
+  }
 
   // Setup function space
   atlasFunctionSpace_.reset(new atlas::functionspace::StructuredColumns(*atlasGrid_, partitioner,
