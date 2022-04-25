@@ -8,6 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
+#include <algorithm>
 #include <sstream>
 
 #include "atlas/field.h"
@@ -41,7 +42,13 @@ Geometry::Geometry(const GeometryAqParameters & params,
   atlasGrid_.reset(new atlas::StructuredGrid(geomConfig));
 
   // Setup partitioner
-  atlas::grid::Partitioner partitioner("checkerboard");
+  atlas::grid::Partitioner partitioner;
+  if ( halo_ > 0 ) {
+    partitioner = atlas::grid::Partitioner(atlas::util::Config("type", "checkerboard") |
+                                           atlas::util::Config("regular", true));
+  } else {
+    partitioner = atlas::grid::Partitioner("checkerboard");
+  }
 
   // Setup function space
   atlasFunctionSpace_.reset(new atlas::functionspace::StructuredColumns(*atlasGrid_, partitioner,
@@ -123,7 +130,8 @@ void Geometry::latlon(std::vector<double> & lats, std::vector<double> & lons,
     lats.resize(npts);
     lons.resize(npts);
     for (size_t jj = 0; jj < npts; ++jj) {
-      lats[jj] = lonlat(jj, 1);
+      double lat = lonlat(jj, 1);
+      lats[jj] = std::max(std::min(lat, 90.0), -90.0);
       lons[jj] = lonlat(jj, 0);
     }
   } else {
