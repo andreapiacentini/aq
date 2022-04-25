@@ -8,6 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
+#include <algorithm>
 #include <sstream>
 
 #include "atlas/field.h"
@@ -42,9 +43,9 @@ Geometry::Geometry(const GeometryAqParameters & params,
 
   // Setup partitioner
   atlas::grid::Partitioner partitioner;
-  if ( halo_) {
-    partitioner = atlas::grid::Partitioner(atlas::util::Config("type","checkerboard") |
-                                           atlas::util::Config("regular",true));
+  if ( halo_ > 0 ) {
+    partitioner = atlas::grid::Partitioner(atlas::util::Config("type", "checkerboard") |
+                                           atlas::util::Config("regular", true));
   } else {
     partitioner = atlas::grid::Partitioner("checkerboard");
   }

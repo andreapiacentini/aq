@@ -1,0 +1,39 @@
+geometry:
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+  halo: 1
+window begin: 2010-07-04T06:00:00Z
+window length: PT1H
+state:
+  date: 2010-07-04T06:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
+  state variables: [CO, O_3, NO_2]
+observations:
+- obs space:
+    obsdatain:
+      obsfile: Data/HDAT+20100704.h5
+    obsdataout:
+      obsfile: Data/HSTAT+20100704.h5
+    obs type: CO
+    instr name: AIRBASE_CO
+  obs operator:
+    obs type: InSitu
+    mod var: CO
+- obs space:
+    obsdatain:
+      obsfile: Data/HDAT+20100704.h5
+    obsdataout:
+      obsfile: Data/HSTAT+20100704.h5
+    obs type: O3
+    instr name: AIRBASE_O3
+  obs operator:
+    obs type: InSitu
+    mod var: O_3
