@@ -117,6 +117,11 @@ variational:
 final:
   diagnostics:
     departures: oman
+  increment:
+    geometry: *gems02_geom
+    output:
+      datadir: Data
+      fileprefix: I3GEMS02
 
 output:
   datadir: Data
