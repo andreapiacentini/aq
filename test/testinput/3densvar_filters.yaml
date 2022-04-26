@@ -79,6 +79,9 @@ cost function:
       obserrors:
         type: percent
         value: 30
+    obs filters:
+    - filter: Background Check
+      threshold: 1.0e-7
     obs operator:
       obs type: InSitu
       mod var: CO
@@ -92,6 +95,9 @@ cost function:
       obserrors:
         type: absolute
         value: 5.0e-9
+    obs filters:
+    - filter: Background Check
+      threshold: 1.5e-8
     obs operator:
       obs type: InSitu
       mod var: O_3
@@ -111,16 +117,11 @@ variational:
 final:
   diagnostics:
     departures: oman
-  increment:
-    geometry: *gems02_geom
-    output:
-      datadir: Data
-      fileprefix: I3GEMS02
 
 output:
   datadir: Data
   fileprefix: A3GEMS02
 
 test:
-  reference filename: testoutput/3densvar.test
-  test output filename: testoutput/3densvar.log
+  reference filename: testoutput/3densvar_filters.test
+  test output filename: testoutput/3densvar_filters.log

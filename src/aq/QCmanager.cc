@@ -5,10 +5,10 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
  */
 
-#include "aq/FinalCheck.h"
+#include "aq/QCmanager.h"
 
 namespace aq {
 // -----------------------------------------------------------------------------
-static oops::interface::FilterMaker<ObsTraits, FinalCheck> makerQCm_("Final Check");
+static oops::interface::FilterMaker<ObsTraits, QCmanager> makerQCm_("QCmanager");
 // -----------------------------------------------------------------------------
 }  // namespace aq

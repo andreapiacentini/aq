@@ -18,7 +18,6 @@ use duration_mod
 use fckit_log_module,only: fckit_log
 use iso_c_binding
 use kinds
-use missing_values_mod
 !$ use omp_lib
 use oops_variables_mod
 use aq_geom_mod
@@ -2073,7 +2072,7 @@ subroutine aq_field_getvalsad(self, vars, lats, lons, vals)
    if ( loc_nlocs > 0 ) then
       allocate(surf_1d(self%geom%grid%nx(1)*self%geom%grid%ny()))
       call aq_build_interp(loc_nlocs,lats,lons,self,hmat)
-      filter_val = missing_value(filter_val)
+      filter_val = aq_missing_value
    end if
 
    offset = 0

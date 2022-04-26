@@ -189,6 +189,7 @@ list( APPEND aq_data_toplevel_tier2
 
 list( APPEND aq_testinput
   testinput/3densvar.yaml
+  testinput/3densvar_filters.yaml
   testinput/addincrement.yaml
   testinput/addincrement_scaled.yaml
   testinput/diffstates.yaml
@@ -213,6 +214,7 @@ list( APPEND aq_testinput_tier2
 
 list( APPEND aq_testoutput
   testoutput/3densvar.test
+  testoutput/3densvar_filters.test
   testoutput/addincrement.test
   testoutput/addincrement_scaled.test
   testoutput/diffstates.test
@@ -501,6 +503,13 @@ ecbuild_add_test( TARGET test_aq_3densvar
                   MPI 6
                   OMP 4
                   ARGS testinput/3densvar.yaml
+                  COMMAND  aq_var.x
+                  TEST_DEPENDS test_aq_parameters_loc_6pe )
+
+ecbuild_add_test( TARGET test_aq_3densvar_filters
+                  MPI 6
+                  OMP 4
+                  ARGS testinput/3densvar_filters.yaml
                   COMMAND  aq_var.x
                   TEST_DEPENDS test_aq_parameters_loc_6pe )
 

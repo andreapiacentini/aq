@@ -26,6 +26,12 @@ list( APPEND aq_src_files
   ModelAuxControl.h
   ModelAuxCovariance.h
   ModelAuxIncrement.h
+  BackgroundCheck.h
+  BackgroundCheck.cc
+  FinalCheck.h
+  FinalCheck.cc
+  QCmanager.h
+  QCmanager.cc
   #AQ Do we really need them ?
   ObsAuxControl.cc
   ObsAuxControl.h
@@ -88,8 +94,6 @@ list( APPEND aq_src_files
   aq_tools_mod.F90
   AnalyticInit.cc
   AnalyticInit.h
-  FinalCheck.cc
-  FinalCheck.h
   h5_read_mod.F90
   h5_selection_mod.F90
   h5_utils_mod.F90
