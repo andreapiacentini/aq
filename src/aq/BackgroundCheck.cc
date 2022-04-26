@@ -33,28 +33,9 @@ void BackgroundCheck::postFilter(const GeoVals &,
     ObsVec yobs(obsdb_, "ObsValue");
     oops::Log::info() << "BackgroundCheck::postFilter operations " << std::endl;
     eckit::LocalConfiguration filterConfig(options_.toConfiguration());
-    // Qui devo avere una cosa del genere
-    // obsdb_.getdb("ObsValue", yobs);
     oops::Log::info() << filterConfig << std::endl;
     aq_obsvec_threshold_check_f90(hofx.toFortran(), yobs.toFortran(),
       (*qcflags_).toFortran(), filterConfig);
-    size_t inflate = 0;
-    size_t ireject = 0;
-    // for (size_t jj = 0; jj < yobs.size(); ++jj) {
-    //   if (std::abs(yobs[jj] - hofx[jj]) > options_.threshold) {
-    //     // inflate obs error variance
-    //     if (options_.inflation.value() != boost::none) {
-    //       (*obserr_)[jj] *= *options_.inflation.value();
-    //       ++inflate;
-    //     // or reject observation
-    //     } else {
-    //       (*qcflags_)[jj] = 1;
-    //       ++ireject;
-    //     }
-    //   }
-    // }
-    oops::Log::info() << "BackgroundCheck::postFilter rejected = " << ireject
-                      << ", inflated = " << inflate << std::endl;
   }
 }
 

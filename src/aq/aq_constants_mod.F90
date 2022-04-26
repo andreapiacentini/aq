@@ -9,7 +9,7 @@ module aq_constants_mod
    public :: oops_int, oops_long, oops_single, oops_real
    public :: aq_int, aq_long, aq_single, aq_real, aq_double
    public :: pi, deg_to_rad, rad_to_deg, req
-   public :: missing_value
+   public :: aq_missing_value
 
    integer, parameter :: aq_strlen = 256
    integer, parameter :: aq_varlen = 100 ! as MAXVARLEN in oops_variables_mod
@@ -34,7 +34,7 @@ module aq_constants_mod
    real(aq_real),parameter :: req = 6371229.0_aq_real            !< Earth radius at equator (m)
 
    ! Missing values
-   real(kind_real),parameter :: missing_value = -1.0d+38
+   real(kind_real),parameter :: aq_missing_value = -1.0d+38
 
 end module aq_constants_mod
 

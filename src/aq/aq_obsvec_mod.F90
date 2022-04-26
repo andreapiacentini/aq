@@ -80,7 +80,7 @@ allocate(self%values(self%nlev,self%nobs))
 
 ! Initialization
 self%values = 0.0_kind_real
-self%missing = missing_value
+self%missing = aq_missing_value
 
 end subroutine aq_obsvec_setup
 ! ------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ real(aq_real) :: threshold
 
 call config%get_or_die("threshold",threshold)
 if ((self%nobs/=other%nobs).or.(self%nlev/=other%nlev)) call abor1_ftn('aq_obsvec_mask: inconsistent sizes')
-write(*,*) 'threshold', threshold
+
 where(abs(self%values - other%values) > threshold) 
   self%values = self%missing
   qcflag%values = 1

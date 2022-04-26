@@ -26,7 +26,7 @@ namespace aq {
   class ObsDiagnostics;
   class ObsVec;
 
-/// Parameters for L95 BackgroundCheck
+/// Parameters for AQ BackgroundCheck
 /// background check: all obs for which {|y-H(x)| < threshold} pass QC
 class BackgroundCheckParameters : public oops::ObsFilterParametersBase {
   OOPS_CONCRETE_PARAMETERS(BackgroundCheckParameters, ObsFilterParametersBase)
