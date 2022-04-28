@@ -147,7 +147,7 @@ Locations::Locations(atlas::FieldSet & fields,
 {
   if (comm_.rank() == 0) {
     pointcloud_.reset(new atlas::functionspace::PointCloud(fields.field("lonlat")));
-    if (fields.has_field("altitude")) {
+    if (fields.has("altitude")) {
       altitude_.reset(new atlas::Field(fields.field("altitude")));
     } else {
       altitude_.reset(new atlas::Field(atlas::Field()));

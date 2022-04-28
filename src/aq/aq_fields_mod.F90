@@ -25,8 +25,6 @@ use aq_constants_mod
 use aq_blas_mod
 use aq_field_io_mod
 use aq_transform_mod
-!AP use aq_interp_mod
-!AP use aq_locs_mod
 use random_mod
 
 !AQ interpolator
@@ -1560,7 +1558,7 @@ integer(atlas_kind_idx) function aq_field_idx_var(self, var) result(ib_var)
   class(aq_fields), intent(in)  :: self
   character(len=*), intent(in)  :: var
 
-  if (.not. self%has_field(trim(var))) &
+  if (.not. self%has(trim(var))) &
      & call abor1_ftn('Idx var: variable '//trim(var)// ' not found')
 
   do ib_var = 1, self%n_vars
@@ -1619,7 +1617,7 @@ subroutine aq_field_gather_var_at_lev(self, var, lev, fld_2d, owner)
   if (lev > self%geom%levels .or. lev < 1) &
      & call abor1_ftn('Gather var at lev: level out of bounds')
 
-  if (.not.self%has_field(trim(var))) &
+  if (.not.self%has(trim(var))) &
      & call abor1_ftn('Var: variable '//trim(var)// ' not found')
 
   il_var = self%idx_var(trim(var))
@@ -1873,7 +1871,7 @@ subroutine aq_field_set_atlas(self, vars, fieldset)
    !
    do ib_var = 1, vars%nvars()
       fieldname = vars%variable(ib_var)
-      if (self%has_field(trim(fieldname))) then
+      if (self%has(trim(fieldname))) then
          afld = self%field(trim(fieldname))
          call fieldset%add(afld)
          call afld%final()
@@ -1897,8 +1895,8 @@ subroutine aq_field_to_atlas(self, vars, fieldset)
    !
    do ib_var = 1, vars%nvars()
       fieldname = vars%variable(ib_var)
-      if (self%has_field(trim(fieldname))) then
-         if (fieldset%has_field(trim(fieldname))) then
+      if (self%has(trim(fieldname))) then
+         if (fieldset%has(trim(fieldname))) then
             afld_s = self%field(trim(fieldname))
             afld_t = fieldset%field(trim(fieldname))
             if (afld_t /= afld_s) then
