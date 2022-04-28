@@ -1440,10 +1440,7 @@ subroutine aq_field_do_write(self, config, date)
 
   if (file(dotpos+1:strlen) == 'nc') then
      if (trim(self%geom%model) == "MOCAGE") then
-!AP MISSING atlas_FieldSet %name() interfaces
-!AP        call aq_write_mocage_nc(self, self%var_name, self%geom, file, vdate)
-        call aq_write_mocage_nc(self, self%fs_name, self%var_name, self%geom, file, vdate)
-!AP END
+        call aq_write_mocage_nc(self, self%var_name, self%geom, file, vdate)
      else
         call abor1_ftn('NetCDF output only coded for MOCAGE')
      end if

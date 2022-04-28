@@ -7,32 +7,32 @@ module aq_field_io_mod
    use fckit_module
    use netcdf
    use, intrinsic :: iso_c_binding
-   
+
    implicit none
 
    private
    public :: aq_write_field_gmsh, &
       &      aq_read_mocage_nc, &
       &      aq_write_mocage_nc
-   
+
 contains
-   
+
    subroutine aq_nferr(info)
 
       ! Passed variables
       integer,intent(in) :: info !< Info index
-      
+
       ! Check status
       if (info/=nf90_noerr) call abor1_ftn(trim(nf90_strerror(info)))
-      
+
    end subroutine aq_nferr
-   
+
    subroutine aq_write_field_gmsh(afset, geom, file)
-      
+
       class(atlas_FieldSet),  intent(in) :: afset
       type(aq_geom),          intent(in) :: geom
       character(len=*),       intent(in) :: file
-      
+
       type(atlas_Output) :: gmsh
       type(atlas_Mesh) :: mesh
       type(atlas_Partitioner) :: partitioner
@@ -51,13 +51,13 @@ contains
       call mesh%final()
 
       call gmsh%write(afset)
-      
+
       call gmsh%final()
-      
+
    end subroutine aq_write_field_gmsh
 
    subroutine aq_read_mocage_nc(afset, vars, geom, file, date)
-      
+
       class(atlas_FieldSet),  intent(inout) :: afset
       character(len=*),       intent(in)    :: vars(:)
       type(aq_geom),          intent(in)    :: geom
@@ -69,8 +69,8 @@ contains
       type(atlas_Field) :: afld
       real(aq_single), pointer :: flds(:,:)
       real(aq_real), pointer :: fldd(:,:)
-      real(aq_single), allocatable :: ncbuff3ds(:,:,:) 
-      real(aq_real), allocatable :: ncbuff3dd(:,:,:) 
+      real(aq_single), allocatable :: ncbuff3ds(:,:,:)
+      real(aq_real), allocatable :: ncbuff3dd(:,:,:)
       integer(atlas_kind_idx) :: ib_i, ib_j, ib_k, ib_var, il_lev
       logical :: ll_sgl
       character(len=:), allocatable :: cl_pos
@@ -152,16 +152,10 @@ contains
       call afset%halo_exchange()
 
    end subroutine aq_read_mocage_nc
-   
-!AP MISSING atlas_FieldSet %name() interfaces
-!AP   subroutine aq_write_mocage_nc(afset, vars, geom, file, date)
-   subroutine aq_write_mocage_nc(afset, name, vars, geom, file, date)
-!AP END
-      
+
+   subroutine aq_write_mocage_nc(afset, vars, geom, file, date)
+
       class(atlas_FieldSet),  intent(in) :: afset
-!AP MISSING atlas_FieldSet %name() interfaces
-      character(len=*),       intent(in) :: name
-!AP END
       character(len=*),       intent(in) :: vars(:)
       type(aq_geom),          intent(in) :: geom
       character(len=*),       intent(in) :: file
@@ -180,22 +174,18 @@ contains
       type(duration) :: dt
       integer(c_int64_t) :: timesec
       logical :: ll_sgl
-      
+
       aloc_3d = afset%field(trim(vars(1)))
       ll_sgl = aloc_3d%kind() == aq_single
       call aloc_3d%final()
-      
+
       if( geom%fmpi%rank() == 0 ) then
          il_create_mode =      NF90_NETCDF4
          il_create_mode = ior( NF90_CLOBBER       , il_create_mode)
          call aq_nferr(nf90_create(trim(file), il_create_mode, ncid))
          call aq_nferr(nf90_put_att(ncid, NF90_GLOBAL, 'Conventions', 'CF-1.0'))
          call aq_nferr(nf90_put_att(ncid, NF90_GLOBAL, 'source','AQ-4DEnVAR'))
-!AP MISSING atlas_FieldSet %name() interfaces
-!AP cannot use the one defined for aq_fields because of circular dependency
-!AP         call aq_nferr(nf90_put_att(ncid, NF90_GLOBAL, 'field',trim(afset%name())))
-         call aq_nferr(nf90_put_att(ncid, NF90_GLOBAL, 'field',trim(name)))
-!AP END
+         call aq_nferr(nf90_put_att(ncid, NF90_GLOBAL, 'field',trim(afset%name())))
          call datetime_create("1970-01-01T00:00:00Z",ref_date)
          call datetime_diff(date, ref_date, dt)
          timesec = duration_seconds(dt)
@@ -204,7 +194,7 @@ contains
             & call aq_nferr(nf90_put_att(ncid, NF90_GLOBAL, 'date',cl_date))
          call aq_nferr(nf90_put_att(ncid, NF90_GLOBAL, 'model','MOCAGE'))
          call aq_nferr(nf90_put_att(ncid, NF90_GLOBAL, 'institution','CERFACS - SEEDS'))
-         
+
          call aq_nferr(nf90_def_dim(ncid,'lat',geom%grid%ny(), il_dlat))
          call aq_nferr(nf90_def_dim(ncid,'lon',geom%grid%nx(1), il_dlon))
          call aq_nferr(nf90_def_dim(ncid,'lev',geom%levels, il_dlev))
@@ -239,7 +229,7 @@ contains
          call aq_nferr(nf90_put_att(ncid,il_vtime,'calendar','standard'))
 #endif
          allocate(ila_varid(size(vars)))
-         
+
          do ib_var = 1, size(vars)
 #ifdef NDEBUG
             call aq_nferr(nf90_def_var(ncid,trim(vars(ib_var)),NF90_FLOAT,&
@@ -250,12 +240,12 @@ contains
 #endif
             call aq_nferr(nf90_put_att(ncid,ila_varid(ib_var),'units','ppb'))
          end do
-         
+
          call aq_nferr(nf90_enddef(ncid))
 
          call aq_nferr(nf90_put_var(ncid,il_vlat, &
             & real([(geom%grid%y(ib),ib=1,geom%grid%ny())],kind=aq_single)))
-         
+
          call aq_nferr(nf90_put_var(ncid,il_vlon, &
             & real([(geom%grid%x(ib,1),ib=1,geom%grid%nx(1))],kind=aq_single)))
 
@@ -266,7 +256,7 @@ contains
             call aq_nferr(nf90_put_var(ncid,il_vlev, &
                & real([(geom%mod_levels-geom%levels+ib,ib=1,geom%levels)],kind=aq_single)))
          end if
-#ifdef NDEBUG         
+#ifdef NDEBUG
          call aq_nferr(nf90_put_var(ncid,il_vtime,timesec,start=[1]))
 #endif
       end if
@@ -283,7 +273,7 @@ contains
 
          do ib_var = 1, size(vars)
             aloc_3d = afset%field(trim(vars(ib_var)))
-            call aloc_3d%data(loc_3ds) 
+            call aloc_3d%data(loc_3ds)
             call geom%fs%gather(aloc_3d, aglo_3d)
             call aloc_3d%final()
             if( geom%fmpi%rank() == 0 ) then
@@ -297,17 +287,17 @@ contains
                call aq_nferr(nf90_put_var(ncid,ila_varid(ib_var),glo_3dn))
             end if
          end do
-         
+
       else
          aglo_3d = geom%fs%create_field(name='globuff',    &
             &                              kind=atlas_real(aq_real), &
             &                              global = .true.)
          if( geom%fmpi%rank() == 0 ) &
             & call aglo_3d%data(glo_3dd,shape=[geom%levels,geom%grid%nx(1),geom%grid%ny()])
-         
+
          do ib_var = 1, size(vars)
             aloc_3d = afset%field(trim(vars(ib_var)))
-            call aloc_3d%data(loc_3dd) 
+            call aloc_3d%data(loc_3dd)
             call geom%fs%gather(aloc_3d, aglo_3d)
             call aloc_3d%final()
             if( geom%fmpi%rank() == 0 ) then
@@ -323,17 +313,17 @@ contains
          end do
 
       end if
-      
+
       if( geom%fmpi%rank() == 0 ) deallocate(glo_3dn)
 
       call aglo_3d%final()
-      
+
       if( geom%fmpi%rank() == 0 ) then
          call aq_nferr(nf90_close(ncid))
       end if
 
       call geom%fmpi%barrier()
-      
+
    end subroutine aq_write_mocage_nc
-   
+
 end module aq_field_io_mod
