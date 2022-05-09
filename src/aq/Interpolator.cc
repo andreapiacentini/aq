@@ -10,7 +10,7 @@
 #include <ostream>
 #include <vector>
 
-#include "aq/aq_fields_interface.h"
+#include "aq/aq_interpolator_interface.h"
 #include "aq/Geometry.h"
 #include "aq/Increment.h"
 #include "aq/State.h"
@@ -21,18 +21,17 @@ namespace aq {
 
 Interpolator::Interpolator(const eckit::Configuration &, const Geometry & grid,
                            const std::vector<double> & lats, const std::vector<double> & lons)
-  : nlevs_(1), nlocs_(lats.size()), locs_(2 * nlocs_)
+  : nlevs_(1), geom_(new Geometry(grid)), nlocs_(lats.size()), lats_(lats), lons_(lons)
 {
   ASSERT(lats.size() == lons.size());
-  for (size_t jj = 0; jj < nlocs_; ++jj) {
-    locs_[2 * jj] = lats[jj];
-    locs_[2 * jj + 1] = lons[jj];
-  }
+  aq_interpolator_create_f90(keyInterp_, geom_->toFortran(), nlocs_, lats_[0], lons_[0]);
 }
 
 // -----------------------------------------------------------------------------
 
-Interpolator::~Interpolator() {}
+Interpolator::~Interpolator() {
+  aq_interpolator_delete_f90(keyInterp_);
+}
 
 // -----------------------------------------------------------------------------
 
@@ -41,7 +40,9 @@ void Interpolator::apply(const oops::Variables & vars, const State & xx,
                          std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   values.resize(nvals);
-  aq_fields_getvals_f90(xx.fields().toFortran(), vars, nlocs_, locs_[0], nvals, values[0]);
+  ASSERT(mask.size() == values.size());
+  aq_interpolator_apply_f90(keyInterp_, xx.fields().toFortran(), vars,
+                            nvals, mask[0], values[0]);
 }
 
 // -----------------------------------------------------------------------------
@@ -51,7 +52,9 @@ void Interpolator::apply(const oops::Variables & vars, const Increment & dx,
                          std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   values.resize(nvals);
-  aq_fields_getvals_f90(dx.fields().toFortran(), vars, nlocs_, locs_[0], nvals, values[0]);
+  ASSERT(mask.size() == values.size());
+  aq_interpolator_apply_f90(keyInterp_, dx.fields().toFortran(), vars,
+                            nvals, mask[0], values[0]);
 }
 
 // -----------------------------------------------------------------------------
@@ -61,7 +64,9 @@ void Interpolator::applyAD(const oops::Variables & vars, Increment & dx,
                            const std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   ASSERT(values.size() == nvals);
-  aq_fields_getvalsad_f90(dx.fields().toFortran(), vars, nlocs_, locs_[0], nvals, values[0]);
+  ASSERT(mask.size() == values.size());
+  aq_interpolator_applyAD_f90(keyInterp_, dx.fields().toFortran(), vars,
+                              nvals, mask[0], values[0]);
 }
 
 // -----------------------------------------------------------------------------

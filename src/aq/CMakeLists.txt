@@ -79,6 +79,8 @@ list( APPEND aq_src_files
   aq_geovals_interface.F90
   aq_geovals_mod.F90
   aq_interp_mod.F90
+  aq_interpolator_interface.F90
+  aq_interpolator_mod.F90
   aq_locs_f.cc
   aq_locs_f.h
   aq_locs_mod.F90

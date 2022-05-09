@@ -142,7 +142,7 @@ Locations::Locations(const Locations & other)
  * passed to C++ from Fortran
  */
 Locations::Locations(atlas::FieldSet & fields,
-                         std::vector<util::DateTime> && times, const eckit::mpi::Comm & comm)
+                     std::vector<util::DateTime> && times, const eckit::mpi::Comm & comm)
 : times_(times), comm_(comm)
 {
   if (comm_.rank() == 0) {
@@ -176,7 +176,7 @@ void Locations::print(std::ostream & os) const {
   auto z = make_view<double, 1>(*altitude_);
   for (size_t jj=0; jj < static_cast<size_t>(nobs); ++jj) {
     os << "location " << jj << std::setprecision(2) << ": lon = " << lonlat(jj, 0)
-       << ", lat = " << lonlat(jj, 1) << ", z = " << z(jj) << std::endl;
+       << ", lat = " << lonlat(jj, 1) << ", time = " << times_[jj] << std::endl;
   }
 }
 // -------------------------------------------------------------------------
