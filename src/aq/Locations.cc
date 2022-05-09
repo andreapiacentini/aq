@@ -169,24 +169,6 @@ Locations::Locations(atlas::FieldSet & fields,
   }
 }
 // -------------------------------------------------------------------------
-void Locations::localCoords(const util::DateTime & t1, const util::DateTime & t2,
-                            std::vector<double> & lats, std::vector<double> & lons,
-                            std::vector<size_t> & indx) const {
-  lats.clear();
-  lons.clear();
-  indx.clear();
-  int nobs = pointcloud_->size();
-  atlas::Field field_lonlat = pointcloud_->lonlat();
-  auto lonlat = make_view<double, 2>(field_lonlat);
-  for (size_t jj=0; jj < static_cast<size_t>(nobs); ++jj) {
-    if (times_[jj] >= t1 && times_[jj] <= t2) {
-      lats.push_back(lonlat(jj, 1));
-      lons.push_back(lonlat(jj, 0));
-      indx.push_back(jj);
-    }
-  }
-}
-// -------------------------------------------------------------------------
 void Locations::print(std::ostream & os) const {
   int nobs = pointcloud_->size();
   atlas::Field field_lonlat = pointcloud_->lonlat();

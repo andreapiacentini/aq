@@ -103,6 +103,9 @@ ObsSpace::ObsSpace(const Parameters_ & params, const eckit::mpi::Comm & comm,
     // Set variables simulated for different obstypes
     obsvars_.push_back(obsname_);
 
+    // For this model the processed varaibles are the same as the simulated variables.
+    assimvars_ = obsvars_;
+
     //  Generate locations etc... if required
     if (params.generate.value() != boost::none) {
       const ObsGenerateParameters &gParams = *params.generate.value();

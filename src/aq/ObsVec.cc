@@ -22,11 +22,12 @@
 
 namespace aq {
 // -----------------------------------------------------------------------------
-  ObsVec::ObsVec(const ObsSpace & obsdb, const std::string & name)
+  ObsVec::ObsVec(const ObsSpace & obsdb, const std::string & name,
+                 const bool useObservedVariables)
   : obsdb_(obsdb), keyOvec_(0), comm_(obsdb.comm())
   {
     if (comm_.rank() == 0) {
-      aq_obsvec_setup_f90(keyOvec_, obsdb.obsvariables().size(), obsdb.nobs());
+      aq_obsvec_setup_f90(keyOvec_, obsdb.assimvariables().size(), obsdb.nobs());
       if (!name.empty()) obsdb_.getdb(name, keyOvec_);
     }
   }

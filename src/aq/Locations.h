@@ -50,8 +50,6 @@ class Locations : public util::Printable,
   const std::vector<double> & longitudes() const {return lons_;}
   const std::vector<util::DateTime> & times() const {return times_;}
   util::DateTime & times(size_t idx) {return times_[idx];}
-  void localCoords(const util::DateTime &, const util::DateTime &,
-                   std::vector<double> &, std::vector<double> &, std::vector<size_t> &) const;
 
   /// communicator
   const eckit::mpi::Comm & comm() const {return comm_;}

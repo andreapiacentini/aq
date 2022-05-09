@@ -19,11 +19,15 @@ namespace aq {
 
 // -----------------------------------------------------------------------------
 
-Interpolator::Interpolator(const eckit::Configuration &,
-                           const Geometry & grid, const std::vector<double> & locs)
-  : nlevs_(1), nlocs_(locs.size() / 2), locs_(locs)
+Interpolator::Interpolator(const eckit::Configuration &, const Geometry & grid,
+                           const std::vector<double> & lats, const std::vector<double> & lons)
+  : nlevs_(1), nlocs_(lats.size()), locs_(2 * nlocs_)
 {
-  ASSERT(locs.size() % 2 == 0);
+  ASSERT(lats.size() == lons.size());
+  for (size_t jj = 0; jj < nlocs_; ++jj) {
+    locs_[2 * jj] = lats[jj];
+    locs_[2 * jj + 1] = lons[jj];
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -33,6 +37,7 @@ Interpolator::~Interpolator() {}
 // -----------------------------------------------------------------------------
 
 void Interpolator::apply(const oops::Variables & vars, const State & xx,
+                         const std::vector<bool> & mask,
                          std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   values.resize(nvals);
@@ -42,6 +47,7 @@ void Interpolator::apply(const oops::Variables & vars, const State & xx,
 // -----------------------------------------------------------------------------
 
 void Interpolator::apply(const oops::Variables & vars, const Increment & dx,
+                         const std::vector<bool> & mask,
                          std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   values.resize(nvals);
@@ -51,6 +57,7 @@ void Interpolator::apply(const oops::Variables & vars, const Increment & dx,
 // -----------------------------------------------------------------------------
 
 void Interpolator::applyAD(const oops::Variables & vars, Increment & dx,
+                           const std::vector<bool> & mask,
                            const std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   ASSERT(values.size() == nvals);
@@ -66,5 +73,3 @@ void Interpolator::print(std::ostream & os) const {
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
-
-

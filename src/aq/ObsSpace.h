@@ -126,8 +126,11 @@ class ObsSpace : public oops::ObsSpaceBase {
   /// return number of observations (unique locations)
   int nobs() const;
 
-  /// return variables simulated by ObsOperators
+  /// return variables to be processed
   const oops::Variables & obsvariables() const { return obsvars_; }
+
+  /// return variables simulated by ObsOperators
+  const oops::Variables & assimvariables() const { return assimvars_; }
 
   /// observation type
   const std::string & obsname() const {return obsname_;}
@@ -151,7 +154,8 @@ class ObsSpace : public oops::ObsSpaceBase {
   const util::DateTime winbgn_;      // window for the observations
   const util::DateTime winend_;
   std::string fileref_;              // Reference to the observation file
-  oops::Variables obsvars_;          // variables simulated by ObsOperators
+  oops::Variables assimvars_;        // variables simulated by ObsOperators
+  oops::Variables obsvars_;          // variables that are observed
   const eckit::mpi::Comm & comm_;
 
   // defines mapping for Fortran structures
