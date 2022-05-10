@@ -142,7 +142,7 @@ Locations::Locations(const Locations & other)
  * passed to C++ from Fortran
  */
 Locations::Locations(atlas::FieldSet & fields,
-                         std::vector<util::DateTime> && times, const eckit::mpi::Comm & comm)
+                     std::vector<util::DateTime> && times, const eckit::mpi::Comm & comm)
 : times_(times), comm_(comm)
 {
   if (comm_.rank() == 0) {

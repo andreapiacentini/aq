@@ -5,12 +5,17 @@
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-#pragma once
+#ifndef AQ_INTERPOLATOR_H_
+#define AQ_INTERPOLATOR_H_
 
+#include <memory>
 #include <ostream>
 #include <vector>
 
 #include "oops/util/Printable.h"
+
+#include "aq/Geometry.h"
+#include "aq/interface.h"
 
 namespace eckit {
   class Configuration;
@@ -39,14 +44,19 @@ class Interpolator : public util::Printable {
              const std::vector<bool> &, std::vector<double> &) const;
   void applyAD(const oops::Variables &, Increment &,
                const std::vector<bool> &, const std::vector<double> &) const;
+// Utilities
+  const int & toFortran() const {return keyInterp_;}
 
  private:
   void print(std::ostream &) const;
-
+  F90interp keyInterp_;
+  std::shared_ptr<const Geometry> geom_;
   const size_t nlevs_;
   const size_t nlocs_;
-  std::vector<double> locs_;
+  std::vector<double> lats_;
+  std::vector<double> lons_;
 };
 // -----------------------------------------------------------------------------
 
 }  // namespace aq
+#endif  // AQ_INTERPOLATOR_H_

@@ -42,10 +42,10 @@ typedef int F90geovals;
 typedef int F90flds;
 // Observation vector key type
 typedef int F90ovec;
-// Observation data base type
+// Observation data base key type
 typedef int F90odb;
-// Obs op matrix
-typedef int F90hmat;
+// Interpolator key type
+typedef int F90interp;
 
 }  // namespace aq
 #endif  // AQ_INTERFACE_H_

@@ -7,7 +7,7 @@ module aq_geom_mod
 
    private
    public :: aq_geom
-   
+
    type aq_geom
       type(atlas_StructuredGrid)                  :: grid
       type(fckit_mpi_comm)                        :: fmpi
@@ -24,6 +24,8 @@ module aq_geom_mod
       real(aq_real)                               :: deltax, deltay
       real(aq_real)                               :: xmin, ymin
       integer(atlas_kind_idx)                     :: nx, ny, nz
+      real(aq_real), allocatable                  :: lons(:)
+      real(aq_real), allocatable                  :: lats(:)
    contains
       procedure, public :: create => aq_geom_create
       procedure, public :: fill_atlas_fieldset  => aq_geom_fill_atlas_fieldset
@@ -34,7 +36,7 @@ module aq_geom_mod
    end type aq_geom
 
 contains
-   
+
    subroutine aq_geom_create(self, config, fckit_mpi)
       class(aq_geom), intent(inout)    :: self
       type(fckit_Configuration)        :: config
@@ -99,6 +101,16 @@ contains
       end do
       self%bbox_imax = maxval(ila_work)
       deallocate(ila_work)
+      !
+      allocate(self%lons(self%nx))
+      allocate(self%lats(self%ny))
+      !
+      do ib_i = 1, self%nx
+         self%lons(ib_i) = self%grid%x(ib_i,1)
+      end do
+      do ib_j = 1, self%ny
+         self%lats(ib_j) = self%grid%y(ib_j)
+      end do
       !
       if ( self%halo>0 ) then
          allocate( self%halo_mask(self%fs%size()) )
@@ -167,27 +179,33 @@ contains
       self%levels = other%levels
       self%mod_levels = other%mod_levels
       self%halo = other%halo
-      self%bbox_imin = other%bbox_imin 
-      self%bbox_imax = other%bbox_imax 
-      self%bbox_isz  = other%bbox_isz  
-      self%bbox_jmin = other%bbox_jmin 
-      self%bbox_jmax = other%bbox_jmax 
+      self%bbox_imin = other%bbox_imin
+      self%bbox_imax = other%bbox_imax
+      self%bbox_isz  = other%bbox_isz
+      self%bbox_jmin = other%bbox_jmin
+      self%bbox_jmax = other%bbox_jmax
       self%bbox_jsz  = other%bbox_jsz
+      allocate(self%lons(self%nx))
+      allocate(self%lats(self%ny))
+      self%lons(:) = other%lons(:)
+      self%lats(:) = other%lats(:)
       if ( self%halo>0 ) then
          allocate( self%halo_mask(size(other%halo_mask)) )
          self%halo_mask(:) = other%halo_mask(:)
       end if
       !
    end subroutine aq_geom_clone
-   
+
    subroutine aq_geom_delete(self)
       class(aq_geom), intent(inout)  :: self
+      if (allocated(self%lons)) deallocate(self%lons)
+      if (allocated(self%lats)) deallocate(self%lats)
       if (allocated(self%halo_mask)) deallocate(self%halo_mask)
    end subroutine aq_geom_delete
 
    subroutine aq_geom_info(self, nx, ny, nz, deltax, deltay, xmin, ymin, mod_levels, halo, domname, orientation, model)
       class(aq_geom), intent(in)                  :: self
-      integer(aq_int), intent(out)                :: nx, ny, nz 
+      integer(aq_int), intent(out)                :: nx, ny, nz
       real(aq_real), intent(out)                  :: deltax, deltay
       real(aq_real), intent(out)                  :: xmin, ymin
       integer(aq_int), intent(out)                :: mod_levels

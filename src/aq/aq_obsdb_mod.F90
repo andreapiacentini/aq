@@ -554,8 +554,13 @@ else
 
   ! Fill the arrays
   do iobs=1,nobs
-    tobs = obs_ref_time
-    dt = int(ila_times(iobs))
+     tobs = obs_ref_time
+     !AQ Increase the observation times by one second, so that observations at the
+     !AQ lower bound of the window are still associated to the window
+     !AQ Remember that oops in GetValues.h masks the observations outside (t1,t2]
+     !AQ while in MOCAGE H5 tools the observations are selected in [t1,t2)
+     !AQ ORIGINAL LINE:   dt = int(ila_times(iobs))
+    dt = int(ila_times(iobs)) + 1
     call datetime_update(tobs,dt)
     times(iobs) = tobs
     obsloc%values(:,iobs) = (/real(rla_lons(iobs),kind=kind_real),real(rla_lats(iobs),kind=kind_real),0.0d0/)
@@ -729,14 +734,14 @@ if (jgrp%nobs > 0) then
      else if (jcol%colname(1:11) == 'EffectiveQC') then
         ! Readapt to ensure compatibility with MOCAGE output (0 rejected obs, 1 accepted obs)
         allocate(ila_mask(jgrp%nobs))
-        where(jcol%values(1,:) == 1) 
-          ila_mask = 0 
-        elsewhere 
+        where(jcol%values(1,:) == 1)
+          ila_mask = 0
+        elsewhere
           ila_mask = 1
         endwhere
         select case(jcol%colname(12:len_trim(jcol%colname)))
         ! N.B. We rely here on the assumption that no outer loop is used for AQ, i.e. 1 relates to the analysis
-        case ('0')  
+        case ('0')
           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Mask_bkg', ila_mask)
         case ('1')
           call writeslice_h5dset(self%h5stateout, trim(cl_obsgrp)//'/'//trim(self%spcname)//'/Mask_ana', ila_mask)
