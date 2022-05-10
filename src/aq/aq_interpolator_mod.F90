@@ -148,10 +148,9 @@ subroutine aq_interpolator_apply(self, field, vars, mask, vals)
             &   1, &
             &   self%loc_nlocs, &
             &   vals(offset+1:offset+self%loc_nlocs))
-!AQ Ignore the time mask since it imposes (t1,t2] while aq uses [t1,t2)
-!AQ         do ib = 1, self%loc_nlocs
-!AQ            if (mask(ib)==0) vals(offset+ib) = aq_missing_value
-!AQ         end do
+         do ib = 1, self%loc_nlocs
+            if (mask(ib)==0) vals(offset+ib) = aq_missing_value
+         end do
          ! Update offset
          offset = offset+self%loc_nlocs
       end if
@@ -178,8 +177,7 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
    integer       :: loc_nlocs, glo_nlocs, offset, jvar, ib
    real(aq_real), allocatable, dimension(:) :: surf_1d(:)
    real(aq_real), allocatable, dimension(:,:) :: surf_fld
-!AQ Ignore the time mask since it imposes (t1,t2] while aq uses [t1,t2)
-!AQ   real(aq_real), allocatable, dimension(:) :: masked_vals(:)
+   real(aq_real), allocatable, dimension(:) :: masked_vals(:)
    character(len=aq_strlen) :: fname
    real(aq_real) :: filter_val
 
@@ -191,7 +189,7 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
 
    offset = 0
    if ( self%loc_nlocs > 0 ) then
-!AQ      allocate(masked_vals(self%loc_nlocs))
+      allocate(masked_vals(self%loc_nlocs))
       allocate(surf_1d(field%geom%grid%nx(1)*field%geom%grid%ny()))
    end if
    do jvar=1,vars%nvars()
@@ -199,18 +197,17 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
 
       surf_fld(:,:) = 0_kind_real
       if ( self%loc_nlocs > 0 ) then
-!AQ         do ib = 1, self%loc_nlocs
-!AQ            if (mask(ib)>0) then
-!AQ               masked_vals(ib) = vals(offset+ib)
-!AQ            else
-!AQ               masked_vals(ib) = aq_missing_value
-!AQ            end if
-!AQ         end do
+         do ib = 1, self%loc_nlocs
+            if (mask(ib)>0) then
+               masked_vals(ib) = vals(offset+ib)
+            else
+               masked_vals(ib) = aq_missing_value
+            end if
+         end do
          surf_1d = 0_kind_real
          call addmult_matrixt_csr_vector( &
             &   self%Hmat, &
-!AQ            &   masked_vals, &
-            &   vals(offset+1:offset+self%loc_nlocs), &
+            &   masked_vals, &
             &   1, &
             &   self%loc_nlocs, &
             &   surf_1d, &
@@ -231,7 +228,7 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
    ! Release memory
    deallocate(surf_fld)
    if ( self%loc_nlocs > 0 ) then
-!AQ      deallocate(masked_vals)
+      deallocate(masked_vals)
       deallocate(surf_1d)
    end if
 
