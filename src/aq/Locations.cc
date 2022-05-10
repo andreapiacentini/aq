@@ -176,7 +176,7 @@ void Locations::print(std::ostream & os) const {
   auto z = make_view<double, 1>(*altitude_);
   for (size_t jj=0; jj < static_cast<size_t>(nobs); ++jj) {
     os << "location " << jj << std::setprecision(2) << ": lon = " << lonlat(jj, 0)
-       << ", lat = " << lonlat(jj, 1) << ", time = " << times_[jj] << std::endl;
+       << ", lat = " << lonlat(jj, 1) << ", z = " << z(jj) << std::endl;
   }
 }
 // -------------------------------------------------------------------------

@@ -92,7 +92,7 @@ contains
       integer(c_int), intent(in)    :: c_key_fld
       type(c_ptr),value,intent(in)  :: c_vars
       integer(c_int), intent(in)    :: c_nvals
-      logical(c_bool), intent(in)   :: c_mask(c_nvals)
+      integer(c_int), intent(in)    :: c_mask(c_nvals)
       real(c_double), intent(inout) :: c_vals(c_nvals)
 
       ! Local variables
@@ -116,7 +116,7 @@ contains
       integer(c_int), intent(in)    :: c_key_fld
       type(c_ptr),value,intent(in)  :: c_vars
       integer(c_int), intent(in)    :: c_nvals
-      logical(c_bool), intent(in)   :: c_mask(c_nvals)
+      integer(c_int), intent(in)    :: c_mask(c_nvals)
       real(c_double), intent(in)    :: c_vals(c_nvals)
 
       ! Local variables

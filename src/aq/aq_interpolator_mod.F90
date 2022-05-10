@@ -51,7 +51,6 @@ subroutine aq_interpolator_create(self, geom, loc_nlocs, lats, lons)
    ! Local variables
    character(len=aq_strlen) :: msg
    integer :: ib
-   real(kind_real), allocatable :: lonmod(:), latmod(:)
    real(kind_real), dimension(1,1) :: dummylev
    real(kind_real), dimension(1) :: dummycoord
    real(kind_real), dimension(:), allocatable :: dummytime
@@ -60,25 +59,16 @@ subroutine aq_interpolator_create(self, geom, loc_nlocs, lats, lons)
    self%loc_nlocs = loc_nlocs
    if ( loc_nlocs == 0 ) return
    !
-   !AQ could be stored once for all in the geometry so to avoid the extraction at every build.
-   allocate(lonmod(geom%grid%nx(1)))
-   allocate(latmod(geom%grid%ny()))
-   do ib = 1, geom%grid%nx(1)
-      lonmod(ib) = geom%grid%x(ib,1)
-   end do
-   do ib = 1, geom%grid%ny()
-      latmod(ib) = geom%grid%y(ib)
-   end do
    allocate(dummytime(loc_nlocs))
    dummytime(:) = 0_kind_real
 
    call observ_operator ( &
-      &   geom%grid%ny(), &
-      &   geom%grid%nx(1), &
+      &   geom%ny, &
+      &   geom%nx, &
       &   1, & ! Only on input level in the gathered surface field
       &   1, & ! Only one exact time (no time interpolation)
-      &   latmod, &
-      &   lonmod, &
+      &   geom%lats, &
+      &   geom%lons, &
       &   dummycoord, & ! Vert coord not relevat
       &   dummycoord, & ! Obs time not relevant
       &   loc_nlocs, &
@@ -98,8 +88,6 @@ subroutine aq_interpolator_create(self, geom, loc_nlocs, lats, lons)
    write(msg,'(A)') 'Built interpolator'
    call fckit_log%debug(msg)
 
-   deallocate(lonmod)
-   deallocate(latmod)
    deallocate(dummytime)
 
 end subroutine aq_interpolator_create
@@ -128,7 +116,7 @@ subroutine aq_interpolator_apply(self, field, vars, mask, vals)
    class(aq_interpolator), intent(in) :: self
    class(aq_fields), intent(in)       :: field
    type(oops_variables), intent(in)   :: vars
-   logical(c_bool), intent(in)        :: mask(:)
+   integer(c_int), intent(in)         :: mask(:)
    real(c_double), intent(inout)      :: vals(:)
 
    ! Local variables
@@ -160,9 +148,10 @@ subroutine aq_interpolator_apply(self, field, vars, mask, vals)
             &   1, &
             &   self%loc_nlocs, &
             &   vals(offset+1:offset+self%loc_nlocs))
-!AP         do ib = 1, self%loc_nlocs
-!AP            if (.not.mask(ib)) vals(offset+ib) = aq_missing_value
-!AP         end do
+!AQ Ignore the time mask since it imposes (t1,t2] while aq uses [t1,t2)
+!AQ         do ib = 1, self%loc_nlocs
+!AQ            if (mask(ib)==0) vals(offset+ib) = aq_missing_value
+!AQ         end do
          ! Update offset
          offset = offset+self%loc_nlocs
       end if
@@ -181,7 +170,7 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
    class(aq_interpolator), intent(in) :: self
    class(aq_fields), intent(inout)    :: field
    type(oops_variables), intent(in)   :: vars
-   logical(c_bool), intent(in)        :: mask(:)
+   integer(c_int), intent(in)         :: mask(:)
    real(c_double), intent(in)         :: vals(:)
 
    ! Local variables
@@ -189,7 +178,8 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
    integer       :: loc_nlocs, glo_nlocs, offset, jvar, ib
    real(aq_real), allocatable, dimension(:) :: surf_1d(:)
    real(aq_real), allocatable, dimension(:,:) :: surf_fld
-   real(aq_real), allocatable, dimension(:) :: masked_vals(:)
+!AQ Ignore the time mask since it imposes (t1,t2] while aq uses [t1,t2)
+!AQ   real(aq_real), allocatable, dimension(:) :: masked_vals(:)
    character(len=aq_strlen) :: fname
    real(aq_real) :: filter_val
 
@@ -201,7 +191,7 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
 
    offset = 0
    if ( self%loc_nlocs > 0 ) then
-      allocate(masked_vals(self%loc_nlocs))
+!AQ      allocate(masked_vals(self%loc_nlocs))
       allocate(surf_1d(field%geom%grid%nx(1)*field%geom%grid%ny()))
    end if
    do jvar=1,vars%nvars()
@@ -209,17 +199,18 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
 
       surf_fld(:,:) = 0_kind_real
       if ( self%loc_nlocs > 0 ) then
-         do ib = 1, self%loc_nlocs
-!AP            if (mask(ib)) then
-               masked_vals(ib) = vals(offset+ib)
-!AP            else
-!AP               masked_vals(ib) = aq_missing_value
-!AP            end if
-         end do
+!AQ         do ib = 1, self%loc_nlocs
+!AQ            if (mask(ib)>0) then
+!AQ               masked_vals(ib) = vals(offset+ib)
+!AQ            else
+!AQ               masked_vals(ib) = aq_missing_value
+!AQ            end if
+!AQ         end do
          surf_1d = 0_kind_real
          call addmult_matrixt_csr_vector( &
             &   self%Hmat, &
-            &   masked_vals, &
+!AQ            &   masked_vals, &
+            &   vals(offset+1:offset+self%loc_nlocs), &
             &   1, &
             &   self%loc_nlocs, &
             &   surf_1d, &
@@ -240,8 +231,8 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
    ! Release memory
    deallocate(surf_fld)
    if ( self%loc_nlocs > 0 ) then
+!AQ      deallocate(masked_vals)
       deallocate(surf_1d)
-      deallocate(masked_vals)
    end if
 
 end subroutine aq_interpolator_applyAD

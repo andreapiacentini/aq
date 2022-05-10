@@ -27,10 +27,10 @@ extern "C" {
   void aq_interpolator_delete_f90(F90interp &);
   void aq_interpolator_apply_f90(const F90interp &, const F90flds &,
                                  const oops::Variables &,
-                                 const int &, const bool &, double &);
+                                 const int &, const int &, double &);
   void aq_interpolator_applyAD_f90(const F90interp &, const F90flds &,
                                    const oops::Variables &,
-                                   const int &, const bool &, const double &);
+                                   const int &, const int &, const double &);
 }
 
 }  // namespace aq

@@ -41,8 +41,12 @@ void Interpolator::apply(const oops::Variables & vars, const State & xx,
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   values.resize(nvals);
   ASSERT(mask.size() == values.size());
+  std::vector<int> imask(nvals, 0);
+  for (size_t jobs = 0; jobs < nvals; ++jobs) {
+    if (mask[jobs]) imask[jobs] = 1;
+  }
   aq_interpolator_apply_f90(keyInterp_, xx.fields().toFortran(), vars,
-                            nvals, mask[0], values[0]);
+                            nvals, imask[0], values[0]);
 }
 
 // -----------------------------------------------------------------------------
@@ -53,8 +57,12 @@ void Interpolator::apply(const oops::Variables & vars, const Increment & dx,
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   values.resize(nvals);
   ASSERT(mask.size() == values.size());
+  std::vector<int> imask(nvals, 0);
+  for (size_t jobs = 0; jobs < nvals; ++jobs) {
+    if (mask[jobs]) imask[jobs] = 1;
+  }
   aq_interpolator_apply_f90(keyInterp_, dx.fields().toFortran(), vars,
-                            nvals, mask[0], values[0]);
+                            nvals, imask[0], values[0]);
 }
 
 // -----------------------------------------------------------------------------
@@ -65,8 +73,12 @@ void Interpolator::applyAD(const oops::Variables & vars, Increment & dx,
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   ASSERT(values.size() == nvals);
   ASSERT(mask.size() == values.size());
+  std::vector<int> imask(nvals, 0);
+  for (size_t jobs = 0; jobs < nvals; ++jobs) {
+    if (mask[jobs]) imask[jobs] = 1;
+  }
   aq_interpolator_applyAD_f90(keyInterp_, dx.fields().toFortran(), vars,
-                              nvals, mask[0], values[0]);
+                              nvals, imask[0], values[0]);
 }
 
 // -----------------------------------------------------------------------------
