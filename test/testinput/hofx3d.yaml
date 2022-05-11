@@ -16,23 +16,24 @@ state:
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: [CO, O_3, NO_2]
 observations:
-- obs space:
-    obsdatain:
-      obsfile: Data/HDAT+20100704.h5
-    obsdataout:
-      obsfile: Data/HSTAT+20100704.h5
-    obs type: CO
-    instr name: AIRBASE_CO
-  obs operator:
-    obs type: InSitu
-    mod var: CO
-- obs space:
-    obsdatain:
-      obsfile: Data/HDAT+20100704.h5
-    obsdataout:
-      obsfile: Data/HSTAT+20100704.h5
-    obs type: O3
-    instr name: AIRBASE_O3
-  obs operator:
-    obs type: InSitu
-    mod var: O_3
+  observers:
+  - obs space:
+      obsdatain:
+        obsfile: Data/HDAT+20100704.h5
+      obsdataout:
+        obsfile: Data/HSTAT+20100704.h5
+      obs type: CO
+      instr name: AIRBASE_CO
+    obs operator:
+      obs type: InSitu
+      mod var: CO
+  - obs space:
+      obsdatain:
+        obsfile: Data/HDAT+20100704.h5
+      obsdataout:
+        obsfile: Data/HSTAT+20100704.h5
+      obs type: O3
+      instr name: AIRBASE_O3
+    obs operator:
+      obs type: InSitu
+      mod var: O_3
