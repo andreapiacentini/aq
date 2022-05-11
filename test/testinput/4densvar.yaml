@@ -542,52 +542,53 @@ cost function:
         filename: Data/ENS04_reduced/HMGEMS02+2010070405+E0025.nc
 
   observations:
-  - obs space:
-      obsdatain:
-        obsfile: Data/HDAT+20100704.h5
-      obsdataout:
-        obsfile: Data/HSTAT+20100704.h5
-      obs type: O3
-      instr name: AIRBASE_O3
-      obserrors:
-        type: absolute
-        value: 5.0e-9
-    obs operator:
-      obs type: InSitu
-      mod var: O_3
-    obs error:
-      covariance model: diagonal
-  - obs space:
-      obsdatain:
-        obsfile: Data/HDAT+20100704.h5
-      obsdataout:
-        obsfile: Data/HSTAT+20100704.h5
-      obs type: NO2
-      instr name: AIRBASE_NO2
-      obserrors:
-        type: percent
-        value: 20
-    obs operator:
-      obs type: InSitu
-      mod var: NO_2
-    obs error:
-      covariance model: diagonal
-  - obs space:
-      obsdatain:
-        obsfile: Data/HDAT+20100704.h5
-      obsdataout:
-        obsfile: Data/HSTAT+20100704.h5
-      obs type: CO
-      instr name: AIRBASE_CO
-      obserrors:
-        type: percent
-        value: 30
-    obs operator:
-      obs type: InSitu
-      mod var: CO
-    obs error:
-      covariance model: diagonal
-    
+    observers:
+    - obs space:
+        obsdatain:
+          obsfile: Data/HDAT+20100704.h5
+        obsdataout:
+          obsfile: Data/HSTAT+20100704.h5
+        obs type: O3
+        instr name: AIRBASE_O3
+        obserrors:
+          type: absolute
+          value: 5.0e-9
+      obs operator:
+        obs type: InSitu
+        mod var: O_3
+      obs error:
+        covariance model: diagonal
+    - obs space:
+        obsdatain:
+          obsfile: Data/HDAT+20100704.h5
+        obsdataout:
+          obsfile: Data/HSTAT+20100704.h5
+        obs type: NO2
+        instr name: AIRBASE_NO2
+        obserrors:
+          type: percent
+          value: 20
+      obs operator:
+        obs type: InSitu
+        mod var: NO_2
+      obs error:
+        covariance model: diagonal
+    - obs space:
+        obsdatain:
+          obsfile: Data/HDAT+20100704.h5
+        obsdataout:
+          obsfile: Data/HSTAT+20100704.h5
+        obs type: CO
+        instr name: AIRBASE_CO
+        obserrors:
+          type: percent
+          value: 30
+      obs operator:
+        obs type: InSitu
+        mod var: CO
+      obs error:
+        covariance model: diagonal
+
 variational:
   minimizer:
     algorithm: DRPLanczos
