@@ -4,9 +4,9 @@ Input Dirac increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0; max = 1; mean = 3.84615e-06; stddev = 0.00196901
-  Var. O_3: min = 0; max = 0; mean = 0; stddev = 0
-  Var. NO_2: min = 0; max = 0; mean = 0; stddev = 0
+  Var. CO: min = 0.0000000000000000e+00; max = 1.0000000000000000e+00; mean = 3.8461538461538459e-06; stddev = 1.9690053355072728e-03
+  Var. O_3: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+  Var. NO_2: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
 
 Covariance(ensemble) * Increment:
   Valid time: 2010-07-04T06:00:00Z
@@ -14,9 +14,9 @@ Covariance(ensemble) * Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -1.44115e-20; max = 3.41527e-19; mean = 1.87776e-22; stddev = 3.46528e-21
-  Var. O_3: min = -2.19749e-21; max = 1.4003e-21; mean = 6.7114e-25; stddev = 2.77159e-23
-  Var. NO_2: min = -2.42595e-21; max = 1.40324e-22; mean = -2.50223e-24; stddev = 4.45797e-23
+  Var. CO: min = -1.4411526428616566e-20; max = 3.4152737387077440e-19; mean = 1.8777554654932810e-22; stddev = 3.4652846499128647e-21
+  Var. O_3: min = -2.1974862599886088e-21; max = 1.4003013254387760e-21; mean = 6.7114026625546305e-25; stddev = 2.7715923847543160e-23
+  Var. NO_2: min = -2.4259501689459209e-21; max = 1.4032430399961152e-22; mean = -2.5022287510317727e-24; stddev = 4.4579660910151758e-23
 
 Localization(ensemble) * Increment:
   Valid time: 2010-07-04T06:00:00Z
@@ -24,9 +24,9 @@ Localization(ensemble) * Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0; max = 1; mean = 0.00925749; stddev = 0.0807545
-  Var. O_3: min = 0; max = 1; mean = 0.00925749; stddev = 0.0807545
-  Var. NO_2: min = 0; max = 1; mean = 0.00925749; stddev = 0.0807545
+  Var. CO: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.2574945054569816e-03; stddev = 8.0754463688559278e-02
+  Var. O_3: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.2574945054569816e-03; stddev = 8.0754463688559278e-02
+  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.2574945054569816e-03; stddev = 8.0754463688559278e-02
 
 Randomized variance: 
   Valid time: 2010-07-04T06:00:00Z
@@ -34,7 +34,7 @@ Randomized variance:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0; max = 1.47216e-14; mean = 1.93551e-18; stddev = 1.27246e-16
-  Var. O_3: min = 0; max = 1.5008e-17; mean = 2.02849e-20; stddev = 2.04346e-19
-  Var. NO_2: min = 0; max = 1.11402e-16; mean = 3.82658e-20; stddev = 1.10169e-18
+  Var. CO: min = 0.0000000000000000e+00; max = 1.4721641504947452e-14; mean = 1.9355093667723580e-18; stddev = 1.2724637022331497e-16
+  Var. O_3: min = 0.0000000000000000e+00; max = 1.5007967902681687e-17; mean = 2.0284887843368226e-20; stddev = 2.0434627114534824e-19
+  Var. NO_2: min = 0.0000000000000000e+00; max = 1.1140167709907517e-16; mean = 3.8265808744963509e-20; stddev = 1.1016897023530558e-18
 
