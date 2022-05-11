@@ -118,43 +118,23 @@ GeometryIterator Geometry::end() const {
 // -------------------------------------------------------------------------------------------------
 void Geometry::latlon(std::vector<double> & lats, std::vector<double> & lons,
                       const bool halo) const {
+  const atlas::functionspace::StructuredColumns * fspace;
   if (halo_ > 0) {
-    const atlas::functionspace::StructuredColumns * fspace;
     if (halo) {
       fspace = atlasFunctionSpace_.get();
     } else {
       fspace = atlasFunctionSpaceNoHalo_.get();
     }
-    const auto lonlat = atlas::array::make_view<double, 2>(fspace->lonlat());
-    const size_t npts = fspace->size();
-    lats.resize(npts);
-    lons.resize(npts);
-    for (size_t jj = 0; jj < npts; ++jj) {
-      lats[jj] = lonlat(jj, 1);
-      lons[jj] = lonlat(jj, 0);
-    }
   } else {
-    /* If the fields have no halo, the locations have to be only on proc 0, therefore latlon
-       is provided only there */
-    if (comm_.rank() == 0) {
-      const size_t npts = atlasGrid_->size();
-      lats.resize(npts);
-      lons.resize(npts);
-      atlas::Grid::PointLonLat lonlat;
-      size_t jj = 0;
-      for (atlas::idx_t jy = 0; jy < atlasGrid_->ny(); ++jy) {
-        for (atlas::idx_t jx = 0; jx < atlasGrid_->nx(jy); ++jx) {
-          lonlat = atlasGrid_->lonlat(jx, jy);
-          lats[jj] = lonlat[1];
-          lons[jj] = lonlat[0];
-          jj++;
-        }
-      }
-    } else {
-      const size_t npts = 0;
-      lats.resize(npts);
-      lons.resize(npts);
-    }
+    fspace = atlasFunctionSpace_.get();
+  }
+  const auto lonlat = atlas::array::make_view<double, 2>(fspace->lonlat());
+  const size_t npts = fspace->size();
+  lats.resize(npts);
+  lons.resize(npts);
+  for (size_t jj = 0; jj < npts; ++jj) {
+    lats[jj] = lonlat(jj, 1);
+    lons[jj] = lonlat(jj, 0);
   }
 }
 // -------------------------------------------------------------------------------------------------

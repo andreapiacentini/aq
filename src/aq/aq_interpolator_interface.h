@@ -22,7 +22,7 @@ namespace oops {
 namespace aq {
 
 extern "C" {
-  void aq_interpolator_create_f90(F90interp &, const F90geom &,
+  void aq_interpolator_create_f90(F90interp &, const eckit::Configuration &, const F90geom &,
                                   const int &, const double &, const double &);
   void aq_interpolator_delete_f90(F90interp &);
   void aq_interpolator_apply_f90(const F90interp &, const F90flds &,

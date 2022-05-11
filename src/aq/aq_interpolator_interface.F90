@@ -10,6 +10,7 @@ module aq_interpolator_interface
 
    use iso_c_binding
    use kinds
+   use fckit_configuration_module, only: fckit_configuration
    use oops_variables_mod
    use aq_interpolator_mod
    use aq_fields_mod
@@ -35,12 +36,13 @@ contains
 #include "oops/util/linkedList_c.f"
 
    !>  Create an interpolator from a geometry and obs locations lons and lats
-   subroutine aq_interpolator_create_c(c_key_self, c_key_geom, c_nlocs, c_lats, c_lons) bind(c,name='aq_interpolator_create_f90')
+   subroutine aq_interpolator_create_c(c_key_self, c_conf, c_key_geom, c_nlocs, c_lats, c_lons) bind(c,name='aq_interpolator_create_f90')
 
       implicit none
 
       ! Passed variables
       integer(c_int),intent(inout) :: c_key_self       !< Interpolator
+      type(c_ptr),value,intent(in) :: c_conf  !< Configuration
       integer(c_int),intent(in)    :: c_key_geom       !< Geometry
       integer(c_int), intent(in)   :: c_nlocs
       real(c_double), intent(in)   :: c_lats(c_nlocs)
@@ -48,16 +50,18 @@ contains
 
       ! Local variables
       type(aq_interpolator),pointer :: self
+      type(fckit_configuration) :: f_conf
       type(aq_geom),pointer :: geom
 
       ! Interface
+      f_conf = fckit_configuration(c_conf)
       call aq_interpolator_registry%init()
       call aq_interpolator_registry%add(c_key_self)
       call aq_interpolator_registry%get(c_key_self,self)
       call aq_geom_registry%get(c_key_geom,geom)
 
       ! Call Fortran
-      call self%create(geom,c_nlocs,c_lats,c_lons)
+      call self%create(f_conf,geom,c_nlocs,c_lats,c_lons)
 
    end subroutine aq_interpolator_create_c
    ! ------------------------------------------------------------------------------

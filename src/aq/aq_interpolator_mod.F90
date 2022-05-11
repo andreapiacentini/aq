@@ -5,6 +5,7 @@ use aq_geom_mod
 use aq_fields_mod
 
 use fckit_module
+use fckit_configuration_module, only: fckit_configuration
 use fckit_mpi_module
 use fckit_log_module,only: fckit_log
 use iso_c_binding
@@ -22,6 +23,7 @@ public :: aq_interpolator
 
 type :: aq_interpolator
    integer :: loc_nlocs
+   logical :: use_atlas
    type(csr_format) :: Hmat
 contains
    procedure, public :: create  => aq_interpolator_create
@@ -38,11 +40,12 @@ contains
 
 ! ------------------------------------------------------------------------------
 !> Create and store an interpolator
-subroutine aq_interpolator_create(self, geom, loc_nlocs, lats, lons)
+subroutine aq_interpolator_create(self, config, geom, loc_nlocs, lats, lons)
    !
    implicit none
    !
    class(aq_interpolator), intent(inout) :: self
+   type(fckit_Configuration), intent(in) :: config
    type(aq_geom), intent(in)             :: geom
    integer, intent(in)                   :: loc_nlocs
    real(kind_real), intent(in)           :: lats(loc_nlocs)
@@ -55,40 +58,51 @@ subroutine aq_interpolator_create(self, geom, loc_nlocs, lats, lons)
    real(kind_real), dimension(1) :: dummycoord
    real(kind_real), dimension(:), allocatable :: dummytime
 
-   ! Interpolator needed only where there are observations
-   self%loc_nlocs = loc_nlocs
-   if ( loc_nlocs == 0 ) return
+   ! Select the interpolator
+   if (config%has("use atlas")) then
+      call config%get_or_die("use atlas",self%use_atlas)
+   else
+      self%use_atlas = .false.
+   end if
    !
-   allocate(dummytime(loc_nlocs))
-   dummytime(:) = 0_kind_real
+   if (self%use_atlas) then
+      ! TODO
+   else
+      ! Interpolator needed only where there are observations
+      self%loc_nlocs = loc_nlocs
+      if ( loc_nlocs == 0 ) return
+      !
+      allocate(dummytime(loc_nlocs))
+      dummytime(:) = 0_kind_real
 
-   call observ_operator ( &
-      &   geom%ny, &
-      &   geom%nx, &
-      &   1, & ! Only on input level in the gathered surface field
-      &   1, & ! Only one exact time (no time interpolation)
-      &   geom%lats, &
-      &   geom%lons, &
-      &   dummycoord, & ! Vert coord not relevat
-      &   dummycoord, & ! Obs time not relevant
-      &   loc_nlocs, &
-      &   1, & ! Levels in and out are 1
-      &   1, &
-      &   lats, &
-      &   lons, &
-      &   .false., & ! aq grid not considered as lon periodic
-      &   dummytime, &
-      &   dummylev, &
-      &   2, & ! It is the ground interpolator option
-      &   .false., & ! no input scaling
-      &   .false., & ! no averaging kernel
-      &   .false., & ! no time interpolation
-      &   self%Hmat)
+      call observ_operator ( &
+         &   geom%ny, &
+         &   geom%nx, &
+         &   1, & ! Only on input level in the gathered surface field
+         &   1, & ! Only one exact time (no time interpolation)
+         &   geom%lats, &
+         &   geom%lons, &
+         &   dummycoord, & ! Vert coord not relevat
+         &   dummycoord, & ! Obs time not relevant
+         &   loc_nlocs, &
+         &   1, & ! Levels in and out are 1
+         &   1, &
+         &   lats, &
+         &   lons, &
+         &   .false., & ! aq grid not considered as lon periodic
+         &   dummytime, &
+         &   dummylev, &
+         &   2, & ! It is the ground interpolator option
+         &   .false., & ! no input scaling
+         &   .false., & ! no averaging kernel
+         &   .false., & ! no time interpolation
+         &   self%Hmat)
 
-   write(msg,'(A)') 'Built interpolator'
-   call fckit_log%debug(msg)
+      write(msg,'(A)') 'Built interpolator'
+      call fckit_log%debug(msg)
 
-   deallocate(dummytime)
+      deallocate(dummytime)
+   end if
 
 end subroutine aq_interpolator_create
 ! ------------------------------------------------------------------------------
@@ -134,11 +148,10 @@ subroutine aq_interpolator_apply(self, field, vars, mask, vals)
    do jvar=1,vars%nvars()
       fname = vars%variable(jvar)
 
-      ! Gather field on master
+      ! Gather surface field on master
       call field%gather_var_at_lev(trim(fname), nlev, surf_fld, 0)
-      ! If the geometry as a halo, perform the interpolation in parallel
-      ! otherwise assume that by construction loc_nlocs is >0 only on the master
-      if ( field%geom%halo >= 1 ) call field%fmpi%broadcast(surf_fld, root=0)
+      ! Brodcast it to all processes
+      call field%fmpi%broadcast(surf_fld, root=0)
 
       ! Local Interpolation
       if ( self%loc_nlocs > 0 ) then
@@ -216,7 +229,9 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
          surf_fld = unpack(surf_1d,surf_fld==0_kind_real,surf_fld)
       end if
 
-      if ( field%geom%halo >= 1 ) call field%fmpi%allreduce(surf_fld,fckit_mpi_sum())
+      ! Collect contributions from all the processes
+      call field%fmpi%allreduce(surf_fld,fckit_mpi_sum())
+      ! Add the result to the adjoint field on all processors
       call field%scatteradd_var_at_lev(trim(fname), nlev, surf_fld, 0)
 
       ! Update offset
