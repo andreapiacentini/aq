@@ -84,7 +84,8 @@ contains
    end subroutine aq_interpolator_delete_c
 
    ! ------------------------------------------------------------------------------
-   subroutine aq_interpolator_apply_c(c_key_self, c_key_fld, c_vars, c_nvals, c_mask, c_vals) bind (c,name='aq_interpolator_apply_f90')
+   subroutine aq_interpolator_apply_c(c_key_self, c_key_fld, c_vars, c_nvals, c_mask, c_vals) &
+ & bind (c,name='aq_interpolator_apply_f90')
 
       implicit none
       ! Passed variables
@@ -108,7 +109,8 @@ contains
 
    end subroutine aq_interpolator_apply_c
    ! ------------------------------------------------------------------------------
-   subroutine aq_interpolator_applyAD_c(c_key_self, c_key_fld, c_vars, c_nvals, c_mask, c_vals) bind (c,name='aq_interpolator_applyAD_f90')
+   subroutine aq_interpolator_applyAD_c(c_key_self, c_key_fld, c_vars, c_nvals, c_mask, c_vals) &
+ & bind (c,name='aq_interpolator_applyAD_f90')
 
       implicit none
       ! Passed variables
