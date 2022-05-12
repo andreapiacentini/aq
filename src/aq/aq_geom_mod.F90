@@ -15,6 +15,7 @@ module aq_geom_mod
       character(len=:), allocatable               :: model
       character(len=:), allocatable               :: orientation
       type(atlas_functionspace_StructuredColumns) :: fs
+      type(atlas_functionspace_StructuredColumns) :: fs_surf
       integer(atlas_kind_idx)                     :: levels
       integer(atlas_kind_idx)                     :: mod_levels
       integer(atlas_kind_idx)                     :: halo
@@ -164,6 +165,7 @@ contains
       !
       self%grid = atlas_structuredgrid(other%grid%c_ptr())
       self%fs = atlas_functionspace_structuredcolumns(other%fs%c_ptr())
+      self%fs_surf = atlas_functionspace_structuredcolumns(other%fs_surf%c_ptr())
       !
       self%nx = other%nx
       self%ny = other%ny

@@ -42,17 +42,19 @@ Geometry::Geometry(const GeometryAqParameters & params,
   atlasGrid_.reset(new atlas::StructuredGrid(geomConfig));
 
   // Setup partitioner
-  atlas::grid::Partitioner partitioner;
-  if ( halo_ > 0 ) {
-    partitioner = atlas::grid::Partitioner(atlas::util::Config("type", "checkerboard") |
-                                           atlas::util::Config("regular", true));
-  } else {
-    partitioner = atlas::grid::Partitioner("checkerboard");
-  }
+  atlas::grid::Partitioner partitioner = atlas::grid::Partitioner("checkerboard");
 
   // Setup function space
-  atlasFunctionSpace_.reset(new atlas::functionspace::StructuredColumns(*atlasGrid_, partitioner,
-  geomConfig));
+  atlasFunctionSpace_.reset(new atlas::functionspace::StructuredColumns(
+                            *atlasGrid_, partitioner, geomConfig));
+
+  // Setup surf function space (always with halo for parallel interpolation)
+  eckit::LocalConfiguration geomConfigSurf(params.toConfiguration());
+  geomConfigSurf.set("type", "regional");
+  geomConfigSurf.set("halo", 1);
+  atlasFunctionSpaceSurf_.reset(new atlas::functionspace::StructuredColumns(
+                                *atlasGrid_, partitioner, geomConfigSurf));
+
   // Extra function space without halo (coincident with the previous if halo is zero
   if (halo_ > 0) {
     eckit::LocalConfiguration geomConfigNoHalo(params.toConfiguration());
@@ -63,7 +65,8 @@ Geometry::Geometry(const GeometryAqParameters & params,
   }
 
   // Setup Fortran geometry
-  aq_geom_setup_f90(keyGeom_, geomConfig,  &comm_, atlasGrid_->get(), atlasFunctionSpace_->get());
+  aq_geom_setup_f90(keyGeom_, geomConfig,  &comm_, atlasGrid_->get(),
+                    atlasFunctionSpace_->get(), atlasFunctionSpaceSurf_->get());
 
   // Fill ATLAS fieldset
   atlasFieldSet_.reset(new atlas::FieldSet());

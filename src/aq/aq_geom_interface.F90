@@ -39,14 +39,15 @@ contains
 #include "oops/util/linkedList_c.f"
 
 !> Setup geometry
-subroutine aq_geom_setup_c(c_key_self,c_conf,c_comm,c_agrid,c_afunctionspace) bind(c,name='aq_geom_setup_f90')
+subroutine aq_geom_setup_c(c_key_self,c_conf,c_comm,c_agrid,c_afs,c_afs_surf) bind(c,name='aq_geom_setup_f90')
 
 ! Passed variables
 integer(c_int),intent(inout) :: c_key_self !< Geometry
 type(c_ptr),intent(in),value :: c_conf     !< Configuration
 type(c_ptr),intent(in),value :: c_comm
 type(c_ptr),intent(in),value :: c_agrid
-type(c_ptr),intent(in),value :: c_afunctionspace !< ATLAS function space pointer
+type(c_ptr),intent(in),value :: c_afs !< ATLAS function space pointer
+type(c_ptr),intent(in),value :: c_afs_surf !< ATLAS function space pointer
 
 ! Local variables
 type(fckit_configuration) :: f_conf
@@ -60,7 +61,8 @@ call aq_geom_registry%init()
 call aq_geom_registry%add(c_key_self)
 call aq_geom_registry%get(c_key_self,self)
 self%grid = atlas_structuredgrid(c_agrid)
-self%fs = atlas_functionspace_structuredcolumns(c_afunctionspace)
+self%fs = atlas_functionspace_structuredcolumns(c_afs)
+self%fs_surf = atlas_functionspace_structuredcolumns(c_afs_surf)
 
 ! Call Fortran
 call self%create(f_conf,f_comm)

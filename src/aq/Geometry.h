@@ -93,6 +93,7 @@ class Geometry : public util::Printable,
   const eckit::mpi::Comm & comm_;
   std::unique_ptr<atlas::StructuredGrid> atlasGrid_;
   std::unique_ptr<atlas::functionspace::StructuredColumns> atlasFunctionSpace_;
+  std::unique_ptr<atlas::functionspace::StructuredColumns> atlasFunctionSpaceSurf_;
   std::unique_ptr<atlas::functionspace::StructuredColumns> atlasFunctionSpaceNoHalo_;
   std::unique_ptr<atlas::FieldSet> atlasFieldSet_;
 };
