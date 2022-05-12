@@ -32,7 +32,7 @@ bump:
   new_nicas: true
   prefix: loc_2pe_sp
   resol: 8.0
-  strategy: common
+  strategy: common_weighted
   forced_radii: true
   rh:
     common: [1000.0e3]
