@@ -548,7 +548,7 @@ output variance:
   datadir: Data
   fileprefix: W4GEMS02
 
-#test:
-#  reference filename: testoutput/dirac_loc_4d.test
-#  test output filename: testoutput/dirac_loc_4d_sp.log
-#  float absolute tolerance: 1.e-30
+test:
+  reference filename: testoutput/dirac_loc_4d_sp.test
+  test output filename: testoutput/dirac_loc_4d_sp.log
+  float absolute tolerance: 1.e-30
