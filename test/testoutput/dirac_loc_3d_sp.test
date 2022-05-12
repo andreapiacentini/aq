@@ -1,0 +1,40 @@
+Input Dirac increment:
+  Valid time: 2010-07-04T06:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+  Var. O_3: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+  Var. NO_2: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+
+Covariance(ensemble) * Increment:
+  Valid time: 2010-07-04T06:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+  Var. O_3: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+  Var. NO_2: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+
+Localization(ensemble) * Increment:
+  Valid time: 2010-07-04T06:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+  Var. O_3: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+  Var. NO_2: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
+
+Randomized variance: 
+  Valid time: 2010-07-04T06:00:00Z
+  Fields aq_fieldset for model MOCAGE
+  on domain GEMS02 (nx=260, ny=200, lev=47)
+  5 vertical levels (orientation up)
+  with 3 variables
+  Var. CO: min = 0.0000000000000000e+00; max = 1.5295780445668714e-14; mean = 1.9758239336446084e-18; stddev = 1.3107952053106418e-16
+  Var. O_3: min = 0.0000000000000000e+00; max = 1.3805869607463759e-17; mean = 2.0694506267623527e-20; stddev = 2.1829883666270608e-19
+  Var. NO_2: min = 0.0000000000000000e+00; max = 1.2112047926747404e-16; mean = 3.4279941801424350e-20; stddev = 1.0178935840019982e-18
+

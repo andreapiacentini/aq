@@ -30,7 +30,7 @@ background:
 bump:
   datadir: Data
   new_nicas: true
-  prefix: loc_2pe_sp
+  prefix: loc_6pe_sp
   resol: 8.0
   strategy: common_weighted
   forced_radii: true
@@ -40,11 +40,11 @@ bump:
     common: [3.0]
   loc_wgt:
     CO-O_3: 0.5
-    CO-NO_2: 0.5
+    CO-NO_2: 0.0
     O_3-NO_2: 0.5
   write_nicas_local: true
 input variables: *vars
 
 test:
-  reference filename: testoutput/parameters_loc_2pe.test
-  test output filename: testoutput/parameters_loc_2pe.log
+  reference filename: testoutput/parameters_loc_6pe_sp.test
+  test output filename: testoutput/parameters_loc_6pe_sp.log

@@ -194,6 +194,7 @@ list( APPEND aq_testinput
   testinput/addincrement_scaled.yaml
   testinput/diffstates.yaml
   testinput/dirac_loc_3d.yaml
+  testinput/dirac_loc_3d_sp.yaml
   testinput/dirac_no_loc_3d.yaml
   testinput/ens_recenter.yaml
   testinput/ens_variance.yaml
@@ -202,6 +203,7 @@ list( APPEND aq_testinput
   testinput/hofx3d_halo.yaml
   testinput/interfaces.yaml
   testinput/parameters_loc_6pe.yaml
+  testinput/parameters_loc_6pe_sp.yaml
 )
 
 list( APPEND aq_testinput_tier2
@@ -221,12 +223,14 @@ list( APPEND aq_testoutput
   testoutput/addincrement_scaled.test
   testoutput/diffstates.test
   testoutput/dirac_loc_3d.test
+  testoutput/dirac_loc_3d_sp.test
   testoutput/dirac_no_loc_3d.test
   testoutput/ens_recenter.test
   testoutput/ens_variance.test
   testoutput/ens_variance_inflation_value.test
   testoutput/hofx3d.test
   testoutput/parameters_loc_6pe.test
+  testoutput/parameters_loc_6pe_sp.test
 )
 
 list( APPEND aq_testoutput_tier2
@@ -481,6 +485,12 @@ ecbuild_add_test( TARGET test_aq_parameters_loc_6pe
                   ARGS testinput/parameters_loc_6pe.yaml
                   COMMAND  aq_error_covariance_training.x )
 
+ecbuild_add_test( TARGET test_aq_parameters_loc_6pe_sp
+                  MPI 6
+                  OMP 4
+                  ARGS testinput/parameters_loc_6pe_sp.yaml
+                  COMMAND  aq_error_covariance_training.x )
+
 #####################################################################
 # dirac tests
 #####################################################################
@@ -497,6 +507,13 @@ ecbuild_add_test( TARGET test_aq_dirac_loc_3d
                   ARGS testinput/dirac_loc_3d.yaml
                   COMMAND  aq_dirac.x
                   TEST_DEPENDS test_aq_parameters_loc_6pe )
+
+ecbuild_add_test( TARGET test_aq_dirac_loc_3d_sp
+                  MPI 6
+                  OMP 4
+                  ARGS testinput/dirac_loc_3d_sp.yaml
+                  COMMAND  aq_dirac.x
+                  TEST_DEPENDS test_aq_parameters_loc_6pe_sp )
 
 #####################################################################
 # 3d variational tests
