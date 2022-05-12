@@ -34,7 +34,7 @@ background error:
         datadir: Data
         load_nicas_local: true
         prefix: loc_2pe_sp
-        strategy: common
+        strategy: common_weighted
   members:
   - states:
     - <<: *state_ref
