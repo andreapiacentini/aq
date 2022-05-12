@@ -10,7 +10,7 @@ geometry:
   model levels: 47
   orientation: up
   halo: 1
-window begin: 2010-07-04T06:00:00Z
+window begin: 2010-07-04T05:30:00Z
 window length: PT1H
 state:
   date: 2010-07-04T06:00:00Z
