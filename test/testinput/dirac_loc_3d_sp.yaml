@@ -58,7 +58,7 @@ background error:
       filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0010.nc
 
 dirac:
-  date: 2010-07-04T02:00:00Z
+  date: 2010-07-04T06:00:00Z
   londir: [ 7.9,   17.9]
   latdir: [38.3,   60.3]
   levdir: [  47,     47]
