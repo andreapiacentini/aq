@@ -90,9 +90,8 @@ subroutine aq_interpolator_create(self, config, geom, loc_nlocs, lats, lons)
       call int_config%set("type", "structured-linear2D")
       call int_config%set("adjoint", .true.)
 
-      !AQ WAITING FOR ATLAS FIX
-      !AQ self%interp = atlas_Interpolation(int_config, &
-      !AQ               & geom%fs_surf, self%locs_ptcloud)
+      self%interp = atlas_Interpolation(int_config, &
+         &                              geom%fs_surf, self%locs_ptcloud)
 
       call afield%final()
       !
@@ -216,8 +215,7 @@ subroutine aq_interpolator_apply(self, field, vars, mask, vals)
             &                                   kind=aq_real, &
             &                                   levels=0)
 
-         !AQ WAITING FOR ATLAS FIX
-         !AQ      call self%interp%execute(aloc_2d,avals)
+         call self%interp%execute(aloc_2d,avals)
          call avals%data(pvals)
          if ( self%loc_nlocs > 0 ) then
             vals(offset+1:offset+self%loc_nlocs) = pvals(:)
@@ -329,9 +327,8 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
             &                                      kind=atlas_real(field%prec), &
             &                                      levels=0)
 
-         !AQ WAITING FOR ATLAS FIX
-         !AQ      call self%interp%execute_adjoint(aloc_2d,avals)
-         !
+         call self%interp%execute_adjoint(aloc_2d,avals)
+
          ! Inject fields from the 3d representation into the 2D with halo
          !
          if (field%prec == aq_single) then
