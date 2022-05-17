@@ -198,8 +198,9 @@ list( APPEND aq_testinput
   testinput/ens_recenter.yaml
   testinput/ens_variance.yaml
   testinput/ens_variance_inflation_value.yaml
+  testinput/getvalues.yaml
+  testinput/getvalues_halo.yaml
   testinput/hofx3d.yaml
-  testinput/hofx3d_halo.yaml
   testinput/interfaces.yaml
   testinput/parameters_loc_6pe.yaml
 )
@@ -430,6 +431,20 @@ ecbuild_add_test( TARGET  test_aq_obs_aux_covariance
                   ARGS    "testinput/interfaces.yaml"
                   LIBS    aq )
 
+ecbuild_add_test( TARGET  test_aq_getvalues
+                  MPI 6
+                  OMP 4
+                  SOURCES executables/TestGetValues.cc
+                  ARGS    "testinput/getvalues.yaml"
+                  LIBS    aq )
+
+ecbuild_add_test( TARGET  test_aq_getvalues_halo
+                  MPI 6
+                  OMP 4
+                  SOURCES executables/TestGetValues.cc
+                  ARGS    "testinput/getvalues_halo.yaml"
+                  LIBS    aq )
+
 #####################################################################
 # obs-related tests
 #####################################################################
@@ -438,12 +453,6 @@ ecbuild_add_test( TARGET test_aq_hofx3d
                   MPI 6
                   OMP 4
                   ARGS testinput/hofx3d.yaml
-                  COMMAND  aq_hofx3d.x )
-
-ecbuild_add_test( TARGET test_aq_hofx3d_halo
-                  MPI 6
-                  OMP 4
-                  ARGS testinput/hofx3d_halo.yaml
                   COMMAND  aq_hofx3d.x )
 
 #####################################################################
