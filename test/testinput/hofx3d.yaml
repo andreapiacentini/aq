@@ -16,6 +16,10 @@ state:
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: [CO, O_3, NO_2]
 observations:
+  get values:
+    variable change:
+      input variables: []
+      output variables: []
   observers:
   - obs space:
       obsdatain:
