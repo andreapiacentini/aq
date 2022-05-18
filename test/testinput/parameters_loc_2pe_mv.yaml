@@ -30,7 +30,7 @@ background:
 bump:
   datadir: Data
   new_nicas: true
-  prefix: loc_2pe_sp
+  prefix: loc_2pe_mv
   resol: 8.0
   strategy: common_weighted
   forced_radii: true
@@ -46,5 +46,5 @@ bump:
 input variables: *vars
 
 test:
-  reference filename: testoutput/parameters_loc_2pe.test
-  test output filename: testoutput/parameters_loc_2pe.log
+  reference filename: testoutput/parameters_loc_2pe_mv.test
+  test output filename: testoutput/parameters_loc_2pe_mv.log

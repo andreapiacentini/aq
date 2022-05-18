@@ -33,7 +33,7 @@ background error:
       bump:
         datadir: Data
         load_nicas_local: true
-        prefix: loc_6pe_sp
+        prefix: loc_6pe_mv
         strategy: common_weighted
   members:
     - <<: *state_ref
@@ -78,5 +78,5 @@ output variance:
   fileprefix: W3GEMS02
 
 test:
-  reference filename: testoutput/dirac_loc_3d_sp.test
-  test output filename: testoutput/dirac_loc_3d_sp.log
+  reference filename: testoutput/dirac_loc_3d_mv.test
+  test output filename: testoutput/dirac_loc_3d_mv.log
