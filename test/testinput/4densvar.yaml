@@ -15,17 +15,11 @@ _geoms02 geometry: &gems02_geom
   orientation: up
 
 # Mnemonics:
-_NO_2 transform: &NO_2_transf
-  method: log_threshold
-  parameters: [1.e-12]
 _memo:
   - &state_ref
     date: 2010-07-04T00:00:00Z
     filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
     state variables: *vars
-    transform:
-      NO_2:
-        *NO_2_transf
 
 cost function:
   cost type: 4D-Ens-Var
@@ -68,8 +62,8 @@ cost function:
         bump:
           datadir: Data
           load_nicas_local: true
-          prefix: loc_2pe_mv
-          strategy: common_weighted
+          prefix: loc_2pe
+          strategy: common
     members:
     - states:
       - <<: *state_ref
@@ -562,9 +556,6 @@ cost function:
       obs operator:
         obs type: InSitu
         mod var: O_3
-      obs filters:
-      - filter: Background Check
-        threshold: 3.0e-8
       obs error:
         covariance model: diagonal
     - obs space:
@@ -573,8 +564,6 @@ cost function:
         obsdataout:
           obsfile: Data/HSTAT+20100704.h5
         obs type: NO2
-        transform:
-          *NO_2_transf
         instr name: AIRBASE_NO2
         obserrors:
           type: percent
@@ -582,24 +571,6 @@ cost function:
       obs operator:
         obs type: InSitu
         mod var: NO_2
-      obs filters:
-      - filter: Background Check
-        threshold: 0.7
-      obs error:
-        covariance model: diagonal
-    - obs space:
-        obsdatain:
-          obsfile: Data/HDAT+20100704.h5
-        obsdataout:
-          obsfile: Data/HSTAT+20100704.h5
-        obs type: CO
-        instr name: AIRBASE_CO
-        obserrors:
-          type: percent
-          value: 30
-      obs operator:
-        obs type: InSitu
-        mod var: CO
       obs error:
         covariance model: diagonal
 
