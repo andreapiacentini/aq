@@ -33,8 +33,8 @@ background error:
       bump:
         datadir: Data
         load_nicas_local: true
-        prefix: loc_6pe
-        strategy: common
+        prefix: loc_6pe_mv
+        strategy: common_weighted
   members:
     - <<: *state_ref
       filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0001.nc
@@ -71,12 +71,12 @@ initial condition:
 
 output dirac:
   datadir: Data
-  fileprefix: L3GEMS02_%id%
+  fileprefix: S3GEMS02_%id%
 
 output variance:
   datadir: Data
-  fileprefix: O3GEMS02
+  fileprefix: W3GEMS02
 
 test:
-  reference filename: testoutput/dirac_loc_3d.test
-  test output filename: testoutput/dirac_loc_3d.log
+  reference filename: testoutput/dirac_loc_3d_mv.test
+  test output filename: testoutput/dirac_loc_3d_mv.log

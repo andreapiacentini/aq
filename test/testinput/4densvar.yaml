@@ -573,21 +573,6 @@ cost function:
         mod var: NO_2
       obs error:
         covariance model: diagonal
-    - obs space:
-        obsdatain:
-          obsfile: Data/HDAT+20100704.h5
-        obsdataout:
-          obsfile: Data/HSTAT+20100704.h5
-        obs type: CO
-        instr name: AIRBASE_CO
-        obserrors:
-          type: percent
-          value: 30
-      obs operator:
-        obs type: InSitu
-        mod var: CO
-      obs error:
-        covariance model: diagonal
 
 variational:
   minimizer:
