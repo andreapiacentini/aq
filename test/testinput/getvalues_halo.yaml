@@ -1,3 +1,9 @@
+# Model field interpolation at observation locations
+# for domain parallel decompositions with a halo.
+#
+# Executable: from TestGetValues.cc
+# (C) Copyright 2022 CERFACS
+
 _variables: &vars
   - CO
   - O_3

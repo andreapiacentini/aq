@@ -1,3 +1,9 @@
+# Compute the variance of an ensemble of model states
+# with an inflation factor.
+#
+# Executable: aq_ens_variance.x
+# (C) Copyright 2022 CERFACS
+
 _variables: &vars
   - CO
   - O_3
