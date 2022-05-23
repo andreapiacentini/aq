@@ -1,8 +1,23 @@
-!! category: observation operator
-!! summary:  Write a slice of HDF5 dataset
-!! author:   CERFACS and CNRM (G. Jonville)
-!!
-MODULE H5_WRITE_MOD
+!
+!  This file is part of the Air Quality Ensemble Data Assimilation suite AQ.
+!
+!  (C) Copyright 2022 CERFACS
+!
+!  AQ is free software: you can redistribute it and/or modify
+!  it under the terms of the GNU Lesser General Public License as published by
+!  the Free Software Foundation, either version 3 of the License, or
+!  any later version.
+!
+!  AQ is distributed in the hope that it will be useful,
+!  but WITHOUT ANY WARRANTY; without even the implied warranty of
+!  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!  GNU Lesser General Public License for more details.
+!
+!  A copy of the GNU Lesser General Public License is distributed
+!  along with AQ (files LICENSE.md, COPYING and COPYING.LESSER).
+!
+
+module H5_WRITE_MOD
    !! category: observation operator
    !! author:   CERFACS and CNRM (G. Jonville)
    !!
@@ -967,7 +982,7 @@ CONTAINS
       CALL H5Pclose_f(il_prop_id, il_err)
 
    END SUBROUTINE WRITESLICE_H5DSET_R3
-!---------------------------------------------------------------------------   
+!---------------------------------------------------------------------------
    SUBROUTINE WRITESLICE_H5DSET_CR2(h5state, cd_dsname, rda_dset, ida_mask)
       !! category: observation operator
       !! author:   CERFACS and CNRM (G. Jonville)
@@ -1022,7 +1037,7 @@ CONTAINS
       ! Check if dataset already exists
       CALL H5Lexists_f(h5state%instr_id, cd_dsname, ll_exists, il_err)
 
-      IF (.NOT.ll_exists) THEN         
+      IF (.NOT.ll_exists) THEN
          ! Create the data space with unlimited dimensions
          ila_maxdims = (/H5S_UNLIMITED_f/)
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &
