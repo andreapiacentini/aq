@@ -48,11 +48,11 @@ background error:
 
 dirac:
   date: 2010-07-04T06:00:00Z
-  londir: [ 7.9]    
-  latdir: [38.3]    
-  levdir: [  47]   
-  var:    ['CO']
-  
+  londir: [ 7.9,   17.9]
+  latdir: [38.3,   60.3]
+  levdir: [  47,     47]
+  var:    ['CO', 'NO_2']
+
 initial condition:
   date: 2010-07-04T06:00:00Z
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
