@@ -1,3 +1,8 @@
+# Test the application of a scaled increment to a model state.
+#
+# Executable: aq_addincrement.x
+# (C) Copyright 2022 CERFACS
+
 _variables: &vars
   - CO
   - O_3

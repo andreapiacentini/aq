@@ -1,3 +1,22 @@
+# Test the correct implementation of required oops interfaces.
+#
+# Executables from:
+#     - TestGeometry.cc
+#     - TestGeoVaLs.cc
+#     - TestState.cc
+#     - TestIncrement.cc
+#     - TestLocations.cc
+#     - TestObsSpace.cc
+#     - TestObsVector.cc
+#     - TestObsDataVector.cc
+#     - TestObsOperator.cc
+#     - TestLinearObsOperator.cc
+#     - TestObsErrorCovariance.cc
+#     - TestObsAuxControl.cc
+#     - TestObsAuxIncrement.cc
+#     - TestObsAuxCovariance.cc
+# (C) Copyright 2022 CERFACS
+
 _variables: &vars
   - CO
   - O_3
