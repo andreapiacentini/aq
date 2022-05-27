@@ -1,3 +1,8 @@
+! (C) Copyright 2021-2022 CERFACS.
+!
+! This software is licensed under the terms of the Apache Licence Version 2.0
+! which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+
 !! category: observation operator
 !! summary:  Atomic routines and functions for HDF5 I/O
 !! author:   CERFACS and CNRM (G. Jonville)
@@ -14,7 +19,7 @@ MODULE H5_UTILS_MOD
    !!
    USE HDF5
    USE ISO_C_BINDING
-   
+
    IMPLICIT NONE
 
    INTEGER, PARAMETER :: ip_hid_t = hid_t !! kind for integer types in datdat
@@ -66,7 +71,7 @@ CONTAINS
       IF (ig_hdfverb.GE.1) &
          & WRITE(*,'(2A)') ' > [I/Oa] Creating HDF5 output file ',TRIM(cd_fname)
       CALL H5Fcreate_f(cd_fname, H5F_ACC_TRUNC_F, &
-         & id_file_id, il_err) 
+         & id_file_id, il_err)
       IF (il_err /=0) WRITE(*,'(A,I3)') '!!!!! Create HDF5 file error ',il_err
 
    END SUBROUTINE CREATE_H5FILE
@@ -90,7 +95,7 @@ CONTAINS
       IF (ig_hdfverb.GE.2) &
          & WRITE(*,'(2A)') ' > [I/Oa] Opening HDF5 file ',TRIM(cd_fname)
       CALL H5Fopen_f(cd_fname, H5F_ACC_RDONLY_F, &
-         & id_file_id, il_err) 
+         & id_file_id, il_err)
       IF (il_err /=0) THEN
          WRITE(*,'(A,I3)') '!!!!! Open HDF5 file error ',il_err
          ! CALL MOCAGE_STOP
@@ -557,7 +562,7 @@ CONTAINS
       CHARACTER(LEN=ip_hdf_namelen) :: name_string = ' '
       TYPE(C_PTR) :: cptr
       INTEGER      :: i
-      TYPE(h5o_info_t), TARGET :: infobuf 
+      TYPE(h5o_info_t), TARGET :: infobuf
       INTEGER :: status
 
       name_string = " "

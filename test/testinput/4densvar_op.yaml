@@ -1,3 +1,10 @@
+# Operations like 4DEnsVar. It includes the logarithmic tranformation
+# of NO_2 values, background check filtering on observations
+# and multivariate localization.
+#
+# Executable: aq_var.x
+# (C) Copyright 2021-2022 CERFACS.
+
 _variables: &vars
   - CO
   - O_3

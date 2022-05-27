@@ -1,3 +1,8 @@
+# Test the difference of model states.
+#
+# Executable: aq_diffstates.x
+# (C) Copyright 2021-2022 CERFACS.
+
 _variables: &vars
   - CO
   - O_3

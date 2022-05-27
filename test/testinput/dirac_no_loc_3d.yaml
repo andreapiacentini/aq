@@ -1,3 +1,8 @@
+# 3D covariance of two input diracs
+#
+# Executable: aq_dirac.x
+# (C) Copyright 2021-2022 CERFACS.
+
 _variables: &vars
   - CO
   - O_3
