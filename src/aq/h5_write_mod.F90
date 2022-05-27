@@ -1,3 +1,8 @@
+! (C) Copyright 2021-2022 CERFACS.
+!
+! This software is licensed under the terms of the Apache Licence Version 2.0
+! which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+
 !! category: observation operator
 !! summary:  Write a slice of HDF5 dataset
 !! author:   CERFACS and CNRM (G. Jonville)
@@ -967,7 +972,7 @@ CONTAINS
       CALL H5Pclose_f(il_prop_id, il_err)
 
    END SUBROUTINE WRITESLICE_H5DSET_R3
-!---------------------------------------------------------------------------   
+!---------------------------------------------------------------------------
    SUBROUTINE WRITESLICE_H5DSET_CR2(h5state, cd_dsname, rda_dset, ida_mask)
       !! category: observation operator
       !! author:   CERFACS and CNRM (G. Jonville)
@@ -1022,7 +1027,7 @@ CONTAINS
       ! Check if dataset already exists
       CALL H5Lexists_f(h5state%instr_id, cd_dsname, ll_exists, il_err)
 
-      IF (.NOT.ll_exists) THEN         
+      IF (.NOT.ll_exists) THEN
          ! Create the data space with unlimited dimensions
          ila_maxdims = (/H5S_UNLIMITED_f/)
          CALL H5Screate_simple_f(il_memrank, ila_memdims, &

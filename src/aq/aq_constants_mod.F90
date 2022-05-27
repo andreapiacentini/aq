@@ -1,7 +1,12 @@
+! (C) Copyright 2021-2022 CERFACS.
+!
+! This software is licensed under the terms of the Apache Licence Version 2.0
+! which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+
 module aq_constants_mod
    use kinds
    use mpi
-   
+
    implicit none
 
    private
@@ -18,8 +23,8 @@ module aq_constants_mod
    integer, parameter :: oops_long   = kind_long
    integer, parameter :: oops_single = kind_single
    integer, parameter :: oops_real   = kind_real
-   
-   integer, parameter :: aq_int = kind_int  
+
+   integer, parameter :: aq_int = kind_int
    integer, parameter :: aq_long = kind_long
    integer, parameter :: aq_single = kind_single
    integer, parameter :: aq_real = kind_real
@@ -37,4 +42,3 @@ module aq_constants_mod
    real(kind_real),parameter :: aq_missing_value = -1.0d+38
 
 end module aq_constants_mod
-

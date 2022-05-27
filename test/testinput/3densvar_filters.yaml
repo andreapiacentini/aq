@@ -2,7 +2,7 @@
 # (observation too far from the corresponding bkg are rejected)
 #
 # Executable: aq_var.x
-# (C) Copyright 2022 CERFACS
+# (C) Copyright 2021-2022 CERFACS.
 
 _variables: &vars
   - CO

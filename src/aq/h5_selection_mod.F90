@@ -1,3 +1,8 @@
+! (C) Copyright 2021-2022 CERFACS.
+!
+! This software is licensed under the terms of the Apache Licence Version 2.0
+! which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+
 !! category: observation operator
 !! summary:  Prepare selection of elements in HDF5 dataset
 !! author:   CERFACS and CNRM (G. Jonville)
@@ -86,9 +91,9 @@ CONTAINS
          IF (ig_hdfverb.GE.1) &
             & WRITE(*,'(1X,A,I6,A)') '> [I/Oa] Selected ',il_tselsize,' elements in time'
          Get_number_selected_timeelts = il_tselsize
-   
+
       ELSE
-         
+
          il_tselsize = 0
          Get_number_selected_timeelts = 0
 
@@ -184,7 +189,7 @@ CONTAINS
          IF ( REAL(rla_lat(ib),KIND(rd_latmin)) .GE. rd_latmin .AND. &
             & REAL(rla_lat(ib),KIND(rd_latmax)) .LE. rd_latmax .AND. &
             & REAL(rla_lon(ib),KIND(rd_lonmin)) .GE. rd_lonmin .AND. &
-            & REAL(rla_lon(ib),KIND(rd_lonmax)) .LE. rd_lonmax ) THEN 
+            & REAL(rla_lon(ib),KIND(rd_lonmax)) .LE. rd_lonmax ) THEN
 
             !WRITE(*,*) ' Lat, lon ',rla_lat(ib), rla_lon(ib)
             il_hselcount = il_hselcount + 1

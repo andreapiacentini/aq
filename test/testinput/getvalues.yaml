@@ -2,7 +2,7 @@
 # for domain parallel decompositions without halo.
 #
 # Executable: from TestGetValues.cc
-# (C) Copyright 2022 CERFACS
+# (C) Copyright 2021-2022 CERFACS.
 
 _variables: &vars
   - CO

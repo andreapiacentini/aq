@@ -1,7 +1,7 @@
 # Compute the variance of an ensemble of model states.
 #
 # Executable: aq_ens_variance.x
-# (C) Copyright 2022 CERFACS
+# (C) Copyright 2021-2022 CERFACS.
 
 _variables: &vars
   - CO

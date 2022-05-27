@@ -1,11 +1,16 @@
+! (C) Copyright 2021-2022 CERFACS.
+!
+! This software is licensed under the terms of the Apache Licence Version 2.0
+! which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+
 module aq_blas_mod
    use aq_constants_mod
-   
+
    implicit none
-   
+
    private
    public :: aq_dot_product, aq_scal, aq_copy, aq_axpy
-   
+
    interface aq_dot_product
       module procedure aq_ddot_1d
       module procedure aq_ddot_2d
@@ -49,199 +54,199 @@ module aq_blas_mod
    end interface aq_axpy
 
 contains
-   
+
    real(kind=oops_real) function aq_ddot_1d(n, x1, x2) result(zprod)
       integer           , intent(in) :: n
-      real(kind=aq_real), intent(in) :: x1(:) 
+      real(kind=aq_real), intent(in) :: x1(:)
       real(kind=aq_real), intent(in) :: x2(:)
 
       real(kind=aq_real) :: ddot
       zprod = ddot(n, x1, 1, x2, 1)
 
    end function aq_ddot_1d
-   
+
    real(kind=oops_real) function aq_sdot_1d(n, x1, x2) result(zprod)
       integer             , intent(in) :: n
-      real(kind=aq_single), intent(in) :: x1(:) 
+      real(kind=aq_single), intent(in) :: x1(:)
       real(kind=aq_single), intent(in) :: x2(:)
 
       real(kind=aq_single) :: sdot
       zprod = real(sdot(n, x1, 1, x2, 1), kind=oops_real)
 
    end function aq_sdot_1d
-   
+
    real(kind=oops_real) function aq_ddot_2d(n, x1, x2) result(zprod)
       integer           , intent(in) :: n
-      real(kind=aq_real), intent(in) :: x1(:,:) 
+      real(kind=aq_real), intent(in) :: x1(:,:)
       real(kind=aq_real), intent(in) :: x2(:,:)
 
       real(kind=aq_real) :: ddot
       zprod = ddot(n, x1, 1, x2, 1)
 
    end function aq_ddot_2d
-   
+
    real(kind=oops_real) function aq_sdot_2d(n, x1, x2) result(zprod)
       integer             , intent(in) :: n
-      real(kind=aq_single), intent(in) :: x1(:,:) 
+      real(kind=aq_single), intent(in) :: x1(:,:)
       real(kind=aq_single), intent(in) :: x2(:,:)
 
       real(kind=aq_single) :: sdot
       zprod = real(sdot(n, x1, 1, x2, 1), kind=oops_real)
 
    end function aq_sdot_2d
-   
+
    real(kind=oops_real) function aq_ddot_3d(n, x1, x2) result(zprod)
       integer           , intent(in) :: n
-      real(kind=aq_real), intent(in) :: x1(:,:,:) 
+      real(kind=aq_real), intent(in) :: x1(:,:,:)
       real(kind=aq_real), intent(in) :: x2(:,:,:)
 
       real(kind=aq_real) :: ddot
       zprod = ddot(n, x1, 1, x2, 1)
 
    end function aq_ddot_3d
-   
+
    real(kind=oops_real) function aq_sdot_3d(n, x1, x2) result(zprod)
       integer             , intent(in) :: n
-      real(kind=aq_single), intent(in) :: x1(:,:,:) 
+      real(kind=aq_single), intent(in) :: x1(:,:,:)
       real(kind=aq_single), intent(in) :: x2(:,:,:)
 
       real(kind=aq_single) :: sdot
       zprod = real(sdot(n, x1, 1, x2, 1), kind=oops_real)
 
    end function aq_sdot_3d
-   
+
    real(kind=oops_real) function aq_ddot_4d(n, x1, x2) result(zprod)
       integer           , intent(in) :: n
-      real(kind=aq_real), intent(in) :: x1(:,:,:,:) 
+      real(kind=aq_real), intent(in) :: x1(:,:,:,:)
       real(kind=aq_real), intent(in) :: x2(:,:,:,:)
 
       real(kind=aq_real) :: ddot
       zprod = ddot(n, x1, 1, x2, 1)
 
    end function aq_ddot_4d
-   
+
    real(kind=oops_real) function aq_sdot_4d(n, x1, x2) result(zprod)
       integer             , intent(in) :: n
-      real(kind=aq_single), intent(in) :: x1(:,:,:,:) 
+      real(kind=aq_single), intent(in) :: x1(:,:,:,:)
       real(kind=aq_single), intent(in) :: x2(:,:,:,:)
 
       real(kind=aq_single) :: sdot
       zprod = real(sdot(n, x1, 1, x2, 1), kind=oops_real)
 
    end function aq_sdot_4d
-   
+
    subroutine aq_sscal_1d(n, coeff, x1)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
       real(kind=aq_single), intent(inout) :: x1(:)
       call sscal(n, real(coeff,kind=aq_single), x1, 1)
    end subroutine aq_sscal_1d
-   
+
    subroutine aq_dscal_1d(n, coeff, x1)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
       real(kind=aq_double), intent(inout) :: x1(:)
       call dscal(n, real(coeff,kind=aq_double), x1, 1)
    end subroutine aq_dscal_1d
-   
+
    subroutine aq_sscal_2d(n, coeff, x1)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
       real(kind=aq_single), intent(inout) :: x1(:,:)
       call sscal(n, real(coeff,kind=aq_single), x1, 1)
    end subroutine aq_sscal_2d
-   
+
    subroutine aq_dscal_2d(n, coeff, x1)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
       real(kind=aq_double), intent(inout) :: x1(:,:)
       call dscal(n, real(coeff,kind=aq_double), x1, 1)
    end subroutine aq_dscal_2d
-   
+
    subroutine aq_sscal_3d(n, coeff, x1)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
       real(kind=aq_single), intent(inout) :: x1(:,:,:)
       call sscal(n, real(coeff,kind=aq_single), x1, 1)
    end subroutine aq_sscal_3d
-   
+
    subroutine aq_dscal_3d(n, coeff, x1)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
       real(kind=aq_double), intent(inout) :: x1(:,:,:)
       call dscal(n, real(coeff,kind=aq_double), x1, 1)
    end subroutine aq_dscal_3d
-   
+
    subroutine aq_scopy_1d(n, x, y)
       integer             , intent(in)    :: n
       real(kind=aq_single), intent(in)    :: x(:)
       real(kind=aq_single), intent(inout) :: y(:)
       call scopy(n, x, 1, y, 1)
    end subroutine aq_scopy_1d
-   
+
    subroutine aq_dcopy_1d(n, x, y)
       integer             , intent(in)    :: n
       real(kind=aq_double), intent(in)    :: x(:)
       real(kind=aq_double), intent(inout) :: y(:)
       call dcopy(n, x, 1, y, 1)
    end subroutine aq_dcopy_1d
-   
+
    subroutine aq_scopy_2d(n, x, y)
       integer             , intent(in)    :: n
       real(kind=aq_single), intent(in)    :: x(:,:)
       real(kind=aq_single), intent(inout) :: y(:,:)
       call scopy(n, x, 1, y, 1)
    end subroutine aq_scopy_2d
-   
+
    subroutine aq_dcopy_2d(n, x, y)
       integer             , intent(in)    :: n
       real(kind=aq_double), intent(in)    :: x(:,:)
       real(kind=aq_double), intent(inout) :: y(:,:)
       call dcopy(n, x, 1, y, 1)
    end subroutine aq_dcopy_2d
-   
+
    subroutine aq_scopy_3d(n, x, y)
       integer             , intent(in)    :: n
       real(kind=aq_single), intent(in)    :: x(:,:,:)
       real(kind=aq_single), intent(inout) :: y(:,:,:)
       call scopy(n, x, 1, y, 1)
    end subroutine aq_scopy_3d
-   
+
    subroutine aq_dcopy_3d(n, x, y)
       integer             , intent(in)    :: n
       real(kind=aq_double), intent(in)    :: x(:,:,:)
       real(kind=aq_double), intent(inout) :: y(:,:,:)
       call dcopy(n, x, 1, y, 1)
    end subroutine aq_dcopy_3d
-   
+
    subroutine aq_scopy_serialize(n, x, y)
       integer             , intent(in)    :: n
       real(kind=aq_single), intent(in)    :: x(:,:)
       real(kind=aq_single), intent(inout) :: y(:)
       call scopy(n, x, 1, y, 1)
    end subroutine aq_scopy_serialize
-   
+
    subroutine aq_dcopy_serialize(n, x, y)
       integer             , intent(in)    :: n
       real(kind=aq_real),   intent(in)    :: x(:,:)
       real(kind=oops_real), intent(inout) :: y(:)
       call dcopy(n, x, 1, y, 1)
    end subroutine aq_dcopy_serialize
-   
+
    subroutine aq_scopy_deserialize(n, x, y)
       integer             , intent(in)  :: n
       real(kind=aq_single), intent(in)  :: x(:)
       real(kind=aq_single), intent(out) :: y(:,:)
       call scopy(n, x, 1, y, 1)
    end subroutine aq_scopy_deserialize
-   
+
    subroutine aq_dcopy_deserialize(n, x, y)
       integer             , intent(in)  :: n
       real(kind=oops_real), intent(in)  :: x(:)
       real(kind=aq_real),   intent(out) :: y(:,:)
       call dcopy(n, x, 1, y, 1)
    end subroutine aq_dcopy_deserialize
-   
+
    subroutine aq_saxpy_1d(n, coeff, x, y)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
@@ -249,7 +254,7 @@ contains
       real(kind=aq_single), intent(inout) :: y(:)
       call saxpy(n, real(coeff,kind=aq_single), x, 1, y, 1)
    end subroutine aq_saxpy_1d
-   
+
    subroutine aq_daxpy_1d(n, coeff, x, y)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
@@ -257,7 +262,7 @@ contains
       real(kind=aq_double), intent(inout) :: y(:)
       call daxpy(n, real(coeff,kind=aq_double), x, 1, y, 1)
    end subroutine aq_daxpy_1d
-   
+
    subroutine aq_saxpy_2d(n, coeff, x, y)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
@@ -265,7 +270,7 @@ contains
       real(kind=aq_single), intent(inout) :: y(:,:)
       call saxpy(n, real(coeff,kind=aq_single), x, 1, y, 1)
    end subroutine aq_saxpy_2d
-   
+
    subroutine aq_daxpy_2d(n, coeff, x, y)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
@@ -273,7 +278,7 @@ contains
       real(kind=aq_double), intent(inout) :: y(:,:)
       call daxpy(n, real(coeff,kind=aq_double), x, 1, y, 1)
    end subroutine aq_daxpy_2d
-   
+
    subroutine aq_saxpy_3d(n, coeff, x, y)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
@@ -281,7 +286,7 @@ contains
       real(kind=aq_single), intent(inout) :: y(:,:,:)
       call saxpy(n, real(coeff,kind=aq_single), x, 1, y, 1)
    end subroutine aq_saxpy_3d
-   
+
    subroutine aq_daxpy_3d(n, coeff, x, y)
       integer             , intent(in)    :: n
       real(kind=oops_real), intent(in)    :: coeff
@@ -289,5 +294,5 @@ contains
       real(kind=aq_double), intent(inout) :: y(:,:,:)
       call daxpy(n, real(coeff,kind=aq_double), x, 1, y, 1)
    end subroutine aq_daxpy_3d
-   
+
 end module aq_blas_mod

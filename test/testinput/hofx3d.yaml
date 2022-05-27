@@ -1,7 +1,7 @@
 # 3D complete observation operator
 #
 # Executable: aq_hofx3d.x
-# (C) Copyright 2022 CERFACS
+# (C) Copyright 2021-2022 CERFACS.
 
 geometry:
   nx: 260

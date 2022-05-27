@@ -1,7 +1,7 @@
 # Prepare the BUMP/NICAS parameters on 6 processors for localisation
 #
 # Executable: aq_error_covariance_training.x
-# (C) Copyright 2022 CERFACS
+# (C) Copyright 2021-2022 CERFACS.
 
 _variables: &vars
   - CO
