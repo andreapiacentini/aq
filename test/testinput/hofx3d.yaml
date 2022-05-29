@@ -1,3 +1,8 @@
+# 3D complete observation operator
+#
+# Executable: aq_hofx3d.x
+# (C) Copyright 2021-2022 CERFACS.
+
 geometry:
   nx: 260
   ny: 200
@@ -16,6 +21,10 @@ state:
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: [CO, O_3, NO_2]
 observations:
+  get values:
+    variable change:
+      input variables: []
+      output variables: []
   observers:
   - obs space:
       obsdatain:

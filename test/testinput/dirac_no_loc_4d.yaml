@@ -1,3 +1,8 @@
+# 4D covariance of one input dirac
+#
+# Executable: aq_dirac.x
+# (C) Copyright 2021-2022 CERFACS.
+
 _variables: &vars
   - CO
   - O_3
@@ -540,4 +545,3 @@ output variance:
 test:
   reference filename: testoutput/dirac_no_loc_4d.test
   test output filename: testoutput/dirac_no_loc_4d.log
-
