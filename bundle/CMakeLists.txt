@@ -38,12 +38,11 @@ option("BUNDLE_SKIP_ATLAS" "Don't build atlas" "OFF") # Skip atlas build unless 
 ecbuild_bundle( PROJECT eckit GIT "https://github.com/ecmwf/eckit.git" TAG 1.18.2 )
 ecbuild_bundle( PROJECT fckit GIT "https://github.com/ecmwf/fckit.git" TAG 0.9.5 )
 ecbuild_bundle( PROJECT atlas GIT "https://github.com/ecmwf/atlas.git" TAG f325363e942b657bb378fc0b9ffe5bfc09e433ee )
-#ecbuild_bundle( PROJECT atlas GIT "https://github.com/ecmwf/atlas.git" TAG 0.27.0 )
 
 # Core JEDI repositories
 # ----------------------
-ecbuild_bundle( PROJECT oops  GIT "https://github.com/jcsda/oops.git"  BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT saber GIT "https://github.com/jcsda/saber.git" BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT oops  GIT "https://github.com/jcsda/oops.git"  TAG aaaab9f8c5a7be3c0abd1cc61c3e1055b4ddc1d3 )
+ecbuild_bundle( PROJECT saber GIT "https://github.com/jcsda/saber.git" TAG 7390f06f154ce0a3d6a84ceff979b792a1c726c7 )
 
 # AQ repository
 # ------------------------------------
