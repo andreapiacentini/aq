@@ -91,7 +91,6 @@ class Fields : public util::Printable,
   void analytic_init(const eckit::Configuration &);
   void write(const eckit::Configuration &) const;
   double norm() const;
-  std::shared_ptr<const Geometry> geometry() const {return geom_;}
   const oops::Variables & variables() const {return vars_;}
 
   const util::DateTime & time() const {return time_;}
@@ -111,7 +110,7 @@ class Fields : public util::Printable,
  private:
   void print(std::ostream &) const override;
   F90flds keyFlds_;
-  std::shared_ptr<const Geometry> geom_;
+  const Geometry & geom_;
   const oops::Variables vars_;
   util::DateTime time_;
 };
