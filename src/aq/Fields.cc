@@ -42,9 +42,9 @@ namespace aq {
 // -----------------------------------------------------------------------------
 Fields::Fields(const Geometry & geom, const oops::Variables & vars,
                   const util::DateTime & time):
-  geom_(new Geometry(geom)), vars_(vars), time_(time)
+  geom_(geom), vars_(vars), time_(time)
 {
-  aq_fields_create_f90(keyFlds_, geom_->toFortran(), vars_);
+  aq_fields_create_f90(keyFlds_, geom_.toFortran(), vars_);
 }
 // -----------------------------------------------------------------------------
 Fields::Fields(const Fields & other, const bool copy)
@@ -64,14 +64,14 @@ Fields::Fields(const Fields & other)
 }
 // -----------------------------------------------------------------------------
 Fields::Fields(const Fields & other, const Geometry & geom)
-  : geom_(new Geometry(geom)), vars_(other.vars_), time_(other.time_)
+  : geom_(geom), vars_(other.vars_), time_(other.time_)
 {
   int world_rank = oops::mpi::world().rank();
   if (world_rank == 0) {
     oops::Log::debug() << " Change of resolution not yet implemented. Copy instead. " << std::endl;
   }
   // TODO(Emanuele and Andrea): Implement the change of resolution.
-  // aq_fields_create_f90(keyFlds_, geom_->toFortran(), vars_);
+  // aq_fields_create_f90(keyFlds_, geom_.toFortran(), vars_);
   // aq_fields_change_resol_f90(keyFlds_, other.keyFlds_);
   aq_fields_create_from_other_f90(keyFlds_, other.keyFlds_);
   aq_fields_copy_f90(keyFlds_, other.keyFlds_);
@@ -81,7 +81,7 @@ Fields::Fields(const Fields & other, const oops::Variables & vars)
   : geom_(other.geom_), vars_(vars), time_(other.time_)
 {
 // TODO(Benjamin): delete that ?
-  aq_fields_create_f90(keyFlds_, geom_->toFortran(), vars_);
+  aq_fields_create_f90(keyFlds_, geom_.toFortran(), vars_);
   aq_fields_copy_f90(keyFlds_, other.keyFlds_);
 }
 // -----------------------------------------------------------------------------
@@ -151,15 +151,15 @@ void Fields::changeResolution(const Fields & other) {
 // -----------------------------------------------------------------------------
 void Fields::add(const Fields & rhs) {
   // TODO(Emanuele and Andrea): Implement change of resolution
-  // Fields rhs_myres(rhs, *geom_);
+  // Fields rhs_myres(rhs, geom_);
   // aq_fields_add_incr_f90(keyFlds_, rhs_myres.keyFlds_);
   aq_fields_add_incr_f90(keyFlds_, rhs.keyFlds_);
 }
 // -----------------------------------------------------------------------------
 void Fields::diff(const Fields & x1, const Fields & x2) {
   // TODO(Emanuele and Andrea): Implement change of resolution
-  // Fields x1_myres(x1, *geom_);
-  // Fields x2_myres(x2, *geom_);
+  // Fields x1_myres(x1, geom_);
+  // Fields x2_myres(x2, geom_);
   // aq_fields_diff_incr_f90(keyFlds_, x1_myres.keyFlds_, x2_myres.keyFlds_);
   aq_fields_diff_incr_f90(keyFlds_, x1.keyFlds_, x2.keyFlds_);
 }
