@@ -214,7 +214,7 @@ void Fields::print(std::ostream & os) const {
   std::vector<std::string> species = flds_info_.getStringVector("state variables");
   os << "  with " << species.size() << " variables" << std::endl;
   double min, max, mean, stddev;
-  for (int i = 0; i < species.size(); i++) {
+  for (int i = 0; i < static_cast<int>(species.size()); i++) {
     min = flds_info_.getDouble("statistics."+eckit::StringTools::trim(species[i])+".min");
     max = flds_info_.getDouble("statistics."+eckit::StringTools::trim(species[i])+".max");
     mean = flds_info_.getDouble("statistics."+eckit::StringTools::trim(species[i])+".mean");
@@ -223,24 +223,6 @@ void Fields::print(std::ostream & os) const {
        << ": min = " << min << "; max = " << max
        << "; mean = " << mean << "; stddev = " << stddev << std::endl;
   }
-}
-// -----------------------------------------------------------------------------
-oops::LocalIncrement Fields::getLocal(const GeometryIterator & iter) const {
-  // int nx, ny, nz;
-  // aq_fields_sizes_f90(keyFlds_, nx, ny, nz);
-  // std::vector<int> varlens(vars_.size());
-  // for (unsigned int ii = 0; ii < vars_.size(); ii++) {
-  //   varlens[ii] = nz;
-  // }
-  // int lenvalues = std::accumulate(varlens.begin(), varlens.end(), 0);
-  // std::vector<double> values(lenvalues);
-  // aq_fields_getpoint_f90(keyFlds_, iter.toFortran(), values.size(), values[0]);
-  // return oops::LocalIncrement(vars_, values, varlens);
-}
-// -----------------------------------------------------------------------------
-void Fields::setLocal(const oops::LocalIncrement & x, const GeometryIterator & iter) {
-  // const std::vector<double> vals = x.getVals();
-  // aq_fields_setpoint_f90(keyFlds_, iter.toFortran(), vals.size(), vals[0]);
 }
 // -----------------------------------------------------------------------------
 size_t Fields::serialSize() const {

@@ -25,8 +25,7 @@ namespace aq {
 // -----------------------------------------------------------------------------
   ObsVec::ObsVec(const ObsSpace & obsdb, const std::string & name,
                  const bool useObservedVariables)
-  : obsdb_(obsdb), keyOvec_(0), comm_(obsdb.comm())
-  {
+  : comm_(obsdb.comm()), obsdb_(obsdb), keyOvec_(0) {
     if (comm_.rank() == 0) {
       aq_obsvec_setup_f90(keyOvec_, obsdb.assimvariables().size(), obsdb.nobs());
       if (!name.empty()) obsdb_.getdb(name, keyOvec_);
@@ -34,7 +33,7 @@ namespace aq {
   }
 // -----------------------------------------------------------------------------
   ObsVec::ObsVec(const ObsVec & other)
-  : obsdb_(other.obsdb_), keyOvec_(0), comm_(other.comm_) {
+    : comm_(other.comm_), obsdb_(other.obsdb_), keyOvec_(0) {
     if (comm_.rank() == 0) {
       aq_obsvec_clone_f90(keyOvec_, other.keyOvec_);
       aq_obsvec_copy_f90(keyOvec_, other.keyOvec_);

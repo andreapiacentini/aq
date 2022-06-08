@@ -99,8 +99,10 @@ class Fields : public util::Printable,
 
   const int & toFortran() const {return keyFlds_;}
 
-  oops::LocalIncrement getLocal(const GeometryIterator &) const;
-  void setLocal(const oops::LocalIncrement &, const GeometryIterator &);
+  oops::LocalIncrement getLocal(const GeometryIterator &) const {
+    return oops::LocalIncrement(vars_, (std::vector<double>) 0, (std::vector<int>) 0);
+  }
+  void setLocal(const oops::LocalIncrement &, const GeometryIterator &) {}
 
 /// Serialization
   size_t serialSize() const override;
