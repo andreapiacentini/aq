@@ -545,3 +545,4 @@ output variance:
 test:
   reference filename: testoutput/dirac_no_loc_4d.test
   test output filename: testoutput/dirac_no_loc_4d.log
+  float absolute tolerance: 1.0e-40

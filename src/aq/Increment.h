@@ -106,10 +106,6 @@ class Increment : public util::Printable,
   Fields & fields() {return *fields_;}
   const Fields & fields() const {return *fields_;}
 
-  std::shared_ptr<const Geometry> geometry() const {
-    return fields_->geometry();
-  }
-
 /// Other
   void accumul(const double &, const State &);
   oops::LocalIncrement getLocal(const GeometryIterator &) const;
