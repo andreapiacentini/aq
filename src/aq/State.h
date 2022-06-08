@@ -1,10 +1,10 @@
 /*
  * (C) Copyright 2009-2016 ECMWF.
  * (C) Copyright 2021-2022 CERFACS.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -69,9 +69,6 @@ class State : public util::Printable,
 /// Access to fields
   Fields & fields() {return *fields_;}
   const Fields & fields() const {return *fields_;}
-  std::shared_ptr<const Geometry> geometry() const {
-    return fields_->geometry();
-  }
   const oops::Variables & variables() const {return fields_->variables();}
 
 /// Serialization
