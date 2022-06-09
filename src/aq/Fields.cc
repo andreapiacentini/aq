@@ -164,18 +164,14 @@ void Fields::diff(const Fields & x1, const Fields & x2) {
   aq_fields_diff_incr_f90(keyFlds_, x1.keyFlds_, x2.keyFlds_);
 }
 // -----------------------------------------------------------------------------
-void Fields::setAtlas(atlas::FieldSet * afieldset) const {
-  aq_fields_set_atlas_f90(keyFlds_, vars_, afieldset->get());
-}
-// -----------------------------------------------------------------------------
-void Fields::toAtlas(atlas::FieldSet * afieldset) const {
+void Fields::toFieldSet(atlas::FieldSet & afieldset) const {
+  // AP TEMPORARY aq_fields_to_fieldset_f90(keyFlds_, afieldset.get());
   aq_fields_to_atlas_f90(keyFlds_, vars_, afieldset->get());
 }
 // -----------------------------------------------------------------------------
-void Fields::fromAtlas(atlas::FieldSet * afieldset) {
-  oops::Log::debug() << "fromAtlas is a passive empty call for Fields coded as atlas fieldsets"
-                     << std::endl;
-  // aq_fields_from_atlas_f90(keyFlds_, vars_, afieldset->get());
+void Fields::fromFieldSet(const atlas::FieldSet & afieldset) {
+  // AP TEMPORARY aq_fields_from_fieldset_f90(keyFlds_, afieldset.get());
+  aq_fields_set_atlas_f90(keyFlds_, vars_, afieldset->get());
 }
 // -----------------------------------------------------------------------------
 void Fields::read(const eckit::Configuration & config) {
