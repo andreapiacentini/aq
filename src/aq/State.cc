@@ -143,6 +143,7 @@ void State::print(std::ostream & os) const {
 void State::toFieldSet(atlas::FieldSet & fset) const {
   fields_->toFieldSet(fset);
 }
+// -----------------------------------------------------------------------------
 void State::fromFieldSet(const atlas::FieldSet & fset) {
   fields_->fromFieldSet(fset);
 }

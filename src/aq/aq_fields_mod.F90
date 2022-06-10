@@ -1851,10 +1851,10 @@ subroutine aq_field_deserialize_real(self, buff, offset)
    !
 end subroutine aq_field_deserialize_real
 
-subroutine aq_field_to_fieldset(self, vars, fieldset)
+subroutine aq_field_to_fieldset(self, vars, fset)
    class(aq_fields),     intent(in)    :: self
    type(oops_variables), intent(in)    :: vars
-   type(atlas_fieldset), intent(inout) :: fieldset
+   type(atlas_fieldset), intent(inout) :: fset
    !
    integer(atlas_kind_idx) :: ib_var
    character(len=aq_varlen) :: fieldname
@@ -1866,8 +1866,8 @@ subroutine aq_field_to_fieldset(self, vars, fieldset)
       fieldname = vars%variable(ib_var)
       if (self%has(trim(fieldname))) then
          afld_s = self%field(trim(fieldname))
-         if (fieldset%has(trim(fieldname))) then
-            afld_t = fieldset%field(trim(fieldname))
+         if (fset%has(trim(fieldname))) then
+            afld_t = fset%field(trim(fieldname))
             if (afld_t /= afld_s) then
                if (self%prec == aq_single) then
                   call afld_t%data(flds)
@@ -1880,7 +1880,7 @@ subroutine aq_field_to_fieldset(self, vars, fieldset)
             call afld_s%final()
             call afld_t%final()
          else
-            call fieldset%add(afld_s)
+            call fset%add(afld_s)
          end if
       else
          call abor1_ftn('Variable '//trim(fieldname)//' not in source field')
@@ -1889,10 +1889,10 @@ subroutine aq_field_to_fieldset(self, vars, fieldset)
    !
 end subroutine aq_field_to_fieldset
 
-subroutine aq_field_from_fieldset(self, vars, fieldset)
+subroutine aq_field_from_fieldset(self, vars, fset)
    class(aq_fields),     intent(inout) :: self
    type(oops_variables), intent(in)    :: vars
-   type(atlas_fieldset), intent(in) :: fieldset
+   type(atlas_fieldset), intent(in) :: fset
    !
    integer(atlas_kind_idx) :: ib_var
    character(len=aq_varlen) :: fieldname
@@ -1902,8 +1902,8 @@ subroutine aq_field_from_fieldset(self, vars, fieldset)
    !
    do ib_var = 1, vars%nvars()
       fieldname = vars%variable(ib_var)
-      if (fieldset%has(trim(fieldname))) then
-         afld_s = fieldset%field(trim(fieldname))
+      if (fset%has(trim(fieldname))) then
+         afld_s = fset%field(trim(fieldname))
          if (self%has(trim(fieldname))) then
             afld_t = self%field(trim(fieldname))
             if (afld_t /= afld_s) then
