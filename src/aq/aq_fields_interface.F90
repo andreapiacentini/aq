@@ -550,8 +550,8 @@ call fld%norm(prms)
 
 end subroutine aq_fields_rms_c
 ! ------------------------------------------------------------------------------
-!> Create ATLAS fields
-subroutine aq_fields_set_atlas_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_set_atlas_f90')
+!> Convert fields to ATLAS fieldset
+subroutine aq_fields_to_fieldset_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_to_fieldset_f90')
 
 implicit none
 
@@ -571,12 +571,12 @@ vars = oops_variables(c_vars)
 afieldset = atlas_fieldset(c_afieldset)
 
 ! Call Fortran
-call fld%set_atlas(vars,afieldset)
+call fld%to_fieldset(vars,afieldset)
 
-end subroutine aq_fields_set_atlas_c
+end subroutine aq_fields_to_fieldset_c
 ! ------------------------------------------------------------------------------
-!> Convert fields to ATLAS
-subroutine aq_fields_to_atlas_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_to_atlas_f90')
+!> Get fields from ATLAS fieldset
+subroutine aq_fields_from_fieldset_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_from_fieldset_f90')
 
 implicit none
 
@@ -596,34 +596,9 @@ vars = oops_variables(c_vars)
 afieldset = atlas_fieldset(c_afieldset)
 
 ! Call Fortran
-call fld%to_atlas(vars,afieldset)
+call fld%from_fieldset(vars,afieldset)
 
-end subroutine aq_fields_to_atlas_c
-! ------------------------------------------------------------------------------
-!AQ !> Get fields from ATLAS
-!AQ subroutine aq_fields_from_atlas_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_from_atlas_f90')
-!AQ
-!AQ implicit none
-!AQ
-!AQ ! Passed variables
-!AQ integer(c_int),intent(in) :: c_key_fld           !< Fields
-!AQ type(c_ptr),value,intent(in) :: c_vars           !< List of variables
-!AQ type(c_ptr),intent(in),value :: c_afieldset      !< ATLAS fieldset pointer
-!AQ
-!AQ ! Local variables
-!AQ type(aq_fields),pointer :: fld
-!AQ type(oops_variables) :: vars
-!AQ type(atlas_fieldset) :: afieldset
-!AQ
-!AQ ! Interface
-!AQ call aq_fields_registry%get(c_key_fld,fld)
-!AQ vars = oops_variables(c_vars)
-!AQ afieldset = atlas_fieldset(c_afieldset)
-!AQ
-!AQ ! Call Fortran
-!AQ ! call aq_fields_from_atlas(fld,vars,afieldset)
-!AQ
-!AQ end subroutine aq_fields_from_atlas_c
+end subroutine aq_fields_from_fieldset_c
 ! ------------------------------------------------------------------------------
 !> Get points from fields
 subroutine aq_fields_getpoint_c(c_key_fld,c_key_iter,c_nval,c_vals) bind(c,name='aq_fields_getpoint_f90')

@@ -92,8 +92,8 @@ contains
      &                                          aq_field_serialize_real
   generic,   public :: deserialize_prec      => aq_field_deserialize_single, &
      &                                          aq_field_deserialize_real
-  procedure, public :: set_atlas             => aq_field_set_atlas
-  procedure, public :: to_atlas              => aq_field_to_atlas
+  procedure, public :: to_fieldset           => aq_field_to_fieldset
+  procedure, public :: from_fieldset         => aq_field_from_fieldset
   !
   procedure, public :: kind                  => aq_field_kind
   procedure, public :: name                  => aq_field_name
@@ -1851,30 +1851,8 @@ subroutine aq_field_deserialize_real(self, buff, offset)
    !
 end subroutine aq_field_deserialize_real
 
-subroutine aq_field_set_atlas(self, vars, fieldset)
+subroutine aq_field_to_fieldset(self, vars, fieldset)
    class(aq_fields),     intent(in)    :: self
-   type(oops_variables), intent(in)    :: vars
-   type(atlas_fieldset), intent(inout) :: fieldset
-   !
-   integer(atlas_kind_idx) :: ib_var
-   character(len=aq_varlen) :: fieldname
-   type(atlas_Field) :: afld
-   !
-   do ib_var = 1, vars%nvars()
-      fieldname = vars%variable(ib_var)
-      if (self%has(trim(fieldname))) then
-         afld = self%field(trim(fieldname))
-         call fieldset%add(afld)
-         call afld%final()
-      else
-         call abor1_ftn('Variable '//trim(fieldname)//' not in field')
-      end if
-   end do
-   !
-end subroutine aq_field_set_atlas
-
-subroutine aq_field_to_atlas(self, vars, fieldset)
-   class(aq_fields),     intent(inout) :: self
    type(oops_variables), intent(in)    :: vars
    type(atlas_fieldset), intent(inout) :: fieldset
    !
@@ -1887,8 +1865,8 @@ subroutine aq_field_to_atlas(self, vars, fieldset)
    do ib_var = 1, vars%nvars()
       fieldname = vars%variable(ib_var)
       if (self%has(trim(fieldname))) then
+         afld_s = self%field(trim(fieldname))
          if (fieldset%has(trim(fieldname))) then
-            afld_s = self%field(trim(fieldname))
             afld_t = fieldset%field(trim(fieldname))
             if (afld_t /= afld_s) then
                if (self%prec == aq_single) then
@@ -1898,22 +1876,55 @@ subroutine aq_field_to_atlas(self, vars, fieldset)
                   call afld_t%data(fldd)
                   fldd(:,:) = self%fldsd(self%idx_var(trim(fieldname)))%fld(:,:)
                end if
-!AQ This output should only be on debug channel
-!AQ            else
-!AQ               if (self%fmpi%rank() == 0) &
-!AQ                  & print '(3A)', 'Skipping copy of ',trim(fieldname),&
-!AQ                  &' because src and tgt share the same pointer'
             end if
             call afld_s%final()
             call afld_t%final()
          else
-            call abor1_ftn('Variable '//trim(fieldname)//' not in destination fieldset')
+            call fieldset%add(afld_s)
          end if
       else
          call abor1_ftn('Variable '//trim(fieldname)//' not in source field')
       end if
    end do
    !
-end subroutine aq_field_to_atlas
+end subroutine aq_field_to_fieldset
+
+subroutine aq_field_from_fieldset(self, vars, fieldset)
+   class(aq_fields),     intent(inout) :: self
+   type(oops_variables), intent(in)    :: vars
+   type(atlas_fieldset), intent(in) :: fieldset
+   !
+   integer(atlas_kind_idx) :: ib_var
+   character(len=aq_varlen) :: fieldname
+   type(atlas_Field) :: afld_s, afld_t
+   real(kind=aq_single), pointer :: flds(:,:)
+   real(kind=aq_real), pointer :: fldd(:,:)
+   !
+   do ib_var = 1, vars%nvars()
+      fieldname = vars%variable(ib_var)
+      if (fieldset%has(trim(fieldname))) then
+         afld_s = fieldset%field(trim(fieldname))
+         if (self%has(trim(fieldname))) then
+            afld_t = self%field(trim(fieldname))
+            if (afld_t /= afld_s) then
+               if (self%prec == aq_single) then
+                  call afld_s%data(flds)
+                  self%fldss(self%idx_var(trim(fieldname)))%fld(:,:) = flds(:,:)
+               else
+                  call afld_s%data(fldd)
+                  self%fldsd(self%idx_var(trim(fieldname)))%fld(:,:) = fldd(:,:)
+               end if
+            end if
+            call afld_s%final()
+            call afld_t%final()
+         else
+            call self%add(afld_s)
+         end if
+      else
+         call abor1_ftn('Variable '//trim(fieldname)//' not in source field')
+      end if
+   end do
+   !
+end subroutine aq_field_from_fieldset
 
 end module aq_fields_mod

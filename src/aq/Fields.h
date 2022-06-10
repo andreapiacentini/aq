@@ -86,7 +86,7 @@ class Fields : public util::Printable,
   void toFieldSet(atlas::FieldSet &) const;
   void toFieldSetAD(const atlas::FieldSet &)
     {ABORT("toFieldSetAD not implemented");}
-  void fromFieldSet(atlas::FieldSet &);
+  void fromFieldSet(const atlas::FieldSet &);
 
 // Utilities
   void read(const eckit::Configuration &);

@@ -165,13 +165,11 @@ void Fields::diff(const Fields & x1, const Fields & x2) {
 }
 // -----------------------------------------------------------------------------
 void Fields::toFieldSet(atlas::FieldSet & afieldset) const {
-  // AP TEMPORARY aq_fields_to_fieldset_f90(keyFlds_, afieldset.get());
-  aq_fields_to_atlas_f90(keyFlds_, vars_, afieldset->get());
+  aq_fields_to_fieldset_f90(keyFlds_, vars_, afieldset.get());
 }
 // -----------------------------------------------------------------------------
 void Fields::fromFieldSet(const atlas::FieldSet & afieldset) {
-  // AP TEMPORARY aq_fields_from_fieldset_f90(keyFlds_, afieldset.get());
-  aq_fields_set_atlas_f90(keyFlds_, vars_, afieldset->get());
+  aq_fields_from_fieldset_f90(keyFlds_, vars_, afieldset.get());
 }
 // -----------------------------------------------------------------------------
 void Fields::read(const eckit::Configuration & config) {
