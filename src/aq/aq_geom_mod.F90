@@ -33,7 +33,7 @@ module aq_geom_mod
       real(aq_real), allocatable                  :: lats(:)
    contains
       procedure, public :: create => aq_geom_create
-      procedure, public :: fill_atlas_fieldset  => aq_geom_fill_atlas_fieldset
+      procedure, public :: fill_extra_fields  => aq_geom_fill_extra_fields
       procedure, public :: clone  => aq_geom_clone
       procedure, public :: info   => aq_geom_info
       procedure, public :: delete => aq_geom_delete
@@ -129,7 +129,7 @@ contains
       !
    end subroutine aq_geom_create
 
-   subroutine aq_geom_fill_atlas_fieldset(self,afieldset)
+   subroutine aq_geom_fill_extra_fields(self,afieldset)
       class(aq_geom),intent(inout)       :: self
       type(atlas_fieldset),intent(inout) :: afieldset
       !
@@ -161,7 +161,7 @@ contains
       call afieldset%add(afield)
       call afield%final()
       !
-   end subroutine aq_geom_fill_atlas_fieldset
+   end subroutine aq_geom_fill_extra_fields
 
    subroutine aq_geom_clone(self, other)
       class(aq_geom), intent(inout) :: self

@@ -76,6 +76,10 @@ class State : public util::Printable,
   void serialize(std::vector<double> &) const;
   void deserialize(const std::vector<double> &, size_t &);
 
+/// ATLAS FieldSet
+  void toFieldSet(atlas::FieldSet &) const;
+  void fromFieldSet(const atlas::FieldSet &);
+
 /// Other
   void zero();
   void accumul(const double &, const State &);
