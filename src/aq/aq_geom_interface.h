@@ -36,7 +36,7 @@ extern "C" {
                          atlas::grid::GridImpl *,
                          atlas::functionspace::FunctionSpaceImpl *,
                          atlas::functionspace::FunctionSpaceImpl *);
-  void aq_geom_fill_atlas_fieldset_f90(const F90geom &, atlas::field::FieldSetImpl *);
+  void aq_geom_fill_extra_fields_f90(const F90geom &, atlas::field::FieldSetImpl *);
   void aq_geom_clone_f90(F90geom &, const F90geom &);
   void aq_geom_info_f90(const F90geom &, int &, int &, int &,
                         double &, double &, int &, char *, char *, char *);

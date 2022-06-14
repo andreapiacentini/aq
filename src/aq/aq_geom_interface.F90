@@ -70,9 +70,9 @@ call self%create(f_conf,f_comm)
 
 end subroutine aq_geom_setup_c
 ! ------------------------------------------------------------------------------
-!> Fill ATLAS fieldset
-subroutine aq_geom_fill_atlas_fieldset_c(c_key_self,c_afieldset) &
- & bind(c,name='aq_geom_fill_atlas_fieldset_f90')
+!> Fill geometry extra fields
+subroutine aq_geom_fill_extra_fields_c(c_key_self,c_afieldset) &
+ & bind(c,name='aq_geom_fill_extra_fields_f90')
 
 ! Passed variables
 integer(c_int),intent(in) :: c_key_self     !< Geometry
@@ -87,9 +87,9 @@ call aq_geom_registry%get(c_key_self,self)
 afieldset = atlas_fieldset(c_afieldset)
 
 ! Call Fortran
-call self%fill_atlas_fieldset(afieldset)
+call self%fill_extra_fields(afieldset)
 
-end subroutine aq_geom_fill_atlas_fieldset_c
+end subroutine aq_geom_fill_extra_fields_c
 ! ------------------------------------------------------------------------------
 !> Clone geometry
 subroutine aq_geom_clone_c(c_key_self,c_key_other) bind(c,name='aq_geom_clone_f90')
