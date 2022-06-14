@@ -25,7 +25,7 @@ Interpolator::Interpolator(const eckit::Configuration & conf, const Geometry & g
   : geom_(grid), nlevs_(1), nlocs_(lats.size()), lats_(lats), lons_(lons)
 {
   ASSERT(lats.size() == lons.size());
-  aq_interpolator_create_f90(keyInterp_, geom_.toFortran(), nlocs_, lats_[0], lons_[0]);
+  aq_interpolator_create_f90(keyInterp_, conf, geom_.toFortran(), nlocs_, lats_[0], lons_[0]);
 }
 
 // -----------------------------------------------------------------------------

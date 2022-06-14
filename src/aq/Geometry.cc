@@ -52,7 +52,7 @@ Geometry::Geometry(const GeometryAqParameters & params,
   gridConfigSurf.set("type", "regional");
   gridConfigSurf.set("halo", 1);
   functionSpaceSurf_ = atlas::functionspace::StructuredColumns(
-                               grid_, partitioner, gridConfigSurf));
+                               grid_, partitioner, gridConfigSurf);
   // Extra function space without halo (coincident with the previous if halo is zero
   if (halo_ > 0) {
     eckit::LocalConfiguration gridConfigNoHalo(params.toConfiguration());
