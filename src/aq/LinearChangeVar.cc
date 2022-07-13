@@ -1,7 +1,7 @@
 /*
  * (C) Copyright 2017-2018  UCAR.
  * (C) Copyright 2021-2022 CERFACS.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
@@ -26,23 +26,23 @@ LinearChangeVar::LinearChangeVar(const Geometry &, const Parameters_ &) {}
 // -----------------------------------------------------------------------------
 LinearChangeVar::~LinearChangeVar() {}
 // -----------------------------------------------------------------------------
-void LinearChangeVar::multiply(Increment & dx, const oops::Variables & vars) const {
+void LinearChangeVar::changeVarTL(Increment & dx, const oops::Variables & vars) const {
 // AQ  aq_change_var_tl_f90(dx.fields().toFortran(), vars);
 }
 // -----------------------------------------------------------------------------
-void LinearChangeVar::multiplyInverse(Increment & dx, const oops::Variables & vars) const {
+void LinearChangeVar::changeVarInverseTL(Increment & dx, const oops::Variables & vars) const {
 // AQ  aq_change_var_tl_f90(dx.fields().toFortran(), vars);
 }
 // -----------------------------------------------------------------------------
-void LinearChangeVar::multiplyAD(Increment & dx, const oops::Variables & vars) const {
+void LinearChangeVar::changeVarAD(Increment & dx, const oops::Variables & vars) const {
 // AQ  aq_change_var_ad_f90(dx.fields().toFortran(), vars);
 }
 // -----------------------------------------------------------------------------
-void LinearChangeVar::multiplyInverseAD(Increment & dx, const oops::Variables & vars) const {
+void LinearChangeVar::changeVarInverseAD(Increment & dx, const oops::Variables & vars) const {
 // AQ  aq_change_var_ad_f90(dx.fields().toFortran(), vars);
 }
 // -----------------------------------------------------------------------------
-void LinearChangeVar::setTrajectory(const State & background, const State & firstGuess) {
+  void LinearChangeVar::changeVarTraj(const State & firstGuess, const oops::Variables & vars) {
   // No AQ trajectory used. No fortran to call here.
 }
 // -----------------------------------------------------------------------------
@@ -51,4 +51,3 @@ void LinearChangeVar::print(std::ostream & os) const {
 }
 // -----------------------------------------------------------------------------
 }  // namespace aq
-
