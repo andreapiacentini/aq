@@ -77,6 +77,10 @@ cost function:
           load_nicas_local: true
           prefix: loc_2pe_mv
           strategy: common_weighted
+          loc_wgt:
+            CO-O_3: 0.5
+            CO-NO_2: 0.5
+            O_3-NO_2: 0.5
     members:
     - states:
       - <<: *state_ref
