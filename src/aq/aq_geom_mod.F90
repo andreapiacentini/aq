@@ -135,11 +135,11 @@ contains
       !
       integer :: ix,iy,iz,inode
       real(aq_real) :: lonlat(2), dx, dy
-      real(aq_real),pointer :: real_ptr_1(:),real_ptr_2(:,:)
+      real(aq_real),pointer :: real_ptr(:,:)
       type(atlas_field) :: afield
       !
-      afield = self%fs%create_field(name='area',kind=atlas_real(aq_real),levels=0)
-      call afield%data(real_ptr_1)
+      afield = self%fs%create_field(name='area',kind=atlas_real(aq_real),levels=1)
+      call afield%data(real_ptr)
       dy = self%deltay*deg_to_rad*req
       inode = 0
       do iy=self%fs%j_begin(),self%fs%j_end()
@@ -147,16 +147,16 @@ contains
             inode = inode+1
             lonlat = self%grid%lonlat(ix,iy)
             dx = self%deltax*deg_to_rad*req*cos(lonlat(2)*deg_to_rad)
-            real_ptr_1(inode) = dx*dy
+            real_ptr(1,inode) = dx*dy
          end do
       end do
       call afieldset%add(afield)
       call afield%final()
       !
       afield = self%fs%create_field(name='vunit',kind=atlas_real(aq_real))
-      call afield%data(real_ptr_2)
+      call afield%data(real_ptr)
       do iz=1,self%nz
-        real_ptr_2(iz,:) = real(iz,aq_real)
+        real_ptr(iz,:) = real(iz,aq_real)
       end do
       call afieldset%add(afield)
       call afield%final()
