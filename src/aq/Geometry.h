@@ -83,6 +83,7 @@ class Geometry : public util::Printable,
   atlas::FunctionSpace & functionSpace() {return functionSpace_;}
   const atlas::FieldSet & extraFields() const {return extraFields_;}
   atlas::FieldSet & extraFields() {return extraFields_;}
+  bool levelsAreTopDown() const {return true;}
 
   std::vector<size_t> variableSizes(const oops::Variables & vars) const;
 
