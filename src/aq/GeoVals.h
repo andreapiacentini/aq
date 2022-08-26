@@ -74,8 +74,8 @@ class GeoVals : public util::Printable,
 
   const int & toFortran() const {return keyGeoVals_;}
 
-  void fill(const std::vector<size_t> &, const std::vector<double> &);
-  void fillAD(const std::vector<size_t> &, std::vector<double> &) const;
+  void fill(const std::vector<size_t> &, const std::vector<double> &, const bool);
+  void fillAD(const std::vector<size_t> &, std::vector<double> &, const bool) const;
 
  private:
   void print(std::ostream &) const;
