@@ -113,7 +113,7 @@ call datetime_create("1970-01-01T00:00:00Z",obs_ref_time)
 ig_hdfverb = 1
 ! Input file
 if (f_conf%has("obsdatain")) then
-  call f_conf%get_or_die("obsdatain.obsfile",str)
+  call f_conf%get_or_die("obsdatain.engine.obsfile",str)
   fin = str
 else
   fin = ''
@@ -122,7 +122,7 @@ call fckit_log%info('aq_obsdb_setup: file in = '//trim(fin))
 
 ! Output file
 if (f_conf%has("obsdataout")) then
-  call f_conf%get_or_die("obsdataout.obsfile",str)
+  call f_conf%get_or_die("obsdataout.engine.obsfile",str)
   call swap_name_member(f_conf, str)
   fout = str
   call fckit_log%info('aq_obsdb_setup: file out = '//trim(fout))
