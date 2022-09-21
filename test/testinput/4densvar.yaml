@@ -550,9 +550,11 @@ cost function:
     observers:
     - obs space:
         obsdatain:
-          obsfile: Data/HDAT+20100704.h5
+          engine:
+            obsfile: Data/HDAT+20100704.h5
         obsdataout:
-          obsfile: Data/HSTAT+20100704.h5
+          engine:
+            obsfile: Data/HSTAT+20100704.h5
         obs type: O3
         instr name: AIRBASE_O3
         obserrors:
@@ -565,9 +567,11 @@ cost function:
         covariance model: diagonal
     - obs space:
         obsdatain:
-          obsfile: Data/HDAT+20100704.h5
+          engine:
+            obsfile: Data/HDAT+20100704.h5
         obsdataout:
-          obsfile: Data/HSTAT+20100704.h5
+          engine:
+            obsfile: Data/HSTAT+20100704.h5
         obs type: NO2
         instr name: AIRBASE_NO2
         obserrors:
