@@ -26,7 +26,7 @@ set( ECBUILD_RECORD_GIT_COMMIT_SHA1 OFF CACHE BOOL
 
 # Initialize
 ecbuild_bundle_initialize()
-ecbuild_bundle( PROJECT jedicmake GIT "https://github.com/jcsda/jedi-cmake.git" BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT jedicmake GIT "https://github.com/jcsda/jedi-cmake.git" BRANCH develop UPDATE RECURSIVE )
 include( jedicmake/cmake/Functions/git_functions.cmake  )
 
 # ECMWF libs
