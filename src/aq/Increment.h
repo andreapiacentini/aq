@@ -92,6 +92,7 @@ class Increment : public util::Printable,
   void read(const eckit::Configuration &);
   void write(const eckit::Configuration &) const;
   double norm() const {return fields_->norm();}
+  std::vector<double> rmsByLevel(const std::string &) const {}
   const util::DateTime & validTime() const {return fields_->time();}
   util::DateTime & validTime() {return fields_->time();}
   void updateTime(const util::Duration & dt) {fields_->time() += dt;}
