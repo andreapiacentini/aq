@@ -162,6 +162,10 @@ void Increment::write(const eckit::Configuration & files) const {
   fields_->write(files);
 }
 // -----------------------------------------------------------------------------
+std::vector<double> Increment::rmsByLevel(const std::string & var) const {
+  return fields_->rmsByLevel(var);
+}
+// -----------------------------------------------------------------------------
 /// Serialization
 // -----------------------------------------------------------------------------
 size_t Increment::serialSize() const {

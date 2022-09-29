@@ -190,6 +190,20 @@ double Fields::norm() const {
   return zz;
 }
 // -----------------------------------------------------------------------------
+std::vector<double> Fields::rmsByLevel(const std::string & var) const {
+  // Get the number of levels
+  std::string vunit = "levels";
+  size_t size_fld = geom_.verticalCoord(vunit).size();
+  // Allocate space for fld
+  std::vector<double> v_fld(size_fld, 0);
+
+  // Compute the rms per level
+  aq_fields_rms_per_lev_f90(keyFlds_, var.size(), var.c_str(),
+                            static_cast<int>(size_fld), v_fld.data());
+
+  return v_fld;
+}
+// -----------------------------------------------------------------------------
 void Fields::print(std::ostream & os) const {
   eckit::LocalConfiguration flds_info_;
   aq_fields_info_f90(keyFlds_, flds_info_);

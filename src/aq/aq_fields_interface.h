@@ -56,6 +56,7 @@ extern "C" {
   void aq_fields_diff_incr_f90(const F90flds &, const F90flds &, const F90flds &);
   // void aq_fields_change_resol_f90(const F90flds &, const F90flds &);
   void aq_fields_info_f90(const F90flds &, const eckit::Configuration &);
+  void aq_fields_rms_per_lev_f90(const F90flds &, const int &, const char *, const int &, double[]);
   void aq_fields_read_file_f90(const F90flds &, const eckit::Configuration &,
                                util::DateTime &);
   void aq_fields_write_file_f90(const F90flds &, const eckit::Configuration &,

@@ -93,6 +93,7 @@ class Fields : public util::Printable,
   void analytic_init(const eckit::Configuration &);
   void write(const eckit::Configuration &) const;
   double norm() const;
+  std::vector<double> rmsByLevel(const std::string &) const;
   const oops::Variables & variables() const {return vars_;}
 
   const util::DateTime & time() const {return time_;}
