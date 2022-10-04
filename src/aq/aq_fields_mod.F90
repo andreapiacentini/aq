@@ -78,6 +78,7 @@ contains
   generic,   public :: stats                 => aq_field_stats_tot, &
      &                                          aq_field_stats_per_var, &
      &                                          aq_field_stats_per_var_lev
+  procedure, public :: rms_per_lev           => aq_field_rms_per_var_lev
   procedure, public :: info                  => aq_field_info
   procedure, public :: write                 => aq_field_write
   procedure, public :: read                  => aq_field_read
@@ -1040,11 +1041,11 @@ subroutine aq_field_stats_tot(self, valmin, valmax, mean, stddev, divnm1)
         end do
      end if
   end if
+  call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   if (present(divnm1)) then
      if (divnm1) den = den - 1.0_aq_real
   end if
   stddev = sqrt(stddev / den)
-  call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   !
 end subroutine aq_field_stats_tot
 
@@ -1144,11 +1145,11 @@ subroutine aq_field_stats_per_var(self, valmin, valmax, mean, stddev, divnm1)
         end do
      end if
   end if
+  call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   if (present(divnm1)) then
      if (divnm1) den = den - 1.0
   end if
   stddev(:) = sqrt(stddev(:) / den)
-  call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   !
 end subroutine aq_field_stats_per_var
 
@@ -1264,13 +1265,64 @@ subroutine aq_field_stats_per_var_lev(self, valmin, valmax, mean, stddev, divnm1
         end do
      end if
   end if
+  call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   if (present(divnm1)) then
      if (divnm1) den = den - 1.0_aq_real
   end if
   stddev(:,:) = sqrt(stddev(:,:) / den)
-  call self%fmpi%allreduce(stddev,fckit_mpi_sum())
   !
 end subroutine aq_field_stats_per_var_lev
+
+subroutine aq_field_rms_per_var_lev(self, var, rms)
+  class(aq_fields),        intent(inout) :: self
+  character(len=*),        intent(in)    :: var
+  real(aq_real),           intent(out)   :: rms(:)
+  !
+  integer(atlas_kind_idx) :: ib_i, ib_j, ib_k, il_var
+  real(aq_real) :: den
+  logical :: sgl
+  !
+  il_var = self%idx_var(trim(var))
+  !
+  sgl = self%prec == aq_single
+  !
+  if (size(rms) /= self%geom%levels) &
+     & call abor1_ftn('rms per var and lev wrong argument size')
+  !
+  call self%halo_exchange()
+  !
+  rms(:) = 0.0_aq_real
+  den = real(self%geom%grid%size(),kind=aq_real)
+  !
+  if ( self%geom%halo > 0) then
+     do ib_k = 1, self%geom%levels
+        do ib_j = self%geom%fs%j_begin(), self%geom%fs%j_end()
+           do ib_i = self%geom%fs%i_begin(ib_j), self%geom%fs%i_end(ib_j)
+              if (sgl) then
+                 rms(ib_k) = rms(ib_k) + &
+                    &   (self%fldss(il_var)%fld(ib_k,self%geom%fs%index(ib_i,ib_j)))**2
+              else
+                 rms(ib_k) = rms(ib_k) + &
+                    &   (self%fldsd(il_var)%fld(ib_k,self%geom%fs%index(ib_i,ib_j)))**2
+              end if
+           end do
+        end do
+     end do
+  else
+     if (sgl) then
+        do ib_k = 1, self%geom%levels
+           rms(ib_k) = sum((self%fldss(il_var)%fld(ib_k,:))**2)
+        end do
+     else
+        do ib_k = 1, self%geom%levels
+           rms(ib_k) = sum((self%fldsd(il_var)%fld(ib_k,:))**2)
+        end do
+     end if
+  end if
+  call self%fmpi%allreduce(rms,fckit_mpi_sum())
+  rms(:) = sqrt(rms(:) / den)
+  !
+end subroutine aq_field_rms_per_var_lev
 
 subroutine aq_field_info(self, config)
   class(aq_fields),          intent(inout) :: self

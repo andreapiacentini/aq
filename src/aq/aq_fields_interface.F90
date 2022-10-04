@@ -13,6 +13,7 @@ use atlas_module, only: atlas_fieldset, atlas_field
 use datetime_mod
 use fckit_configuration_module, only: fckit_configuration
 use iso_c_binding
+use string_f_c_mod
 use kinds
 use oops_variables_mod
 use aq_fields_mod
@@ -549,6 +550,31 @@ call aq_fields_registry%get(c_key_fld,fld)
 call fld%norm(prms)
 
 end subroutine aq_fields_rms_c
+! ------------------------------------------------------------------------------
+!> Fields RMS per variable and level
+subroutine aq_fields_rms_per_lev_c(c_key_fld,lvar,c_var,c_vsize,c_vect_rms) bind(c,name='aq_fields_rms_per_lev_f90')
+
+implicit none
+
+! Passed variables
+integer(c_int),intent(in) :: c_key_fld !< Fields
+integer(c_int),intent(in) :: lvar                        !< Variable name size
+character(kind=c_char,len=1),intent(in) :: c_var(lvar+1) !< Variable name
+integer(c_int),intent(in) :: c_vsize              !< Size
+real(c_double),intent(out) :: c_vect_rms(c_vsize) !< Vector
+
+! Local variables
+type(aq_fields),pointer :: fld
+character(len=lvar) :: var
+
+! Interface
+call aq_fields_registry%get(c_key_fld,fld)
+call c_f_string(c_var,var)
+
+! Call Fortran
+call fld%rms_per_lev(var, c_vect_rms)
+
+end subroutine aq_fields_rms_per_lev_c
 ! ------------------------------------------------------------------------------
 !> Convert fields to ATLAS fieldset
 subroutine aq_fields_to_fieldset_c(c_key_fld,c_vars,c_fset) bind (c,name='aq_fields_to_fieldset_f90')
