@@ -183,7 +183,17 @@ std::vector<double> Geometry::verticalCoord(std::string & vcUnits) const {
 std::vector<size_t> Geometry::variableSizes(const oops::Variables & vars) const {
   // Note: in aq we always do trilinear interpolation, so GeoVaLs are always
   // size 1.
-  std::vector<size_t> sizes(vars.size(), 1);
+  int nx = 0;
+  int ny = 0;
+  int nz;
+  double deltax;
+  double deltay;
+  int mod_levels;
+  char orientation[AQ_STRLEN];
+  char domname[AQ_STRLEN];
+  char model[AQ_STRLEN];
+  aq_geom_info_f90(keyGeom_, nx, ny, nz, deltax, deltay, mod_levels, orientation, domname, model);
+  std::vector<size_t> sizes(vars.size(), static_cast<size_t>(nz));
   return sizes;
 }
 // -----------------------------------------------------------------------------
