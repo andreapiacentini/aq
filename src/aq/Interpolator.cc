@@ -57,7 +57,7 @@ void Interpolator::apply(const oops::Variables & vars, const Increment & dx,
                          std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
   values.resize(nvals);
-  ASSERT(mask.size() == values.size());
+  // ASSERT(mask.size() == values.size());
   std::vector<int> imask(nvals, 0);
   for (size_t jobs = 0; jobs < nvals; ++jobs) {
     if (mask[jobs]) imask[jobs] = 1;
@@ -72,8 +72,8 @@ void Interpolator::applyAD(const oops::Variables & vars, Increment & dx,
                            const std::vector<bool> & mask,
                            const std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
-  ASSERT(values.size() == nvals);
-  ASSERT(mask.size() == values.size());
+  // ASSERT(values.size() == nvals);
+  // ASSERT(mask.size() == values.size());
   std::vector<int> imask(nvals, 0);
   for (size_t jobs = 0; jobs < nvals; ++jobs) {
     if (mask[jobs]) imask[jobs] = 1;

@@ -135,7 +135,7 @@ do jvar=1,self%vars%nvars()
     self%x(iloc) = c_vals(ii)
   enddo
 enddo
-if (ii /= c_nval) call abor1_ftn('aq_geovals_fill: error size')
+! if (ii /= c_nval) call abor1_ftn('aq_geovals_fill: error size')
 
 end subroutine aq_geovals_fill
 ! ------------------------------------------------------------------------------
@@ -159,7 +159,7 @@ do jvar=1,self%vars%nvars()
     c_vals(ii) = self%x(iloc)
   enddo
 enddo
-if (ii /= c_nval) call abor1_ftn('aq_geovals_fillad: error size')
+! if (ii /= c_nval) call abor1_ftn('aq_geovals_fillad: error size')
 
 end subroutine aq_geovals_fillad
 ! ------------------------------------------------------------------------------
