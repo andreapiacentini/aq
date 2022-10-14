@@ -181,8 +181,7 @@ std::vector<double> Geometry::verticalCoord(std::string & vcUnits) const {
 }
 // -------------------------------------------------------------------------------------------------
 std::vector<size_t> Geometry::variableSizes(const oops::Variables & vars) const {
-  // Note: in aq we always do trilinear interpolation, so GeoVaLs are always
-  // size 1.
+  // returns the number of levels per variable
   int nx = 0;
   int ny = 0;
   int nz;
