@@ -68,10 +68,8 @@ cost function:
     covariance model: ensemble
     localization:
       localization method: SABER
-      saber block:
+      saber central block:
         saber block name: BUMP_NICAS
-        input variables: *vars
-        output variables: *vars
         bump:
           datadir: Data
           load_nicas_local: true

@@ -132,10 +132,10 @@ do jvar=1,self%vars%nvars()
   do jloc=1,c_nloc
     iloc = c_indx(jloc)
     ii = ii + 1
+    if (ii > c_nval) call abor1_ftn('aq_geovals_fill: error size')
     self%x(iloc) = c_vals(ii)
   enddo
 enddo
-if (ii /= c_nval) call abor1_ftn('aq_geovals_fill: error size')
 
 end subroutine aq_geovals_fill
 ! ------------------------------------------------------------------------------
@@ -151,15 +151,16 @@ integer :: jvar, jloc, iloc, ii
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fillad: gom not allocated')
 
+c_vals(:) = 0.0
 ii = 0
 do jvar=1,self%vars%nvars()
   do jloc=1,c_nloc
     iloc = c_indx(jloc)
     ii = ii + 1
+    if (ii > c_nval) call abor1_ftn('aq_geovals_fillad: error size')
     c_vals(ii) = self%x(iloc)
   enddo
 enddo
-if (ii /= c_nval) call abor1_ftn('aq_geovals_fillad: error size')
 
 end subroutine aq_geovals_fillad
 ! ------------------------------------------------------------------------------
