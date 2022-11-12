@@ -196,6 +196,7 @@ list( APPEND aq_testinput
   testinput/dirac_loc_3d.yaml
   testinput/dirac_loc_3d_mv.yaml
   testinput/dirac_no_loc_3d.yaml
+  testinput/ens_mean_variance.yaml
   testinput/ens_recenter.yaml
   testinput/ens_variance.yaml
   testinput/ens_variance_inflation_value.yaml
@@ -225,6 +226,7 @@ list( APPEND aq_testoutput
   testoutput/dirac_loc_3d.test
   testoutput/dirac_loc_3d_mv.test
   testoutput/dirac_no_loc_3d.test
+  testoutput/ens_mean_variance.test
   testoutput/ens_recenter.test
   testoutput/ens_variance.test
   testoutput/ens_variance_inflation_value.test
@@ -470,6 +472,12 @@ ecbuild_add_test( TARGET test_aq_ens_variance
                   OMP 4
                   ARGS testinput/ens_variance.yaml
                   COMMAND  aq_ens_variance.x )
+
+ecbuild_add_test( TARGET test_aq_ens_mean_variance
+                  MPI 6
+                  OMP 4
+                  ARGS testinput/ens_mean_variance.yaml
+                  COMMAND  aq_ens_mean_variance.x )
 
 ecbuild_add_test( TARGET test_aq_ens_recenter
                   MPI 6
