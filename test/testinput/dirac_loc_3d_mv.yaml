@@ -43,27 +43,13 @@ background error:
           CO-O_3: 0.5
           CO-NO_2: 0.5
           O_3-NO_2: 0.5
-  members:
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0001.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0002.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0003.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0004.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0005.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0006.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0007.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0008.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0009.nc
-    - <<: *state_ref
-      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E0010.nc
+  members from template:
+    template:
+      <<: *state_ref
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E%mem%.nc
+    pattern: %mem%
+    zero padding: 4
+    nmembers: 10
 
 dirac:
   date: 2010-07-04T06:00:00Z
