@@ -1,0 +1,22 @@
+# Test the correct implementation of required oops interfaces.
+# (C) Copyright 2021-2022 CERFACS.
+
+_variables: &vars
+  - CO
+  - O_3
+  - NO_2
+geometry:
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+
+increment test:
+  date: 2010-07-04T06:00:00Z
+inc variables: *vars
