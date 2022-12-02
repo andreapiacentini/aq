@@ -12,7 +12,8 @@ module aq_transform_mod
 
    use atlas_module
    use aq_constants_mod
-   use fckit_configuration_module, only: fckit_configuration
+   use fckit_configuration_module, only: fckit_configuration, fckit_YAMLConfiguration
+   use iso_c_binding
 
    implicit none
 
@@ -45,15 +46,42 @@ contains
       character(len=*),       intent(in)    :: vars(:)
       type(fckit_Configuration), intent(in) :: config
 
-      integer :: ib, ib_t
+      integer :: ib, ib_t, idx
       character(len=aq_strlen) :: key
       character(len=:), allocatable :: transform
+      type(fckit_Configuration) :: lconf
+      character(kind=c_char,len=:), allocatable :: json_str
+      character(len=aq_varlen) :: var, rvar
 
       call self%delete()
 
+      ! Specific treatment for strings with dots as in PM2.5
+      json_str = config%json()
+      do ib = 1, size(vars)
+         var = trim(vars(ib))
+         rvar = var
+         do
+            idx = index(rvar, '.') ; if (idx == 0) exit
+            rvar(idx:idx) = '_'
+         end do
+         if (trim(var) /= trim(rvar)) then
+            do
+               idx = index(json_str, trim(var)) ; if (idx == 0) exit
+               json_str(idx:idx+len(trim(var))-1) = trim(rvar)
+            end do
+         end if
+      end do
+      lconf = fckit_YAMLConfiguration(json_str)
+
       self%nb_vars = 0
       do ib = 1, size(vars)
-         if (config%has(trim(vars(ib)))) self%nb_vars = self%nb_vars + 1
+         var = trim(vars(ib))
+         rvar = var
+         do
+            idx = index(rvar, '.') ; if (idx == 0) exit
+            rvar(idx:idx) = '_'
+         end do
+         if (lconf%has(trim(rvar))) self%nb_vars = self%nb_vars + 1
       end do
 
       allocate(self%var_names(self%nb_vars))
@@ -62,15 +90,21 @@ contains
 
       ib_t = 0
       do ib = 1, size(vars)
-         if (config%has(trim(vars(ib)))) then
+         var = trim(vars(ib))
+         rvar = var
+         do
+            idx = index(rvar, '.') ; if (idx == 0) exit
+            rvar(idx:idx) = '_'
+         end do
+         if (lconf%has(trim(rvar))) then
             ib_t = ib_t + 1
             self%var_names(ib_t) = trim(vars(ib))
-            key = trim(vars(ib))//'.method'
-            call config%get_or_die(trim(key),transform)
+            key = trim(rvar)//'.method'
+            call lconf%get_or_die(trim(key),transform)
             self%transform(ib_t) = trim(transform)
-            key = trim(vars(ib))//'.parameters'
-            if (config%has(trim(key))) then
-               call config%get_or_die(trim(key),self%params(ib_t)%p)
+            key = trim(rvar)//'.parameters'
+            if (lconf%has(trim(key))) then
+               call lconf%get_or_die(trim(key),self%params(ib_t)%p)
             end if
          end if
       end do
