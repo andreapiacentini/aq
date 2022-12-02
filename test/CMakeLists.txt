@@ -200,12 +200,21 @@ list( APPEND aq_testinput
   testinput/ens_recenter.yaml
   testinput/ens_variance.yaml
   testinput/ens_variance_inflation_value.yaml
+  testinput/geometry.yaml
+  testinput/geovals.yaml
   testinput/getvalues.yaml
   testinput/getvalues_halo.yaml
   testinput/hofx3d.yaml
-  testinput/interfaces.yaml
+  testinput/increment.yaml
+  testinput/linear_obs_operator.yaml
+  testinput/locations.yaml
+  testinput/obs_aux.yaml
+  testinput/obs_operator.yaml
+  testinput/obs_space.yaml
+  testinput/obs_vector.yaml
   testinput/parameters_loc_6pe.yaml
   testinput/parameters_loc_6pe_mv.yaml
+  testinput/state.yaml
 )
 
 list( APPEND aq_testinput_tier2
@@ -345,98 +354,98 @@ ecbuild_add_test( TARGET  test_aq_geometry
                   MPI 6
                   OMP 4
                   SOURCES executables/TestGeometry.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/geometry.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_geovals
                   MPI 6
                   OMP 4
                   SOURCES executables/TestGeoVaLs.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/geovals.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_state
                   MPI 6
                   OMP 4
                   SOURCES executables/TestState.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/state.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_increment
                   MPI 6
                   OMP 4
                   SOURCES executables/TestIncrement.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/increment.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_locations
                   MPI 6
                   OMP 4
                   SOURCES executables/TestLocations.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/locations.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_obsspace
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsSpace.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_obs_vector
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsVector.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/obs_vector.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_obsdatavector
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsDataVector.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_obs_operator
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsOperator.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/obs_operator.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_lin_obs_operator
                   MPI 6
                   OMP 4
                   SOURCES executables/TestLinearObsOperator.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/linear_obs_operator.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_obs_error_covar
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsErrorCovariance.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_obs_aux
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsAuxControl.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/obs_aux.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_obs_aux_increment
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsAuxIncrement.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_obs_aux_covariance
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsAuxCovariance.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_getvalues
