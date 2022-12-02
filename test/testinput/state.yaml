@@ -1,0 +1,43 @@
+# Test the correct implementation of required oops interfaces.
+# (C) Copyright 2021-2022 CERFACS.
+
+_variables: &vars
+  - CO
+  - O_3
+  - NO_2
+geometry:
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+
+state test:
+  statefile:
+    date: 2010-07-04T06:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
+    state variables: *vars
+  write then read test:
+    state write:
+      datadir: Data
+      date: '2010-07-04T06:00:00Z'
+      filename: Data/HMGEMS02+2010070406_out.nc
+      state variables: *vars
+    state read:
+      datadir: Data
+      date: '2010-07-04T06:00:00Z'
+      filename: Data/HMGEMS02+2010070406_out.nc
+      state variables: *vars
+  state generate:
+    analytic init:
+    date: '2010-07-04T06:00:00Z'
+    state variables: *vars
+  date: 2010-07-04T06:00:00Z
+  norm file: 5.7285093316388685e-05
+  norm generated state: 1160.9686129899121
+  tolerance: 2.0e-08

@@ -1,0 +1,37 @@
+# Test the correct implementation of required oops interfaces.
+# (C) Copyright 2021-2022 CERFACS.
+
+window begin: 2010-07-04T04:00:00Z
+window end: 2010-07-04T07:00:00Z
+
+observations:
+- obs error:
+    covariance model: diagonal
+  obs space:
+    obsdatain:
+      engine:
+        obsfile: Data/HDAT+20100704.h5
+    obsdataout:
+      engine:
+        obsfile: Data/HSTAT+20100704.h5
+    obs type: CO
+    instr name: AIRBASE_CO
+  obs operator:
+    obs type: InSitu
+    mod var: CO
+  reference global nobs: 790
+- obs error:
+    covariance model: diagonal
+  obs space:
+    obsdatain:
+      engine:
+        obsfile: Data/HDAT+20100704.h5
+    obsdataout:
+      engine:
+        obsfile: Data/HSTAT+20100704.h5
+    obs type: O3
+    instr name: AIRBASE_O3
+  obs operator:
+    obs type: InSitu
+    mod var: O_3
+  reference global nobs: 2735
