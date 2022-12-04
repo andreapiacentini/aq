@@ -26,7 +26,7 @@ set( FYPP_NO_LINE_NUMBERING TRUE )
 
 set( ECBUILD_C_FLAGS        "${CMAKE_C_FLAGS} -Wall -Wno-deprecated-declarations -Wno-parentheses" )
 set( ECBUILD_CXX_FLAGS      "${CMAKE_CXX_FLAGS} -Wall -Wno-deprecated-declarations -Wno-parentheses" )
-set( ECBUILD_Fortran_FLAGS  "")
+set( ECBUILD_Fortran_FLAGS  "-I/usr/lib64/gfortran/modules")
 
 ####################################################################
 # RELEASE FLAGS
@@ -72,8 +72,8 @@ set( ECBUILD_Fortran_FLAGS_DEBUG  "-O0 -g -Wextra -Wall -ftrapv -fall-intrinsics
 # AVOID THE DETECTION OF SYSTEM BOOST
 ####################################################################
 
-set( Boost_NO_BOOST_CMAKE on )
-set( Boost_NO_SYSTEM_PATHS on )
+set( Boost_NO_BOOST_CMAKE $ENV{ECBUILD_NO_BOOST_CMAKE} )
+set( Boost_NO_SYSTEM_PATHS $ENV{ECBUILD_NO_BOOST_CMAKE} )
 
 ####################################################################
 # LINK FLAGS
