@@ -1963,9 +1963,9 @@ function aq_find_variable_index(self, var_name) result(ib_pos)
       if (self%var_name(ib_var) == var_name) ib_pos = ib_var
    end do
    if (ib_pos < 1) then
-      write(message,'(a)') 'Cannot find variable '//trim(var_name)//' among:'
+      write(message,'(a,a,a)') 'Cannot find variable ',trim(var_name),' among:'
       do ib_var = 1, self%n_vars
-         write(message,'(a)')  trim(message),' ',trim(self%var_name(ib_var))
+         write(message,'(a,a,a)')  trim(message),' ',trim(self%var_name(ib_var))
       end do
       call abor1_ftn(message)
    end if
