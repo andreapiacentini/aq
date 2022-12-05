@@ -108,6 +108,7 @@ contains
      &                  aq_field_serialize_real, &
      &                  aq_field_deserialize_single, &
      &                  aq_field_deserialize_real
+  procedure, public :: find_variable_index   => aq_find_variable_index
   !
   final :: aq_field_final_auto
   !
@@ -544,23 +545,17 @@ subroutine aq_field_copy(self, other)
         case(aq_single)
            select case(other%prec)
            case(aq_single)
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
               do ib_var = 1, self%n_vars
-                 ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
-                 if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: extraction target variable ' &
-                    & //trim(self%var_name(ib_var))//' not in source variables')
+                 ib_pos = other%find_variable_index(self%var_name(ib_var))
                  call aq_copy(self%locsize, other%fldss(ib_pos)%fld, self%fldss(ib_var)%fld)
               end do
 !$omp end parallel do
            case default
               ! Demote
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
               do ib_var = 1, self%n_vars
-                 ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
-                 if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: extraction target variable ' &
-                    & //trim(self%var_name(ib_var))//' not in source variables')
+                 ib_pos = other%find_variable_index(self%var_name(ib_var))
                  self%fldss(ib_var)%fld(:,:) = real(other%fldsd(ib_pos)%fld(:,:),kind=aq_single)
               end do
 !$omp end parallel do
@@ -569,22 +564,16 @@ subroutine aq_field_copy(self, other)
            select case(other%prec)
            case(aq_single)
               ! Promote
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
               do ib_var = 1, self%n_vars
-                 ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
-                 if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: extraction target variable ' &
-                    & //trim(self%var_name(ib_var))//' not in source variables')
+                 ib_pos = other%find_variable_index(self%var_name(ib_var))
                  self%fldsd(ib_var)%fld(:,:) = real(other%fldss(ib_pos)%fld(:,:),kind=aq_real)
               end do
 !$omp end parallel do
            case default
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
               do ib_var = 1, self%n_vars
-                 ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
-                 if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: extraction target variable ' &
-                    & //trim(self%var_name(ib_var))//' not in source variables')
+                 ib_pos = other%find_variable_index(self%var_name(ib_var))
                  call aq_copy(self%locsize, other%fldsd(ib_pos)%fld, self%fldsd(ib_var)%fld)
               end do
 !$omp end parallel do
@@ -596,23 +585,17 @@ subroutine aq_field_copy(self, other)
         case(aq_single)
            select case(other%prec)
            case(aq_single)
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
               do ib_var = 1, other%n_vars
-                 ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
-                 if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: injection source variable ' &
-                    & //trim(other%var_name(ib_var))//' not in target variables')
+                 ib_pos = self%find_variable_index(other%var_name(ib_var))
                  call aq_copy(self%locsize, other%fldss(ib_var)%fld, self%fldss(ib_pos)%fld)
               end do
 !$omp end parallel do
            case default
               ! Demote
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
               do ib_var = 1, other%n_vars
-                 ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
-                 if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: injection source variable ' &
-                    & //trim(other%var_name(ib_var))//' not in target variables')
+                 ib_pos = self%find_variable_index(other%var_name(ib_var))
                  self%fldss(ib_pos)%fld(:,:) = real(other%fldsd(ib_var)%fld(:,:),kind=aq_single)
               end do
 !$omp end parallel do
@@ -621,22 +604,16 @@ subroutine aq_field_copy(self, other)
            select case(other%prec)
            case(aq_single)
               ! Promote
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
               do ib_var = 1, other%n_vars
-                 ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
-                 if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: injection source variable ' &
-                    & //trim(other%var_name(ib_var))//' not in target variables')
+                 ib_pos = self%find_variable_index(other%var_name(ib_var))
                  self%fldsd(ib_pos)%fld(:,:) = real(other%fldss(ib_var)%fld(:,:),kind=aq_real)
               end do
 !$omp end parallel do
            case default
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
               do ib_var = 1, other%n_vars
-                 ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
-                 if (ib_pos < 1) &
-                    & call abor1_ftn('aq_field_copy: injection source variable ' &
-                    & //trim(other%var_name(ib_var))//' not in target variables')
+                 ib_pos = self%find_variable_index(other%var_name(ib_var))
                  call aq_copy(self%locsize, other%fldsd(ib_var)%fld, self%fldsd(ib_pos)%fld)
               end do
 !$omp end parallel do
@@ -677,22 +654,16 @@ subroutine aq_field_self_add(self, other)
      if (self%n_vars <= other%n_vars) then
         ! Extraction of subset or variable reshuffling
         if (self%prec == aq_single) then
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
            do ib_var = 1, self%n_vars
-              ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
-              if (ib_pos < 1) &
-                 & call abor1_ftn('aq_field_self_add: extraction target variable ' &
-                    & //trim(self%var_name(ib_var))//' not in source variables')
+              ib_pos = other%find_variable_index(self%var_name(ib_var))
               call aq_axpy(self%locsize, 1.0_oops_real, other%fldss(ib_pos)%fld, self%fldss(ib_var)%fld)
            end do
 !$omp end parallel do
         else
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
            do ib_var = 1, self%n_vars
-              ib_pos = findloc(other%var_name, self%var_name(ib_var), dim=1)
-              if (ib_pos < 1) &
-                 & call abor1_ftn('aq_field_self_add: extraction target variable ' &
-                    & //trim(self%var_name(ib_var))//' not in source variables')
+              ib_pos = other%find_variable_index(self%var_name(ib_var))
               call aq_axpy(self%locsize, 1.0_oops_real, other%fldsd(ib_pos)%fld, self%fldsd(ib_var)%fld)
            end do
 !$omp end parallel do
@@ -700,19 +671,16 @@ subroutine aq_field_self_add(self, other)
      else
         ! Injection into larger set
         if (self%prec == aq_single) then
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
            do ib_var = 1, other%n_vars
-              ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
-              if (ib_pos < 1) &
-                 & call abor1_ftn('aq_field_self_add: injection source variable ' &
-                    & //trim(self%var_name(ib_var))//' not in target variables')
+              ib_pos = self%find_variable_index(other%var_name(ib_var))
               call aq_axpy(self%locsize, 1.0_oops_real, other%fldss(ib_var)%fld, self%fldss(ib_pos)%fld)
            end do
 !$omp end parallel do
         else
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
            do ib_var = 1, other%n_vars
-              ib_pos = findloc(self%var_name, other%var_name(ib_var), dim=1)
+              ib_pos = self%find_variable_index(other%var_name(ib_var))
               if (ib_pos < 1) &
                  & call abor1_ftn('aq_field_self_add: injection source variable ' &
                     & //trim(self%var_name(ib_var))//' not in target variables')
@@ -779,11 +747,16 @@ subroutine aq_field_add_incr(self, incr)
   !
   if (self%prec == aq_single .or. incr%prec == aq_single) &
      & call abor1_ftn('aq_field_add_incr not implemented for single precision')
-!$omp parallel do private(ib_pos)
+
+   do ib_var = 1, incr%n_vars
+      print*, "self",ib_var,trim(incr%var_name(ib_var))
+   end do
+   do ib_var = 1, self%n_vars
+      print*, "self",ib_var,trim(self%var_name(ib_var))
+   end do
+!$omp parallel do private(ib_var, ib_pos)
   do ib_var = 1, incr%n_vars
-     ib_pos = findloc(self%var_name, incr%var_name(ib_var), dim=1)
-     if (ib_pos < 1) &
-        & call abor1_ftn('aq_field_add_incr: incr variable '//trim(incr%var_name(ib_var))//' not in state variables')
+     ib_pos = self%find_variable_index(incr%var_name(ib_var))
      call aq_axpy(self%locsize, 1.0_oops_real, incr%fldsd(ib_var)%fld, self%fldsd(ib_pos)%fld)
   end do
 !$omp end parallel do
@@ -800,11 +773,9 @@ subroutine aq_field_diff_incr(self, fld1, fld2)
   if (self%prec == aq_single .or. fld1%prec == aq_single .or. fld2%prec == aq_single) &
      & call abor1_ftn('aq_field_diff_incr not implemented for single precision')
   !
-!$omp parallel do private(ib_pos)
+!$omp parallel do private(ib_var, ib_pos)
   do ib_var = 1, self%n_vars
-     ib_pos = findloc(fld1%var_name, self%var_name(ib_var), dim=1)
-     if (ib_pos < 1) &
-        & call abor1_ftn('aq_field_diff_incr: incr variable '//trim(self%var_name(ib_var))//' not in state variables')
+     ib_pos = fld1%find_variable_index(self%var_name(ib_var))
      call aq_copy(self%locsize, fld1%fldsd(ib_pos)%fld, self%fldsd(ib_var)%fld)
      call aq_axpy(self%locsize, -1.0_oops_real, fld2%fldsd(ib_pos)%fld, self%fldsd(ib_var)%fld)
   end do
@@ -891,7 +862,7 @@ subroutine aq_field_dot_prod_with(self, other, zprod)
   if (self%geom%halo > 0) then
      zprod = 0.0_oops_real
      if (self%prec == aq_single) then
-!$omp parallel do reduction(+:zprod) private(ib_j, ib_i, ib_k)
+!$omp parallel do reduction(+:zprod) private(ib_var, ib_j, ib_i, ib_k)
         do ib_var = 1, self%n_vars
            do ib_j = self%geom%fs%j_begin(), self%geom%fs%j_end()
               do ib_i = self%geom%fs%i_begin(ib_j), self%geom%fs%i_end(ib_j)
@@ -905,7 +876,7 @@ subroutine aq_field_dot_prod_with(self, other, zprod)
         end do
 !$omp end parallel do
      else
-!$omp parallel do reduction(+:zprod) private(ib_j, ib_i, ib_k)
+!$omp parallel do reduction(+:zprod) private(ib_var, ib_j, ib_i, ib_k)
         do ib_var = 1, self%n_vars
            do ib_j = self%geom%fs%j_begin(), self%geom%fs%j_end()
               do ib_i = self%geom%fs%i_begin(ib_j), self%geom%fs%i_end(ib_j)
@@ -1789,7 +1760,7 @@ subroutine aq_field_serialize(self, buff)
      end do
 !$omp end parallel do
   else
-!$omp parallel do private(ib_lev, ib_node, icounter)
+!$omp parallel do private(ib_var, ib_lev, ib_node, icounter)
      do ib_var = 1, self%n_vars
         icounter = (ib_var-1)*self%locsize+1
         do ib_node = 1, self%geom%fs%size()
@@ -1820,7 +1791,7 @@ subroutine aq_field_deserialize(self, buff, offset)
       end do
 !$omp end parallel do
    else
-!$omp parallel do private(ib_lev, ib_node, icounter)
+!$omp parallel do private(ib_var, ib_lev, ib_node, icounter)
       do ib_var = 1, self%n_vars
          icounter = offset + (ib_var-1)*self%locsize+1
          do ib_node = 1, self%geom%fs%size()
@@ -1978,5 +1949,26 @@ subroutine aq_field_from_fieldset(self, vars, fset)
    end do
    !
 end subroutine aq_field_from_fieldset
+
+function aq_find_variable_index(self, var_name) result(ib_pos)
+   class(aq_fields), intent(in) :: self
+   character(len=*), intent(in) :: var_name
+   integer(atlas_kind_idx) :: ib_pos
+   !
+   integer(atlas_kind_idx) :: ib_var
+   character(len=aq_strlen) :: message
+   !
+   ib_pos = 0
+   do ib_var = 1, self%n_vars
+      if (self%var_name(ib_var) == var_name) ib_pos = ib_var
+   end do
+   if (ib_pos < 1) then
+      write(message,'(a)') 'Cannot find variable '//trim(var_name)//' among:'
+      do ib_var = 1, self%n_vars
+         write(message,'(a)')  trim(message),' ',trim(self%var_name(ib_var))
+      end do
+      call abor1_ftn(message)
+   end if
+end function aq_find_variable_index
 
 end module aq_fields_mod
