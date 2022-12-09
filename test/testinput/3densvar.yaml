@@ -92,7 +92,7 @@ cost function:
 
 variational:
   minimizer:
-    algorithm: DRIPCG
+    algorithm: RPLanczos
 
   iterations:
   - diagnostics:

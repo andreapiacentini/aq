@@ -131,7 +131,7 @@ cost function:
 
 variational:
   minimizer:
-    algorithm: DRPLanczos
+    algorithm: RPLanczos
 
   iterations:
   - diagnostics:
