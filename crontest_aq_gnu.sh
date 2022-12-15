@@ -1,7 +1,7 @@
 #!/bin/bash -l
 if [ -z $AQ_JEDI_CRO ] ; then
-  if [ -f $HOME/loadaq_crontest.sh ] ; then
-    source $HOME/loadaq_crontest.sh
+  if [ -f $HOME/loadaq_crontest_gnu.sh ] ; then
+    source $HOME/loadaq_crontest_gnu.sh
     echo "AQ CRONTAB TEST: loaded execution environment"
   else
     echo "AQ CRONTAB TEST: execution environment not loaded"
@@ -29,19 +29,15 @@ if [ $install_ret = 0 ] ; then
        rm -f HPC_JOB HPC_OUT
        cat > HPC_JOB <<EOF
 #!/bin/bash
-#SBATCH -J aq-crontest
+#SBATCH -J aq-gnu-crontest
 #Number of nodes
 #SBATCH -N 1
 #SBATCH -p debug
 #SBATCH --ntasks-per-node=36
-#SBATCH -o HPC_OUT
-#SBATCH -e HPC_OUT
+#SBATCH -o HPC_GNU_OUT
+#SBATCH -e HPC_GNU_OUT
 
-source $HOME/loadaq_crontest.sh
-export KMP_DETERMINISTIC_REDUCTION=true
-export I_MPI_PIN_DOMAIN=omp
-export ROMIO_HINTS=/softs/Modules/modulefiles/mpi/intelmpi/romio-hints
-export I_MPI_HYDRA_BOOTSTRAP=ssh
+source $HOME/loadaq_crontest_gnu.sh
 cd $AQ_JEDI_BLD/aq
 ctest --output-on-failure > $AQ_JEDI_CRO/ctest_output.out 2>&1
 EOF
@@ -68,6 +64,6 @@ else
    status=Failed
    message="Failed on install"
 fi
-mailx -s "AQ automatic testing $status at `date`" $1 <<EOF
+mailx -s "AQ GNU automatic testing $status at `date`" $1 <<EOF
 $message
 EOF
