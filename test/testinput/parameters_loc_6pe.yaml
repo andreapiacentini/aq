@@ -33,17 +33,24 @@ background:
   state variables: *vars
 
 bump:
-  datadir: Data
-  new_nicas: true
-  prefix: loc_6pe
-  resol: 8.0
-  strategy: common
-  forced_radii: true
-  rh:
-    common: [1000.0e3]
-  rv:
-    common: [3.0]
-  write_nicas_local: true
+  io:
+    data directory: Data
+    files prefix: loc_6pe
+  drivers:
+    multivariate strategy: common
+    compute nicas: true
+    write local nicas: true
+  nicas:
+    resolution: 8.0
+    explicit length-scales: true
+    horizontal length-scale:
+    - variables:
+      - common
+      value: 1000.0e3
+    vertical length-scale:
+    - variables:
+      - common
+      value: 3.0
 input variables: *vars
 
 test:

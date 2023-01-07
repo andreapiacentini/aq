@@ -46,10 +46,12 @@ cost function:
       saber central block:
         saber block name: BUMP_NICAS
         bump:
-          datadir: Data
-          load_nicas_local: true
-          prefix: loc_6pe
-          strategy: common
+          io:
+            data directory: Data
+            files prefix: loc_6pe
+          drivers:
+            multivariate strategy: common
+            read local nicas: true
     members from template:
       template:
         <<: *state_ref

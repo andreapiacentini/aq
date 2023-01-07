@@ -71,14 +71,20 @@ cost function:
       saber central block:
         saber block name: BUMP_NICAS
         bump:
-          datadir: Data
-          load_nicas_local: true
-          prefix: loc_2pe_mv
-          strategy: common_weighted
-          loc_wgt:
-            CO-O_3: 0.5
-            CO-NO_2: 0.5
-            O_3-NO_2: 0.5
+          io:
+            data directory: Data
+            files prefix: loc_2pe_mv
+          drivers:
+            multivariate strategy: common_weighted
+            read local nicas: true
+          nicas:
+            common localization weights:
+            - row variables: [CO]
+              column variables: [O_3, NO_2]
+              value: 0.5
+            - row variables: [O_3]
+              column variables: [NO_2]
+              value: 0.5
     members from template:
       template:
         states:
