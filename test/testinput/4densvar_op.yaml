@@ -79,11 +79,8 @@ cost function:
             read local nicas: true
           nicas:
             common localization weights:
-            - row variables: [CO]
-              column variables: [O_3, NO_2]
-              value: 0.5
-            - row variables: [O_3]
-              column variables: [NO_2]
+            - row variables: *vars
+              column variables: *vars
               value: 0.5
     members from template:
       template:
