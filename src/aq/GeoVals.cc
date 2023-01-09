@@ -108,22 +108,24 @@ double GeoVals::dot_product_with(const GeoVals & other) const {
 }
 
 // -----------------------------------------------------------------------------
-void GeoVals::fill(const std::vector<size_t> & indx,
-                   const std::vector<double> & vals, const bool levelsTopDown) {
+void GeoVals::fill(const std::string &name, const ConstVectorRef<size_t> &indx,
+                   const ConstMatrixRef<double> &vals, const bool) {
   const size_t npts = indx.size();
-  const size_t nvals = vals.size();
+  const size_t nlev  = vals.cols();
   std::vector<int> findx(indx.size());
-  for (size_t jj = 0; jj < indx.size(); ++jj) findx[jj] = indx[jj] + 1;
-  aq_geovals_fill_f90(keyGeoVals_, npts, findx[0], nvals, vals[0]);
+  for (Eigen::Index jj = 0; jj < indx.size(); ++jj) findx[jj] = indx[jj] + 1;
+  aq_geovals_fill_f90(keyGeoVals_, name.size(), name.data(), npts, findx.data(),
+                      nlev, vals.data());
 }
 // -----------------------------------------------------------------------------
-void GeoVals::fillAD(const std::vector<size_t> & indx,
-                     std::vector<double> & vals, const bool levelsTopDown) const {
+void GeoVals::fillAD(const std::string &name, const ConstVectorRef<size_t> &indx,
+                     MatrixRef<double> vals, const bool) const {
   const size_t npts = indx.size();
-  const size_t nvals = vals.size();
+  const size_t nlev = vals.cols();
   std::vector<int> findx(indx.size());
-  for (size_t jj = 0; jj < indx.size(); ++jj) findx[jj] = indx[jj] + 1;
-  aq_geovals_fillad_f90(keyGeoVals_, npts, findx[0], nvals, vals[0]);
+  for (Eigen::Index jj = 0; jj < indx.size(); ++jj) findx[jj] = indx[jj] + 1;
+  aq_geovals_fillad_f90(keyGeoVals_, name.size(), name.data(), npts, findx.data(),
+                        nlev, vals.data());
 }
 // -----------------------------------------------------------------------------
 void GeoVals::read(const Parameters_ & params) {

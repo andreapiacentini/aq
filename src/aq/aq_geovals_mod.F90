@@ -17,9 +17,11 @@ use iso_c_binding
 use kinds
 use netcdf
 use oops_variables_mod
+use aq_constants_mod
 use aq_geom_mod
 use aq_locs_mod
 use aq_tools_mod, only: ncerr
+use string_f_c_mod
 use random_mod
 
 implicit none
@@ -115,50 +117,58 @@ end if
 
 end subroutine aq_geovals_copy
 ! ------------------------------------------------------------------------------
-subroutine aq_geovals_fill(self, c_nloc, c_indx, c_nval, c_vals)
+subroutine aq_geovals_fill(self, lvar, c_var, c_nloc, c_indx, c_nlev, c_vals)
 implicit none
 type(aq_geovals), intent(inout) :: self
+integer(c_int), intent(in) :: lvar
+character(kind=c_char, len=1), intent(in) :: c_var(lvar+1)
 integer(c_int), intent(in) :: c_nloc
 integer(c_int), intent(in) :: c_indx(c_nloc)
-integer(c_int), intent(in) :: c_nval
-real(c_double), intent(in) :: c_vals(c_nval)
+integer(c_int), intent(in) :: c_nlev
+real(c_double), intent(in) :: c_vals(c_nloc, c_nlev)
 
 integer :: jvar, jloc, iloc, ii
+character(len=aq_varlen) :: fieldname
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fill: gom not allocated')
+
+call c_f_string(c_var, fieldname)
 
 ii = 0
 do jvar=1,self%vars%nvars()
   do jloc=1,c_nloc
     iloc = c_indx(jloc)
     ii = ii + 1
-    if (ii > c_nval) call abor1_ftn('aq_geovals_fill: error size')
-    self%x(iloc) = c_vals(ii)
+    self%x(iloc) = c_vals(ii, 1)
   enddo
 enddo
 
 end subroutine aq_geovals_fill
 ! ------------------------------------------------------------------------------
-subroutine aq_geovals_fillad(self, c_nloc, c_indx, c_nval, c_vals)
+subroutine aq_geovals_fillad(self, lvar, c_var, c_nloc, c_indx, c_nlev, c_vals)
 implicit none
 type(aq_geovals), intent(in) :: self
+integer(c_int), intent(in) :: lvar
+character(kind=c_char, len=1), intent(in) :: c_var(lvar+1)
 integer(c_int), intent(in) :: c_nloc
 integer(c_int), intent(in) :: c_indx(c_nloc)
-integer(c_int), intent(in) :: c_nval
-real(c_double), intent(inout) :: c_vals(c_nval)
+integer(c_int), intent(in) :: c_nlev
+real(c_double), intent(inout) :: c_vals(c_nloc, c_nlev)
 
 integer :: jvar, jloc, iloc, ii
+character(len=aq_varlen) :: fieldname
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fillad: gom not allocated')
 
-c_vals(:) = 0.0
+call c_f_string(c_var, fieldname)
+
+c_vals(:,:) = 0.0
 ii = 0
 do jvar=1,self%vars%nvars()
   do jloc=1,c_nloc
     iloc = c_indx(jloc)
     ii = ii + 1
-    if (ii > c_nval) call abor1_ftn('aq_geovals_fillad: error size')
-    c_vals(ii) = self%x(iloc)
+    c_vals(ii, 1) = self%x(iloc)
   enddo
 enddo
 

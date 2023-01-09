@@ -34,10 +34,12 @@ background error:
     saber central block:
       saber block name: BUMP_NICAS
       bump:
-        datadir: Data
-        load_nicas_local: true
-        prefix: loc_2pe
-        strategy: common
+        io:
+          data directory: Data
+          files prefix: loc_2pe
+        drivers:
+          multivariate strategy: common
+          read local nicas: true
   members from template:
     template:
       states:
