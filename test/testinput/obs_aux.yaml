@@ -10,7 +10,7 @@ observations:
   geovals:
     filename: Data/HGOM+20100704_CO.gom
   geovals test:
-    state variables: [x]
+    state variables: [CO]
     norm: 5.1134002123179723e-06
   obs space:
     obsdatain:
@@ -36,7 +36,7 @@ observations:
   geovals:
     filename: Data/HGOM+20100704_O3.gom
   geovals test:
-    state variables: [x]
+    state variables: [O3]
     norm: 2.1010644367170238e-06
   obs space:
     obsdatain:

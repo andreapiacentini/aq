@@ -127,20 +127,16 @@ integer(c_int), intent(in) :: c_indx(c_nloc)
 integer(c_int), intent(in) :: c_nlev
 real(c_double), intent(in) :: c_vals(c_nloc, c_nlev)
 
-integer :: jvar, jloc, iloc, ii
-character(len=aq_varlen) :: fieldname
+integer :: jvar, jloc, iloc
+!character(len=aq_varlen) :: fieldname ! Not used for the moment
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fill: gom not allocated')
 
-call c_f_string(c_var, fieldname)
+!call c_f_string(c_var, fieldname) ! Not used for the moment
 
-ii = 0
-do jvar=1,self%vars%nvars()
-  do jloc=1,c_nloc
-    iloc = c_indx(jloc)
-    ii = ii + 1
-    self%x(iloc) = c_vals(ii, 1)
-  enddo
+do jloc=1,c_nloc
+   iloc = c_indx(jloc)
+   self%x(iloc) = c_vals(jloc, 1)
 enddo
 
 end subroutine aq_geovals_fill
@@ -155,21 +151,18 @@ integer(c_int), intent(in) :: c_indx(c_nloc)
 integer(c_int), intent(in) :: c_nlev
 real(c_double), intent(inout) :: c_vals(c_nloc, c_nlev)
 
-integer :: jvar, jloc, iloc, ii
-character(len=aq_varlen) :: fieldname
+integer :: jvar, jloc, iloc
+!character(len=aq_varlen) :: fieldname ! Not used for the moment
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fillad: gom not allocated')
 
-call c_f_string(c_var, fieldname)
+!call c_f_string(c_var, fieldname) ! Not used for the moment
 
 c_vals(:,:) = 0.0
-ii = 0
-do jvar=1,self%vars%nvars()
-  do jloc=1,c_nloc
-    iloc = c_indx(jloc)
-    ii = ii + 1
-    c_vals(ii, 1) = self%x(iloc)
-  enddo
+
+do jloc=1,c_nloc
+   iloc = c_indx(jloc)
+   c_vals(jloc, 1) = self%x(iloc)
 enddo
 
 end subroutine aq_geovals_fillad
@@ -466,7 +459,7 @@ type(aq_geovals),intent(inout) :: self             !< GeoVals
 type(fckit_configuration),intent(in) :: f_conf !< FCKIT configuration
 
 ! Local variables
-integer :: ncid,nobs_id,nobs,x_id,q_id,u_id,v_id
+integer :: ncid,nobs_id,nobs,x_id
 character(len=1024) :: filename
 character(len=:),allocatable :: str
 
@@ -515,7 +508,7 @@ type(aq_geovals),intent(inout) :: self !< GeoVals
 type(fckit_configuration),intent(in) :: f_conf !< FCKIT configuration
 
 ! Local variables
-integer :: ncid,nobs_id,x_id,q_id,u_id,v_id
+integer :: ncid,nobs_id,x_id
 character(len=1024) :: filename
 character(len=:),allocatable :: str
 
