@@ -75,7 +75,7 @@ cost function:
             data directory: Data
             files prefix: loc_2pe_mv
           drivers:
-            multivariate strategy: common_weighted
+            multivariate strategy: duplicated and weighted
             read local nicas: true
           nicas:
             common localization weights:

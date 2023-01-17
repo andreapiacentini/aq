@@ -39,7 +39,7 @@ background error:
           data directory: Data
           files prefix: loc_6pe_mv
         drivers:
-          multivariate strategy: common_weighted
+          multivariate strategy: duplicated and weighted
           read local nicas: true
         nicas:
           common localization weights:

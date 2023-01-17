@@ -38,7 +38,7 @@ bump:
     data directory: Data
     files prefix: loc_6pe_mv
   drivers:
-    multivariate strategy: common_weighted
+    multivariate strategy: duplicated and weighted
     compute nicas: true
     write local nicas: true
   nicas:
