@@ -22,17 +22,18 @@ _geoms02 geometry: &gems02_geom
   orientation: up
 
 # Mnemonics:
-_NO_2 transform: &NO_2_transf
+_log_t transform: &log_t_transf
   method: log_threshold
   parameters: [1.e-12]
+
 _memo:
   - &state_ref
     date: 2010-07-04T00:00:00Z
     filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
     state variables: *vars
-    transform:
-      NO_2:
-        *NO_2_transf
+    transforms:
+    - <<: *log_t_transf
+      variables: [NO_2]
 
 cost function:
   cost type: 4D-Ens-Var
@@ -138,7 +139,7 @@ cost function:
             obsfile: Data/HSTAT+20100704.h5
         obs type: NO2
         transform:
-          *NO_2_transf
+          *log_t_transf
         instr name: AIRBASE_NO2
         obserrors:
           type: percent
