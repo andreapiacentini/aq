@@ -1362,7 +1362,7 @@ subroutine aq_field_read(self, config, date)
   character(len=:), allocatable :: file
   type(datetime) :: vdate
   integer :: strlen, dotpos
-  type(fckit_Configuration) :: transform_config
+  type(fckit_Configuration), allocatable :: transform_config(:)
 
   vdate = self%date
   if (present(date)) vdate = date
@@ -1381,8 +1381,8 @@ subroutine aq_field_read(self, config, date)
      call abor1_ftn('Input format '//file(dotpos+1:strlen)//' not recognised')
   end if
 
-  if (config%has("transform")) then
-     call config%get_or_die("transform", transform_config)
+  if (config%has("transforms")) then
+     call config%get_or_die("transforms", transform_config)
      call self%var_transf%setup(self%var_name, transform_config)
      call self%var_transf%apply(self, self%var_name)
   end if
@@ -1469,7 +1469,7 @@ subroutine aq_field_ana_IC(self, config)
   type(atlas_Field) :: field_xy
   real(atlas_kind_real64), pointer :: xy(:,:)
   integer(atlas_kind_idx) :: ib
-  type(fckit_Configuration) :: transform_config
+  type(fckit_Configuration), allocatable :: transform_config(:)
 
   real(aq_real), parameter :: dp_pi=3.14159265359
   real(aq_real), parameter :: dLon0 = 6.3
@@ -1552,8 +1552,8 @@ subroutine aq_field_ana_IC(self, config)
 
   call self%halo_exchange()
   !
-  if (config%has("transform")) then
-     call config%get_or_die("transform", transform_config)
+  if (config%has("transforms")) then
+     call config%get_or_die("transforms", transform_config)
      call self%var_transf%setup(self%var_name, transform_config)
      call self%var_transf%apply(self, self%var_name)
   end if

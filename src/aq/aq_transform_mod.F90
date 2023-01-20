@@ -44,69 +44,49 @@ contains
    subroutine aq_transform_setup(self, vars, config)
       class(aq_transform), intent(inout)    :: self
       character(len=*),       intent(in)    :: vars(:)
-      type(fckit_Configuration), intent(in) :: config
+      type(fckit_Configuration), dimension(:), intent(in) :: config
 
-      integer :: ib, ib_t, idx
-      character(len=aq_strlen) :: key
+      integer :: idx, ib, ib_t, il_v
+      character(len=:), allocatable :: variables(:)
       character(len=:), allocatable :: transform
-      type(fckit_Configuration) :: lconf
-      character(kind=c_char,len=:), allocatable :: json_str
-      character(len=aq_varlen) :: var, rvar
+      logical :: ll_found
 
       call self%delete()
 
-      ! Specific treatment for strings with dots as in PM2.5
-      json_str = config%json()
-      do ib = 1, size(vars)
-         var = trim(vars(ib))
-         rvar = var
-         do
-            idx = index(rvar, '.') ; if (idx == 0) exit
-            rvar(idx:idx) = '_'
-         end do
-         if (trim(var) /= trim(rvar)) then
-            do
-               idx = index(json_str, trim(var)) ; if (idx == 0) exit
-               json_str(idx:idx+len(trim(var))-1) = trim(rvar)
-            end do
-         end if
-      end do
-      lconf = fckit_YAMLConfiguration(json_str)
-
       self%nb_vars = 0
-      do ib = 1, size(vars)
-         var = trim(vars(ib))
-         rvar = var
-         do
-            idx = index(rvar, '.') ; if (idx == 0) exit
-            rvar(idx:idx) = '_'
-         end do
-         if (lconf%has(trim(rvar))) self%nb_vars = self%nb_vars + 1
+      do idx = 1, size(config)
+         self%nb_vars = self%nb_vars + config(idx)%get_size('variables')
       end do
 
       allocate(self%var_names(self%nb_vars))
       allocate(self%transform(self%nb_vars))
       allocate(self%params(self%nb_vars))
 
-      ib_t = 0
-      do ib = 1, size(vars)
-         var = trim(vars(ib))
-         rvar = var
-         do
-            idx = index(rvar, '.') ; if (idx == 0) exit
-            rvar(idx:idx) = '_'
+      il_v = 0
+      do idx = 1, size(config)
+         call config(idx)%get_or_die('variables',variables)
+         call config(idx)%get_or_die('method',transform)
+         do ib = 1, size(variables)
+            do ib_t = 1, il_v
+               if (trim(self%var_names(ib_t)) == trim(variables(ib))) then
+                  call abor1_ftn('Transformation for variable '&
+                     &//trim(variables(ib))//' already defined')
+               end if
+            end do
+            ll_found = .false.
+            do ib_t = 1, size(vars)
+               if (trim(vars(ib_t)) == trim(variables(ib))) then
+                  ll_found = .true.
+                  il_v = il_v + 1
+                  self%var_names(il_v) = trim(variables(ib))
+                  self%transform(il_v) = trim(transform)
+                  call config(idx)%get_or_die('parameters',self%params(il_v)%p)
+                  exit
+               end if
+            end do
+            if (.not. ll_found) self%nb_vars = self%nb_vars - 1
          end do
-         if (lconf%has(trim(rvar))) then
-            ib_t = ib_t + 1
-            self%var_names(ib_t) = trim(vars(ib))
-            key = trim(rvar)//'.method'
-            call lconf%get_or_die(trim(key),transform)
-            self%transform(ib_t) = trim(transform)
-            key = trim(rvar)//'.parameters'
-            if (lconf%has(trim(key))) then
-               call lconf%get_or_die(trim(key),self%params(ib_t)%p)
-            end if
-         end if
+         deallocate(variables)
       end do
 
    end subroutine aq_transform_setup
@@ -119,7 +99,7 @@ contains
       if (allocated(self%var_names)) then
          deallocate(self%var_names)
          deallocate(self%transform)
-         do ib = 1, size(self%params)
+         do ib = 1, self%nb_vars
             deallocate(self%params(ib)%p)
          end do
          deallocate(self%params)
