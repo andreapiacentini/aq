@@ -59,6 +59,7 @@ cost function:
   background error:
     covariance model: ensemble
     localization:
+      communication mode: collective in 2 steps
       localization method: SABER
       saber central block:
         saber block name: BUMP_NICAS
