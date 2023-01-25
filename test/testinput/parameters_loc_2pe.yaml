@@ -38,18 +38,18 @@ bump:
     data directory: Data
     files prefix: loc_2pe
   drivers:
-    multivariate strategy: common
+    multivariate strategy: duplicated
     compute nicas: true
     write local nicas: true
   nicas:
     resolution: 8.0
     explicit length-scales: true
     horizontal length-scale:
-    - variables:
+    - groups:
       - common
       value: 1000.0e3
     vertical length-scale:
-    - variables:
+    - groups:
       - common
       value: 3.0
 input variables: *vars

@@ -49,7 +49,7 @@ cost function:
             data directory: Data
             files prefix: loc_6pe
           drivers:
-            multivariate strategy: common
+            multivariate strategy: duplicated
             read local nicas: true
     members from template:
       template:
