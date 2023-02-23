@@ -69,9 +69,8 @@ cost function:
     covariance model: ensemble
     localization:
       time decay: 3.0
-      communication mode: shift
-      #communication mode: split
       #communication mode: sequential
+      communication mode: sequential fast
       #communication mode: collective in 2 steps
       localization method: SABER
       saber central block:
