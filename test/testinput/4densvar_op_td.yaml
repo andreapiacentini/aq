@@ -69,9 +69,7 @@ cost function:
     covariance model: ensemble
     localization:
       time decay: 3.0
-      #communication mode: sequential
-      communication mode: sequential fast
-      #communication mode: collective in 2 steps
+      communication mode: fast
       localization method: SABER
       saber central block:
         saber block name: BUMP_NICAS

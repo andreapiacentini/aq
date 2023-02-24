@@ -30,7 +30,8 @@ _memo:
 background error:
   covariance model: ensemble
   localization:
-    communication mode: standard
+    time decay: 3.0
+    communication mode: fast
     localization method: SABER
     saber central block:
       saber block name: BUMP_NICAS
@@ -103,6 +104,6 @@ output variance:
   fileprefix: O4GEMS02
 
 test:
-  reference filename: testoutput/dirac_loc_4d.test
-  test output filename: testoutput/dirac_loc_4d.log
+  reference filename: testoutput/dirac_loc_4d_td.test
+  test output filename: testoutput/dirac_loc_4d_td.log
   float absolute tolerance: 1.e-30
