@@ -41,7 +41,7 @@ set( ECBUILD_Fortran_FLAGS_RELEASE  "-O3 -g -funroll-all-loops -finline-function
 ####################################################################
 
 set( ECBUILD_C_FLAGS_RELWITHDEBINFO        "-O3 -g -fbacktrace" )
-set( ECBUILD_CXX_FLAGS_RELWITHDEBINFO      "-O3 -g -fbacktrace" )
+set( ECBUILD_CXX_FLAGS_RELWITHDEBINFO      "-O3 -g -rdynamic" )
 set( ECBUILD_Fortran_FLAGS_RELWITHDEBINFO  "-O3 -g -fbacktrace -funroll-all-loops -finline-functions" )
 
 ####################################################################
@@ -65,7 +65,7 @@ set( ECBUILD_Fortran_FLAGS_PRODUCTION "-O3 -funroll-all-loops -finline-functions
 ####################################################################
 
 set( ECBUILD_C_FLAGS_DEBUG        "-O0 -g -fbacktrace" )
-set( ECBUILD_CXX_FLAGS_DEBUG      "-O0 -g -fbacktrace" )
+set( ECBUILD_CXX_FLAGS_DEBUG      "-O0 -g -rdynamic" )
 set( ECBUILD_Fortran_FLAGS_DEBUG  "-O0 -g -Wextra -Wall -ftrapv -fall-intrinsics -fcheck=all -fimplicit-none -ffpe-trap=invalid,zero,overflow,denormal -fcheck-array-temporaries -finit-derived -finit-integer=-999 -finit-real=snan -fbacktrace" )
 
 ####################################################################
