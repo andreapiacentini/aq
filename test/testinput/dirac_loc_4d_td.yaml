@@ -97,11 +97,11 @@ initial condition:
 
 output dirac:
   datadir: Data
-  fileprefix: L4GEMS02_%id%
+  fileprefix: S4GEMS02_%id%
 
 output variance:
   datadir: Data
-  fileprefix: O4GEMS02
+  fileprefix: W4GEMS02
 
 test:
   reference filename: testoutput/dirac_loc_4d_td.test

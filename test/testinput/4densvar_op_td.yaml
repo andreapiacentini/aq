@@ -175,7 +175,7 @@ final:
 
 output:
   datadir: Data
-  fileprefix: A4GEMS02
+  fileprefix: ATGEMS02
 
 test:
   reference filename: testoutput/4densvar_op_td.test
