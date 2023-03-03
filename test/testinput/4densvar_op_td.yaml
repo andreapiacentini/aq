@@ -68,7 +68,7 @@ cost function:
   background error:
     covariance model: ensemble
     localization:
-      time decay: 3.0
+      time decay: PT3H
       communication mode: fast
       localization method: SABER
       saber central block:
