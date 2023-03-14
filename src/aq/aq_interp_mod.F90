@@ -226,15 +226,15 @@ contains
       !      1-D Linear interpolation and extrapolation.
       !
       ! Input:
-      !	y:	 The input vector
-      !	x:	 The absicissae values for y
-      !	x1:	 The absicissae values for the result (y1)
-      !	NoData:  Missing data value for y
+      ! y:       The input vector
+      ! x:       The absicissae values for y
+      ! x1:      The absicissae values for the result (y1)
+      ! NoData:  Missing data value for y
       !
       ! Output:
-      !	Returns vector of interpolated values. No extrapolation
-      !	is performed if NoData is set - NoData value is assigned to
-      !	the interpolated data outside of the x range.
+      ! Returns vector of interpolated values. No extrapolation
+      ! is performed if NoData is set - NoData value is assigned to
+      ! the interpolated data outside of the x range.
       !-
       use floats
       implicit none
@@ -311,38 +311,38 @@ contains
    function INTERPOL( V, X, U )
       !+
       ! NAME:
-      !	INTERPOL
+      ! INTERPOL
       !
       ! PURPOSE:
-      !	Linearly interpolate and extrapolate vectors with a regular or irregular grid.
+      ! Linearly interpolate and extrapolate vectors with a regular or irregular grid.
       !
       ! CATEGORY:
-      !	E1 - Interpolation
+      ! E1 - Interpolation
       !
       ! CALLING SEQUENCE:
-      !	Result = INTERPOL(V, X, U)
+      ! Result = INTERPOL(V, X, U)
       !
       ! INPUTS:
-      !	V:	The input vector can be any type except string.
+      ! V:      The input vector can be any type except string.
       !
-      !	X:	The absicissae values for V.  This vecotr must have same # of
-      !		elements as V.  The values MUST be monotonically ascending
-      !		or descending.
+      ! X:      The absicissae values for V.  This vecotr must have same # of
+      !         elements as V.  The values MUST be monotonically ascending
+      !         or descending.
       !
-      !	U:	The absicissae values for the result.  The result will have
-      !		the same number of elements as U.  U does not need to be
-      !		monotonic.
+      ! U:      The absicissae values for the result.  The result will have
+      !         the same number of elements as U.  U does not need to be
+      !         monotonic.
       !
       !
       ! OUTPUTS:
-      !	INTERPOL returns a floating-point vector of N points determined
-      !	by linearly interpolating the input vector.
+      ! INTERPOL returns a floating-point vector of N points determined
+      ! by linearly interpolating the input vector.
       !
       ! PROCEDURE:
-      !	Result(i) = V(x) + (x - FIX(x)) * (V(x+1) - V(x))
+      ! Result(i) = V(x) + (x - FIX(x)) * (V(x+1) - V(x))
       !
-      !	where        x = U(i).
-      !		m = number of points of input vector.
+      ! where        x = U(i).
+      !         m = number of points of input vector.
       !
       ! MODIFICATION HISTORY:
       !                 IDL routine translated to F90 by Boris Khattatov, 9/25/96
@@ -358,16 +358,16 @@ contains
       real(std) :: s1, d
       integer :: M, N, ix, i
       !
-      M = size(V)	!# of input pnts
+      M = size(V)       !# of input pnts
 
       if (size(X) .ne. M) then
          print *, 'INTERPOL %  V and X must have same # of elements'
          stop
       endif
 
-      N= size(U)	!# of output points
+      N= size(U)        !# of output points
 
-      r = V(1)	!floating, dbl or cmplx result
+      r = V(1)  !floating, dbl or cmplx result
 
       if (X(2) - X(1) .ge. 0) then
          s1 = 1.0
@@ -375,9 +375,9 @@ contains
          s1 = -1.0
       endif !Incr or Decr X
 
-      ix = 1			!current point
-      do i=1,N 	                   !point loop
-         d = s1 * (U(i)-X(ix))	!difference
+      ix = 1                    !current point
+      do i=1,N                     !point loop
+         d = s1 * (U(i)-X(ix))  !difference
          if (abs(d) .lt. tiny(d)) then
             r(i)=V(ix)
          else   !at point
@@ -402,39 +402,39 @@ contains
    function INTERPOL_2( V, X, U, nodata )
       !+
       ! NAME:
-      !	INTERPOL_2
+      ! INTERPOL_2
       !
       ! PURPOSE:
-      !	Linearly interpolate  vectors with a regular or irregular grid.
+      ! Linearly interpolate  vectors with a regular or irregular grid.
       !       NO EXTRAPOLATION (AK)!
       !
       ! CATEGORY:
-      !	E1 - Interpolation
+      ! E1 - Interpolation
       !
       ! CALLING SEQUENCE:
-      !	Result = INTERPOL_2(V, X, U)
+      ! Result = INTERPOL_2(V, X, U)
       !
       ! INPUTS:
-      !	V:	The input vector can be any type except string.
+      ! V:      The input vector can be any type except string.
       !
-      !	X:	The absicissae values for V.  This vecotr must have same # of
-      !		elements as V.  The values MUST be monotonically ascending
-      !		or descending.
+      ! X:      The absicissae values for V.  This vecotr must have same # of
+      !         elements as V.  The values MUST be monotonically ascending
+      !         or descending.
       !
-      !	U:	The absicissae values for the result.  The result will have
-      !		the same number of elements as U.  U does not need to be
-      !		monotonic.
+      ! U:      The absicissae values for the result.  The result will have
+      !         the same number of elements as U.  U does not need to be
+      !         monotonic.
       !
       !
       ! OUTPUTS:
-      !	INTERPOL_2 returns a floating-point vector of N points determined
-      !	by linearly interpolating the input vector.
+      ! INTERPOL_2 returns a floating-point vector of N points determined
+      ! by linearly interpolating the input vector.
       !
       ! PROCEDURE:
-      !	Result(i) = V(x) + (x - FIX(x)) * (V(x+1) - V(x))
+      ! Result(i) = V(x) + (x - FIX(x)) * (V(x+1) - V(x))
       !
-      !	where        x = U(i).
-      !		m = number of points of input vector.
+      ! where        x = U(i).
+      !         m = number of points of input vector.
       !
       ! MODIFICATION HISTORY:
       !                 IDL routine translated to F90 by Boris Khattatov, 9/25/96
@@ -451,16 +451,16 @@ contains
       real(std) :: s1, d
       integer :: M, N, ix, i
       !
-      M = size(V)	!# of input pnts
+      M = size(V)       !# of input pnts
 
       if (size(X) .ne. M) then
          print *, 'INTERPOL_2 %  V and X must have same # of elements'
          stop
       endif
 
-      N= size(U)	!# of output points
+      N= size(U)        !# of output points
 
-      r = V(1)	!floating, dbl or cmplx result
+      r = V(1)  !floating, dbl or cmplx result
 
       if (X(2) - X(1) .ge. 0) then
          s1 = 1.0
@@ -470,9 +470,9 @@ contains
 
       r=nodata
 
-      ix = 1			!current point
-      do i=1,N 	                   !point loop
-         d = s1 * (U(i)-X(ix))	!difference
+      ix = 1                    !current point
+      do i=1,N                     !point loop
+         d = s1 * (U(i)-X(ix))  !difference
          if (abs(d) .lt. tiny(d)) then
             r(i)=V(ix)
          else   !at point
@@ -1296,9 +1296,11 @@ contains
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    subroutine amub2 (nrow,ncol,job,a,ja,ia,b,jb,ib,  &
       c,jc,ic,nzmax,iw,ierr)
+      integer nrow, ncol, job, nzmax, ierr
       real*8 a(*), b(*), c(*)
       integer ja(*),jb(*),jc(*),ia(nrow+1),ib(*),ic(*),iw(ncol)
       real*8 scal
+      integer ii, jj, jcol, jpos, k, ka, kb, len
       logical values
       values = (job .ne. 0)
       len = 0
@@ -1312,9 +1314,9 @@ contains
       do ii=1, nrow
          !c     row i
          do ka=ia(ii), ia(ii+1)-1
-	    if (values) scal = a(ka)
-	    jj   = ja(ka)
-	    do kb=ib(jj),ib(jj+1)-1
+            if (values) scal = a(ka)
+            jj   = ja(ka)
+            do kb=ib(jj),ib(jj+1)-1
                jcol = jb(kb)
                jpos = iw(jcol)
                if (jpos .eq. 0) then
@@ -3764,7 +3766,7 @@ contains
       integer      :: ia(*),ja(*)
       integer      :: nrow,ncol,nzmax,ndns,ierr
       !-----------------------------------------------------------------------
-      ! Dense		to    Compressed Row Sparse
+      ! Dense           to    Compressed Row Sparse
       !-----------------------------------------------------------------------
       !
       ! converts a densely stored matrix into a row orientied
@@ -3776,19 +3778,19 @@ contains
       ! on entry:
       !---------
       !
-      ! nrow	= row-dimension of a
-      ! ncol	= column dimension of a
+      ! nrow    = row-dimension of a
+      ! ncol    = column dimension of a
       ! nzmax = maximum number of nonzero elements allowed. This
       !         should be set to be the lengths of the arrays a and ja.
       ! dns   = input nrow x ncol (dense) matrix.
-      ! ndns	= first dimension of dns.
+      ! ndns    = first dimension of dns.
       !
       ! on return:
       !----------
       !
       ! a, ja, ia = value, column, pointer  arrays for output matrix
       !
-      ! ierr	= integer error indicator:
+      ! ierr    = integer error indicator:
       !         ierr .eq. 0 means normal retur
       !         ierr .eq. i means that the the code stopped while
       !         processing row number i, because there was no space left in
