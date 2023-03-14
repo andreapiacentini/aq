@@ -817,7 +817,7 @@ subroutine aq_field_self_schur(self, other)
      else
 !$omp parallel do
         do ib_var = 1, self%n_vars
-           self%fldss(ib_var)%fld(:,:) = self%fldss(ib_var)%fld(:,:) * other%fldsd(ib_var)%fld(:,:)
+           self%fldss(ib_var)%fld(:,:) = self%fldss(ib_var)%fld(:,:) * real(other%fldsd(ib_var)%fld(:,:),kind=aq_single)
         end do
 !$omp end parallel do
      end if
@@ -825,7 +825,7 @@ subroutine aq_field_self_schur(self, other)
      if (other%prec == aq_single) then
 !$omp parallel do
         do ib_var = 1, self%n_vars
-           self%fldsd(ib_var)%fld(:,:) = self%fldsd(ib_var)%fld(:,:) * other%fldss(ib_var)%fld(:,:)
+           self%fldsd(ib_var)%fld(:,:) = self%fldsd(ib_var)%fld(:,:) * real(other%fldss(ib_var)%fld(:,:),kind=aq_real)
         end do
 !$omp end parallel do
      else
@@ -1373,7 +1373,7 @@ subroutine aq_field_read(self, config, date)
 
   if (file(dotpos+1:strlen) == 'nc') then
      if (trim(self%geom%model) == "MOCAGE") then
-        call aq_read_mocage_nc(self, self%var_name, self%geom, file, vdate)
+        call aq_read_mocage_nc(self, self%var_name, self%geom, file)
      else
         call abor1_ftn('NetCDF input only coded for MOCAGE')
      end if

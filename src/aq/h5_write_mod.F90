@@ -998,18 +998,13 @@ CONTAINS
       ! Dimensions
       INTEGER :: il_memrank
       INTEGER(hsize_t), DIMENSION(1) :: ila_memdims
-      INTEGER(hsize_t), DIMENSION(1) :: ila_begin
-      INTEGER(hsize_t), DIMENSION(1) :: ila_count
       INTEGER :: il_datarank
       INTEGER(hsize_t), DIMENSION(1) :: ila_datadims
-      INTEGER(hsize_t), DIMENSION(1) :: ila_datasetdims
       ! Inquiries
       LOGICAL :: ll_exists
       INTEGER :: il_err
       ! Temporary buffers
       INTEGER(hsize_t), DIMENSION(1) :: ila_maxdims
-      INTEGER :: il_type_class
-      INTEGER(size_t) :: il_type_size
 
       il_memrank = 1
       ila_memdims(1) = SIZE(rda_dset, dim=2)
