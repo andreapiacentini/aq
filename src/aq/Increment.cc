@@ -134,8 +134,18 @@ void Increment::random() {
 // -----------------------------------------------------------------------------
 void Increment::dirac(const eckit::Configuration & config) {
   fields_->zero();
-  util::DateTime dd(config.getString("date"));
-  if (this->validTime() == dd) fields_->dirac(config);
+  if (config.has("date")) {
+    util::DateTime dd(config.getString("date"));
+    if (this->validTime() == dd) fields_->dirac(config);
+  } else if (config.has("dates")) {
+    std::vector<std::string> dates(config.getStringVector("dates"));
+    for (const auto date : dates) {
+      util::DateTime dd(date);
+      if (this->validTime() == dd) fields_->dirac(config);
+    }
+  } else {
+    ABORT("missing date or dates in dirac configuration");
+  }
 }
 // -----------------------------------------------------------------------------
 /// ATLAS FieldSet
