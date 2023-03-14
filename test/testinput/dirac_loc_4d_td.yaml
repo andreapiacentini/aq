@@ -74,6 +74,19 @@ dirac:
   levdir: [  47]
   var:    ['CO']
 
+diagnostic points:
+  dates:
+  - 2010-07-04T00:00:00Z
+  - 2010-07-04T01:00:00Z
+  - 2010-07-04T02:00:00Z
+  - 2010-07-04T03:00:00Z
+  - 2010-07-04T04:00:00Z
+  - 2010-07-04T05:00:00Z
+  londir: [ 7.9]
+  latdir: [38.3]
+  levdir: [  47]
+  var:    ['CO']
+
 initial condition:
   states:
   - <<: *state_ref
