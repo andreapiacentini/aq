@@ -112,7 +112,7 @@ contains
       class(aq_transform), intent(inout) :: self
       class(aq_transform), intent(in)    :: other
 
-      integer :: ib_t, ib
+      integer :: ib_t
 
       call self%delete()
 
@@ -142,7 +142,7 @@ contains
       real(aq_single), pointer :: flds(:,:)
       real(aq_real), pointer :: fldd(:,:)
 
-      integer(atlas_kind_idx) :: ib_t, ib_i, ib_j, ib_k, ib_var, il_lev
+      integer(atlas_kind_idx) :: ib_t, ib_var
       logical :: ll_sgl
 
       if (self%nb_vars == 0) return
@@ -201,7 +201,7 @@ contains
       real(aq_single), pointer :: flds(:,:)
       real(aq_real), pointer :: fldd(:,:)
 
-      integer(atlas_kind_idx) :: ib_t, ib_i, ib_j, ib_k, ib_var, il_lev
+      integer(atlas_kind_idx) :: ib_t, ib_var
       logical :: ll_sgl
 
       if (self%nb_vars == 0) return

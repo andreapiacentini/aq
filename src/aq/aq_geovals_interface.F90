@@ -224,7 +224,6 @@ real(c_double),intent(in) :: c_zz       !< Multiplier
 
 ! Local variables
 type(aq_geovals),pointer :: self
-integer :: jo,jv
 
 ! Interface
 call aq_geovals_registry%get(c_key_self,self)

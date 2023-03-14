@@ -127,7 +127,7 @@ integer(c_int), intent(in) :: c_indx(c_nloc)
 integer(c_int), intent(in) :: c_nlev
 real(c_double), intent(in) :: c_vals(c_nloc, c_nlev)
 
-integer :: jvar, jloc, iloc
+integer :: jloc, iloc
 !character(len=aq_varlen) :: fieldname ! Not used for the moment
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fill: gom not allocated')
@@ -151,7 +151,7 @@ integer(c_int), intent(in) :: c_indx(c_nloc)
 integer(c_int), intent(in) :: c_nlev
 real(c_double), intent(inout) :: c_vals(c_nloc, c_nlev)
 
-integer :: jvar, jloc, iloc
+integer :: jloc, iloc
 !character(len=aq_varlen) :: fieldname ! Not used for the moment
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fillad: gom not allocated')
@@ -351,9 +351,6 @@ implicit none
 type(aq_geovals),intent(in) :: geovals1       !< GeoVals 1
 type(aq_geovals),intent(in) :: geovals2       !< GeoVals 2
 real(kind_real),intent(inout) :: prod !< Dot product
-
-! Local variables
-integer :: jo,jv
 
 ! Check
 if (geovals1%nobs/=geovals2%nobs) call abor1_ftn('aq_geovals_dotprod: inconsistent GeoVals sizes')
@@ -555,7 +552,6 @@ type(fckit_configuration),intent(in) :: f_conf !< FCKIT configuration
 
 ! Local variables
 integer :: iloc
-real(kind_real) :: x,y
 real(kind_real), pointer :: xy(:,:), z(:)
 type(atlas_field) :: lonlat_field, z_field
 

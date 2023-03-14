@@ -61,13 +61,12 @@ contains
 
    end subroutine aq_write_field_gmsh
 
-   subroutine aq_read_mocage_nc(afset, vars, geom, file, date)
+   subroutine aq_read_mocage_nc(afset, vars, geom, file)
 
       class(atlas_FieldSet),  intent(inout) :: afset
       character(len=*),       intent(in)    :: vars(:)
       type(aq_geom),          intent(in)    :: geom
       character(len=*),       intent(in)    :: file
-      type(datetime),         intent(in)    :: date
 
       integer :: ncid, varid, dimid, nblevels
       integer, allocatable :: mod_levs(:)
@@ -172,7 +171,7 @@ contains
 
    end subroutine aq_read_mocage_nc
 
-   subroutine aq_read_mocage_nc_par(afset, vars, geom, file, date)
+   subroutine aq_read_mocage_nc_par(afset, vars, geom, file)
       !
       ! N.B. This routine based on parallel NetCDF is fully functional
       !      yet its performaces depend excessively on the MPI implementation.
@@ -182,7 +181,6 @@ contains
       character(len=*),       intent(in)    :: vars(:)
       type(aq_geom),          intent(in)    :: geom
       character(len=*),       intent(in)    :: file
-      type(datetime),         intent(in)    :: date
 
       integer :: ncid, varid, dimid, nblevels
       integer, allocatable :: mod_levs(:)
@@ -282,8 +280,12 @@ contains
       type(datetime),         intent(in) :: date
 
       integer :: ncid, il_create_mode
-      integer :: il_dlat, il_dlon, il_dlev, il_dtime
-      integer :: il_vlat, il_vlon, il_vlev, il_vtime
+      integer :: il_dlat, il_dlon, il_dlev
+      integer :: il_vlat, il_vlon, il_vlev
+#ifdef NDEBUG
+      integer :: il_dtime
+      integer :: il_vtime
+#endif
       integer, allocatable :: ila_varid(:)
       integer :: ib, ib_var, ib_i, ib_j, ib_k
       type(atlas_Field) :: aloc_3d, aglo_3d

@@ -49,7 +49,6 @@ contains
       ! local
       !
       integer                   :: i,j,npt0,npt1
-      real(std)                      :: z1,z2
       real(std)                      :: z0_j,z0_jp1
       real(std)                      :: y0_j,y0_jp1
       real(std)                      :: dz1,dz2
@@ -105,7 +104,6 @@ contains
       ! local
       !
       integer                   :: i,j,npt0,npt1
-      real(std)                      :: z1,z2
       real(std)                      :: z0_j,z0_jp1
       real(std)                      :: y0_j,y0_jp1
       real(std)                      :: dz1,dz2
@@ -184,7 +182,7 @@ contains
       ! local
       !
       integer                        :: i,j,npt0,npt1
-      real(std)                      :: z1,z2,z0,dz1,dz2
+      real(std)                      :: z0,dz1,dz2
       real(std), dimension(size(x1)) :: y1
       !
       if(size(x0).ne.size(y0)) then
@@ -566,8 +564,6 @@ contains
       integer :: Indx(size(b)), Flag
       real(std) :: AA(size(b),size(b)), bb(size(b))
       !
-      real(std) :: p(size(b))
-      !
       N = size(b)
       !
       AA = A
@@ -783,7 +779,7 @@ contains
       !
       integer i,j,niter,niter_max
       real(std) r(n),p(n),w(n),sum
-      real(std) alpha,beta,epsilon,norm_b
+      real(std) alpha,beta,epsilon
       real(std), dimension(:), pointer :: rho
       !
       ! parameters
@@ -1131,7 +1127,7 @@ contains
       !OUTPUT:
       real(std),dimension(nrow,NPRF)         :: vector_out
       !LOCAL:
-      integer*4        :: np,ALLOC_ERR,ib_i,ib_k
+      integer*4        :: np,ib_i,ib_k
 
       vector_out=0.
       do np=1,NPRF
@@ -1178,7 +1174,7 @@ contains
       !OUTPUT:
       real(std),dimension(nrow,NPRF)         :: vector_out
       !LOCAL:
-      integer*4        :: np,ALLOC_ERR
+      integer*4        :: np
 
       do np=1,NPRF
          call atmux(H_csr%nrow,vector,vector_out(:,np),           &
@@ -1221,7 +1217,7 @@ contains
       !OUTPUT:
       real(std),dimension(:),intent(inout)   :: vector_out
       !LOCAL:
-      integer*4        :: np,ALLOC_ERR,ib_i,ib_k
+      integer*4        :: np,ib_i,ib_k
 
       if (present(NoData)) then
          do np=1,NPRF
@@ -1691,17 +1687,13 @@ contains
       ! VARIABLES FOR THE CONSTRUCTION OF THE MATRIX
       integer                          :: nmax
       !
-      real(std), dimension(nlev)       :: unit                !unit vector
       integer*4                        :: ind1,ind2,ind3,ind4 !indices
-      real(std),dimension(mlev)        :: temp                !temporary array for storing
       !the contribution of a model level
       !to all observed levels
 
       integer*4                  :: k
       integer*4                  :: ip
       integer*4                  :: it
-      integer*4                  :: i_nlev,i_mlev
-      integer*4                  :: ierr
       integer*4 :: ALLOC_ERR
 
       real(std), pointer    ,dimension(:)   :: weights
@@ -1798,7 +1790,7 @@ contains
       ! local variables:
       real(std)                     :: fact
       real(std)                     :: w1,w2   !weights
-      integer                       :: i,n,k
+      integer                       :: i,k
       integer                       :: nmax
       integer*4 :: ALLOC_ERR
 
@@ -1873,7 +1865,7 @@ contains
       !
       ! local
       !
-      integer      :: i,j,k,n,i1,j1,i2,j2,ii,jj,ip
+      integer      :: i,j,k,i1,j1,i2,j2,ii,jj,ip
       real(std)    :: dx1,dx2,dy1,dy2
       logical      :: test_lat,test_lon,found_cell
       logical      :: ll_not_mono
@@ -2754,7 +2746,7 @@ contains
       integer*4                                 :: ALLOC_ERR
 
       ! loop counters and indexing variables
-      integer*4 :: ip, i, k, n, indk
+      integer*4 :: i, k, n, indk
 
       allocate(Hres1_csr%H(1,1))
       allocate(Hres1_csr%j(1,1))
@@ -3130,7 +3122,7 @@ contains
       !     ~~~~~~~~~~~~~~~~~
       !
       integer :: I,J,L,LP1
-      real (KIND=8) :: PL1,PL2,PLT0,PLT1,PLT2,COEF,DP2
+      real (KIND=8) :: PL1,PL2,PLT0,PLT1,COEF,DP2
       real (KIND=8) :: RPN,RPNM1,RPTN,RPTNM1
       real (KIND=8) :: RP1,RP2,RP3,RP4,DP1
       real (KIND=8) :: RP12,RP13,RP14,RP23,RP24,RP34
@@ -3359,7 +3351,6 @@ contains
       ! THE FOUR MATRICES CORRESPONDING TO THE 4 OPERATORS, MATRICES IN CSR FORMAT:
       type(CSR_FORMAT)                          :: Hh_csr  !horizontal operator
       type(CSR_FORMAT)                          :: Ht_csr  !temporal operator
-      type(CSR_FORMAT)                          :: Ha_csr  !smoothing operator
       ! TEMPORARY MATRICES FOR STORING THE RESULTS OF MULTIPLICATIONS OF MATRICES:
       !  TYPE(CSR_FORMAT)                          :: Hres2_csr  !result of Ht*(Hv*Hh)
 
@@ -3378,11 +3369,8 @@ contains
       ! if the averaging kernel is used,
       ! this number is used to store the  number of non-zero elements in the final
       !  matrix
-      integer*4                                 :: lvls_out
-      integer*4                                 :: np   !indexing variable
       ! number of non-zero elements in the CSR format:
       integer*4                                 :: nmax
-      integer*4                                 :: ierr !error index
 
       integer*4                                 :: ALLOC_ERR
 
