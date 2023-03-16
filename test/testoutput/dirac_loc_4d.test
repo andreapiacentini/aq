@@ -53,6 +53,16 @@ Input Dirac increment:
   Var. O_3: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
   Var. NO_2: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
 
+Covariance(ensemble) diagnostics:
+- Variances at Dirac points:
+  + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.3613116010685404e-23
+- Covariances at diagnostic points:
+  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): -2.3355286227963129e-46
+  + Value for variable CO, subwindow 1, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 3.0394660899775058e-23
+  + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.3613116010685404e-23
+  + Value for variable CO, subwindow 3, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 9.8079272656794168e-23
+  + Value for variable CO, subwindow 4, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.4514780832631620e-22
+  + Value for variable CO, subwindow 5, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.8776836797969336e-22
 Covariance(ensemble) * Increment:
   Valid time: 2010-07-04T00:00:00Z
   Fields aq_fieldset for model MOCAGE
@@ -108,6 +118,14 @@ Covariance(ensemble) * Increment:
   Var. O_3: min = -2.7846842732174233e-22; max = 8.1060480101420227e-22; mean = 5.4396419936599904e-25; stddev = 1.2967088229238951e-23
   Var. NO_2: min = -2.1593052291142127e-21; max = 8.1738771002077745e-23; mean = -3.0019769473058599e-24; stddev = 4.0503926614497373e-23
 
+Localization(ensemble_localization) diagnostics:
+- Localization at diagnostic points:
+  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000002e+00
+  + Value for variable CO, subwindow 1, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000002e+00
+  + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000002e+00
+  + Value for variable CO, subwindow 3, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000002e+00
+  + Value for variable CO, subwindow 4, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000002e+00
+  + Value for variable CO, subwindow 5, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000002e+00
 Localization(ensemble) * Increment:
   Valid time: 2010-07-04T00:00:00Z
   Fields aq_fieldset for model MOCAGE
@@ -217,3 +235,4 @@ Randomized variance:
   Var. CO: min = 0.0000000000000000e+00; max = 2.1329986853541335e-14; mean = 1.2357649737644303e-18; stddev = 6.3607294700213621e-17
   Var. O_3: min = 0.0000000000000000e+00; max = 6.9118563553652140e-18; mean = 5.7774463696303663e-21; stddev = 3.5265392816771917e-20
   Var. NO_2: min = 0.0000000000000000e+00; max = 6.7195551580824585e-17; mean = 3.0128457175306062e-20; stddev = 4.0033431063451171e-19
+

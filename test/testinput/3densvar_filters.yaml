@@ -117,7 +117,7 @@ final:
 
 output:
   datadir: Data
-  fileprefix: A3GEMS02
+  fileprefix: AFGEMS02
 
 test:
   reference filename: testoutput/3densvar_filters.test

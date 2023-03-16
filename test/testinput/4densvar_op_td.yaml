@@ -1,4 +1,6 @@
-# Simple 4DEnsVar
+# Operations like 4DEnsVar. It includes the logarithmic tranformation
+# of NO_2 values, background check filtering on observations
+# and multivariate localization.
 #
 # Executable: aq_var.x
 # (C) Copyright 2021-2022 CERFACS.
@@ -20,11 +22,18 @@ _geoms02 geometry: &gems02_geom
   orientation: up
 
 # Mnemonics:
+_log_t transform: &log_t_transf
+  method: log_threshold
+  parameters: [1.e-12]
+
 _memo:
   - &state_ref
     date: 2010-07-04T00:00:00Z
     filename: Data/ENS04_reduced/HMGEMS02+2010070400.nc
     state variables: *vars
+    transforms:
+    - <<: *log_t_transf
+      variables: [NO_2]
 
 cost function:
   cost type: 4D-Ens-Var
@@ -59,17 +68,23 @@ cost function:
   background error:
     covariance model: ensemble
     localization:
-      communication mode: standard
+      time decay: PT3H
+      communication mode: fast
       localization method: SABER
       saber central block:
         saber block name: BUMP_NICAS
         bump:
           io:
             data directory: Data
-            files prefix: loc_2pe
+            files prefix: loc_2pe_mv
           drivers:
-            multivariate strategy: duplicated
+            multivariate strategy: duplicated and weighted
             read local nicas: true
+          nicas:
+            common localization weights:
+            - row variables: *vars
+              column variables: *vars
+              value: 0.5
     members from template:
       template:
         states:
@@ -112,6 +127,9 @@ cost function:
       obs operator:
         obs type: InSitu
         mod var: O_3
+      obs filters:
+      - filter: Background Check
+        threshold: 3.0e-8
       obs error:
         covariance model: diagonal
     - obs space:
@@ -122,6 +140,8 @@ cost function:
           engine:
             obsfile: Data/HSTAT+20100704.h5
         obs type: NO2
+        transform:
+          *log_t_transf
         instr name: AIRBASE_NO2
         obserrors:
           type: percent
@@ -129,6 +149,9 @@ cost function:
       obs operator:
         obs type: InSitu
         mod var: NO_2
+      obs filters:
+      - filter: Background Check
+        threshold: 0.7
       obs error:
         covariance model: diagonal
 
@@ -152,8 +175,8 @@ final:
 
 output:
   datadir: Data
-  fileprefix: A4GEMS02
+  fileprefix: ATGEMS02
 
 test:
-  reference filename: testoutput/4densvar.test
-  test output filename: testoutput/4densvar.log
+  reference filename: testoutput/4densvar_op_td.test
+  test output filename: testoutput/4densvar_op_td.log

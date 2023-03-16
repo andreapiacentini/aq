@@ -68,7 +68,7 @@ cost function:
   background error:
     covariance model: ensemble
     localization:
-      communication mode: collective in 2 steps
+      communication mode: aggressive
       localization method: SABER
       saber central block:
         saber block name: BUMP_NICAS
@@ -174,7 +174,7 @@ final:
 
 output:
   datadir: Data
-  fileprefix: A4GEMS02
+  fileprefix: AOGEMS02
 
 test:
   reference filename: testoutput/4densvar_op.test
