@@ -533,7 +533,9 @@ else
   call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Y', rla_obs)
   if (self%obserrtype.eq."fromfile") then
     allocate(rla_err(nobs))
-    call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Covariance', rla_err)
+    call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/ErrorCovariance', rla_err)
+    ! Consider that errors in hdf5 files are given as R-1 values
+    rla_err = (1.d0/rla_err)**(0.5d0)
   endif
   ! Setup observation vector for the locations
   call aq_obsvec_setup(obsloc,3,nobs)
