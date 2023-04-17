@@ -28,9 +28,11 @@ observations:
   observers:
   - obs space:
       obsdatain:
-        obsfile: Data/HDAT+20100704.h5
+        engine:
+          obsfile: Data/HDAT+20100704.h5
       obsdataout:
-        obsfile: Data/HSTAT+20100704.h5
+        engine:
+          obsfile: Data/HSTAT+20100704.h5
       obs type: CO
       instr name: AIRBASE_CO
     obs operator:
@@ -38,9 +40,11 @@ observations:
       mod var: CO
   - obs space:
       obsdatain:
-        obsfile: Data/HDAT+20100704.h5
+        engine:
+          obsfile: Data/HDAT+20100704.h5
       obsdataout:
-        obsfile: Data/HSTAT+20100704.h5
+        engine:
+          obsfile: Data/HSTAT+20100704.h5
       obs type: O3
       instr name: AIRBASE_O3
     obs operator:

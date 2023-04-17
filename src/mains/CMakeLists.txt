@@ -29,6 +29,11 @@ ecbuild_add_executable( TARGET  aq_ens_recenter.x
                         LIBS    aq
                       )
 
+ecbuild_add_executable( TARGET  aq_ens_mean_variance.x
+                        SOURCES aqEnsMeanVariance.cc
+                        LIBS    aq
+                      )
+
 ecbuild_add_executable( TARGET  aq_error_covariance_training.x
                         SOURCES aqErrorCovarianceTraining.cc
                         LIBS    aq

@@ -78,9 +78,12 @@ class Geometry : public util::Printable,
   GeometryIterator end() const;
   std::vector<double> verticalCoord(std::string &) const;
   const eckit::mpi::Comm & getComm() const {return comm_;}
-  atlas::Grid * atlasGrid() const {return atlasGrid_.get();}
-  atlas::FunctionSpace * atlasFunctionSpace() const {return atlasFunctionSpace_.get();}
-  atlas::FieldSet * atlasFieldSet() const {return atlasFieldSet_.get();}
+  atlas::Grid grid() const {return grid_;}
+  const atlas::FunctionSpace & functionSpace() const {return functionSpace_;}
+  atlas::FunctionSpace & functionSpace() {return functionSpace_;}
+  const atlas::FieldSet & extraFields() const {return extraFields_;}
+  atlas::FieldSet & extraFields() {return extraFields_;}
+  bool levelsAreTopDown() const {return true;}
 
   std::vector<size_t> variableSizes(const oops::Variables & vars) const;
 
@@ -92,10 +95,11 @@ class Geometry : public util::Printable,
   F90geom keyGeom_;
   int halo_ = 0;
   const eckit::mpi::Comm & comm_;
-  std::unique_ptr<atlas::StructuredGrid> atlasGrid_;
-  std::unique_ptr<atlas::functionspace::StructuredColumns> atlasFunctionSpace_;
-  std::unique_ptr<atlas::functionspace::StructuredColumns> atlasFunctionSpaceNoHalo_;
-  std::unique_ptr<atlas::FieldSet> atlasFieldSet_;
+  eckit::LocalConfiguration gridConfig_;
+  atlas::StructuredGrid grid_;
+  atlas::functionspace::StructuredColumns functionSpace_;
+  atlas::functionspace::StructuredColumns functionSpaceNoHalo_;
+  atlas::FieldSet extraFields_;
 };
 // -----------------------------------------------------------------------------
 

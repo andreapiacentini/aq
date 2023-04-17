@@ -21,5 +21,11 @@ ecbuild --prefix=${build_dir} \
         ${AQ_JEDI_SRC}/bundle \
 || exit $?
 make update || exit $?
-make -j 24 || exit $?
+cpu=`lscpu | awk '$1 ~ "^CPU\\\(s\\\):" {print $2}'`
+tpc=`lscpu | awk '$1 ~ "^Thread\\\(s\\\)" {print $4}'`
+jobs=$((${cpu}/${tpc}))
+if [ ${jobs} -gt 30 ] ; then
+   jobs=$((${jobs}-6))
+fi
+make -j ${jobs} || exit $?
 make install || exit $?

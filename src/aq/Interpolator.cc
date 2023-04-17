@@ -22,10 +22,10 @@ namespace aq {
 
 Interpolator::Interpolator(const eckit::Configuration &, const Geometry & grid,
                            const std::vector<double> & lats, const std::vector<double> & lons)
-  : nlevs_(1), geom_(new Geometry(grid)), nlocs_(lats.size()), lats_(lats), lons_(lons)
+  : geom_(grid), nlevs_(1), nlocs_(lats.size()), lats_(lats), lons_(lons)
 {
   ASSERT(lats.size() == lons.size());
-  aq_interpolator_create_f90(keyInterp_, geom_->toFortran(), nlocs_, lats_[0], lons_[0]);
+  aq_interpolator_create_f90(keyInterp_, geom_.toFortran(), nlocs_, lats_[0], lons_[0]);
 }
 
 // -----------------------------------------------------------------------------
@@ -72,8 +72,8 @@ void Interpolator::applyAD(const oops::Variables & vars, Increment & dx,
                            const std::vector<bool> & mask,
                            const std::vector<double> & values) const {
   const size_t nvals = vars.size() * nlevs_ * nlocs_;
-  ASSERT(values.size() == nvals);
-  ASSERT(mask.size() == values.size());
+  ASSERT(values.size() >= nvals);
+  ASSERT(mask.size() == nvals);
   std::vector<int> imask(nvals, 0);
   for (size_t jobs = 0; jobs < nvals; ++jobs) {
     if (mask[jobs]) imask[jobs] = 1;

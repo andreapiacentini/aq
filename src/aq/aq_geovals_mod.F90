@@ -17,9 +17,11 @@ use iso_c_binding
 use kinds
 use netcdf
 use oops_variables_mod
+use aq_constants_mod
 use aq_geom_mod
 use aq_locs_mod
 use aq_tools_mod, only: ncerr
+use string_f_c_mod
 use random_mod
 
 implicit none
@@ -115,51 +117,53 @@ end if
 
 end subroutine aq_geovals_copy
 ! ------------------------------------------------------------------------------
-subroutine aq_geovals_fill(self, c_nloc, c_indx, c_nval, c_vals)
+subroutine aq_geovals_fill(self, lvar, c_var, c_nloc, c_indx, c_nlev, c_vals)
 implicit none
 type(aq_geovals), intent(inout) :: self
+integer(c_int), intent(in) :: lvar
+character(kind=c_char, len=1), intent(in) :: c_var(lvar+1)
 integer(c_int), intent(in) :: c_nloc
 integer(c_int), intent(in) :: c_indx(c_nloc)
-integer(c_int), intent(in) :: c_nval
-real(c_double), intent(in) :: c_vals(c_nval)
+integer(c_int), intent(in) :: c_nlev
+real(c_double), intent(in) :: c_vals(c_nloc, c_nlev)
 
-integer :: jvar, jloc, iloc, ii
+integer :: jloc, iloc
+!character(len=aq_varlen) :: fieldname ! Not used for the moment
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fill: gom not allocated')
 
-ii = 0
-do jvar=1,self%vars%nvars()
-  do jloc=1,c_nloc
-    iloc = c_indx(jloc)
-    ii = ii + 1
-    self%x(iloc) = c_vals(ii)
-  enddo
+!call c_f_string(c_var, fieldname) ! Not used for the moment
+
+do jloc=1,c_nloc
+   iloc = c_indx(jloc)
+   self%x(iloc) = c_vals(jloc, 1)
 enddo
-if (ii /= c_nval) call abor1_ftn('aq_geovals_fill: error size')
 
 end subroutine aq_geovals_fill
 ! ------------------------------------------------------------------------------
-subroutine aq_geovals_fillad(self, c_nloc, c_indx, c_nval, c_vals)
+subroutine aq_geovals_fillad(self, lvar, c_var, c_nloc, c_indx, c_nlev, c_vals)
 implicit none
 type(aq_geovals), intent(in) :: self
+integer(c_int), intent(in) :: lvar
+character(kind=c_char, len=1), intent(in) :: c_var(lvar+1)
 integer(c_int), intent(in) :: c_nloc
 integer(c_int), intent(in) :: c_indx(c_nloc)
-integer(c_int), intent(in) :: c_nval
-real(c_double), intent(inout) :: c_vals(c_nval)
+integer(c_int), intent(in) :: c_nlev
+real(c_double), intent(inout) :: c_vals(c_nloc, c_nlev)
 
-integer :: jvar, jloc, iloc, ii
+integer :: jloc, iloc
+!character(len=aq_varlen) :: fieldname ! Not used for the moment
 
 if (.not.self%lalloc) call abor1_ftn('aq_geovals_fillad: gom not allocated')
 
-ii = 0
-do jvar=1,self%vars%nvars()
-  do jloc=1,c_nloc
-    iloc = c_indx(jloc)
-    ii = ii + 1
-    c_vals(ii) = self%x(iloc)
-  enddo
+!call c_f_string(c_var, fieldname) ! Not used for the moment
+
+c_vals(:,:) = 0.0
+
+do jloc=1,c_nloc
+   iloc = c_indx(jloc)
+   c_vals(jloc, 1) = self%x(iloc)
 enddo
-if (ii /= c_nval) call abor1_ftn('aq_geovals_fillad: error size')
 
 end subroutine aq_geovals_fillad
 ! ------------------------------------------------------------------------------
@@ -348,9 +352,6 @@ type(aq_geovals),intent(in) :: geovals1       !< GeoVals 1
 type(aq_geovals),intent(in) :: geovals2       !< GeoVals 2
 real(kind_real),intent(inout) :: prod !< Dot product
 
-! Local variables
-integer :: jo,jv
-
 ! Check
 if (geovals1%nobs/=geovals2%nobs) call abor1_ftn('aq_geovals_dotprod: inconsistent GeoVals sizes')
 
@@ -455,7 +456,7 @@ type(aq_geovals),intent(inout) :: self             !< GeoVals
 type(fckit_configuration),intent(in) :: f_conf !< FCKIT configuration
 
 ! Local variables
-integer :: ncid,nobs_id,nobs,x_id,q_id,u_id,v_id
+integer :: ncid,nobs_id,nobs,x_id
 character(len=1024) :: filename
 character(len=:),allocatable :: str
 
@@ -504,7 +505,7 @@ type(aq_geovals),intent(inout) :: self !< GeoVals
 type(fckit_configuration),intent(in) :: f_conf !< FCKIT configuration
 
 ! Local variables
-integer :: ncid,nobs_id,x_id,q_id,u_id,v_id
+integer :: ncid,nobs_id,x_id
 character(len=1024) :: filename
 character(len=:),allocatable :: str
 
@@ -551,7 +552,6 @@ type(fckit_configuration),intent(in) :: f_conf !< FCKIT configuration
 
 ! Local variables
 integer :: iloc
-real(kind_real) :: x,y
 real(kind_real), pointer :: xy(:,:), z(:)
 type(atlas_field) :: lonlat_field, z_field
 

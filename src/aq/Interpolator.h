@@ -51,7 +51,7 @@ class Interpolator : public util::Printable {
  private:
   void print(std::ostream &) const;
   F90interp keyInterp_;
-  std::shared_ptr<const Geometry> geom_;
+  const Geometry & geom_;
   const size_t nlevs_;
   const size_t nlocs_;
   std::vector<double> lats_;

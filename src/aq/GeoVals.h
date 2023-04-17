@@ -12,6 +12,8 @@
 #ifndef AQ_GEOVALS_H_
 #define AQ_GEOVALS_H_
 
+#include <Eigen/Core>
+
 #include <ostream>
 #include <string>
 #include <vector>
@@ -42,6 +44,17 @@ class GeoValsParameters : public oops::Parameters {
 
 class GeoVals : public util::Printable,
                 private util::ObjectCounter<GeoVals> {
+  /// References to read-only or writable vector- or matrix-valued expressions.
+  ///
+  /// For example, an Eigen::Vector, Eigen::Matrix or an Eigen::Map (the latter can be used as a
+  /// view onto a chunk of memory stored in another container, such as a std::vector).
+  template <typename T>
+  using ConstVectorRef = Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>;
+  template <typename T>
+  using ConstMatrixRef = Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>;
+  template <typename T>
+  using MatrixRef = Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>;
+
  public:
   typedef GeoValsParameters Parameters_;
 
@@ -74,8 +87,10 @@ class GeoVals : public util::Printable,
 
   const int & toFortran() const {return keyGeoVals_;}
 
-  void fill(const std::vector<size_t> &, const std::vector<double> &);
-  void fillAD(const std::vector<size_t> &, std::vector<double> &) const;
+  void fill(const std::string &name, const ConstVectorRef<size_t> &indx,
+            const ConstMatrixRef<double> &vals, const bool levelsTopDown);
+  void fillAD(const std::string &name, const ConstVectorRef<size_t> &indx,
+              MatrixRef<double> vals, const bool levelsTopDown) const;
 
  private:
   void print(std::ostream &) const;

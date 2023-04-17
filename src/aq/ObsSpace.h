@@ -36,13 +36,22 @@
 namespace aq {
   class ObsIterator;
 
-/// Contents of the `obsdatain` or `obsdataout` YAML section.
+/// Contents of the `engine` YAML section.
 class ObsDataParameters : public oops::Parameters {
   OOPS_CONCRETE_PARAMETERS(ObsDataParameters, Parameters)
 
  public:
-  /// File path.
+  /// File path and type.
   oops::RequiredParameter<std::string> obsfile{"obsfile", this};
+};
+
+/// Contents of the `obsdatain` or `obsdataout` YAML section.
+class ObsEngineParameters : public oops::Parameters {
+  OOPS_CONCRETE_PARAMETERS(ObsEngineParameters, Parameters)
+
+ public:
+  /// File path.
+  oops::RequiredParameter<ObsDataParameters> engine{"engine", this};
 };
 
 /// Contents of the `obserrors` YAML section.
@@ -87,9 +96,9 @@ class ObsSpaceParameters : public oops::ObsSpaceParametersBase {
   /// Instrument Name.
   oops::RequiredParameter<std::string> instName{"instr name", this};
   /// File from which to load observations.
-  oops::OptionalParameter<ObsDataParameters> obsdatain{"obsdatain", this};
+  oops::OptionalParameter<ObsEngineParameters> obsdatain{"obsdatain", this};
   /// File to which to save observations and analysis.
-  oops::OptionalParameter<ObsDataParameters> obsdataout{"obsdataout", this};
+  oops::OptionalParameter<ObsEngineParameters> obsdataout{"obsdataout", this};
   /// Specification of observation errors.
   oops::OptionalParameter<ObsErrorsParameters> obserrors{"obserrors", this};
   /// Options controlling generation of artificial observations.

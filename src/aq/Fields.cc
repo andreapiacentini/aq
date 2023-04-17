@@ -42,9 +42,9 @@ namespace aq {
 // -----------------------------------------------------------------------------
 Fields::Fields(const Geometry & geom, const oops::Variables & vars,
                   const util::DateTime & time):
-  geom_(new Geometry(geom)), vars_(vars), time_(time)
+  geom_(geom), vars_(vars), time_(time)
 {
-  aq_fields_create_f90(keyFlds_, geom_->toFortran(), vars_);
+  aq_fields_create_f90(keyFlds_, geom_.toFortran(), vars_);
 }
 // -----------------------------------------------------------------------------
 Fields::Fields(const Fields & other, const bool copy)
@@ -64,14 +64,14 @@ Fields::Fields(const Fields & other)
 }
 // -----------------------------------------------------------------------------
 Fields::Fields(const Fields & other, const Geometry & geom)
-  : geom_(new Geometry(geom)), vars_(other.vars_), time_(other.time_)
+  : geom_(geom), vars_(other.vars_), time_(other.time_)
 {
   int world_rank = oops::mpi::world().rank();
   if (world_rank == 0) {
     oops::Log::debug() << " Change of resolution not yet implemented. Copy instead. " << std::endl;
   }
   // TODO(Emanuele and Andrea): Implement the change of resolution.
-  // aq_fields_create_f90(keyFlds_, geom_->toFortran(), vars_);
+  // aq_fields_create_f90(keyFlds_, geom_.toFortran(), vars_);
   // aq_fields_change_resol_f90(keyFlds_, other.keyFlds_);
   aq_fields_create_from_other_f90(keyFlds_, other.keyFlds_);
   aq_fields_copy_f90(keyFlds_, other.keyFlds_);
@@ -81,7 +81,7 @@ Fields::Fields(const Fields & other, const oops::Variables & vars)
   : geom_(other.geom_), vars_(vars), time_(other.time_)
 {
 // TODO(Benjamin): delete that ?
-  aq_fields_create_f90(keyFlds_, geom_->toFortran(), vars_);
+  aq_fields_create_f90(keyFlds_, geom_.toFortran(), vars_);
   aq_fields_copy_f90(keyFlds_, other.keyFlds_);
 }
 // -----------------------------------------------------------------------------
@@ -151,31 +151,25 @@ void Fields::changeResolution(const Fields & other) {
 // -----------------------------------------------------------------------------
 void Fields::add(const Fields & rhs) {
   // TODO(Emanuele and Andrea): Implement change of resolution
-  // Fields rhs_myres(rhs, *geom_);
+  // Fields rhs_myres(rhs, geom_);
   // aq_fields_add_incr_f90(keyFlds_, rhs_myres.keyFlds_);
   aq_fields_add_incr_f90(keyFlds_, rhs.keyFlds_);
 }
 // -----------------------------------------------------------------------------
 void Fields::diff(const Fields & x1, const Fields & x2) {
   // TODO(Emanuele and Andrea): Implement change of resolution
-  // Fields x1_myres(x1, *geom_);
-  // Fields x2_myres(x2, *geom_);
+  // Fields x1_myres(x1, geom_);
+  // Fields x2_myres(x2, geom_);
   // aq_fields_diff_incr_f90(keyFlds_, x1_myres.keyFlds_, x2_myres.keyFlds_);
   aq_fields_diff_incr_f90(keyFlds_, x1.keyFlds_, x2.keyFlds_);
 }
 // -----------------------------------------------------------------------------
-void Fields::setAtlas(atlas::FieldSet * afieldset) const {
-  aq_fields_set_atlas_f90(keyFlds_, vars_, afieldset->get());
+void Fields::toFieldSet(atlas::FieldSet & fset) const {
+  aq_fields_to_fieldset_f90(keyFlds_, vars_, fset.get());
 }
 // -----------------------------------------------------------------------------
-void Fields::toAtlas(atlas::FieldSet * afieldset) const {
-  aq_fields_to_atlas_f90(keyFlds_, vars_, afieldset->get());
-}
-// -----------------------------------------------------------------------------
-void Fields::fromAtlas(atlas::FieldSet * afieldset) {
-  oops::Log::debug() << "fromAtlas is a passive empty call for Fields coded as atlas fieldsets"
-                     << std::endl;
-  // aq_fields_from_atlas_f90(keyFlds_, vars_, afieldset->get());
+void Fields::fromFieldSet(const atlas::FieldSet & fset) {
+  aq_fields_from_fieldset_f90(keyFlds_, vars_, fset.get());
 }
 // -----------------------------------------------------------------------------
 void Fields::read(const eckit::Configuration & config) {
@@ -196,6 +190,20 @@ double Fields::norm() const {
   return zz;
 }
 // -----------------------------------------------------------------------------
+std::vector<double> Fields::rmsByLevel(const std::string & var) const {
+  // Get the number of levels
+  std::string vunit = "levels";
+  size_t size_fld = geom_.verticalCoord(vunit).size();
+  // Allocate space for fld
+  std::vector<double> v_fld(size_fld, 0);
+
+  // Compute the rms per level
+  aq_fields_rms_per_lev_f90(keyFlds_, var.size(), var.c_str(),
+                            static_cast<int>(size_fld), v_fld.data());
+
+  return v_fld;
+}
+// -----------------------------------------------------------------------------
 void Fields::print(std::ostream & os) const {
   eckit::LocalConfiguration flds_info_;
   aq_fields_info_f90(keyFlds_, flds_info_);
@@ -214,7 +222,7 @@ void Fields::print(std::ostream & os) const {
   std::vector<std::string> species = flds_info_.getStringVector("state variables");
   os << "  with " << species.size() << " variables" << std::endl;
   double min, max, mean, stddev;
-  for (int i = 0; i < species.size(); i++) {
+  for (int i = 0; i < static_cast<int>(species.size()); i++) {
     min = flds_info_.getDouble("statistics."+eckit::StringTools::trim(species[i])+".min");
     max = flds_info_.getDouble("statistics."+eckit::StringTools::trim(species[i])+".max");
     mean = flds_info_.getDouble("statistics."+eckit::StringTools::trim(species[i])+".mean");
@@ -223,24 +231,6 @@ void Fields::print(std::ostream & os) const {
        << ": min = " << min << "; max = " << max
        << "; mean = " << mean << "; stddev = " << stddev << std::endl;
   }
-}
-// -----------------------------------------------------------------------------
-oops::LocalIncrement Fields::getLocal(const GeometryIterator & iter) const {
-  // int nx, ny, nz;
-  // aq_fields_sizes_f90(keyFlds_, nx, ny, nz);
-  // std::vector<int> varlens(vars_.size());
-  // for (unsigned int ii = 0; ii < vars_.size(); ii++) {
-  //   varlens[ii] = nz;
-  // }
-  // int lenvalues = std::accumulate(varlens.begin(), varlens.end(), 0);
-  // std::vector<double> values(lenvalues);
-  // aq_fields_getpoint_f90(keyFlds_, iter.toFortran(), values.size(), values[0]);
-  // return oops::LocalIncrement(vars_, values, varlens);
-}
-// -----------------------------------------------------------------------------
-void Fields::setLocal(const oops::LocalIncrement & x, const GeometryIterator & iter) {
-  // const std::vector<double> vals = x.getVals();
-  // aq_fields_setpoint_f90(keyFlds_, iter.toFortran(), vals.size(), vals[0]);
 }
 // -----------------------------------------------------------------------------
 size_t Fields::serialSize() const {

@@ -1,0 +1,54 @@
+# Test the correct implementation of required oops interfaces.
+# (C) Copyright 2021-2022 CERFACS.
+
+_variables: &vars
+  - CO
+  - O_3
+  - NO_2
+geometry:
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+
+window begin: 2010-07-04T04:00:00Z
+window end: 2010-07-04T07:00:00Z
+
+observations:
+-
+  geovals:
+    filename: Data/HGOM+20100704_CO.gom
+  geovals test:
+    state variables: [CO]
+    norm: 5.1134002123179723e-06
+  obs space:
+    obsdatain:
+      engine:
+        obsfile: Data/HDAT+20100704.h5
+    obsdataout:
+      engine:
+        obsfile: Data/HSTAT+20100704.h5
+    obs type: CO
+    instr name: AIRBASE_CO
+- obs error:
+    covariance model: diagonal
+  geovals:
+    filename: Data/HGOM+20100704_O3.gom
+  geovals test:
+    state variables: [O3]
+    norm: 2.1010644367170238e-06
+  obs space:
+    obsdatain:
+      engine:
+        obsfile: Data/HDAT+20100704.h5
+    obsdataout:
+      engine:
+        obsfile: Data/HSTAT+20100704.h5
+    obs type: O3
+    instr name: AIRBASE_O3
