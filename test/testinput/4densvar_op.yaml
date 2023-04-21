@@ -72,7 +72,7 @@ cost function:
       localization method: SABER
       saber central block:
         saber block name: BUMP_NICAS
-        bump:
+        read:
           io:
             data directory: Data
             files prefix: loc_2pe_mv
