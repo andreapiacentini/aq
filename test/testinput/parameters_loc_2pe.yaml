@@ -33,26 +33,29 @@ background:
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: *vars
 
-bump:
-  io:
-    data directory: Data
-    files prefix: loc_2pe
-  drivers:
-    multivariate strategy: duplicated
-    compute nicas: true
-    write local nicas: true
-  nicas:
-    resolution: 8.0
-    explicit length-scales: true
-    horizontal length-scale:
-    - groups:
-      - common
-      value: 1000.0e3
-    vertical length-scale:
-    - groups:
-      - common
-      value: 3.0
-input variables: *vars
+background error:
+  covariance model: SABER
+  saber central block:
+    saber block name: BUMP_NICAS
+    calibration:
+      io:
+        data directory: Data
+        files prefix: loc_2pe
+      drivers:
+        multivariate strategy: duplicated
+        compute nicas: true
+        write local nicas: true
+      nicas:
+        resolution: 8.0
+        explicit length-scales: true
+        horizontal length-scale:
+        - groups:
+          - common
+          value: 1000.0e3
+        vertical length-scale:
+        - groups:
+          - common
+          value: 3.0
 
 test:
   reference filename: testoutput/parameters_loc_2pe.test
