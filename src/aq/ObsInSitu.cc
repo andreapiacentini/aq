@@ -1,10 +1,10 @@
 /*
  * (C) Copyright 2009-2016 ECMWF.
  * (C) Copyright 2021-2022 CERFACS.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -15,12 +15,15 @@
 
 #include "aq/aq_insitu_interface.h"
 #include "aq/GeoVals.h"
+#include "aq/Locations.h"
 #include "aq/ObsAuxControl.h"
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
+#include "aq/TraitsFwd.h"
 
 #include "eckit/config/Configuration.h"
 
+#include "oops/base/Locations.h"
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 
@@ -47,8 +50,9 @@ void InSitu::simulateObs(const GeoVals & geovals, ObsVec & ovec,
 
 // -----------------------------------------------------------------------------
 
-std::unique_ptr<Locations> InSitu::locations() const {
-  return obsdb_.locations();
+ObsOpBase::Locations_ InSitu::locations() const {
+  typedef oops::SampledLocations<ObsTraits> SampledLocations_;
+  return Locations_(SampledLocations_(obsdb_.locations()));
 }
 
 // -----------------------------------------------------------------------------

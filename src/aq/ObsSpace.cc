@@ -178,7 +178,7 @@ std::unique_ptr<Locations> ObsSpace::locations() const {
   if (comm_.rank() == 0) {
     aq_obsdb_locations_f90(key_, obsname_.size(), obsname_.c_str(), fields.get(), times);
   }
-  return std::unique_ptr<Locations>(new Locations(fields, std::move(times), comm_));
+  return std::make_unique<Locations>(fields, std::move(times), comm_);
 }
 
 // -----------------------------------------------------------------------------

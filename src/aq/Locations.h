@@ -30,7 +30,7 @@
 namespace aq {
 
 // -----------------------------------------------------------------------------
-/// Locations class to handle locations for AQ model.
+/// implements the oops SampledLocations interface for the AQ obs type
 class Locations : public util::Printable,
                     private util::ObjectCounter<Locations> {
  public:

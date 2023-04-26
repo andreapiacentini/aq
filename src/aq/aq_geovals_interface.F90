@@ -25,30 +25,29 @@ private
 contains
 ! ------------------------------------------------------------------------------
 !> Setup GeoVals
-subroutine aq_geovals_setup_c(c_key_self,c_locs,c_vars,c_comm) bind(c,name='aq_geovals_setup_f90')
+subroutine aq_geovals_setup_c(c_key_self,c_npaths,c_vars,c_comm) bind(c,name='aq_geovals_setup_f90')
 
 implicit none
 
 ! Passed variables
 integer(c_int),intent(inout) :: c_key_self !< GeoVals
-type(c_ptr),value,intent(in) :: c_locs     !< Locations
+integer(c_int),intent(in)    :: c_npaths   !< Number of paths along which all variables
+                                           !< will be interpolated
 type(c_ptr),value,intent(in) :: c_vars     !< Variables
 type(c_ptr),intent(in),value :: c_comm
 
 ! Local variables
 type(aq_geovals),pointer :: self
-type(aq_locs) :: locs
 
 ! Interface
 call aq_geovals_registry%init()
 call aq_geovals_registry%add(c_key_self)
 call aq_geovals_registry%get(c_key_self,self)
-locs = aq_locs(c_locs)
 self%vars = oops_variables(c_vars)
 self%fmpi = fckit_mpi_comm(c_comm)
 
 ! Call Fortran
-call aq_geovals_setup(self,locs%nlocs())
+call aq_geovals_setup(self,c_npaths)
 
 end subroutine aq_geovals_setup_c
 ! ------------------------------------------------------------------------------
