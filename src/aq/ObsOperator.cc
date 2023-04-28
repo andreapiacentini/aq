@@ -18,7 +18,6 @@
 #include "aq/ObsOpBase.h"
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
-#include "aq/TraitsFwd.h"
 #include "eckit/config/Configuration.h"
 #include "oops/base/Locations.h"
 #include "oops/base/Variables.h"

@@ -27,6 +27,7 @@
 #include "oops/util/Printable.h"
 
 #include "aq/interface.h"
+#include "aq/Traits.h"
 
 namespace oops {
   template <typename OBS> class Locations;

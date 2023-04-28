@@ -19,7 +19,6 @@
 #include "aq/ObsAuxControl.h"
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
-#include "aq/TraitsFwd.h"
 
 #include "eckit/config/Configuration.h"
 

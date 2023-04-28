@@ -18,6 +18,7 @@
 #include <boost/noncopyable.hpp>
 
 #include "aq/ObsOperatorParameters.h"
+#include "aq/Traits.h"
 
 #include "oops/base/Variables.h"
 #include "oops/util/Printable.h"
