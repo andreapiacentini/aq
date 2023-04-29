@@ -194,12 +194,12 @@ list( APPEND aq_testinput
   testinput/addincrement_scaled.yaml
   testinput/diffstates.yaml
   testinput/dirac_loc_3d.yaml
+  testinput/dirac_loc_3d_inflation_value.yaml
   testinput/dirac_loc_3d_mv.yaml
   testinput/dirac_no_loc_3d.yaml
   testinput/ens_mean_variance.yaml
   testinput/ens_recenter.yaml
   testinput/ens_variance.yaml
-  testinput/ens_variance_inflation_value.yaml
   testinput/geometry.yaml
   testinput/geovals.yaml
   testinput/getvalues.yaml
@@ -235,12 +235,12 @@ list( APPEND aq_testoutput
   testoutput/addincrement_scaled.test
   testoutput/diffstates.test
   testoutput/dirac_loc_3d.test
+  testoutput/dirac_loc_3d_inflation_value.test
   testoutput/dirac_loc_3d_mv.test
   testoutput/dirac_no_loc_3d.test
   testoutput/ens_mean_variance.test
   testoutput/ens_recenter.test
   testoutput/ens_variance.test
-  testoutput/ens_variance_inflation_value.test
   testoutput/hofx3d.test
   testoutput/parameters_loc_6pe.test
   testoutput/parameters_loc_6pe_mv.test
@@ -498,12 +498,6 @@ ecbuild_add_test( TARGET test_aq_ens_recenter
                   ARGS testinput/ens_recenter.yaml
                   COMMAND  aq_ens_recenter.x )
 
-ecbuild_add_test( TARGET test_aq_ens_variance_inflation_value
-                  MPI 6
-                  OMP 4
-                  ARGS testinput/ens_variance_inflation_value.yaml
-                  COMMAND  aq_ens_variance.x )
-
 #####################################################################
 # B Matrix tests
 #####################################################################
@@ -534,6 +528,13 @@ ecbuild_add_test( TARGET test_aq_dirac_loc_3d
                   MPI 6
                   OMP 4
                   ARGS testinput/dirac_loc_3d.yaml
+                  COMMAND  aq_dirac.x
+                  TEST_DEPENDS test_aq_parameters_loc_6pe )
+
+ecbuild_add_test( TARGET test_aq_dirac_loc_3d_inflation_value
+                  MPI 6
+                  OMP 4
+                  ARGS testinput/dirac_loc_3d_inflation_value.yaml
                   COMMAND  aq_dirac.x
                   TEST_DEPENDS test_aq_parameters_loc_6pe )
 

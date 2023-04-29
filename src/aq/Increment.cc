@@ -31,7 +31,6 @@
 #include "aq/Fields.h"
 #include "aq/Geometry.h"
 #include "aq/GeoVals.h"
-#include "aq/Locations.h"
 #include "aq/State.h"
 
 namespace aq {

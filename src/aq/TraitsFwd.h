@@ -84,7 +84,7 @@ struct ObsTraits {
   typedef aq::ObsDiagnostics       ObsDiagnostics;
 
   typedef aq::GeoVals              GeoVaLs;
-  typedef aq::Locations            Locations;
+  typedef aq::Locations            SampledLocations;
 };
 
 }  // namespace aq

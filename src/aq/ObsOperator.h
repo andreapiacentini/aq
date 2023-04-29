@@ -18,19 +18,23 @@
 #include <boost/noncopyable.hpp>
 
 #include "aq/ObsOperatorParameters.h"
+#include "aq/Traits.h"
 
 #include "oops/base/Variables.h"
 #include "oops/util/Printable.h"
 
+namespace oops {
+  template <typename OBS> class Locations;
+}
 
 namespace aq {
   class GeoVals;
-  class Locations;
   class ObsAuxControl;
   class ObsDiagnostics;
   class ObsOpBase;
   class ObsSpace;
   class ObsVec;
+  struct ObsTraits;
 
 // -----------------------------------------------------------------------------
 
@@ -38,6 +42,7 @@ class ObsOperator : public util::Printable,
                       private boost::noncopyable {
  public:
   typedef ObservationParameters Parameters_;
+  typedef oops::Locations<ObsTraits> Locations_;
 
   ObsOperator(const ObsSpace &, const Parameters_ &);
   ~ObsOperator();
@@ -48,7 +53,7 @@ class ObsOperator : public util::Printable,
 
 /// Other
   const oops::Variables & requiredVars() const;  // Required input requiredVars from Model
-  std::unique_ptr<Locations> locations() const;
+  Locations_ locations() const;
 
  private:
   void print(std::ostream &) const;

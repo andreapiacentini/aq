@@ -1,10 +1,10 @@
 /*
  * (C) Copyright 2009-2016 ECMWF.
  * (C) Copyright 2021-2022 CERFACS.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -48,7 +48,7 @@ class InSitu : public ObsOpBase,
 
 // Other
   const oops::Variables & requiredVars() const override {return varin_;}
-  std::unique_ptr<Locations> locations() const override;
+  Locations_ locations() const override;
 
  private:
   void print(std::ostream &) const override;

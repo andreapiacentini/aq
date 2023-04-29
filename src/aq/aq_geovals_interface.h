@@ -32,7 +32,7 @@ namespace aq {
   class Locations;
 
 extern "C" {
-  void aq_geovals_setup_f90(F90geovals &, const Locations &, const oops::Variables &,
+  void aq_geovals_setup_f90(F90geovals &, const int &, const oops::Variables &,
                             const eckit::mpi::Comm *);
   void aq_geovals_create_f90(F90geovals &, const oops::Variables &, const eckit::mpi::Comm *);
   void aq_geovals_delete_f90(F90geovals &);

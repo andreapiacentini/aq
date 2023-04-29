@@ -27,9 +27,14 @@
 #include "oops/util/Printable.h"
 
 #include "aq/interface.h"
+#include "aq/Traits.h"
+
+namespace oops {
+  template <typename OBS> class Locations;
+}
 
 namespace aq {
-  class Locations;
+  struct ObsTraits;
 
 /// Parameters controlling a GeoVaLs read/write
 class GeoValsParameters : public oops::Parameters {
@@ -57,10 +62,11 @@ class GeoVals : public util::Printable,
 
  public:
   typedef GeoValsParameters Parameters_;
+  typedef oops::Locations<ObsTraits> Locations_;
 
   static const std::string classname() {return "aq::GeoVals";}
 
-  GeoVals(const Locations &, const oops::Variables &, const std::vector<size_t> &);
+  GeoVals(const Locations_ &, const oops::Variables &, const std::vector<size_t> &);
   GeoVals(const Parameters_ &, const ObsSpace &, const oops::Variables &);
   explicit GeoVals(const GeoVals &);
 

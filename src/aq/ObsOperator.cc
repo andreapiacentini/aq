@@ -19,6 +19,7 @@
 #include "aq/ObsSpace.h"
 #include "aq/ObsVec.h"
 #include "eckit/config/Configuration.h"
+#include "oops/base/Locations.h"
 #include "oops/base/Variables.h"
 
 namespace aq {
@@ -48,7 +49,7 @@ const oops::Variables & ObsOperator::requiredVars() const {
 
 // -----------------------------------------------------------------------------
 
-std::unique_ptr<Locations> ObsOperator::locations() const {
+ObsOperator::Locations_ ObsOperator::locations() const {
   return oper_->locations();
 }
 

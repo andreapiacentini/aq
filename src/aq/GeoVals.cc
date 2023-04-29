@@ -16,19 +16,21 @@
 #include "aq/aq_geovals_interface.h"
 #include "aq/Locations.h"
 #include "aq/ObsSpace.h"
+#include "oops/base/Locations.h"
 #include "oops/base/Variables.h"
 #include "oops/util/Logger.h"
 
 namespace aq {
 
 // -----------------------------------------------------------------------------
-GeoVals::GeoVals(const Locations & locs, const oops::Variables & vars,
+GeoVals::GeoVals(const Locations_ & locs, const oops::Variables & vars,
              const std::vector<size_t> & sizes):
-  vars_(vars), comm_(locs.comm())
+  vars_(vars), comm_(locs.samplingMethod(0).sampledLocations().comm())
 {
   // geovals_setup just creates and allocates the GeoVaLs object without filling
   // in values
-  aq_geovals_setup_f90(keyGeoVals_, locs, vars_, &comm_);
+  aq_geovals_setup_f90(keyGeoVals_, locs.samplingMethod(0).sampledLocations().size(),
+                       vars_, &comm_);
 }
 // -----------------------------------------------------------------------------
 /*! AQ GeoVaLs Constructor with Config */

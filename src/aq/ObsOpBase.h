@@ -23,11 +23,15 @@
 
 #include "aq/ObsSpace.h"
 
+namespace oops {
+template <typename OBS> class Locations;
+}
+
 namespace aq {
 class GeoVals;
-class Locations;
 class ObsAuxControl;
 class ObsVec;
+struct ObsTraits;
 
 // -----------------------------------------------------------------------------
 /// Base class for observation operators
@@ -35,6 +39,8 @@ class ObsVec;
 class ObsOpBase : public util::Printable,
                     private boost::noncopyable {
  public:
+  typedef oops::Locations<ObsTraits> Locations_;
+
   ObsOpBase() = default;
 
 /// Obs Operator
@@ -42,7 +48,7 @@ class ObsOpBase : public util::Printable,
 
 /// Other
   virtual const oops::Variables & requiredVars() const = 0;  // Required from Model
-  virtual std::unique_ptr<Locations> locations() const = 0;
+  virtual Locations_ locations() const = 0;
 
  private:
   virtual void print(std::ostream &) const = 0;

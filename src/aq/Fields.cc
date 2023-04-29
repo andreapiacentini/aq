@@ -28,7 +28,6 @@
 #include "aq/aq_fields_interface.h"
 #include "aq/Geometry.h"
 #include "aq/GeoVals.h"
-#include "aq/Locations.h"
 
 #include "oops/base/Variables.h"
 #include "oops/mpi/mpi.h"
