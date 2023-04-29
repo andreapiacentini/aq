@@ -1,0 +1,74 @@
+# 3D localized covariance of two input diracs
+#
+# Executable: aq_dirac.x
+# (C) Copyright 2021-2022 CERFACS.
+
+_variables: &vars
+  - CO
+  - O_3
+  - NO_2
+_gems02 geometry: &gems02_geom
+  nx: 260
+  ny: 200
+  dx: 0.2
+  dy: 0.2
+  xmin: -15.9
+  ymin:  32.1
+  domname: GEMS02
+  levels: 5
+  model levels: 47
+  orientation: up
+geometry: *gems02_geom
+
+# Mnemonics:
+_memo:
+  - &state_ref
+    date: 2010-07-04T06:00:00Z
+    filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
+    state variables: *vars
+
+background error:
+  covariance model: ensemble
+  inflation value: 10.0
+  localization:
+    localization method: SABER
+    saber central block:
+      saber block name: BUMP_NICAS
+      read:
+        io:
+          data directory: Data
+          files prefix: loc_6pe
+        drivers:
+          multivariate strategy: duplicated
+          read local nicas: true
+  members from template:
+    template:
+      <<: *state_ref
+      filename: Data/ENS04_reduced/HMGEMS02+2010070406+E%mem%.nc
+    pattern: %mem%
+    zero padding: 4
+    nmembers: 10
+
+dirac:
+  date: 2010-07-04T06:00:00Z
+  londir: [ 7.9,   17.9]
+  latdir: [38.3,   60.3]
+  levdir: [  47,     47]
+  var:    ['CO', 'NO_2']
+
+initial condition:
+  date: 2010-07-04T06:00:00Z
+  filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
+  state variables: *vars
+
+output dirac:
+  datadir: Data
+  fileprefix: I3GEMS02_%id%
+
+output variance:
+  datadir: Data
+  fileprefix: X3GEMS02
+
+test:
+  reference filename: testoutput/dirac_loc_3d_inflation_value.test
+  test output filename: testoutput/dirac_loc_3d_inflation_value.log
