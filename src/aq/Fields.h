@@ -23,6 +23,7 @@
 
 #include "oops/base/LocalIncrement.h"
 #include "oops/base/Variables.h"
+#include "oops/util/abor1_cpp.h"
 #include "oops/util/DateTime.h"
 #include "oops/util/Duration.h"
 #include "oops/util/ObjectCounter.h"
@@ -82,16 +83,17 @@ class Fields : public util::Printable,
   void diff(const Fields &, const Fields &);
 
 // ATLAS FieldSet
-  void setAtlas(atlas::FieldSet *) const;
-  void toAtlas(atlas::FieldSet *) const;
-  void fromAtlas(atlas::FieldSet *);
+  void toFieldSet(atlas::FieldSet &) const;
+  void toFieldSetAD(const atlas::FieldSet &)
+    {ABORT("toFieldSetAD not implemented");}
+  void fromFieldSet(const atlas::FieldSet &);
 
 // Utilities
   void read(const eckit::Configuration &);
   void analytic_init(const eckit::Configuration &);
   void write(const eckit::Configuration &) const;
   double norm() const;
-  std::shared_ptr<const Geometry> geometry() const {return geom_;}
+  std::vector<double> rmsByLevel(const std::string &) const;
   const oops::Variables & variables() const {return vars_;}
 
   const util::DateTime & time() const {return time_;}
@@ -100,8 +102,10 @@ class Fields : public util::Printable,
 
   const int & toFortran() const {return keyFlds_;}
 
-  oops::LocalIncrement getLocal(const GeometryIterator &) const;
-  void setLocal(const oops::LocalIncrement &, const GeometryIterator &);
+  oops::LocalIncrement getLocal(const GeometryIterator &) const {
+    return oops::LocalIncrement(vars_, (std::vector<double>) 0, (std::vector<int>) 0);
+  }
+  void setLocal(const oops::LocalIncrement &, const GeometryIterator &) {}
 
 /// Serialization
   size_t serialSize() const override;
@@ -111,7 +115,7 @@ class Fields : public util::Printable,
  private:
   void print(std::ostream &) const override;
   F90flds keyFlds_;
-  std::shared_ptr<const Geometry> geom_;
+  const Geometry & geom_;
   const oops::Variables vars_;
   util::DateTime time_;
 };

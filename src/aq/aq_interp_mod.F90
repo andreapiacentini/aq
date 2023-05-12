@@ -49,7 +49,6 @@ contains
       ! local
       !
       integer                   :: i,j,npt0,npt1
-      real(std)                      :: z1,z2
       real(std)                      :: z0_j,z0_jp1
       real(std)                      :: y0_j,y0_jp1
       real(std)                      :: dz1,dz2
@@ -105,7 +104,6 @@ contains
       ! local
       !
       integer                   :: i,j,npt0,npt1
-      real(std)                      :: z1,z2
       real(std)                      :: z0_j,z0_jp1
       real(std)                      :: y0_j,y0_jp1
       real(std)                      :: dz1,dz2
@@ -184,7 +182,7 @@ contains
       ! local
       !
       integer                        :: i,j,npt0,npt1
-      real(std)                      :: z1,z2,z0,dz1,dz2
+      real(std)                      :: z0,dz1,dz2
       real(std), dimension(size(x1)) :: y1
       !
       if(size(x0).ne.size(y0)) then
@@ -226,15 +224,15 @@ contains
       !      1-D Linear interpolation and extrapolation.
       !
       ! Input:
-      !	y:	 The input vector
-      !	x:	 The absicissae values for y
-      !	x1:	 The absicissae values for the result (y1)
-      !	NoData:  Missing data value for y
+      ! y:       The input vector
+      ! x:       The absicissae values for y
+      ! x1:      The absicissae values for the result (y1)
+      ! NoData:  Missing data value for y
       !
       ! Output:
-      !	Returns vector of interpolated values. No extrapolation
-      !	is performed if NoData is set - NoData value is assigned to
-      !	the interpolated data outside of the x range.
+      ! Returns vector of interpolated values. No extrapolation
+      ! is performed if NoData is set - NoData value is assigned to
+      ! the interpolated data outside of the x range.
       !-
       use floats
       implicit none
@@ -311,38 +309,38 @@ contains
    function INTERPOL( V, X, U )
       !+
       ! NAME:
-      !	INTERPOL
+      ! INTERPOL
       !
       ! PURPOSE:
-      !	Linearly interpolate and extrapolate vectors with a regular or irregular grid.
+      ! Linearly interpolate and extrapolate vectors with a regular or irregular grid.
       !
       ! CATEGORY:
-      !	E1 - Interpolation
+      ! E1 - Interpolation
       !
       ! CALLING SEQUENCE:
-      !	Result = INTERPOL(V, X, U)
+      ! Result = INTERPOL(V, X, U)
       !
       ! INPUTS:
-      !	V:	The input vector can be any type except string.
+      ! V:      The input vector can be any type except string.
       !
-      !	X:	The absicissae values for V.  This vecotr must have same # of
-      !		elements as V.  The values MUST be monotonically ascending
-      !		or descending.
+      ! X:      The absicissae values for V.  This vecotr must have same # of
+      !         elements as V.  The values MUST be monotonically ascending
+      !         or descending.
       !
-      !	U:	The absicissae values for the result.  The result will have
-      !		the same number of elements as U.  U does not need to be
-      !		monotonic.
+      ! U:      The absicissae values for the result.  The result will have
+      !         the same number of elements as U.  U does not need to be
+      !         monotonic.
       !
       !
       ! OUTPUTS:
-      !	INTERPOL returns a floating-point vector of N points determined
-      !	by linearly interpolating the input vector.
+      ! INTERPOL returns a floating-point vector of N points determined
+      ! by linearly interpolating the input vector.
       !
       ! PROCEDURE:
-      !	Result(i) = V(x) + (x - FIX(x)) * (V(x+1) - V(x))
+      ! Result(i) = V(x) + (x - FIX(x)) * (V(x+1) - V(x))
       !
-      !	where        x = U(i).
-      !		m = number of points of input vector.
+      ! where        x = U(i).
+      !         m = number of points of input vector.
       !
       ! MODIFICATION HISTORY:
       !                 IDL routine translated to F90 by Boris Khattatov, 9/25/96
@@ -358,16 +356,16 @@ contains
       real(std) :: s1, d
       integer :: M, N, ix, i
       !
-      M = size(V)	!# of input pnts
+      M = size(V)       !# of input pnts
 
       if (size(X) .ne. M) then
          print *, 'INTERPOL %  V and X must have same # of elements'
          stop
       endif
 
-      N= size(U)	!# of output points
+      N= size(U)        !# of output points
 
-      r = V(1)	!floating, dbl or cmplx result
+      r = V(1)  !floating, dbl or cmplx result
 
       if (X(2) - X(1) .ge. 0) then
          s1 = 1.0
@@ -375,9 +373,9 @@ contains
          s1 = -1.0
       endif !Incr or Decr X
 
-      ix = 1			!current point
-      do i=1,N 	                   !point loop
-         d = s1 * (U(i)-X(ix))	!difference
+      ix = 1                    !current point
+      do i=1,N                     !point loop
+         d = s1 * (U(i)-X(ix))  !difference
          if (abs(d) .lt. tiny(d)) then
             r(i)=V(ix)
          else   !at point
@@ -402,39 +400,39 @@ contains
    function INTERPOL_2( V, X, U, nodata )
       !+
       ! NAME:
-      !	INTERPOL_2
+      ! INTERPOL_2
       !
       ! PURPOSE:
-      !	Linearly interpolate  vectors with a regular or irregular grid.
+      ! Linearly interpolate  vectors with a regular or irregular grid.
       !       NO EXTRAPOLATION (AK)!
       !
       ! CATEGORY:
-      !	E1 - Interpolation
+      ! E1 - Interpolation
       !
       ! CALLING SEQUENCE:
-      !	Result = INTERPOL_2(V, X, U)
+      ! Result = INTERPOL_2(V, X, U)
       !
       ! INPUTS:
-      !	V:	The input vector can be any type except string.
+      ! V:      The input vector can be any type except string.
       !
-      !	X:	The absicissae values for V.  This vecotr must have same # of
-      !		elements as V.  The values MUST be monotonically ascending
-      !		or descending.
+      ! X:      The absicissae values for V.  This vecotr must have same # of
+      !         elements as V.  The values MUST be monotonically ascending
+      !         or descending.
       !
-      !	U:	The absicissae values for the result.  The result will have
-      !		the same number of elements as U.  U does not need to be
-      !		monotonic.
+      ! U:      The absicissae values for the result.  The result will have
+      !         the same number of elements as U.  U does not need to be
+      !         monotonic.
       !
       !
       ! OUTPUTS:
-      !	INTERPOL_2 returns a floating-point vector of N points determined
-      !	by linearly interpolating the input vector.
+      ! INTERPOL_2 returns a floating-point vector of N points determined
+      ! by linearly interpolating the input vector.
       !
       ! PROCEDURE:
-      !	Result(i) = V(x) + (x - FIX(x)) * (V(x+1) - V(x))
+      ! Result(i) = V(x) + (x - FIX(x)) * (V(x+1) - V(x))
       !
-      !	where        x = U(i).
-      !		m = number of points of input vector.
+      ! where        x = U(i).
+      !         m = number of points of input vector.
       !
       ! MODIFICATION HISTORY:
       !                 IDL routine translated to F90 by Boris Khattatov, 9/25/96
@@ -451,16 +449,16 @@ contains
       real(std) :: s1, d
       integer :: M, N, ix, i
       !
-      M = size(V)	!# of input pnts
+      M = size(V)       !# of input pnts
 
       if (size(X) .ne. M) then
          print *, 'INTERPOL_2 %  V and X must have same # of elements'
          stop
       endif
 
-      N= size(U)	!# of output points
+      N= size(U)        !# of output points
 
-      r = V(1)	!floating, dbl or cmplx result
+      r = V(1)  !floating, dbl or cmplx result
 
       if (X(2) - X(1) .ge. 0) then
          s1 = 1.0
@@ -470,9 +468,9 @@ contains
 
       r=nodata
 
-      ix = 1			!current point
-      do i=1,N 	                   !point loop
-         d = s1 * (U(i)-X(ix))	!difference
+      ix = 1                    !current point
+      do i=1,N                     !point loop
+         d = s1 * (U(i)-X(ix))  !difference
          if (abs(d) .lt. tiny(d)) then
             r(i)=V(ix)
          else   !at point
@@ -565,8 +563,6 @@ contains
       real(std) :: d
       integer :: Indx(size(b)), Flag
       real(std) :: AA(size(b),size(b)), bb(size(b))
-      !
-      real(std) :: p(size(b))
       !
       N = size(b)
       !
@@ -783,7 +779,7 @@ contains
       !
       integer i,j,niter,niter_max
       real(std) r(n),p(n),w(n),sum
-      real(std) alpha,beta,epsilon,norm_b
+      real(std) alpha,beta,epsilon
       real(std), dimension(:), pointer :: rho
       !
       ! parameters
@@ -1131,7 +1127,7 @@ contains
       !OUTPUT:
       real(std),dimension(nrow,NPRF)         :: vector_out
       !LOCAL:
-      integer*4        :: np,ALLOC_ERR,ib_i,ib_k
+      integer*4        :: np,ib_i,ib_k
 
       vector_out=0.
       do np=1,NPRF
@@ -1178,7 +1174,7 @@ contains
       !OUTPUT:
       real(std),dimension(nrow,NPRF)         :: vector_out
       !LOCAL:
-      integer*4        :: np,ALLOC_ERR
+      integer*4        :: np
 
       do np=1,NPRF
          call atmux(H_csr%nrow,vector,vector_out(:,np),           &
@@ -1221,7 +1217,7 @@ contains
       !OUTPUT:
       real(std),dimension(:),intent(inout)   :: vector_out
       !LOCAL:
-      integer*4        :: np,ALLOC_ERR,ib_i,ib_k
+      integer*4        :: np,ib_i,ib_k
 
       if (present(NoData)) then
          do np=1,NPRF
@@ -1296,9 +1292,11 @@ contains
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    subroutine amub2 (nrow,ncol,job,a,ja,ia,b,jb,ib,  &
       c,jc,ic,nzmax,iw,ierr)
+      integer nrow, ncol, job, nzmax, ierr
       real*8 a(*), b(*), c(*)
       integer ja(*),jb(*),jc(*),ia(nrow+1),ib(*),ic(*),iw(ncol)
       real*8 scal
+      integer ii, jj, jcol, jpos, k, ka, kb, len
       logical values
       values = (job .ne. 0)
       len = 0
@@ -1312,9 +1310,9 @@ contains
       do ii=1, nrow
          !c     row i
          do ka=ia(ii), ia(ii+1)-1
-	    if (values) scal = a(ka)
-	    jj   = ja(ka)
-	    do kb=ib(jj),ib(jj+1)-1
+            if (values) scal = a(ka)
+            jj   = ja(ka)
+            do kb=ib(jj),ib(jj+1)-1
                jcol = jb(kb)
                jpos = iw(jcol)
                if (jpos .eq. 0) then
@@ -1689,17 +1687,13 @@ contains
       ! VARIABLES FOR THE CONSTRUCTION OF THE MATRIX
       integer                          :: nmax
       !
-      real(std), dimension(nlev)       :: unit                !unit vector
       integer*4                        :: ind1,ind2,ind3,ind4 !indices
-      real(std),dimension(mlev)        :: temp                !temporary array for storing
       !the contribution of a model level
       !to all observed levels
 
       integer*4                  :: k
       integer*4                  :: ip
       integer*4                  :: it
-      integer*4                  :: i_nlev,i_mlev
-      integer*4                  :: ierr
       integer*4 :: ALLOC_ERR
 
       real(std), pointer    ,dimension(:)   :: weights
@@ -1796,7 +1790,7 @@ contains
       ! local variables:
       real(std)                     :: fact
       real(std)                     :: w1,w2   !weights
-      integer                       :: i,n,k
+      integer                       :: i,k
       integer                       :: nmax
       integer*4 :: ALLOC_ERR
 
@@ -1871,7 +1865,7 @@ contains
       !
       ! local
       !
-      integer      :: i,j,k,n,i1,j1,i2,j2,ii,jj,ip
+      integer      :: i,j,k,i1,j1,i2,j2,ii,jj,ip
       real(std)    :: dx1,dx2,dy1,dy2
       logical      :: test_lat,test_lon,found_cell
       logical      :: ll_not_mono
@@ -2752,7 +2746,7 @@ contains
       integer*4                                 :: ALLOC_ERR
 
       ! loop counters and indexing variables
-      integer*4 :: ip, i, k, n, indk
+      integer*4 :: i, k, n, indk
 
       allocate(Hres1_csr%H(1,1))
       allocate(Hres1_csr%j(1,1))
@@ -3128,7 +3122,7 @@ contains
       !     ~~~~~~~~~~~~~~~~~
       !
       integer :: I,J,L,LP1
-      real (KIND=8) :: PL1,PL2,PLT0,PLT1,PLT2,COEF,DP2
+      real (KIND=8) :: PL1,PL2,PLT0,PLT1,COEF,DP2
       real (KIND=8) :: RPN,RPNM1,RPTN,RPTNM1
       real (KIND=8) :: RP1,RP2,RP3,RP4,DP1
       real (KIND=8) :: RP12,RP13,RP14,RP23,RP24,RP34
@@ -3357,7 +3351,6 @@ contains
       ! THE FOUR MATRICES CORRESPONDING TO THE 4 OPERATORS, MATRICES IN CSR FORMAT:
       type(CSR_FORMAT)                          :: Hh_csr  !horizontal operator
       type(CSR_FORMAT)                          :: Ht_csr  !temporal operator
-      type(CSR_FORMAT)                          :: Ha_csr  !smoothing operator
       ! TEMPORARY MATRICES FOR STORING THE RESULTS OF MULTIPLICATIONS OF MATRICES:
       !  TYPE(CSR_FORMAT)                          :: Hres2_csr  !result of Ht*(Hv*Hh)
 
@@ -3376,11 +3369,8 @@ contains
       ! if the averaging kernel is used,
       ! this number is used to store the  number of non-zero elements in the final
       !  matrix
-      integer*4                                 :: lvls_out
-      integer*4                                 :: np   !indexing variable
       ! number of non-zero elements in the CSR format:
       integer*4                                 :: nmax
-      integer*4                                 :: ierr !error index
 
       integer*4                                 :: ALLOC_ERR
 
@@ -3764,7 +3754,7 @@ contains
       integer      :: ia(*),ja(*)
       integer      :: nrow,ncol,nzmax,ndns,ierr
       !-----------------------------------------------------------------------
-      ! Dense		to    Compressed Row Sparse
+      ! Dense           to    Compressed Row Sparse
       !-----------------------------------------------------------------------
       !
       ! converts a densely stored matrix into a row orientied
@@ -3776,19 +3766,19 @@ contains
       ! on entry:
       !---------
       !
-      ! nrow	= row-dimension of a
-      ! ncol	= column dimension of a
+      ! nrow    = row-dimension of a
+      ! ncol    = column dimension of a
       ! nzmax = maximum number of nonzero elements allowed. This
       !         should be set to be the lengths of the arrays a and ja.
       ! dns   = input nrow x ncol (dense) matrix.
-      ! ndns	= first dimension of dns.
+      ! ndns    = first dimension of dns.
       !
       ! on return:
       !----------
       !
       ! a, ja, ia = value, column, pointer  arrays for output matrix
       !
-      ! ierr	= integer error indicator:
+      ! ierr    = integer error indicator:
       !         ierr .eq. 0 means normal retur
       !         ierr .eq. i means that the the code stopped while
       !         processing row number i, because there was no space left in

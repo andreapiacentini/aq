@@ -113,7 +113,7 @@ call datetime_create("1970-01-01T00:00:00Z",obs_ref_time)
 ig_hdfverb = 1
 ! Input file
 if (f_conf%has("obsdatain")) then
-  call f_conf%get_or_die("obsdatain.obsfile",str)
+  call f_conf%get_or_die("obsdatain.engine.obsfile",str)
   fin = str
 else
   fin = ''
@@ -122,7 +122,7 @@ call fckit_log%info('aq_obsdb_setup: file in = '//trim(fin))
 
 ! Output file
 if (f_conf%has("obsdataout")) then
-  call f_conf%get_or_die("obsdataout.obsfile",str)
+  call f_conf%get_or_die("obsdataout.engine.obsfile",str)
   call swap_name_member(f_conf, str)
   fout = str
   call fckit_log%info('aq_obsdb_setup: file out = '//trim(fout))
@@ -483,21 +483,11 @@ implicit none
 type(aq_obsdb),intent(inout) :: self !< Observation data
 
 ! Local variables
-integer :: igrp,icol,iobs,ncol,nobs,jobs
-integer :: ncid,grpname_id,ngrp_id,nobs_id,ncol_id,times_id,nlev_id,colname_id,values_id
-type(group_data),pointer :: jgrp
-type(column_data),pointer :: jcol
-character(len=6) :: igrpchar
-character(len=50) :: stime
-character(len=1024) :: record
-logical, allocatable :: inwindow(:)
+integer :: iobs,nobs
 type(datetime) :: tobs
 type(duration) :: dtwinbgn, dtwinend, dt
 character(len=1024) :: timestr1, timestr2
-real(kind_real),allocatable :: readbuf(:,:)
-integer(kind=ip_hid_t) :: il_instr_idin
 integer :: id_tmin, id_tmax
-integer :: il_err
 ! integer :: ncols = 2
 ! character(len=50), dimension(ncols) :: colnames = ['Location','ObsValue']
 ! integer, dimension(ncols) :: coldims = [ 2, 1 ]
@@ -543,7 +533,9 @@ else
   call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Y', rla_obs)
   if (self%obserrtype.eq."fromfile") then
     allocate(rla_err(nobs))
-    call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/Covariance', rla_err)
+    call readslice_h5dset(self%h5statein, 'OBSERVATIONS/'//trim(self%spcname)//'/ErrorCovariance', rla_err)
+    ! Consider that errors in hdf5 files are given as R-1 values
+    rla_err = (1.d0/rla_err)**(0.5d0)
   endif
   ! Setup observation vector for the locations
   call aq_obsvec_setup(obsloc,3,nobs)
@@ -667,17 +659,13 @@ implicit none
 type(aq_obsdb),intent(in) :: self !< Observation data
 
 ! Local variables
-integer :: igrp,icol,iobs,ncol,nlevmax
-integer :: ncid,nstrmax_id,grpname_id,ngrp_id,nobs_id,ncol_id,nlevmax_id,times_id,nlev_id,colname_id,values_id
+integer :: icol,iobs
 type(group_data),pointer :: jgrp
 type(column_data),pointer :: jcol
-character(len=6) :: igrpchar
 character(len=50) :: stime
-integer(kind=ip_hid_t) :: il_hstat_id, il_instr_id
 character(len=15) :: cl_geogrp = 'GEOLOCALIZATION'
 character(len=12) :: cl_obsgrp = 'OBSERVATIONS'
 character(len=19), dimension(:), allocatable :: cla_timehuman
-integer :: il
 integer :: il_err
 integer, dimension(:), allocatable :: timestamp
 integer, allocatable :: ila_mask(:)
@@ -836,7 +824,7 @@ type(aq_obsvec),intent(inout) :: obsloc             !< Observation locations
 
 ! Local variables
 integer :: jobs,iobs,jstep
-real(kind_real) :: x(nlocs),y(nlocs),z(nlocs),lon(nlocs),lat(nlocs)
+real(kind_real) :: z(nlocs),lon(nlocs),lat(nlocs)
 type(datetime) :: now
 
 ! Generate random locations

@@ -2,22 +2,22 @@ CostJb   : Nonlinear Jb = 0.0000000000000000e+00
 CostJo   : Nonlinear Jo(CO) = 5.8328572614306613e+03, nobs = 264, Jo/n = 2.2094156293297960e+01, err = 8.1892831467818877e-08
 CostJo   : Nonlinear Jo(O3) = 3.8381164976718578e+03, nobs = 918, Jo/n = 4.1809547904922200e+00, err = 4.9999999999999563e-09
 CostFunction: Nonlinear J = 9.6709737591025187e+03
-DRIPCGMinimizer: reduction in residual norm = 1.2934348432393068e-05
+RPLanczosMinimizer: reduction in residual norm = 1.0528704426777545e-06
 CostFunction::addIncrement: Analysis: 
   Valid time: 2010-07-04T06:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -1.8495169768492581e-06; max = 8.0225835957398051e-07; mean = 9.6255267115777386e-08; stddev = 5.6605050211338220e-08
-  Var. O_3: min = 8.1727560232692724e-10; max = 1.6809370606551965e-07; mean = 4.5978968855782441e-08; stddev = 4.6017633239904865e-08
-  Var. NO_2: min = 9.4893309613876861e-13; max = 8.7175073710233763e-08; mean = 8.1782901262517233e-10; stddev = 4.5716333777149702e-09
+  Var. CO: min = -1.7455849812400558e-06; max = 8.0701410668766422e-07; mean = 9.6238702687030538e-08; stddev = 2.5024343384853982e-08
+  Var. O_3: min = 8.1727504818847505e-10; max = 1.6809370606551965e-07; mean = 4.5979253593882423e-08; stddev = 1.9344589751164495e-08
+  Var. NO_2: min = 9.4894749281364960e-13; max = 8.7190308797757832e-08; mean = 8.1835643416348692e-10; stddev = 1.9855721312511632e-09
 
 
 
 
 
-CostJb   : Nonlinear Jb = 6.9255451655136528e+02
-CostJo   : Nonlinear Jo(CO) = 1.2638829127022091e+03, nobs = 264, Jo/n = 4.7874352753871552e+00, err = 8.1892831467818877e-08
-CostJo   : Nonlinear Jo(O3) = 3.6519397802127496e+03, nobs = 918, Jo/n = 3.9781479087284852e+00, err = 4.9999999999999563e-09
-CostFunction: Nonlinear J = 5.6083772094663236e+03
+CostJb   : Nonlinear Jb = 6.9575199580321373e+02
+CostJo   : Nonlinear Jo(CO) = 1.2565216270872402e+03, nobs = 264, Jo/n = 4.7595516177546973e+00, err = 8.1892831467818877e-08
+CostJo   : Nonlinear Jo(O3) = 3.6495030590422675e+03, nobs = 918, Jo/n = 3.9754935283684834e+00, err = 4.9999999999999563e-09
+CostFunction: Nonlinear J = 5.6017766819327207e+03

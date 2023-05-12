@@ -30,17 +30,17 @@ namespace aq {
 Geometry::Geometry(const GeometryAqParameters & params,
                        const eckit::mpi::Comm & comm) : comm_(comm) {
   // Get geometry subconfiguration
-  eckit::LocalConfiguration geomConfig(params.toConfiguration());
-  geomConfig.set("type", "regional");
-  if (geomConfig.has("halo")) {
-    halo_ = geomConfig.getInt("halo");
+  gridConfig_ = params.toConfiguration();
+  gridConfig_.set("type", "regional");
+  if (gridConfig_.has("halo")) {
+    halo_ = gridConfig_.getInt("halo");
   }
 
   // Set default communicator
   eckit::mpi::setCommDefault(comm_.name().c_str());
 
   // Setup regional grid
-  atlasGrid_.reset(new atlas::StructuredGrid(geomConfig));
+  grid_ = atlas::StructuredGrid(gridConfig_);
 
   // Setup partitioner
   atlas::grid::Partitioner partitioner;
@@ -52,46 +52,43 @@ Geometry::Geometry(const GeometryAqParameters & params,
   }
 
   // Setup function space
-  atlasFunctionSpace_.reset(new atlas::functionspace::StructuredColumns(*atlasGrid_, partitioner,
-  geomConfig));
+  functionSpace_ = atlas::functionspace::StructuredColumns(grid_, partitioner, gridConfig_);
   // Extra function space without halo (coincident with the previous if halo is zero
   if (halo_ > 0) {
-    eckit::LocalConfiguration geomConfigNoHalo(params.toConfiguration());
-    geomConfigNoHalo.set("type", "regional");
-    geomConfigNoHalo.set("halo", 0);
-    atlasFunctionSpaceNoHalo_.reset(new atlas::functionspace::StructuredColumns(
-                                    *atlasGrid_, partitioner, geomConfigNoHalo));
+    eckit::LocalConfiguration gridConfigNoHalo(params.toConfiguration());
+    gridConfigNoHalo.set("type", "regional");
+    gridConfigNoHalo.set("halo", 0);
+    functionSpaceNoHalo_ = atlas::functionspace::StructuredColumns(
+                                  grid_, partitioner, gridConfigNoHalo);
   }
 
   // Setup Fortran geometry
-  aq_geom_setup_f90(keyGeom_, geomConfig,  &comm_, atlasGrid_->get(), atlasFunctionSpace_->get());
+  aq_geom_setup_f90(keyGeom_, gridConfig_,  &comm_, grid_.get(), functionSpace_.get());
 
   // Fill ATLAS fieldset
-  atlasFieldSet_.reset(new atlas::FieldSet());
-  aq_geom_fill_atlas_fieldset_f90(keyGeom_, atlasFieldSet_->get());
+  extraFields_ = atlas::FieldSet();
+  aq_geom_fill_extra_fields_f90(keyGeom_, extraFields_.get());
 }
 // -----------------------------------------------------------------------------
 Geometry::Geometry(const Geometry & other) : comm_(other.comm_) {
   // Copy ATLAS grid
-  atlasGrid_.reset(new atlas::StructuredGrid(*(other.atlasGrid_)));
+  gridConfig_ = other.gridConfig_;
+  grid_ = atlas::StructuredGrid(gridConfig_);
 
   // Copy ATLAS function space
-  atlasFunctionSpace_.reset(new atlas::functionspace::StructuredColumns(
-                            *(other.atlasFunctionSpace_)));
+  functionSpace_ = atlas::functionspace::StructuredColumns(other.functionSpace_);
   halo_ = other.halo_;
   if (halo_ > 0) {
-    atlasFunctionSpaceNoHalo_.reset(new atlas::functionspace::StructuredColumns(
-                                    *(other.atlasFunctionSpaceNoHalo_)));
+    functionSpaceNoHalo_ = atlas::functionspace::StructuredColumns(other.functionSpaceNoHalo_);
   }
 
   // Copy Fortran geometry
   aq_geom_clone_f90(keyGeom_, other.keyGeom_);
 
   // Copy ATLAS fieldset
-  atlasFieldSet_.reset(new atlas::FieldSet());
-  for (int jfield = 0; jfield < other.atlasFieldSet_->size(); ++jfield) {
-    atlas::Field atlasField = other.atlasFieldSet_->field(jfield);
-    atlasFieldSet_->add(atlasField);
+  extraFields_ = atlas::FieldSet();
+  for (auto & field : other.extraFields_) {
+    extraFields_.add(field);
   }
 }
 // -----------------------------------------------------------------------------
@@ -122,9 +119,9 @@ void Geometry::latlon(std::vector<double> & lats, std::vector<double> & lons,
   if (halo_ > 0) {
     const atlas::functionspace::StructuredColumns * fspace;
     if (halo) {
-      fspace = atlasFunctionSpace_.get();
+      fspace = &(functionSpace_);
     } else {
-      fspace = atlasFunctionSpaceNoHalo_.get();
+      fspace = &(functionSpaceNoHalo_);
     }
     const auto lonlat = atlas::array::make_view<double, 2>(fspace->lonlat());
     const size_t npts = fspace->size();
@@ -138,14 +135,14 @@ void Geometry::latlon(std::vector<double> & lats, std::vector<double> & lons,
     /* If the fields have no halo, the locations have to be only on proc 0, therefore latlon
        is provided only there */
     if (comm_.rank() == 0) {
-      const size_t npts = atlasGrid_->size();
+      const size_t npts = grid_.size();
       lats.resize(npts);
       lons.resize(npts);
       atlas::Grid::PointLonLat lonlat;
       size_t jj = 0;
-      for (atlas::idx_t jy = 0; jy < atlasGrid_->ny(); ++jy) {
-        for (atlas::idx_t jx = 0; jx < atlasGrid_->nx(jy); ++jx) {
-          lonlat = atlasGrid_->lonlat(jx, jy);
+      for (atlas::idx_t jy = 0; jy < grid_.ny(); ++jy) {
+        for (atlas::idx_t jx = 0; jx < grid_.nx(jy); ++jx) {
+          lonlat = grid_.lonlat(jx, jy);
           lats[jj] = lonlat[1];
           lons[jj] = lonlat[0];
           jj++;
@@ -184,9 +181,18 @@ std::vector<double> Geometry::verticalCoord(std::string & vcUnits) const {
 }
 // -------------------------------------------------------------------------------------------------
 std::vector<size_t> Geometry::variableSizes(const oops::Variables & vars) const {
-  // Note: in aq we always do trilinear interpolation, so GeoVaLs are always
-  // size 1.
-  std::vector<size_t> sizes(vars.size(), 1);
+  // returns the number of levels per variable
+  int nx = 0;
+  int ny = 0;
+  int nz;
+  double deltax;
+  double deltay;
+  int mod_levels;
+  char orientation[AQ_STRLEN];
+  char domname[AQ_STRLEN];
+  char model[AQ_STRLEN];
+  aq_geom_info_f90(keyGeom_, nx, ny, nz, deltax, deltay, mod_levels, orientation, domname, model);
+  std::vector<size_t> sizes(vars.size(), static_cast<size_t>(nz));
   return sizes;
 }
 // -----------------------------------------------------------------------------

@@ -1,0 +1,8 @@
+# Test the correct implementation of required oops interfaces.
+# (C) Copyright 2021-2022 CERFACS.
+
+locations:
+  random lon min: -15.9
+  random lon max: 35.9
+  random lat min: 32.1
+  random lat max: 69.9

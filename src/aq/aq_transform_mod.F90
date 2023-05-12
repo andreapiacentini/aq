@@ -12,7 +12,8 @@ module aq_transform_mod
 
    use atlas_module
    use aq_constants_mod
-   use fckit_configuration_module, only: fckit_configuration
+   use fckit_configuration_module, only: fckit_configuration, fckit_YAMLConfiguration
+   use iso_c_binding
 
    implicit none
 
@@ -43,36 +44,49 @@ contains
    subroutine aq_transform_setup(self, vars, config)
       class(aq_transform), intent(inout)    :: self
       character(len=*),       intent(in)    :: vars(:)
-      type(fckit_Configuration), intent(in) :: config
+      type(fckit_Configuration), dimension(:), intent(in) :: config
 
-      integer :: ib, ib_t
-      character(len=aq_strlen) :: key
+      integer :: idx, ib, ib_t, il_v
+      character(len=:), allocatable :: variables(:)
       character(len=:), allocatable :: transform
+      logical :: ll_found
 
       call self%delete()
 
       self%nb_vars = 0
-      do ib = 1, size(vars)
-         if (config%has(trim(vars(ib)))) self%nb_vars = self%nb_vars + 1
+      do idx = 1, size(config)
+         self%nb_vars = self%nb_vars + config(idx)%get_size('variables')
       end do
 
       allocate(self%var_names(self%nb_vars))
       allocate(self%transform(self%nb_vars))
       allocate(self%params(self%nb_vars))
 
-      ib_t = 0
-      do ib = 1, size(vars)
-         if (config%has(trim(vars(ib)))) then
-            ib_t = ib_t + 1
-            self%var_names(ib_t) = trim(vars(ib))
-            key = trim(vars(ib))//'.method'
-            call config%get_or_die(trim(key),transform)
-            self%transform(ib_t) = trim(transform)
-            key = trim(vars(ib))//'.parameters'
-            if (config%has(trim(key))) then
-               call config%get_or_die(trim(key),self%params(ib_t)%p)
-            end if
-         end if
+      il_v = 0
+      do idx = 1, size(config)
+         call config(idx)%get_or_die('variables',variables)
+         call config(idx)%get_or_die('method',transform)
+         do ib = 1, size(variables)
+            do ib_t = 1, il_v
+               if (trim(self%var_names(ib_t)) == trim(variables(ib))) then
+                  call abor1_ftn('Transformation for variable '&
+                     &//trim(variables(ib))//' already defined')
+               end if
+            end do
+            ll_found = .false.
+            do ib_t = 1, size(vars)
+               if (trim(vars(ib_t)) == trim(variables(ib))) then
+                  ll_found = .true.
+                  il_v = il_v + 1
+                  self%var_names(il_v) = trim(variables(ib))
+                  self%transform(il_v) = trim(transform)
+                  call config(idx)%get_or_die('parameters',self%params(il_v)%p)
+                  exit
+               end if
+            end do
+            if (.not. ll_found) self%nb_vars = self%nb_vars - 1
+         end do
+         deallocate(variables)
       end do
 
    end subroutine aq_transform_setup
@@ -85,7 +99,7 @@ contains
       if (allocated(self%var_names)) then
          deallocate(self%var_names)
          deallocate(self%transform)
-         do ib = 1, size(self%params)
+         do ib = 1, self%nb_vars
             deallocate(self%params(ib)%p)
          end do
          deallocate(self%params)
@@ -98,7 +112,7 @@ contains
       class(aq_transform), intent(inout) :: self
       class(aq_transform), intent(in)    :: other
 
-      integer :: ib_t, ib
+      integer :: ib_t
 
       call self%delete()
 
@@ -128,7 +142,7 @@ contains
       real(aq_single), pointer :: flds(:,:)
       real(aq_real), pointer :: fldd(:,:)
 
-      integer(atlas_kind_idx) :: ib_t, ib_i, ib_j, ib_k, ib_var, il_lev
+      integer(atlas_kind_idx) :: ib_t, ib_var
       logical :: ll_sgl
 
       if (self%nb_vars == 0) return
@@ -187,7 +201,7 @@ contains
       real(aq_single), pointer :: flds(:,:)
       real(aq_real), pointer :: fldd(:,:)
 
-      integer(atlas_kind_idx) :: ib_t, ib_i, ib_j, ib_k, ib_var, il_lev
+      integer(atlas_kind_idx) :: ib_t, ib_var
       logical :: ll_sgl
 
       if (self%nb_vars == 0) return

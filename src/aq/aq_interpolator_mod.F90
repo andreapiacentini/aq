@@ -55,7 +55,6 @@ subroutine aq_interpolator_create(self, geom, loc_nlocs, lats, lons)
 
    ! Local variables
    character(len=aq_strlen) :: msg
-   integer :: ib
    real(kind_real), dimension(1,1) :: dummylev
    real(kind_real), dimension(1) :: dummycoord
    real(kind_real), dimension(:), allocatable :: dummytime
@@ -179,12 +178,11 @@ subroutine aq_interpolator_applyAD(self, field, vars, mask, vals)
 
    ! Local variables
    integer       :: nlev = 1
-   integer       :: loc_nlocs, glo_nlocs, offset, jvar, ib
+   integer       :: glo_nlocs, offset, jvar, ib
    real(aq_real), allocatable, dimension(:) :: surf_1d(:)
    real(aq_real), allocatable, dimension(:,:) :: surf_fld
    real(aq_real), allocatable, dimension(:) :: masked_vals(:)
    character(len=aq_strlen) :: fname
-   real(aq_real) :: filter_val
 
    if (trim(field%geom%orientation) == 'down') nlev = field%geom%levels
 

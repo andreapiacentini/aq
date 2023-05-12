@@ -33,7 +33,7 @@ module aq_geom_mod
       real(aq_real), allocatable                  :: lats(:)
    contains
       procedure, public :: create => aq_geom_create
-      procedure, public :: fill_atlas_fieldset  => aq_geom_fill_atlas_fieldset
+      procedure, public :: fill_extra_fields  => aq_geom_fill_extra_fields
       procedure, public :: clone  => aq_geom_clone
       procedure, public :: info   => aq_geom_info
       procedure, public :: delete => aq_geom_delete
@@ -129,17 +129,17 @@ contains
       !
    end subroutine aq_geom_create
 
-   subroutine aq_geom_fill_atlas_fieldset(self,afieldset)
+   subroutine aq_geom_fill_extra_fields(self,afieldset)
       class(aq_geom),intent(inout)       :: self
       type(atlas_fieldset),intent(inout) :: afieldset
       !
       integer :: ix,iy,iz,inode
       real(aq_real) :: lonlat(2), dx, dy
-      real(aq_real),pointer :: real_ptr_1(:),real_ptr_2(:,:)
+      real(aq_real),pointer :: real_ptr(:,:)
       type(atlas_field) :: afield
       !
-      afield = self%fs%create_field(name='area',kind=atlas_real(aq_real),levels=0)
-      call afield%data(real_ptr_1)
+      afield = self%fs%create_field(name='area',kind=atlas_real(aq_real),levels=1)
+      call afield%data(real_ptr)
       dy = self%deltay*deg_to_rad*req
       inode = 0
       do iy=self%fs%j_begin(),self%fs%j_end()
@@ -147,21 +147,21 @@ contains
             inode = inode+1
             lonlat = self%grid%lonlat(ix,iy)
             dx = self%deltax*deg_to_rad*req*cos(lonlat(2)*deg_to_rad)
-            real_ptr_1(inode) = dx*dy
+            real_ptr(1,inode) = dx*dy
          end do
       end do
       call afieldset%add(afield)
       call afield%final()
       !
       afield = self%fs%create_field(name='vunit',kind=atlas_real(aq_real))
-      call afield%data(real_ptr_2)
+      call afield%data(real_ptr)
       do iz=1,self%nz
-        real_ptr_2(iz,:) = real(iz,aq_real)
+        real_ptr(iz,:) = real(iz,aq_real)
       end do
       call afieldset%add(afield)
       call afield%final()
       !
-   end subroutine aq_geom_fill_atlas_fieldset
+   end subroutine aq_geom_fill_extra_fields
 
    subroutine aq_geom_clone(self, other)
       class(aq_geom), intent(inout) :: self

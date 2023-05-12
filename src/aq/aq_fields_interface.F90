@@ -13,6 +13,7 @@ use atlas_module, only: atlas_fieldset, atlas_field
 use datetime_mod
 use fckit_configuration_module, only: fckit_configuration
 use iso_c_binding
+use string_f_c_mod
 use kinds
 use oops_variables_mod
 use aq_fields_mod
@@ -550,80 +551,80 @@ call fld%norm(prms)
 
 end subroutine aq_fields_rms_c
 ! ------------------------------------------------------------------------------
-!> Create ATLAS fields
-subroutine aq_fields_set_atlas_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_set_atlas_f90')
+!> Fields RMS per variable and level
+subroutine aq_fields_rms_per_lev_c(c_key_fld,lvar,c_var,c_vsize,c_vect_rms) bind(c,name='aq_fields_rms_per_lev_f90')
 
 implicit none
 
 ! Passed variables
-integer(c_int),intent(in) :: c_key_fld           !< Fields
-type(c_ptr),value,intent(in) :: c_vars           !< List of variables
-type(c_ptr),intent(in),value :: c_afieldset      !< ATLAS fieldset pointer
+integer(c_int),intent(in) :: c_key_fld !< Fields
+integer(c_int),intent(in) :: lvar                        !< Variable name size
+character(kind=c_char,len=1),intent(in) :: c_var(lvar+1) !< Variable name
+integer(c_int),intent(in) :: c_vsize              !< Size
+real(c_double),intent(out) :: c_vect_rms(c_vsize) !< Vector
 
 ! Local variables
 type(aq_fields),pointer :: fld
-type(oops_variables) :: vars
-type(atlas_fieldset) :: afieldset
+character(len=lvar) :: var
 
 ! Interface
 call aq_fields_registry%get(c_key_fld,fld)
-vars = oops_variables(c_vars)
-afieldset = atlas_fieldset(c_afieldset)
+call c_f_string(c_var,var)
 
 ! Call Fortran
-call fld%set_atlas(vars,afieldset)
+call fld%rms_per_lev(var, c_vect_rms)
 
-end subroutine aq_fields_set_atlas_c
+end subroutine aq_fields_rms_per_lev_c
 ! ------------------------------------------------------------------------------
-!> Convert fields to ATLAS
-subroutine aq_fields_to_atlas_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_to_atlas_f90')
+!> Convert fields to ATLAS fieldset
+subroutine aq_fields_to_fieldset_c(c_key_fld,c_vars,c_fset) bind (c,name='aq_fields_to_fieldset_f90')
 
 implicit none
 
 ! Passed variables
-integer(c_int),intent(in) :: c_key_fld           !< Fields
-type(c_ptr),value,intent(in) :: c_vars           !< List of variables
-type(c_ptr),intent(in),value :: c_afieldset      !< ATLAS fieldset pointer
+integer(c_int),intent(in) :: c_key_fld !< Fields
+type(c_ptr),value,intent(in) :: c_vars !< List of variables
+type(c_ptr),intent(in),value :: c_fset !< ATLAS fieldset pointer
 
 ! Local variables
 type(aq_fields),pointer :: fld
 type(oops_variables) :: vars
-type(atlas_fieldset) :: afieldset
+type(atlas_fieldset) :: fset
 
 ! Interface
 call aq_fields_registry%get(c_key_fld,fld)
 vars = oops_variables(c_vars)
-afieldset = atlas_fieldset(c_afieldset)
+fset = atlas_fieldset(c_fset)
 
 ! Call Fortran
-call fld%to_atlas(vars,afieldset)
+call fld%to_fieldset(vars,fset)
 
-end subroutine aq_fields_to_atlas_c
+end subroutine aq_fields_to_fieldset_c
 ! ------------------------------------------------------------------------------
-!AQ !> Get fields from ATLAS
-!AQ subroutine aq_fields_from_atlas_c(c_key_fld,c_vars,c_afieldset) bind (c,name='aq_fields_from_atlas_f90')
-!AQ
-!AQ implicit none
-!AQ
-!AQ ! Passed variables
-!AQ integer(c_int),intent(in) :: c_key_fld           !< Fields
-!AQ type(c_ptr),value,intent(in) :: c_vars           !< List of variables
-!AQ type(c_ptr),intent(in),value :: c_afieldset      !< ATLAS fieldset pointer
-!AQ
-!AQ ! Local variables
-!AQ type(aq_fields),pointer :: fld
-!AQ type(oops_variables) :: vars
-!AQ type(atlas_fieldset) :: afieldset
-!AQ
-!AQ ! Interface
-!AQ call aq_fields_registry%get(c_key_fld,fld)
-!AQ vars = oops_variables(c_vars)
-!AQ afieldset = atlas_fieldset(c_afieldset)
-!AQ
-!AQ ! Call Fortran
-!AQ ! call aq_fields_from_atlas(fld,vars,afieldset)
-!AQ
-!AQ end subroutine aq_fields_from_atlas_c
+!> Get fields from ATLAS fieldset
+subroutine aq_fields_from_fieldset_c(c_key_fld,c_vars,c_fset) bind (c,name='aq_fields_from_fieldset_f90')
+
+implicit none
+
+! Passed variables
+integer(c_int),intent(in) :: c_key_fld !< Fields
+type(c_ptr),value,intent(in) :: c_vars !< List of variables
+type(c_ptr),intent(in),value :: c_fset !< ATLAS fieldset pointer
+
+! Local variables
+type(aq_fields),pointer :: fld
+type(oops_variables) :: vars
+type(atlas_fieldset) :: fset
+
+! Interface
+call aq_fields_registry%get(c_key_fld,fld)
+vars = oops_variables(c_vars)
+fset = atlas_fieldset(c_fset)
+
+! Call Fortran
+call fld%from_fieldset(vars,fset)
+
+end subroutine aq_fields_from_fieldset_c
 ! ------------------------------------------------------------------------------
 !> Get points from fields
 subroutine aq_fields_getpoint_c(c_key_fld,c_key_iter,c_nval,c_vals) bind(c,name='aq_fields_getpoint_f90')

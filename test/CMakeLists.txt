@@ -196,21 +196,33 @@ list( APPEND aq_testinput
   testinput/dirac_loc_3d.yaml
   testinput/dirac_loc_3d_mv.yaml
   testinput/dirac_no_loc_3d.yaml
+  testinput/ens_mean_variance.yaml
   testinput/ens_recenter.yaml
   testinput/ens_variance.yaml
   testinput/ens_variance_inflation_value.yaml
+  testinput/geometry.yaml
+  testinput/geovals.yaml
   testinput/getvalues.yaml
   testinput/getvalues_halo.yaml
   testinput/hofx3d.yaml
-  testinput/interfaces.yaml
+  testinput/increment.yaml
+  testinput/linear_obs_operator.yaml
+  testinput/locations.yaml
+  testinput/obs_aux.yaml
+  testinput/obs_operator.yaml
+  testinput/obs_space.yaml
+  testinput/obs_vector.yaml
   testinput/parameters_loc_6pe.yaml
   testinput/parameters_loc_6pe_mv.yaml
+  testinput/state.yaml
 )
 
 list( APPEND aq_testinput_tier2
   testinput/4densvar.yaml
   testinput/4densvar_op.yaml
+  testinput/4densvar_op_td.yaml
   testinput/dirac_loc_4d.yaml
+  testinput/dirac_loc_4d_td.yaml
   testinput/dirac_no_loc_4d.yaml
   testinput/parameters_loc_2pe.yaml
   testinput/parameters_loc_2pe_mv.yaml
@@ -225,6 +237,7 @@ list( APPEND aq_testoutput
   testoutput/dirac_loc_3d.test
   testoutput/dirac_loc_3d_mv.test
   testoutput/dirac_no_loc_3d.test
+  testoutput/ens_mean_variance.test
   testoutput/ens_recenter.test
   testoutput/ens_variance.test
   testoutput/ens_variance_inflation_value.test
@@ -236,7 +249,9 @@ list( APPEND aq_testoutput
 list( APPEND aq_testoutput_tier2
   testoutput/4densvar.test
   testoutput/4densvar_op.test
+  testoutput/4densvar_op_td.test
   testoutput/dirac_loc_4d.test
+  testoutput/dirac_loc_4d_td.test
   testoutput/dirac_no_loc_4d.test
   testoutput/parameters_loc_2pe.test
   testoutput/parameters_loc_2pe_mv.test
@@ -343,98 +358,98 @@ ecbuild_add_test( TARGET  test_aq_geometry
                   MPI 6
                   OMP 4
                   SOURCES executables/TestGeometry.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/geometry.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_geovals
                   MPI 6
                   OMP 4
                   SOURCES executables/TestGeoVaLs.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/geovals.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_state
                   MPI 6
                   OMP 4
                   SOURCES executables/TestState.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/state.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_increment
                   MPI 6
                   OMP 4
                   SOURCES executables/TestIncrement.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/increment.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_locations
                   MPI 6
                   OMP 4
                   SOURCES executables/TestLocations.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/locations.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_obsspace
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsSpace.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_obs_vector
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsVector.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/obs_vector.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_obsdatavector
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsDataVector.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_obs_operator
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsOperator.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/obs_operator.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_lin_obs_operator
                   MPI 6
                   OMP 4
                   SOURCES executables/TestLinearObsOperator.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/linear_obs_operator.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET test_aq_obs_error_covar
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsErrorCovariance.cc
-                  ARGS "testinput/interfaces.yaml"
+                  ARGS "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_obs_aux
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsAuxControl.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/obs_aux.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_obs_aux_increment
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsAuxIncrement.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_obs_aux_covariance
                   MPI 6
                   OMP 4
                   SOURCES executables/TestObsAuxCovariance.cc
-                  ARGS    "testinput/interfaces.yaml"
+                  ARGS    "testinput/obs_space.yaml"
                   LIBS    aq )
 
 ecbuild_add_test( TARGET  test_aq_getvalues
@@ -470,6 +485,12 @@ ecbuild_add_test( TARGET test_aq_ens_variance
                   OMP 4
                   ARGS testinput/ens_variance.yaml
                   COMMAND  aq_ens_variance.x )
+
+ecbuild_add_test( TARGET test_aq_ens_mean_variance
+                  MPI 6
+                  OMP 4
+                  ARGS testinput/ens_mean_variance.yaml
+                  COMMAND  aq_ens_mean_variance.x )
 
 ecbuild_add_test( TARGET test_aq_ens_recenter
                   MPI 6
@@ -605,6 +626,13 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
                       COMMAND  aq_dirac.x
                       TEST_DEPENDS test_aq_parameters_loc_2pe )
 
+    ecbuild_add_test( TARGET test_aq_dirac_loc_4d_td
+                      MPI 12
+                      OMP 2
+                      ARGS testinput/dirac_loc_4d_td.yaml
+                      COMMAND  aq_dirac.x
+                      TEST_DEPENDS test_aq_parameters_loc_2pe )
+
     ######################################################################
     ## 4d variational tests
     ######################################################################
@@ -620,6 +648,13 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
                       MPI 12
                       OMP 2
                       ARGS testinput/4densvar_op.yaml
+                      COMMAND  aq_var.x
+                      TEST_DEPENDS test_aq_parameters_loc_2pe_mv )
+
+    ecbuild_add_test( TARGET test_aq_4densvar_td
+                      MPI 12
+                      OMP 2
+                      ARGS testinput/4densvar_op_td.yaml
                       COMMAND  aq_var.x
                       TEST_DEPENDS test_aq_parameters_loc_2pe_mv )
 
