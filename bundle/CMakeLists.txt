@@ -41,8 +41,7 @@ ecbuild_bundle( PROJECT atlas GIT "https://github.com/ecmwf/atlas.git" TAG 0.32.
 
 # Core JEDI repositories
 # ----------------------
-#ecbuild_bundle( PROJECT oops  GIT "https://github.com/jcsda/oops.git"  BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT oops  GIT "git@github.com:JCSDA-internal/oops.git" BRANCH feature/update_with_eckit_1_22 UPDATE )
+ecbuild_bundle( PROJECT oops  GIT "https://github.com/jcsda/oops.git"  BRANCH develop UPDATE )
 ecbuild_bundle( PROJECT saber GIT "https://github.com/jcsda/saber.git" BRANCH develop UPDATE )
 
 # AQ repository
