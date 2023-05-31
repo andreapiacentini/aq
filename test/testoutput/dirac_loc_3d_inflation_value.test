@@ -28,13 +28,3 @@ Localization(ensemble) * Increment:
   Var. O_3: min = 0.0000000000000000e+00; max = 9.9999999999999978e-01; mean = 2.3737459093138437e-02; stddev = 9.6519150896368006e-02
   Var. NO_2: min = 0.0000000000000000e+00; max = 9.9999999999999978e-01; mean = 2.3737459093138437e-02; stddev = 9.6519150896368006e-02
 
-Randomized variance: 
-  Valid time: 2010-07-04T06:00:00Z
-  Fields aq_fieldset for model MOCAGE
-  on domain GEMS02 (nx=260, ny=200, lev=47)
-  5 vertical levels (orientation up)
-  with 3 variables
-  Var. CO: min = 0.0000000000000000e+00; max = 1.7948462008406187e-12; mean = 2.0260101297214476e-16; stddev = 7.9910147197085250e-15
-  Var. O_3: min = 0.0000000000000000e+00; max = 1.3897508788864566e-15; mean = 1.9814624108275223e-18; stddev = 9.8392011987663798e-18
-  Var. NO_2: min = 0.0000000000000000e+00; max = 1.1774244265402124e-14; mean = 3.3716478625325269e-18; stddev = 4.2593334975178544e-17
-
