@@ -506,13 +506,13 @@ ecbuild_add_test( TARGET test_aq_parameters_loc_6pe
                   MPI 6
                   OMP 4
                   ARGS testinput/parameters_loc_6pe.yaml
-                  COMMAND  aq_error_covariance_training.x )
+                  COMMAND  aq_error_covariance_toolbox.x )
 
 ecbuild_add_test( TARGET test_aq_parameters_loc_6pe_mv
                   MPI 6
                   OMP 4
                   ARGS testinput/parameters_loc_6pe_mv.yaml
-                  COMMAND  aq_error_covariance_training.x )
+                  COMMAND  aq_error_covariance_toolbox.x )
 
 #####################################################################
 # dirac tests
@@ -522,27 +522,27 @@ ecbuild_add_test( TARGET test_aq_dirac_no_loc_3d
                   MPI 6
                   OMP 4
                   ARGS testinput/dirac_no_loc_3d.yaml
-                  COMMAND  aq_dirac.x )
+                  COMMAND  aq_error_covariance_toolbox.x )
 
 ecbuild_add_test( TARGET test_aq_dirac_loc_3d
                   MPI 6
                   OMP 4
                   ARGS testinput/dirac_loc_3d.yaml
-                  COMMAND  aq_dirac.x
+                  COMMAND  aq_error_covariance_toolbox.x
                   TEST_DEPENDS test_aq_parameters_loc_6pe )
 
 ecbuild_add_test( TARGET test_aq_dirac_loc_3d_inflation_value
                   MPI 6
                   OMP 4
                   ARGS testinput/dirac_loc_3d_inflation_value.yaml
-                  COMMAND  aq_dirac.x
+                  COMMAND  aq_error_covariance_toolbox.x
                   TEST_DEPENDS test_aq_parameters_loc_6pe )
 
 ecbuild_add_test( TARGET test_aq_dirac_loc_3d_mv
                   MPI 6
                   OMP 4
                   ARGS testinput/dirac_loc_3d_mv.yaml
-                  COMMAND  aq_dirac.x
+                  COMMAND  aq_error_covariance_toolbox.x
                   TEST_DEPENDS test_aq_parameters_loc_6pe_mv )
 
 #####################################################################
@@ -601,13 +601,13 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
                       MPI 2
                       OMP 2
                       ARGS testinput/parameters_loc_2pe.yaml
-                      COMMAND  aq_error_covariance_training.x )
+                      COMMAND  aq_error_covariance_toolbox.x )
 
     ecbuild_add_test( TARGET test_aq_parameters_loc_2pe_mv
                       MPI 2
                       OMP 2
                       ARGS testinput/parameters_loc_2pe_mv.yaml
-                      COMMAND  aq_error_covariance_training.x )
+                      COMMAND  aq_error_covariance_toolbox.x )
 
     #####################################################################
     # dirac tests
@@ -617,21 +617,21 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
                       MPI 12
                       OMP 2
                       ARGS testinput/dirac_no_loc_4d.yaml
-                      COMMAND  aq_dirac.x )
+                      COMMAND  aq_error_covariance_toolbox.x )
 
 
     ecbuild_add_test( TARGET test_aq_dirac_loc_4d
                       MPI 12
                       OMP 2
                       ARGS testinput/dirac_loc_4d.yaml
-                      COMMAND  aq_dirac.x
+                      COMMAND  aq_error_covariance_toolbox.x
                       TEST_DEPENDS test_aq_parameters_loc_2pe )
 
     ecbuild_add_test( TARGET test_aq_dirac_loc_4d_td
                       MPI 12
                       OMP 2
                       ARGS testinput/dirac_loc_4d_td.yaml
-                      COMMAND  aq_dirac.x
+                      COMMAND  aq_error_covariance_toolbox.x
                       TEST_DEPENDS test_aq_parameters_loc_2pe )
 
     ######################################################################

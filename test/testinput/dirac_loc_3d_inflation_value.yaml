@@ -56,7 +56,7 @@ dirac:
   levdir: [  47,     47]
   var:    ['CO', 'NO_2']
 
-initial condition:
+background:
   date: 2010-07-04T06:00:00Z
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc
   state variables: *vars
