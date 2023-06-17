@@ -36,8 +36,8 @@ option("BUNDLE_SKIP_FCKIT" "Don't build fckit" "OFF") # Skip fckit build unless 
 option("BUNDLE_SKIP_ATLAS" "Don't build atlas" "OFF") # Skip atlas build unless user passes -DBUNDLE_SKIP_ATLAS=OFF
 
 ecbuild_bundle( PROJECT eckit GIT "https://github.com/ecmwf/eckit.git" TAG 1.23.0 )
-ecbuild_bundle( PROJECT fckit GIT "https://github.com/ecmwf/fckit.git" TAG 0.10.0 )
-ecbuild_bundle( PROJECT atlas GIT "https://github.com/ecmwf/atlas.git" TAG 0.32.1 )
+ecbuild_bundle( PROJECT fckit GIT "https://github.com/ecmwf/fckit.git" TAG 0.10.1 )
+ecbuild_bundle( PROJECT atlas GIT "https://github.com/ecmwf/atlas.git" TAG 0.33.0 )
 
 # Core JEDI repositories
 # ----------------------
