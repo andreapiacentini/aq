@@ -13,12 +13,6 @@ ecbuild_add_executable( TARGET  aq_addincrement.x
                         LIBS    aq
                       )
 
-ecbuild_add_executable( TARGET  aq_dirac.x
-                        SOURCES aqDirac.cc
-                        LIBS    aq
-                                saber
-                      )
-
 ecbuild_add_executable( TARGET  aq_ens_variance.x
                         SOURCES aqEnsVariance.cc
                         LIBS    aq
@@ -34,8 +28,8 @@ ecbuild_add_executable( TARGET  aq_ens_mean_variance.x
                         LIBS    aq
                       )
 
-ecbuild_add_executable( TARGET  aq_error_covariance_training.x
-                        SOURCES aqErrorCovarianceTraining.cc
+ecbuild_add_executable( TARGET  aq_error_covariance_toolbox.x
+                        SOURCES aqErrorCovarianceToolbox.cc
                         LIBS    aq
                                 saber
                       )

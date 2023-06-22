@@ -10,13 +10,13 @@
  */
 
 #include "aq/Traits.h"
-#include "oops/runs/Dirac.h"
 #include "oops/runs/Run.h"
+#include "saber/oops/ErrorCovarianceToolbox.h"
 #include "saber/oops/instantiateCovarFactory.h"
 
 int main(int argc,  char ** argv) {
   oops::Run run(argc, argv);
   saber::instantiateCovarFactory<aq::Traits>();
-  oops::Dirac<aq::Traits> dir;
-  return run.execute(dir);
+  saber::ErrorCovarianceToolbox<aq::Traits> ect;
+  return run.execute(ect);
 }

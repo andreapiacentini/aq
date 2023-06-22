@@ -61,7 +61,7 @@ dirac:
   levdir: [  47]
   var:    ['CO']
 
-initial condition:
+background:
   states:
   - <<: *state_ref
     date: '2010-07-04T00:00:00Z'

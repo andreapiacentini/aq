@@ -19,4 +19,10 @@ geometry:
 
 increment test:
   date: 2010-07-04T06:00:00Z
+  dirac:
+    date: 2010-07-04T06:00:00Z
+    londir: [ 7.9]
+    latdir: [38.3]
+    levdir: [  47]
+    var:    ['CO']
 inc variables: *vars
