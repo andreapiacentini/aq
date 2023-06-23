@@ -25,6 +25,7 @@
 #include "aq/ModelAuxControl.h"
 #include "aq/ModelAuxCovariance.h"
 #include "aq/ModelAuxIncrement.h"
+#include "aq/ModelData.h"
 #include "aq/ObsAuxControl.h"
 #include "aq/ObsAuxCovariance.h"
 #include "aq/ObsAuxIncrement.h"
