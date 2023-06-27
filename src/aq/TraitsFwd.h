@@ -64,6 +64,7 @@ struct Traits {
   typedef aq::ModelAuxControl     ModelAuxControl;
   typedef aq::ModelAuxIncrement   ModelAuxIncrement;
   typedef aq::ModelAuxCovariance  ModelAuxCovariance;
+  typedef aq::ModelData           ModelData;
 };
 
 struct ObsTraits {

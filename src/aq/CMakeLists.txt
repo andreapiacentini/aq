@@ -26,6 +26,7 @@ list( APPEND aq_src_files
   ModelAuxControl.h
   ModelAuxCovariance.h
   ModelAuxIncrement.h
+  ModelData.h
   BackgroundCheck.h
   BackgroundCheck.cc
   FinalCheck.h
