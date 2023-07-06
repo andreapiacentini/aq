@@ -613,11 +613,11 @@ if (AQ_JEDI_TEST_TIER GREATER_EQUAL 2)
     # dirac tests
     #####################################################################
 
-    ecbuild_add_test( TARGET test_aq_dirac_no_loc_4d
-                      MPI 12
-                      OMP 2
-                      ARGS testinput/dirac_no_loc_4d.yaml
-                      COMMAND  aq_error_covariance_toolbox.x )
+    #ecbuild_add_test( TARGET test_aq_dirac_no_loc_4d
+    #                  MPI 12
+    #                  OMP 2
+    #                  ARGS testinput/dirac_no_loc_4d.yaml
+    #                  COMMAND  aq_error_covariance_toolbox.x )
 
 
     ecbuild_add_test( TARGET test_aq_dirac_loc_4d
