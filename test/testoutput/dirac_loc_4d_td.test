@@ -10,39 +10,39 @@ Input Dirac increment:
 
 Covariance(ensemble) diagnostics:
 - Variances at Dirac points:
-  + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.3613116010685404e-23
+  + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.3613116010685393e-23
 - Covariances at diagnostic points:
-  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): -1.8701780137300106e-46
+  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): -1.8701624226025352e-46
   + Value for variable CO, subwindow 1, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 2.8752117282352437e-23
-  + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.3613116010685404e-23
+  + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.3613116010685393e-23
   + Value for variable CO, subwindow 3, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 9.2779016673182868e-23
-  + Value for variable CO, subwindow 4, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.1622527907828105e-22
-  + Value for variable CO, subwindow 5, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.1388727210388795e-22
+  + Value for variable CO, subwindow 4, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.1622527907828107e-22
+  + Value for variable CO, subwindow 5, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.1388727210388793e-22
 Covariance(ensemble) * Increment:
   Valid time: 2010-07-04T00:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -2.7782542785916843e-46; max = 2.7359399586230746e-46; mean = 6.5417099201027857e-51; stddev = 9.0787870826142676e-48
-  Var. O_3: min = -1.3343109623957764e-46; max = 1.7522066340343913e-46; mean = 2.0227978154883197e-50; stddev = 4.7495165654615362e-48
-  Var. NO_2: min = -2.0310339031990595e-47; max = 2.3292086479089072e-47; mean = 7.6272872070506395e-52; stddev = 2.3982844319355934e-49
+  Var. CO: min = -2.7753053281948827e-46; max = 2.7055283508300757e-46; mean = 5.9756369853417912e-51; stddev = 9.1456875964466125e-48
+  Var. O_3: min = -1.3250565145870821e-46; max = 1.7727290124000491e-46; mean = 2.0426692730046040e-50; stddev = 4.7691600696588742e-48
+  Var. NO_2: min = -1.8666115433199814e-47; max = 2.2304499918710006e-47; mean = 7.5285213292181646e-52; stddev = 2.3306994871089661e-49
 
 Localization(ensemble_localization) diagnostics:
 - Localization at diagnostic points:
-  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 8.0073740291680806e-01
+  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 8.0073740291680795e-01
   + Value for variable CO, subwindow 1, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 9.4595946890676541e-01
   + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000000e+00
-  + Value for variable CO, subwindow 3, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 9.4595946890676541e-01
-  + Value for variable CO, subwindow 4, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 8.0073740291680795e-01
-  + Value for variable CO, subwindow 5, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.0653065971263342e-01
+  + Value for variable CO, subwindow 3, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 9.4595946890676552e-01
+  + Value for variable CO, subwindow 4, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 8.0073740291680806e-01
+  + Value for variable CO, subwindow 5, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.0653065971263354e-01
 Localization(ensemble) * Increment:
   Valid time: 2010-07-04T00:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0.0000000000000000e+00; max = 8.0073740291680806e-01; mean = 7.3158911303451719e-03; stddev = 4.9007456836294920e-02
-  Var. O_3: min = 0.0000000000000000e+00; max = 8.0073740291680806e-01; mean = 7.3158911303451719e-03; stddev = 4.9007456836294920e-02
-  Var. NO_2: min = 0.0000000000000000e+00; max = 8.0073740291680806e-01; mean = 7.3158911303451719e-03; stddev = 4.9007456836294920e-02
+  Var. CO: min = 0.0000000000000000e+00; max = 8.0073740291680795e-01; mean = 7.3461653250149602e-03; stddev = 4.9052685997332868e-02
+  Var. O_3: min = 0.0000000000000000e+00; max = 8.0073740291680795e-01; mean = 7.3461653250149602e-03; stddev = 4.9052685997332868e-02
+  Var. NO_2: min = 0.0000000000000000e+00; max = 8.0073740291680795e-01; mean = 7.3461653250149602e-03; stddev = 4.9052685997332868e-02
 

@@ -12,21 +12,21 @@ Covariance(ensemble) diagnostics:
 - Variances at Dirac points:
   + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.3613116010685404e-23
 - Covariances at diagnostic points:
-  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): -2.3355286227963129e-46
-  + Value for variable CO, subwindow 1, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 3.0394660899775058e-23
+  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): -2.3351677995604504e-46
+  + Value for variable CO, subwindow 1, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 3.0394660899775064e-23
   + Value for variable CO, subwindow 2, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 6.3613116010685404e-23
-  + Value for variable CO, subwindow 3, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 9.8079272656794168e-23
-  + Value for variable CO, subwindow 4, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.4514780832631620e-22
-  + Value for variable CO, subwindow 5, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.8776836797969336e-22
+  + Value for variable CO, subwindow 3, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 9.8079272656794179e-23
+  + Value for variable CO, subwindow 4, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.4514780832631618e-22
+  + Value for variable CO, subwindow 5, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.8776836797969340e-22
 Covariance(ensemble) * Increment:
   Valid time: 2010-07-04T00:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -3.4694891425235782e-46; max = 3.4175083235201349e-46; mean = 8.1733704136898818e-51; stddev = 1.1339026581001905e-47
-  Var. O_3: min = -1.6665267066445359e-46; max = 2.1877781896224163e-46; mean = 2.5264272880344159e-50; stddev = 5.9319313754599780e-48
-  Var. NO_2: min = -2.5363757542401157e-47; max = 2.9085972179391429e-47; mean = 9.5260029897283433e-52; stddev = 2.9953521699423276e-49
+  Var. CO: min = -3.4661882781066144e-46; max = 3.3781429539483272e-46; mean = 7.4592434155136527e-51; stddev = 1.1421548234485441e-47
+  Var. O_3: min = -1.6547554054005049e-46; max = 2.2136193697611575e-46; mean = 2.5511612043970114e-50; stddev = 5.9559925216139886e-48
+  Var. NO_2: min = -2.3306285541611437e-47; max = 2.7855498125982734e-47; mean = 9.4026991360225653e-52; stddev = 2.9107207973392011e-49
 
 Localization(ensemble_localization) diagnostics:
 - Localization at diagnostic points:
@@ -42,7 +42,7 @@ Localization(ensemble) * Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.1364423638710651e-03; stddev = 6.1202907042505181e-02
-  Var. O_3: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.1364423638710651e-03; stddev = 6.1202907042505181e-02
-  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.1364423638710651e-03; stddev = 6.1202907042505181e-02
+  Var. CO: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.1742502576442776e-03; stddev = 6.1259391429122248e-02
+  Var. O_3: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.1742502576442776e-03; stddev = 6.1259391429122248e-02
+  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 9.1742502576442776e-03; stddev = 6.1259391429122248e-02
 
