@@ -40,7 +40,6 @@ namespace eckit {
 }
 
 namespace oops {
-  class Variables;
   class LocalIncrement;
 }
 
@@ -94,7 +93,7 @@ class Fields : public util::Printable,
   void write(const eckit::Configuration &) const;
   double norm() const;
   std::vector<double> rmsByLevel(const std::string &) const;
-  const oops::Variables & variables() const {return vars_;}
+  oops::Variables & variables() {return vars_;}
 
   const util::DateTime & time() const {return time_;}
   util::DateTime & time() {return time_;}
@@ -116,7 +115,7 @@ class Fields : public util::Printable,
   void print(std::ostream &) const override;
   F90flds keyFlds_;
   const Geometry & geom_;
-  const oops::Variables vars_;
+  oops::Variables vars_;
   util::DateTime time_;
 };
 // -----------------------------------------------------------------------------
