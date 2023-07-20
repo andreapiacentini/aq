@@ -23,10 +23,12 @@ ChangeVar::~ChangeVar() {}
 // -----------------------------------------------------------------------------
 void ChangeVar::changeVar(State & xx, const oops::Variables & vars) const {
   // AQ  aq_change_var_f90(xx.fields().toFortran(), vars);
+  xx.fields().variables() = vars;
 }
 // -----------------------------------------------------------------------------
 void ChangeVar::changeVarInverse(State & xx, const oops::Variables & vars) const {
   // AQ  aq_change_var_f90(xx.fields().toFortran(), vars);
+  xx.fields().variables() = vars;
 }
 // -----------------------------------------------------------------------------
 void ChangeVar::print(std::ostream & os) const {
