@@ -6,7 +6,7 @@ Input Dirac increment:
   with 3 variables
   Var. CO: min = 0.0000000000000000e+00; max = 1.0000000000000000e+00; mean = 3.8461538461538459e-06; stddev = 1.9611575799147471e-03
   Var. O_3: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
-  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000000e+00; mean = 3.8461538461538459e-06; stddev = 1.9611575799146439e-03
+  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000000e+00; mean = 3.8461538461538459e-06; stddev = 1.9611575799146443e-03
 
 Covariance(ensemble) * Increment:
   Valid time: 2010-07-04T06:00:00Z
@@ -14,10 +14,14 @@ Covariance(ensemble) * Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -5.4950830432696829e-20; max = 2.9879676165499554e-19; mean = 1.7182987546652176e-22; stddev = 2.8499193816769737e-21
-  Var. O_3: min = -3.9535244683370469e-21; max = 1.6115133670118200e-21; mean = 4.6041933588709699e-24; stddev = 5.2553300249258230e-23
-  Var. NO_2: min = -1.1596847196594556e-21; max = 7.3723212746016397e-21; mean = 8.9114377746442132e-24; stddev = 1.0585945951052946e-22
+  Var. CO: min = -5.4950830432696841e-20; max = 2.9879676165499554e-19; mean = 1.7182987546652176e-22; stddev = 2.8499193816769741e-21
+  Var. O_3: min = -3.9535244683370469e-21; max = 1.6115133670118200e-21; mean = 4.6041933588709714e-24; stddev = 5.2553300249258230e-23
+  Var. NO_2: min = -1.1596847196594558e-21; max = 7.3723212746016397e-21; mean = 8.9114377746442147e-24; stddev = 1.0585945951052945e-22
 
+Localization(ensemble_localization) diagnostics:
+- Localization at zero separation:
+  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000002e+00
+  + Value for variable NO_2, subwindow 0, at (longitude, latitude, vertical index) point (17.90000, 60.30000, 1): 9.9999999999999978e-01
 Localization(ensemble) * Increment:
   Valid time: 2010-07-04T06:00:00Z
   Fields aq_fieldset for model MOCAGE

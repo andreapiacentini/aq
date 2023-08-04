@@ -117,7 +117,7 @@ class Increment : public util::Printable,
   void deserialize(const std::vector<double> &, size_t &) override;
 
 /// Variables
-  const oops::Variables & variables() const {return fields_->vars_;}
+  const oops::Variables & variables() const {return fields_->variables();}
 
 /// Data
  private:

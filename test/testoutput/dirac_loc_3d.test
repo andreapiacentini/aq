@@ -6,7 +6,7 @@ Input Dirac increment:
   with 3 variables
   Var. CO: min = 0.0000000000000000e+00; max = 1.0000000000000000e+00; mean = 3.8461538461538459e-06; stddev = 1.9611575799147471e-03
   Var. O_3: min = 0.0000000000000000e+00; max = 0.0000000000000000e+00; mean = 0.0000000000000000e+00; stddev = 0.0000000000000000e+00
-  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000000e+00; mean = 3.8461538461538459e-06; stddev = 1.9611575799146439e-03
+  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000000e+00; mean = 3.8461538461538459e-06; stddev = 1.9611575799146443e-03
 
 Covariance(ensemble) * Increment:
   Valid time: 2010-07-04T06:00:00Z
@@ -14,17 +14,21 @@ Covariance(ensemble) * Increment:
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = -1.0990166086539366e-19; max = 2.9879676165499554e-19; mean = 1.6347332965115519e-22; stddev = 2.8738689622404305e-21
-  Var. O_3: min = -7.9070489366740954e-21; max = 3.2230267340236399e-21; mean = 9.2083867177419414e-24; stddev = 1.0510660049851646e-22
-  Var. NO_2: min = -2.3193694393189113e-21; max = 7.3723212746016412e-21; mean = 7.6931880759209932e-24; stddev = 1.1046015929277188e-22
+  Var. CO: min = -1.0990166086539368e-19; max = 2.9879676165499554e-19; mean = 1.6347332965115519e-22; stddev = 2.8738689622404305e-21
+  Var. O_3: min = -7.9070489366740954e-21; max = 3.2230267340236399e-21; mean = 9.2083867177419428e-24; stddev = 1.0510660049851646e-22
+  Var. NO_2: min = -2.3193694393189117e-21; max = 7.3723212746016412e-21; mean = 7.6931880759209932e-24; stddev = 1.1046015929277188e-22
 
+Localization(ensemble_localization) diagnostics:
+- Localization at zero separation:
+  + Value for variable CO, subwindow 0, at (longitude, latitude, vertical index) point (7.90000, 38.30000, 1): 1.0000000000000002e+00
+  + Value for variable NO_2, subwindow 0, at (longitude, latitude, vertical index) point (17.90000, 60.30000, 1): 9.9999999999999978e-01
 Localization(ensemble) * Increment:
   Valid time: 2010-07-04T06:00:00Z
   Fields aq_fieldset for model MOCAGE
   on domain GEMS02 (nx=260, ny=200, lev=47)
   5 vertical levels (orientation up)
   with 3 variables
-  Var. CO: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 2.3978473716016878e-02; stddev = 9.6706492200809638e-02
-  Var. O_3: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 2.3978473716016878e-02; stddev = 9.6706492200809638e-02
-  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 2.3978473716016878e-02; stddev = 9.6706492200809638e-02
+  Var. CO: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 2.3978473716016874e-02; stddev = 9.6706492200809638e-02
+  Var. O_3: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 2.3978473716016874e-02; stddev = 9.6706492200809638e-02
+  Var. NO_2: min = 0.0000000000000000e+00; max = 1.0000000000000002e+00; mean = 2.3978473716016874e-02; stddev = 9.6706492200809638e-02
 

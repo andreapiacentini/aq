@@ -54,6 +54,7 @@ class ObsOperator : public util::Printable,
 /// Other
   const oops::Variables & requiredVars() const;  // Required input requiredVars from Model
   Locations_ locations() const;
+  void computeReducedVars(const oops::Variables &, GeoVals &) const {}
 
  private:
   void print(std::ostream &) const;
