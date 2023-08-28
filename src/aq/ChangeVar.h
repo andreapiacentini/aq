@@ -12,7 +12,6 @@
 #include <ostream>
 #include <string>
 
-#include "aq/ChangeVarParameters.h"
 #include "aq/Geometry.h"
 #include "oops/util/Printable.h"
 
@@ -30,10 +29,9 @@ namespace aq {
 
 class ChangeVar: public util::Printable {
  public:
-  typedef ChangeVarParameters Parameters_;
   static const std::string classname() {return "aq::ChangeVar";}
 
-  ChangeVar(const Parameters_ &, const Geometry &);
+  ChangeVar(const eckit::Configuration &, const Geometry &);
   ~ChangeVar();
 
 /// Perform transforms

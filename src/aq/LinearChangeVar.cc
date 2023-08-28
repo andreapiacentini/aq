@@ -22,7 +22,7 @@
 
 namespace aq {
 // -----------------------------------------------------------------------------
-LinearChangeVar::LinearChangeVar(const Geometry &, const Parameters_ &) {}
+LinearChangeVar::LinearChangeVar(const Geometry &, const eckit::Configuration &) {}
 // -----------------------------------------------------------------------------
 LinearChangeVar::~LinearChangeVar() {}
 // -----------------------------------------------------------------------------

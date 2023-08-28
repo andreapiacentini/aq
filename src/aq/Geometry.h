@@ -23,38 +23,20 @@
 #include "eckit/mpi/Comm.h"
 
 #include "oops/util/ObjectCounter.h"
-#include "oops/util/parameters/Parameter.h"
-#include "oops/util/parameters/Parameters.h"
-#include "oops/util/parameters/RequiredParameter.h"
 #include "oops/util/Printable.h"
 
 #include "aq/GeometryIterator.h"
 #include "aq/interface.h"
+
+namespace eckit {
+  class Configuration;
+}
 
 namespace oops {
   class Variables;
 }
 
 namespace aq {
-
-class GeometryAqParameters : public oops::Parameters {
-  OOPS_CONCRETE_PARAMETERS(GeometryAqParameters, Parameters)
-
- public:
-  /// Domain size
-  oops::RequiredParameter<int> nx{"nx", this};
-  oops::RequiredParameter<int> ny{"ny", this};
-  oops::RequiredParameter<int> levels{"levels", this};
-  oops::RequiredParameter<double> dx{"dx", this};
-  oops::RequiredParameter<double> dy{"dy", this};
-  oops::RequiredParameter<double> xmin{"xmin", this};
-  oops::RequiredParameter<double> ymin{"ymin", this};
-  oops::RequiredParameter<std::string> domname{"domname", this};
-  oops::Parameter<std::string> orientation{"orientation", "up", this};
-  oops::Parameter<std::string> model{"model", "MOCAGE", this};
-  oops::Parameter<int> halo{"halo", 0, this};
-  oops::Parameter<int> mod_levels{"model levels", -1, this};
-};
 
 class GeometryIterator;
 
@@ -64,11 +46,9 @@ class GeometryIterator;
 class Geometry : public util::Printable,
                    private util::ObjectCounter<Geometry> {
  public:
-  typedef GeometryAqParameters Parameters_;
-
   static const std::string classname() {return "aq::Geometry";}
 
-  Geometry(const GeometryAqParameters &, const eckit::mpi::Comm &);
+  Geometry(const eckit::Configuration &, const eckit::mpi::Comm &);
   Geometry(const Geometry &);
   ~Geometry();
 

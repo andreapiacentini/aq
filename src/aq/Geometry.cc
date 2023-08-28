@@ -17,6 +17,8 @@
 #include "atlas/grid.h"
 #include "atlas/util/Config.h"
 
+#include "eckit/config/Configuration.h"
+
 #include "oops/base/Variables.h"
 #include "oops/util/abor1_cpp.h"
 #include "oops/util/Logger.h"
@@ -27,10 +29,9 @@
 // -----------------------------------------------------------------------------
 namespace aq {
 // -----------------------------------------------------------------------------
-Geometry::Geometry(const GeometryAqParameters & params,
-                       const eckit::mpi::Comm & comm) : comm_(comm) {
+Geometry::Geometry(const eckit::Configuration & conf,
+                   const eckit::mpi::Comm & comm) : gridConfig_(conf), comm_(comm) {
   // Get geometry subconfiguration
-  gridConfig_ = params.toConfiguration();
   gridConfig_.set("type", "regional");
   if (gridConfig_.has("halo")) {
     halo_ = gridConfig_.getInt("halo");
@@ -55,7 +56,7 @@ Geometry::Geometry(const GeometryAqParameters & params,
   functionSpace_ = atlas::functionspace::StructuredColumns(grid_, partitioner, gridConfig_);
   // Extra function space without halo (coincident with the previous if halo is zero
   if (halo_ > 0) {
-    eckit::LocalConfiguration gridConfigNoHalo(params.toConfiguration());
+    eckit::LocalConfiguration gridConfigNoHalo(gridConfig_);
     gridConfigNoHalo.set("type", "regional");
     gridConfigNoHalo.set("halo", 0);
     functionSpaceNoHalo_ = atlas::functionspace::StructuredColumns(
