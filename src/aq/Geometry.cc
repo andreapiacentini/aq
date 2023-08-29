@@ -67,8 +67,8 @@ Geometry::Geometry(const eckit::Configuration & conf,
   aq_geom_setup_f90(keyGeom_, gridConfig_,  &comm_, grid_.get(), functionSpace_.get());
 
   // Fill ATLAS fieldset
-  extraFields_ = atlas::FieldSet();
-  aq_geom_fill_extra_fields_f90(keyGeom_, extraFields_.get());
+  fields_ = atlas::FieldSet();
+  aq_geom_fill_geometry_fields_f90(keyGeom_, fields_.get());
 }
 // -----------------------------------------------------------------------------
 Geometry::Geometry(const Geometry & other) : comm_(other.comm_) {
@@ -87,9 +87,9 @@ Geometry::Geometry(const Geometry & other) : comm_(other.comm_) {
   aq_geom_clone_f90(keyGeom_, other.keyGeom_);
 
   // Copy ATLAS fieldset
-  extraFields_ = atlas::FieldSet();
-  for (auto & field : other.extraFields_) {
-    extraFields_.add(field);
+  fields_ = atlas::FieldSet();
+  for (auto & field : other.fields_) {
+    fields_.add(field);
   }
 }
 // -----------------------------------------------------------------------------

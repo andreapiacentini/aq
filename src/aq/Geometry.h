@@ -60,9 +60,7 @@ class Geometry : public util::Printable,
   const eckit::mpi::Comm & getComm() const {return comm_;}
   atlas::Grid grid() const {return grid_;}
   const atlas::FunctionSpace & functionSpace() const {return functionSpace_;}
-  atlas::FunctionSpace & functionSpace() {return functionSpace_;}
-  const atlas::FieldSet & extraFields() const {return extraFields_;}
-  atlas::FieldSet & extraFields() {return extraFields_;}
+  const atlas::FieldSet & fields() const {return fields_;}
   bool levelsAreTopDown() const {return true;}
 
   std::vector<size_t> variableSizes(const oops::Variables & vars) const;
@@ -79,7 +77,7 @@ class Geometry : public util::Printable,
   atlas::StructuredGrid grid_;
   atlas::functionspace::StructuredColumns functionSpace_;
   atlas::functionspace::StructuredColumns functionSpaceNoHalo_;
-  atlas::FieldSet extraFields_;
+  atlas::FieldSet fields_;
 };
 // -----------------------------------------------------------------------------
 
