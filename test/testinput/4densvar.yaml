@@ -30,6 +30,7 @@ cost function:
   cost type: 4D-Ens-Var
   analysis variables: *vars
   subwindow: PT1H
+  parallel subwindows: true
   window begin: '2010-07-04T00:00:00Z'
   window length: PT5H
   geometry: *gems02_geom
