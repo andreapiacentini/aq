@@ -17,6 +17,8 @@
 #include "atlas/grid.h"
 #include "atlas/util/Config.h"
 
+#include "eckit/config/Configuration.h"
+
 #include "oops/base/Variables.h"
 #include "oops/util/abor1_cpp.h"
 #include "oops/util/Logger.h"
@@ -27,10 +29,9 @@
 // -----------------------------------------------------------------------------
 namespace aq {
 // -----------------------------------------------------------------------------
-Geometry::Geometry(const GeometryAqParameters & params,
-                       const eckit::mpi::Comm & comm) : comm_(comm) {
+Geometry::Geometry(const eckit::Configuration & conf,
+                   const eckit::mpi::Comm & comm) : gridConfig_(conf), comm_(comm) {
   // Get geometry subconfiguration
-  gridConfig_ = params.toConfiguration();
   gridConfig_.set("type", "regional");
   if (gridConfig_.has("halo")) {
     halo_ = gridConfig_.getInt("halo");
@@ -55,7 +56,7 @@ Geometry::Geometry(const GeometryAqParameters & params,
   functionSpace_ = atlas::functionspace::StructuredColumns(grid_, partitioner, gridConfig_);
   // Extra function space without halo (coincident with the previous if halo is zero
   if (halo_ > 0) {
-    eckit::LocalConfiguration gridConfigNoHalo(params.toConfiguration());
+    eckit::LocalConfiguration gridConfigNoHalo(gridConfig_);
     gridConfigNoHalo.set("type", "regional");
     gridConfigNoHalo.set("halo", 0);
     functionSpaceNoHalo_ = atlas::functionspace::StructuredColumns(
@@ -66,8 +67,8 @@ Geometry::Geometry(const GeometryAqParameters & params,
   aq_geom_setup_f90(keyGeom_, gridConfig_,  &comm_, grid_.get(), functionSpace_.get());
 
   // Fill ATLAS fieldset
-  extraFields_ = atlas::FieldSet();
-  aq_geom_fill_extra_fields_f90(keyGeom_, extraFields_.get());
+  fields_ = atlas::FieldSet();
+  aq_geom_fill_geometry_fields_f90(keyGeom_, fields_.get());
 }
 // -----------------------------------------------------------------------------
 Geometry::Geometry(const Geometry & other) : comm_(other.comm_) {
@@ -86,9 +87,9 @@ Geometry::Geometry(const Geometry & other) : comm_(other.comm_) {
   aq_geom_clone_f90(keyGeom_, other.keyGeom_);
 
   // Copy ATLAS fieldset
-  extraFields_ = atlas::FieldSet();
-  for (auto & field : other.extraFields_) {
-    extraFields_.add(field);
+  fields_ = atlas::FieldSet();
+  for (auto & field : other.fields_) {
+    fields_.add(field);
   }
 }
 // -----------------------------------------------------------------------------

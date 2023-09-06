@@ -3,10 +3,8 @@ list( APPEND aq_src_files
   Traits.h
   ChangeVar.cc
   ChangeVar.h
-  ChangeVarParameters.h
   LinearChangeVar.cc
   LinearChangeVar.h
-  LinearChangeVarParameters.h
   Covariance.cc
   Covariance.h
   Fields.cc

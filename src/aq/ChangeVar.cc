@@ -1,7 +1,7 @@
 /*
  * (C) Copyright 2017-2018  UCAR.
  * (C) Copyright 2021-2022 CERFACS.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  */
@@ -17,7 +17,7 @@
 
 namespace aq {
 // -----------------------------------------------------------------------------
-ChangeVar::ChangeVar(const Parameters_ & params, const Geometry & geom) {}
+ChangeVar::ChangeVar(const eckit::Configuration & conf, const Geometry & geom) {}
 // -----------------------------------------------------------------------------
 ChangeVar::~ChangeVar() {}
 // -----------------------------------------------------------------------------

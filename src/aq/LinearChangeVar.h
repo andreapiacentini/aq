@@ -12,7 +12,6 @@
 #include <ostream>
 #include <string>
 
-#include "aq/LinearChangeVarParameters.h"
 #include "oops/util/Printable.h"
 
 // Forward declarations
@@ -34,10 +33,9 @@ namespace aq {
 
 class LinearChangeVar: public util::Printable {
  public:
-  typedef LinearChangeVarParameters Parameters_;
   static const std::string classname() {return "aq::LinearChangeVar";}
 
-  LinearChangeVar(const Geometry &, const Parameters_ &);
+  LinearChangeVar(const Geometry &, const eckit::Configuration &);
   ~LinearChangeVar();
 
 /// Perform linear transforms

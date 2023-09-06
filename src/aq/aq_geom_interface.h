@@ -35,7 +35,7 @@ extern "C" {
   void aq_geom_setup_f90(F90geom &, const eckit::Configuration &, const eckit::mpi::Comm *,
                          atlas::grid::GridImpl *,
                          atlas::functionspace::FunctionSpaceImpl *);
-  void aq_geom_fill_extra_fields_f90(const F90geom &, atlas::field::FieldSetImpl *);
+  void aq_geom_fill_geometry_fields_f90(const F90geom &, atlas::field::FieldSetImpl *);
   void aq_geom_clone_f90(F90geom &, const F90geom &);
   void aq_geom_info_f90(const F90geom &, int &, int &, int &,
                         double &, double &, int &, char *, char *, char *);
