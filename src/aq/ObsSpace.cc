@@ -43,10 +43,10 @@ int ObsSpace::theObsDbCount_ = 0;
 // -----------------------------------------------------------------------------
 
 ObsSpace::ObsSpace(const Parameters_ & params, const eckit::mpi::Comm & comm,
-                       const util::DateTime & bgn, const util::DateTime & end,
+                       const util::TimeWindow & timeWindow,
                        const eckit::mpi::Comm & timeComm)
-  : oops::ObsSpaceBase(params, comm, bgn, end), obsname_(params.obsType),
-  winbgn_(bgn), winend_(end), obsvars_(), comm_(comm)
+  : oops::ObsSpaceBase(params, comm, timeWindow), obsname_(params.obsType),
+  timeWindow_(timeWindow), obsvars_(), comm_(comm)
 {
   if (comm_.rank() == 0) {
     typedef std::map< std::string, F90odb >::iterator otiter;
@@ -74,7 +74,8 @@ ObsSpace::ObsSpace(const Parameters_ & params, const eckit::mpi::Comm & comm,
     if (fileref_ == "--") {
       ABORT("Underspecified observation files.");
     }
-    std::string dbref = fileref_ + obsname_ + bgn.toString() + end.toString();
+    std::string dbref = fileref_ + obsname_ +
+      timeWindow_.start().toString() + timeWindow_.end().toString();
 
     otiter it = theObsDbRegister_.find(dbref);
     if ( it == theObsDbRegister_.end() ) {
@@ -82,13 +83,13 @@ ObsSpace::ObsSpace(const Parameters_ & params, const eckit::mpi::Comm & comm,
       oops::Log::trace() << "ObsSpace::getHelper: " << "Setting up " << dbref << std::endl;
       fiter jt = theObsFileRegister_.find(fileref_);
       if ( jt == theObsFileRegister_.end() ) {
-        aq_obsdb_setup_f90(key_, fileconf, bgn, end, true, key_);
+        aq_obsdb_setup_f90(key_, fileconf, timeWindow_.start(), timeWindow_.end(), true, key_);
         theObsFileRegister_[fileref_] = key_;
         theObsDbPerFile_[fileref_] = 1;
         theObsFileCount_++;
       } else {
         F90odb keyold = jt->second;
-        aq_obsdb_setup_f90(key_, fileconf, bgn, end, false, keyold);
+        aq_obsdb_setup_f90(key_, fileconf, timeWindow_.start(), timeWindow_.end(), false, keyold);
         theObsDbPerFile_[fileref_]++;
       }
       theObsDbRegister_[dbref] = key_;
@@ -111,11 +112,11 @@ ObsSpace::ObsSpace(const Parameters_ & params, const eckit::mpi::Comm & comm,
     if (params.generate.value() != boost::none) {
       const ObsGenerateParameters &gParams = *params.generate.value();
       const util::Duration first(gParams.begin);
-      const util::DateTime start(winbgn_ + first);
+      const util::DateTime start(timeWindow_.start() + first);
       const util::Duration freq(gParams.obsPeriod);
       int nobstimes = 0;
       util::DateTime now(start);
-      while (now <= winend_) {
+      while (now <= timeWindow_.end()) {
         ++nobstimes;
         now += freq;
       }
