@@ -199,7 +199,6 @@ list( APPEND aq_testinput
   testinput/dirac_no_loc_3d.yaml
   testinput/ens_mean_variance.yaml
   testinput/ens_recenter.yaml
-  testinput/ens_variance.yaml
   testinput/geometry.yaml
   testinput/geovals.yaml
   testinput/getvalues.yaml
@@ -240,7 +239,6 @@ list( APPEND aq_testoutput
   testoutput/dirac_no_loc_3d.test
   testoutput/ens_mean_variance.test
   testoutput/ens_recenter.test
-  testoutput/ens_variance.test
   testoutput/hofx3d.test
   testoutput/parameters_loc_6pe.test
   testoutput/parameters_loc_6pe_mv.test
@@ -479,12 +477,6 @@ ecbuild_add_test( TARGET test_aq_hofx3d
 #####################################################################
 # ensemble-related tests
 #####################################################################
-
-ecbuild_add_test( TARGET test_aq_ens_variance
-                  MPI 6
-                  OMP 4
-                  ARGS testinput/ens_variance.yaml
-                  COMMAND  aq_ens_variance.x )
 
 ecbuild_add_test( TARGET test_aq_ens_mean_variance
                   MPI 6

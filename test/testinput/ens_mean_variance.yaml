@@ -37,7 +37,7 @@ ensemble:
     nmembers: 10
 variance output:
   datadir: Data
-  fileprefix: EWGEMS02
+  fileprefix: EVGEMS02
 mean output:
   datadir: Data
   fileprefix: EMGEMS02

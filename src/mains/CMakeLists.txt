@@ -13,18 +13,13 @@ ecbuild_add_executable( TARGET  aq_addincrement.x
                         LIBS    aq
                       )
 
-ecbuild_add_executable( TARGET  aq_ens_variance.x
-                        SOURCES aqEnsVariance.cc
+ecbuild_add_executable( TARGET  aq_ens_mean_variance.x
+                        SOURCES aqEnsMeanVariance.cc
                         LIBS    aq
                       )
 
 ecbuild_add_executable( TARGET  aq_ens_recenter.x
                         SOURCES aqEnsRecenter.cc
-                        LIBS    aq
-                      )
-
-ecbuild_add_executable( TARGET  aq_ens_mean_variance.x
-                        SOURCES aqEnsMeanVariance.cc
                         LIBS    aq
                       )
 
