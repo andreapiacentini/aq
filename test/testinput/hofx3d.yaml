@@ -14,8 +14,9 @@ geometry:
   levels: 5
   model levels: 47
   orientation: up
-window begin: 2010-07-04T05:30:00Z
-window length: PT1H
+time window:
+  begin: 2010-07-04T05:30:00Z
+  length: PT1H
 state:
   date: 2010-07-04T06:00:00Z
   filename: Data/ENS04_reduced/HMGEMS02+2010070406.nc

@@ -28,8 +28,9 @@ state:
   state variables: *vars
 variables: [CO]
 locations:
-  window begin: 2010-07-04T00:30:00Z
-  window end: 2010-07-04T01:30:00Z
+  time window:
+    begin: 2010-07-04T00:30:00Z
+    end: 2010-07-04T01:30:00Z
   lons: [ -10, -8, 3, 15, 18, 24, 30, 33 ]
   lats: [  35, 64, 41, 50, 60, 33, 48, 34 ]
   nrandom: 10
