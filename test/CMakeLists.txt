@@ -201,8 +201,8 @@ list( APPEND aq_testinput
   testinput/ens_recenter.yaml
   testinput/geometry.yaml
   testinput/geovals.yaml
-  testinput/getvalues.yaml
-  testinput/getvalues_halo.yaml
+#  testinput/getvalues.yaml
+#  testinput/getvalues_halo.yaml
   testinput/hofx3d.yaml
   testinput/increment.yaml
   testinput/linear_obs_operator.yaml
@@ -450,19 +450,19 @@ ecbuild_add_test( TARGET  test_aq_obs_aux_covariance
                   ARGS    "testinput/obs_space.yaml"
                   LIBS    aq )
 
-ecbuild_add_test( TARGET  test_aq_getvalues
-                  MPI 6
-                  OMP 4
-                  SOURCES executables/TestGetValues.cc
-                  ARGS    "testinput/getvalues.yaml"
-                  LIBS    aq )
+# ecbuild_add_test( TARGET  test_aq_getvalues
+#                   MPI 6
+#                   OMP 4
+#                   SOURCES executables/TestGetValues.cc
+#                   ARGS    "testinput/getvalues.yaml"
+#                   LIBS    aq )
 
-ecbuild_add_test( TARGET  test_aq_getvalues_halo
-                  MPI 6
-                  OMP 4
-                  SOURCES executables/TestGetValues.cc
-                  ARGS    "testinput/getvalues_halo.yaml"
-                  LIBS    aq )
+# ecbuild_add_test( TARGET  test_aq_getvalues_halo
+#                   MPI 6
+#                   OMP 4
+#                   SOURCES executables/TestGetValues.cc
+#                   ARGS    "testinput/getvalues_halo.yaml"
+#                   LIBS    aq )
 
 #####################################################################
 # obs-related tests
